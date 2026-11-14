@@ -28,6 +28,8 @@ from iamtrace.loader import load_any_policy, load_levels, load_policies, load_po
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import can_sarif, can_text, to_json
 from iamtrace.principals import Principal
+from iamtrace.whatif import what_if, what_if_text
+from iamtrace.whocan import who_can, who_can_text
 
 Handler = Callable[[argparse.Namespace], int]
 
@@ -69,8 +71,13 @@ def cmd_can(args: argparse.Namespace) -> int:
         context=parse_context(args.context, args.context_json),
     )
     result = evaluate(req, policies)
-    out = {"text": can_text, "json": lambda r: to_json(r.to_dict()), "sarif": can_sarif}[args.format](result)
-    sys.stdout.write(out)
+    if args.what_if and args.format == "json":
+        sys.stdout.write(to_json({**result.to_dict(), "what_if": what_if(req, policies, result)}))
+    else:
+        out = {"text": can_text, "json": lambda r: to_json(r.to_dict()), "sarif": can_sarif}[args.format](result)
+        sys.stdout.write(out)
+        if args.what_if and args.format == "text":
+            sys.stdout.write(what_if_text(what_if(req, policies, result)))
     return 0 if result.allowed else 1
 
 
@@ -87,6 +94,11 @@ def _add_can(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
         "'service:NAME' for a service principal, or 'anonymous'",
     )
     p.add_argument("--action", required=True, help="for example s3:GetObject")
+    p.add_argument(
+        "--what-if",
+        action="store_true",
+        help="also show what would change the answer: the smallest fixes if denied, what it depends on if allowed",
+    )
     p.add_argument("--resource", default="*", help="resource ARN, or * for actions without a resource type")
     p.add_argument(
         "--resource-account", help="account that owns the resource (needed for S3 and other ARNs without one)"
@@ -355,6 +367,51 @@ def _add_check(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None
     p.set_defaults(func=cmd_check)
 
 
+# --- who can --------------------------------------------------------------------------
+
+
+def cmd_who_can(args: argparse.Namespace) -> int:
+    try:
+        data = json.loads(Path(args.auth_details).read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError, RecursionError) as e:
+        raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
+    env = Environment.from_auth_details(data)
+    if args.inventory:
+        env.resources = load_inventory(json.loads(Path(args.inventory).read_text(encoding="utf-8-sig")), env)
+    res_policy = load_policy(args.resource_policy, PolicyType.RESOURCE) if args.resource_policy else None
+    report = who_can(
+        env,
+        args.action,
+        args.resource,
+        scps=load_levels(args.scp, PolicyType.SCP),
+        resource_policy=res_policy,
+        context=parse_context(args.context, None),
+    )
+    out = who_can_text(report) if args.format == "text" else to_json(report)
+    sys.stdout.write(out)
+    return 0
+
+
+def _add_who_can(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "who-can",
+        help="list every principal that can perform an action on a resource, directly or through escalation",
+        description="Evaluates the action for every user and role in an account export, then follows confirmed "
+        "escalation paths to find principals that can reach someone who can.",
+    )
+    p.add_argument(
+        "--auth-details", required=True, metavar="FILE", help="aws iam get-account-authorization-details output"
+    )
+    p.add_argument("--action", required=True, help="for example s3:GetObject")
+    p.add_argument("--resource", default="*", help="resource ARN, or * for actions without a resource type")
+    p.add_argument("--resource-policy", metavar="FILE", help="the resource's own policy (bucket, key, queue...)")
+    p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
+    p.add_argument("--context", action="append", metavar="KEY=VALUE", help="request context (repeatable)")
+    p.add_argument("--inventory", metavar="FILE", help="resource inventory, to confirm more escalation paths")
+    p.add_argument("--format", choices=["text", "json"], default="text")
+    p.set_defaults(func=cmd_who_can)
+
+
 # --- inventory ------------------------------------------------------------------------
 
 
@@ -444,6 +501,7 @@ SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]]
     _add_expand,
     _add_diff,
     _add_escalate,
+    _add_who_can,
     _add_inventory,
     _add_catalog,
 ]

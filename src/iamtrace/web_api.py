@@ -21,6 +21,8 @@ from iamtrace.loader import parse_any_policy, parse_context
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import can_text
 from iamtrace.principals import Principal
+from iamtrace.whatif import what_if, what_if_text
+from iamtrace.whocan import who_can, who_can_text
 
 CATALOG_DIR = "/home/pyodide/catalog"
 
@@ -77,7 +79,13 @@ def can(request_json: str) -> dict[str, Any]:
         context=parse_context(pairs, None),
     )
     result = evaluate(req, ps)
-    return {"decision": result.decision.value, "text": can_text(result), "result": result.to_dict()}
+    report = what_if(req, ps, result)
+    return {
+        "decision": result.decision.value,
+        "text": can_text(result) + what_if_text(report),
+        "result": result.to_dict(),
+        "what_if": report,
+    }
 
 
 @_safe
@@ -130,6 +138,40 @@ def _merge(reports: list[dict[str, Any]]) -> dict[str, Any]:
         for k, v in r["summary"].items():
             summary[k] = summary.get(k, 0) + v
     return {"summary": summary, "findings": findings, "catalog": reports[0]["catalog"]}
+
+
+@_safe
+def who_can_query(
+    auth_details_text: str,
+    action: str,
+    resource: str,
+    resource_policy_text: str = "",
+    scp_text: str = "",
+    inventory_text: str = "",
+    context_text: str = "",
+) -> dict[str, Any]:
+    """Every principal in the export that can perform `action` on `resource`."""
+    if not action.strip():
+        return {"error": "enter the action to check, for example s3:GetObject"}
+    data = json.loads(auth_details_text)
+    env = Environment.from_auth_details(data)
+    if inventory_text.strip():
+        env.resources = load_inventory(json.loads(inventory_text), env)
+    res_policy = (
+        Policy.from_json(resource_policy_text, policy_id="resource policy", policy_type=PolicyType.RESOURCE)
+        if resource_policy_text.strip()
+        else None
+    )
+    pairs = [line.strip() for line in context_text.splitlines() if line.strip()]
+    report = who_can(
+        env,
+        action.strip(),
+        resource.strip() or "*",
+        scps=_scp_level(scp_text),
+        resource_policy=res_policy,
+        context=dict(parse_context(pairs, None)),
+    )
+    return {"result": report, "text": who_can_text(report)}
 
 
 @_safe

@@ -248,7 +248,7 @@ td { padding: 12px 18px; border-bottom: 1px solid var(--line); vertical-align: m
 tr:last-child td { border-bottom: 0; }
 tbody tr:hover td { background: color-mix(in srgb, var(--accent) 5%, transparent); }
 .who { display: flex; align-items: center; gap: 10px; }
-.who .wi { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; color: var(--kind); background: color-mix(in srgb, var(--kind) 14%, transparent); border: 1px solid color-mix(in srgb, var(--kind) 30%, transparent); }
+.who .wif { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; color: var(--kind); background: color-mix(in srgb, var(--kind) 14%, transparent); border: 1px solid color-mix(in srgb, var(--kind) 30%, transparent); }
 .who .wi svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .who b { font-weight: 500; display: block; }
 .who small { font: 0.8214rem "Plex Mono"; color: var(--faint); }
@@ -891,13 +891,13 @@ td.td-break { min-width: 16rem; overflow-wrap: anywhere; }
 
 /* Wide tables become stacked rows on phones: one card per row, each cell labelled. */
 @media (max-width: 700px) {
-  table.stack thead { display: none; }
+  table.mtable thead { display: none; }
   /* The table and its body stay table boxes (a block table collapses to nothing in Chrome); each row is a grid. */
-  table.stack { display: table; overflow: visible; table-layout: fixed; }
-  table.stack tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 14px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
-  table.stack td { display: block; padding: 0; border: 0; min-width: 0; overflow-wrap: anywhere; }
-  table.stack td:first-child, table.stack td:nth-child(2) { grid-column: 1 / -1; }
-  table.stack td[data-label]::before { content: attr(data-label); display: block; margin-bottom: 2px; font: 500 0.7857rem "Plex Sans"; color: var(--faint); }
+  table.mtable { display: table; overflow: visible; table-layout: fixed; }
+  table.mtable tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 14px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  table.mtable td { display: block; padding: 0; border: 0; min-width: 0; overflow-wrap: anywhere; }
+  table.mtable td:first-child, table.mtable td:nth-child(2) { grid-column: 1 / -1; }
+  table.mtable td[data-label]::before { content: attr(data-label); display: block; margin-bottom: 2px; font: 500 0.7857rem "Plex Sans"; color: var(--faint); }
 }
 
 /* ---------------------------------------------------------------------------- saved data */
@@ -924,3 +924,58 @@ td.td-break { min-width: 16rem; overflow-wrap: anywhere; }
   .dropzone { flex-wrap: wrap; gap: 12px; padding: 18px; }
   .dropzone .btn { margin-left: 0; }
 }
+
+/* ---------------------------------------------------------------------------- evaluate
+   The request panel and the result scroll separately; Evaluate stays pinned under the panel. */
+.workspace .tool-grid { flex: 1; min-height: 0; align-items: stretch; }
+.ev-panel { display: flex; flex-direction: column; min-height: 0; }
+.ev-scroll { flex: 1; min-height: 0; }
+.ev-actions { flex: none; background: var(--panel); border-radius: 0 0 12px 12px; }
+@media (min-width: 861px) and (min-height: 561px) {
+  .ev-scroll, .ev-ws #ev-result { overflow: auto; overscroll-behavior: contain; }
+  .ev-ws #ev-result { min-height: 0; padding-right: 4px; }
+}
+@media (max-width: 860px), (max-height: 560px) {
+  .ev-actions { position: sticky; bottom: 0; z-index: 2; border-top: 1px solid var(--line); }
+}
+.whatif .card-b { display: grid; gap: 14px; }
+.whatif h4 { margin: 4px 0 0; font-size: 0.8571rem; font-weight: 600; color: var(--muted); }
+.wif-list { display: grid; gap: 10px; }
+.wif { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--solid); }
+.wif-h { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 10px; }
+.wif-h b { font-weight: 600; font-size: 0.9643rem; overflow-wrap: anywhere; }
+.wif-h .btn { margin-left: auto; }
+.wif p { margin: 6px 0 0; font-size: 0.8929rem; color: var(--muted); line-height: 1.55; }
+.wif-rm { margin: 6px 0 0; padding-left: 18px; font-size: 0.8571rem; }
+.wif-add { margin-top: 10px; }
+.wif-add > span { display: block; font-size: 0.8214rem; color: var(--muted); margin-bottom: 4px; }
+.wif-add pre { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--sunk); border: 1px solid var(--line); font: 0.8214rem/1.55 "Plex Mono"; overflow-x: auto; }
+.wif-deps { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.wif-deps li { display: grid; gap: 2px; font-size: 0.8929rem; }
+.wif-deps li b { font-weight: 500; overflow-wrap: anywhere; }
+.wif-deps li span { color: var(--muted); }
+
+/* ---------------------------------------------------------------------------- who can */
+.wc-form { padding: 16px 18px; margin-bottom: 16px; display: grid; gap: 12px; }
+.wc-fields { display: grid; grid-template-columns: minmax(180px, 260px) minmax(0, 1fr) auto; gap: 12px; align-items: end; }
+.wc-more summary { cursor: pointer; font-size: 0.8929rem; color: var(--muted); }
+.wc-extra { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 10px; }
+.wc-try { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.8571rem; color: var(--muted); }
+.wc-try:empty { display: none; }
+.wc-vias { list-style: none; margin: 0; display: grid; gap: 10px; }
+.wc-via { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--solid); }
+.wc-via-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dl-row { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (max-width: 760px) {
+  .wc-fields, .wc-extra { grid-template-columns: minmax(0, 1fr); }
+}
+.es-actions { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+#ev-scenario { max-width: 100%; min-width: 0; }
+
+.wc-graph { position: relative; height: clamp(320px, 52vh, 560px); overflow: hidden; border-radius: 0 0 12px 12px; }
+.wc-graph .surface { position: absolute; inset: 0; background-image: radial-gradient(var(--dot) 1.2px, transparent 1.3px); background-size: 22px 22px; }
+.ev-block .card-h .right { margin-left: auto; }
+/* A principal selected in the graph is briefly marked in the list. */
+[data-arn].flash { animation: flash 1.6s ease; }
+@keyframes flash { 0%, 40% { background: color-mix(in srgb, var(--accent) 14%, transparent); } 100% { background: transparent; } }
+@media (prefers-reduced-motion: reduce) { [data-arn].flash { animation: none; outline: 2px solid var(--accent); } }

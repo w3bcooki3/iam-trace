@@ -5,7 +5,7 @@
 [![licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 ![python 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue.svg)
 
-iam-trace explains what AWS IAM policies allow. It answers four questions:
+iam-trace explains what AWS IAM policies allow. It answers five questions:
 
 1. **Can principal P do action A on resource R?** Yes or no, with a trace of the evaluation step
    and the statement that decided it.
@@ -13,7 +13,9 @@ iam-trace explains what AWS IAM policies allow. It answers four questions:
    actions and resources, grouped by access level. Reordering statements is not a change.
 3. **If this principal is compromised, what can an attacker do?** Known privilege-escalation
    techniques, multi-step paths to admin-equivalent principals, and the blast radius.
-4. **What in this policy is risky?** Patterns such as full admin, `iam:PassRole` on any role,
+4. **Who can do this?** Every principal that can perform an action on a resource, directly or
+   by escalating to someone who can. And for any one request: what would change the answer.
+5. **What in this policy is risky?** Patterns such as full admin, `iam:PassRole` on any role,
    public principals and actions that match nothing, each with the reason and a fix.
 
 The engine is a typed Python package with no dependencies. It makes no network calls when it
@@ -54,7 +56,7 @@ to do is contribute it there too.
 ## Status
 
 <!-- counts:start -->
-Offline tests: **640 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
+Offline tests: **660 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
 
 Live differential run: **not run yet**. See "Differential testing" below.
 <!-- counts:end -->
@@ -171,6 +173,35 @@ Widening a resource or dropping a condition counts as newly allowed. Statement o
 value order, splitting statements and writing out a wildcard do not count as changes.
 
 Use `/dev/null` for a file that was added or deleted.
+
+### can --what-if
+
+Add `--what-if` to `can` to see what would change the answer. iam-trace changes one thing at a
+time and evaluates again with the same engine, so every suggestion is checked:
+
+- **Denied:** the smallest fix. The Deny to remove or narrow, a context value that stops it
+  applying, or the missing Allow for each layer that refused (identity, boundary, session
+  policy, SCPs, RCPs, resource policy), written out as JSON. A cross-account request gets both
+  the identity statement and the resource policy statement naming the caller.
+- **Allowed:** what the decision depends on. The statements without which it would be denied,
+  or a note that several grants overlap, and the context keys (such as
+  `aws:MultiFactorAuthPresent`) whose absence would deny it or start a Deny.
+- **Near misses:** Allow statements that name the action but fail on the resource or a
+  condition, with the reason. This is usually the typo.
+
+With `--format json`, the result has a `what_if` object. Keys AWS sets itself
+(`aws:PrincipalArn` and similar) are never suggested.
+
+### who-can
+
+    iam-trace who-can --auth-details auth.json --action s3:PutObject \
+      --resource arn:aws:s3:::example-reports/out.csv [--resource-policy bucket.json] [--scp scp.json]
+
+Every user and role in the export that can perform the action on the resource, in three groups:
+**directly** (their own policies allow it, with the statements that grant it), **through
+escalation** (a confirmed path to someone who can, shortest first) and **outside the export**
+(principals the resource policy names that the export doesn't contain, such as another account
+or `*`). Each principal is evaluated with the same engine as `can`.
 
 ### escalate
 

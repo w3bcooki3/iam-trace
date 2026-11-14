@@ -11,9 +11,11 @@ export const ICON = {
   role: '<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"/><circle cx="12" cy="11" r="2.5"/></svg>',
   resource: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 12h6M12 9v6"/></svg>',
   admin: '<svg viewBox="0 0 24 24"><path d="M3 18l2-11 5 5 2-7 2 7 5-5 2 11z"/><path d="M3 21h18"/></svg>',
+  target: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8"/></svg>',
+  outside: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>',
 };
-export const KIND_COLOR = { user: "var(--accent-2)", group: "var(--muted)", role: "var(--accent)", resource: "var(--warn)", admin: "var(--crit)" };
-export const KIND_NAME = { user: "IAM user", group: "IAM group", role: "IAM role", resource: "Resource", admin: "Account takeover" };
+export const KIND_COLOR = { user: "var(--accent-2)", group: "var(--muted)", role: "var(--accent)", resource: "var(--warn)", admin: "var(--crit)", target: "var(--crit)", outside: "var(--warn)" };
+export const KIND_NAME = { user: "IAM user", group: "IAM group", role: "IAM role", resource: "Resource", admin: "Account takeover", target: "The resource", outside: "Outside the export" };
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
@@ -26,6 +28,8 @@ const GEO = {
 
 // Columns by breadth-first distance from the start; "Full control" always last.
 export function layout(nodes, edges, start) {
+  // A caller can place every node itself (Who can lays principals out by distance to the resource).
+  if (nodes.length && nodes.every((n) => Number.isInteger(n.col))) return columns(nodes, (n) => n.col);
   const depth = new Map();
   if (start) depth.set(start, 0);
   const queue = start ? [start] : [];
@@ -45,9 +49,13 @@ export function layout(nodes, edges, start) {
     max = Math.max(max, depth.get(n.id));
   }
   if (nodes.some((n) => n.id === "admin")) depth.set("admin", max + 1);
+  return columns(nodes, (n) => depth.get(n.id));
+}
+
+function columns(nodes, colOf) {
   const cols = new Map();
   for (const n of nodes) {
-    const d = depth.get(n.id);
+    const d = colOf(n);
     if (!cols.has(d)) cols.set(d, []);
     cols.get(d).push(n.id);
   }
@@ -85,10 +93,12 @@ function badges(n) {
 
 function nodeHtml(n, style) {
   if (style === "card") {
-    const cls = ["n", "card", n.start ? "start" : "", n.admin ? "risk" : "", n.kind === "admin" ? "takeover" : ""].join(" ");
-    const foot = n.kind === "admin"
-      ? "<div><b>All</b>actions</div><div><b>All</b>resources</div>"
-      : `<div><b>${n.techniques}</b>techniques</div><div><b>${n.policies ?? "-"}</b>policies</div>`;
+    const cls = ["n", "card", n.start ? "start" : "", n.admin ? "risk" : "", n.kind === "admin" || n.kind === "target" ? "takeover" : ""].join(" ");
+    const foot = n.foot
+      ? n.foot.map(([v, l]) => `<div><b>${esc(String(v))}</b>${esc(l)}</div>`).join("")
+      : n.kind === "admin"
+        ? "<div><b>All</b>actions</div><div><b>All</b>resources</div>"
+        : `<div><b>${n.techniques}</b>techniques</div><div><b>${n.policies ?? "-"}</b>policies</div>`;
     return `<div class="${cls}" data-id="${esc(n.id)}"><span class="port l"></span><span class="port r"></span>
       <div class="c-top"><span class="c-ic ic">${ICON[n.kind] || ICON.resource}</span><div class="c-title"><b>${esc(n.label)}</b><span>${KIND_NAME[n.kind] || "Principal"}</span></div>
       ${n.start && n.reachesAdmin ? '<span class="c-risk tag crit">Critical</span>' : ""}</div>

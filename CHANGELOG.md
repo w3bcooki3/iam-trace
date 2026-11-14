@@ -20,6 +20,17 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
   over an existing resource (naming the resource) or rule them out. Kinds that could not be
   collected stay "possible". On the example account, 25 possible findings become 17.
 - The example account has a user who may update one Lambda function, and an example inventory.
+- What would change the answer (`can --what-if`, and a card under every Evaluate result): for a
+  denied request, the smallest fix (the Deny to remove, a context value, or the missing Allow for
+  each layer that refused, as JSON); for an allowed one, the statements and context keys it
+  depends on; and near misses with the reason. Every suggestion is checked by evaluating again.
+  "Try this change" applies a fix and evaluates again.
+- Who can (`iam-trace who-can` and a new screen): every principal in an account export that can
+  perform an action on a resource, directly, through a confirmed escalation path, or named by the
+  resource policy but outside the export. The app draws the answer as a graph: every route ends
+  at the resource, escalation hops are labelled with their technique, and selecting a principal
+  finds it in the lists.
+- Evaluate: the request panel scrolls on its own and the Evaluate button stays in view.
 - Your work is saved in the browser (IndexedDB) and comes back after a refresh, including the
   last analysis. The top bar says "Saved in this browser" or "Not saved"; leaving with unsaved
   data asks first. Settings, Saved data, lists every saved item with its size and time, and can

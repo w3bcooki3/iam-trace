@@ -149,7 +149,7 @@ $("menu-btn").addEventListener("click", () => root.classList.toggle("nav-open"))
 // ------------------------------------------------------------------------------------- navigation
 
 const VIEWS = {
-  overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"],
+  overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"], whocan: ["Attack paths", "Who can"],
   input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"],
   docs: ["Help", "Documentation"], changelog: ["Help", "Changelog"], settings: ["App", "Settings"],
 };
@@ -163,6 +163,7 @@ function go(view) {
   if (changed) $("v-" + view).scrollTop = 0;
   closeSheet(false);
   if (view === "settings") renderSaved();
+  if (view === "whocan") wcState();
   document.querySelectorAll(".nav-item[data-go]").forEach((n) => n.classList.toggle("on", n.dataset.go === view));
   $("crumb-group").textContent = VIEWS[view][0];
   $("crumb-view").textContent = VIEWS[view][1];
@@ -574,6 +575,7 @@ function updateRun() {
   const pcAcc = $("pc-account");
   pcAcc.disabled = !(input.account.trim() && input.accountValid);
   pcAcc.title = pcAcc.disabled ? "Load an account export in Data input first" : "Check every policy in the account export loaded in Data input";
+  if (currentView === "whocan") wcState();
 }
 
 $("run").addEventListener("click", runAnalysis);
@@ -839,8 +841,9 @@ function renderOverview() {
   hydrateWho(el);
   el.querySelectorAll("#ov-paths .path-item").forEach((p) => p.addEventListener("click", () => { go("graph"); focusPath(Number(p.dataset.path)); }));
   $("preview").addEventListener("click", () => go("graph"));
+  if (graphs.includes(preview)) graphs.splice(graphs.indexOf(preview), 1);
   preview = new Graph($("psurface"), $("pworld"), { interactive: false, pad: 24, maxScale: 0.85, markerPrefix: "p" });
-  graphs[1] = preview;
+  graphs.push(preview);
   preview.setData(graphData(m));
 }
 
@@ -1054,7 +1057,7 @@ function drawFindings(rows) {
   const body = $("find-body");
   if (findState.filter === "principals") {
     const list = model.principals.filter((p) => !q || p.arn.toLowerCase().includes(q));
-    body.innerHTML = `<div class="ptable-wrap"><table class="stack"><thead><tr><th>Principal</th><th>Status</th><th>Shortest path to admin</th><th>Confirmed</th><th>Possible</th><th>Policies</th></tr></thead><tbody>${list.slice(0, findState.limit).map(principalRow).join("")}</tbody></table></div>`;
+    body.innerHTML = `<div class="ptable-wrap"><table class="mtable"><thead><tr><th>Principal</th><th>Status</th><th>Shortest path to admin</th><th>Confirmed</th><th>Possible</th><th>Policies</th></tr></thead><tbody>${list.slice(0, findState.limit).map(principalRow).join("")}</tbody></table></div>`;
     $("find-count").textContent = plural(list.length, "principal");
   } else {
     const list = rows.filter((r) => (findState.filter === "all" || r.t.confidence === findState.filter) &&
@@ -1062,7 +1065,7 @@ function drawFindings(rows) {
       .sort((a, b) => (a.t.confidence === "confirmed" ? 0 : 1) - (b.t.confidence === "confirmed" ? 0 : 1) || a.p.arn.localeCompare(b.p.arn));
     const k = (arn) => kindOf(arn);
     body.innerHTML = list.length
-      ? `<div class="ptable-wrap"><table class="stack"><thead><tr><th>Confidence</th><th>Technique</th><th>Principal</th><th>Leads to</th><th>Permissions</th><th>Reference</th></tr></thead><tbody>${list.slice(0, findState.limit).map(({ p, t }) => `<tr>
+      ? `<div class="ptable-wrap"><table class="mtable"><thead><tr><th>Confidence</th><th>Technique</th><th>Principal</th><th>Leads to</th><th>Permissions</th><th>Reference</th></tr></thead><tbody>${list.slice(0, findState.limit).map(({ p, t }) => `<tr>
           <td><span class="sev ${t.confidence === "confirmed" ? "c-crit" : "c-warn"}"><i></i>${t.confidence === "confirmed" ? "Confirmed" : "Possible"}</span></td>
           <td data-label="Technique"><b class="mono">${esc(t.id)}</b><div class="cat-note">${esc(CATEGORY[t.category] || t.category)}</div></td>
           <td><div class="who" data-kind="${k(p.arn)}"><span class="wi">${ICON[k(p.arn)] || ICON.resource}</span><div><b>${esc(nameOf(p.arn))}</b><small>${esc(short(p.arn))}</small></div></div></td>
@@ -1201,6 +1204,7 @@ function renderEvResult(out, req) {
   el.innerHTML = `<div class="verdict glass ${allowed ? "v-ok" : "v-crit"}"><span class="vb">${allowed ? IC.ok : IC.x}</span><div><h2>${allowed ? "Allowed" : "Denied"}</h2><p>${why}</p></div>
       <div class="vreq">${esc(short(req.principal))}<br>${esc(req.action)}<br>${esc(short(req.resource))}</div></div>${warn}
     <div class="report-row">Does AWS disagree? ${report}</div>
+    ${whatIfHtml(out.what_if)}
     <div class="glass ev-block"><div class="card-h"><h3>Evaluation path</h3><span class="sub">AWS checks these steps in order. Select one to see what it matched.</span></div><ol class="pipe" id="ev-pipe">${pipe}</ol></div>
     <div class="glass"><div class="card-h"><h3>Trace</h3></div><table><thead><tr><th>Step</th><th>Check</th><th>Result</th><th class="w28">Reason</th><th>Matching statements</th></tr></thead><tbody id="ev-trace">${rows}</tbody></table></div>`;
   const pick = (key) => {
@@ -1209,7 +1213,76 @@ function renderEvResult(out, req) {
   };
   el.querySelectorAll(".ps:not(.dec)").forEach((li) => li.addEventListener("click", () => pick(li.dataset.step)));
   el.querySelectorAll("#ev-trace tr").forEach((tr) => tr.addEventListener("click", () => pick(tr.dataset.step)));
+  el.querySelectorAll("[data-apply]").forEach((b) => b.addEventListener("click", () => applyFix(out.what_if.fixes[Number(b.dataset.apply)])));
   pick(r.deciding_step);
+}
+
+// ------------------------------------------------------------------------------------- what would change this
+
+// The engine changes one thing at a time and evaluates again; every fix shown has been checked.
+function whatIfHtml(w) {
+  if (!w) return "";
+  const fix = (f, i) => {
+    const adds = (f.add || []).map((a) => `<div class="wif-add"><span>Add to ${esc(a.where)}</span><pre class="code">${esc(JSON.stringify(a.statement, null, 2))}</pre></div>`).join("");
+    const removes = (f.statements || []).map((s) => `<li class="mono">${esc(s.policy)} / ${esc(s.statement)}</li>`).join("");
+    return `<div class="wif"><div class="wif-h"><b>${esc(f.title)}</b>${f.verified ? '<span class="tag ok">Checked</span>' : '<span class="tag warn">Not enough alone</span>'}
+        <button class="btn" data-apply="${i}">Try this change</button></div>
+      <p>${esc(f.detail)}</p>${removes ? `<ul class="wif-rm">${removes}</ul>` : ""}${adds}</div>`;
+  };
+  const dep = (d) => `<li><b class="${d.kind === "context" ? "mono" : ""}">${esc(d.title)}</b><span>${esc(d.detail)}</span></li>`;
+  const miss = (m) => `<li><b class="mono">${esc(m.policy)} / ${esc(m.statement)}</b><span>Names the action, but ${esc(m.reason)}.</span></li>`;
+  const body = [
+    w.fixes.length ? `<div class="wif-list">${w.fixes.map(fix).join("")}</div>` : "",
+    w.depends_on.length ? `<h4>${w.decision === "Allow" ? "The decision depends on" : "Also relevant"}</h4><ul class="wif-deps">${w.depends_on.map(dep).join("")}</ul>` : "",
+    w.near_misses.length ? `<h4>Near misses</h4><ul class="wif-deps">${w.near_misses.map(miss).join("")}</ul>` : "",
+  ].join("");
+  return `<div class="glass ev-block whatif"><div class="card-h"><h3>What would change this</h3><span class="sub">${esc(w.summary)}</span></div>
+    ${body ? `<div class="card-b">${body}</div>` : ""}</div>`;
+}
+
+// "Try this change" edits the request or the policies the way a person would, then evaluates again.
+const POLICY_KEY = { identity_policy: "identity", resource_policy: "resource_policy", permissions_boundary: "boundary", session_policy: "session", scp: "scp", rcp: "rcp" };
+const ID_KEY = [["identity policy", "identity"], ["resource policy", "resource_policy"], ["boundary", "boundary"], ["session policy", "session"], ["SCP", "scp"], ["RCP", "rcp"]];
+function policyDoc(key) {
+  try {
+    const d = JSON.parse(evPolicies[key] || "");
+    if (d && typeof d === "object") {
+      if (!Array.isArray(d.Statement)) d.Statement = d.Statement ? [d.Statement] : [];
+      return d;
+    }
+  } catch { /* an empty or broken box starts a new document */ }
+  return { Version: "2012-10-17", Statement: [] };
+}
+function applyFix(f) {
+  if (f.context) {
+    const lines = $("ev-context").value.split("\n").filter((l) => l.trim());
+    for (const [k, v] of Object.entries(f.context)) {
+      const rest = lines.filter((l) => l.split("=")[0].trim().toLowerCase() !== k.toLowerCase());
+      lines.length = 0;
+      lines.push(...rest, ...(v === null ? [] : [`${k}=${v}`]));
+    }
+    $("ev-context").value = lines.join("\n");
+  }
+  for (const s of f.statements || []) {
+    const key = (ID_KEY.find(([prefix]) => s.policy.startsWith(prefix)) || [])[1];
+    if (!key) continue;
+    const d = policyDoc(key);
+    const m = /^Statement\[(\d+)\]$/.exec(s.statement);
+    d.Statement = d.Statement.filter((st, i) => (m ? i !== Number(m[1]) : st.Sid !== s.statement));
+    evPolicies[key] = JSON.stringify(d, null, 2);
+  }
+  for (const a of f.add || []) {
+    const key = POLICY_KEY[a.layer];
+    if (!key) continue;
+    const d = policyDoc(key);
+    d.Statement.push(a.statement);
+    evPolicies[key] = JSON.stringify(d, null, 2);
+  }
+  renderEvPolicies();
+  edited.evaluate = true;
+  persist("evaluate");
+  $("ev-run").click();
+  toast("Change applied and evaluated again");
 }
 
 // ------------------------------------------------------------------------------------- diff
@@ -1253,6 +1326,148 @@ $("d-run").addEventListener("click", () => {
       <div class="table-scroll"><table class="rtable"><thead><tr><th>Action</th><th>Access level</th><th>Resources</th><th>Condition</th></tr></thead><tbody>${rows}</tbody></table></div></div>
       <div class="glass"><div class="card-h"><h3>By access level</h3></div><div class="card-b bars">${bars}</div></div></div>`}`);
 });
+
+// ------------------------------------------------------------------------------------- who can
+
+// Uses the account export (and SCPs and inventory) from Data input. Each principal is evaluated
+// with the same engine as Evaluate; escalation paths come from the attack-path analysis.
+const WC_EXAMPLES = [
+  ["s3:PutObject", "arn:aws:s3:::example-reports/out.csv"],
+  ["iam:PassRole", "arn:aws:iam::111122223333:role/ec2-admin"],
+  ["lambda:UpdateFunctionCode", "arn:aws:lambda:us-east-1:111122223333:function:nightly-report"],
+];
+function wcState() {
+  const ready = Boolean(api && input.account.trim() && input.accountValid);
+  $("wc-run").disabled = !ready || !$("wc-action").value.trim();
+  $("wc-try").innerHTML = input.example
+    ? `<span>Try:</span>${WC_EXAMPLES.map(([a, r], i) => `<button class="chipf" data-wc="${i}">${esc(a)} on ${esc(short(r))}</button>`).join("")}`
+    : "";
+  $("wc-try").querySelectorAll("[data-wc]").forEach((b) => b.addEventListener("click", () => {
+    const [a, r] = WC_EXAMPLES[Number(b.dataset.wc)];
+    $("wc-action").value = a;
+    $("wc-resource").value = r;
+    persist("whocan");
+    runWhoCan();
+  }));
+  if (!ready && !$("wc-result").innerHTML.includes("wc-sum")) {
+    $("wc-result").innerHTML = `<div class="glass empty-state"><span class="es-ic">${IC.info}</span><h2>Load an account first</h2>
+      <p>Who can answers for every user and role in an account export. Load yours in Data input, or open the example account from the Overview.</p>
+      <div class="es-actions"><button class="btn primary" data-go="input">Open Data input</button></div></div>`;
+    bindGo($("wc-result"));
+  } else if (ready && !$("wc-result").innerHTML.includes("wc-sum")) {
+    $("wc-result").innerHTML = "";
+  }
+}
+function bindGo(root) {
+  root.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => go(b.dataset.go)));
+}
+["wc-action", "wc-resource", "wc-policy", "wc-context"].forEach((id) => $(id).addEventListener("input", () => { wcState(); persist("whocan"); }));
+$("wc-action").addEventListener("keydown", (e) => { if (e.key === "Enter" && !$("wc-run").disabled) runWhoCan(); });
+$("wc-resource").addEventListener("keydown", (e) => { if (e.key === "Enter" && !$("wc-run").disabled) runWhoCan(); });
+$("wc-run").addEventListener("click", runWhoCan);
+const whoCell = (arn) => {
+  const k = kindOf(arn);
+  return `<div class="who" data-kind="${k}"><span class="wi">${ICON[k] || ICON.resource}</span><div><b>${esc(nameOf(arn))}</b><small>${esc(short(arn))}</small></div></div>`;
+};
+// The answer as a graph: every route ends at the resource. Principals that must escalate are on
+// the left, principals with direct access next to the resource, outsiders on a dashed line.
+const TARGET = "who-can-target";
+function whoCanGraph(r) {
+  const nodes = new Map();
+  const edges = [];
+  const dist = new Map();
+  const near = (id, d) => dist.set(id, Math.min(dist.get(id) ?? Infinity, d));
+  const node = (id, extra = {}) => {
+    if (!nodes.has(id)) nodes.set(id, { id, label: nameOf(id), subtitle: short(id), kind: kindOf(id), start: false, admin: false, techniques: 0, policies: null, paths: new Set() });
+    Object.assign(nodes.get(id), extra);
+    return nodes.get(id);
+  };
+  const edge = (from, to, label, name, confidence) => {
+    if (!edges.some((e) => e.from === from && e.to === to && e.label === label)) edges.push({ from, to, label, name, confidence, paths: new Set() });
+  };
+  for (const v of r.via) {
+    v.steps.forEach((s, i) => {
+      node(s.from, { foot: [["Escalates", ""], [plural(v.steps.length - i, "step"), "to reach it"]] });
+      node(s.to);
+      near(s.from, v.steps.length - i + 1);
+      edge(s.from, s.to, s.technique, s.name, "confirmed");
+    });
+  }
+  for (const d of r.direct) {
+    node(d.principal, { foot: [["Direct", "access"], [d.granted_by.length || 1, d.granted_by.length === 1 ? "grant" : "grants"]] });
+    near(d.principal, 1);
+    edge(d.principal, TARGET, "allowed", d.granted_by.join(", "), "confirmed");
+  }
+  for (const o of r.outside) {
+    const id = `outside:${o.principal}`;
+    node(id, { label: o.principal === "*" ? "Anyone" : nameOf(o.principal) || o.principal, subtitle: o.principal, kind: "outside", foot: [["Unknown", "own policies"], [o.conditional ? "Yes" : "No", "condition"]] });
+    near(id, 1);
+    edge(id, TARGET, "resource policy", o.statement, "possible");
+  }
+  const far = Math.max(1, ...dist.values());
+  node(TARGET, {
+    label: r.resource === "*" ? "Any resource" : nameOf(r.resource) || r.resource, subtitle: r.action, kind: "target",
+    foot: [[r.direct.length, "directly"], [r.via.length, "through escalation"]],
+  });
+  dist.set(TARGET, 0);
+  for (const n of nodes.values()) n.col = far - (dist.get(n.id) ?? 1) + 1;
+  nodes.get(TARGET).col = far + 1;
+  return { nodes: [...nodes.values()], edges, start: null };
+}
+let wcGraph = null;
+function drawWhoCanGraph(r) {
+  // The result is re-rendered on every query, so the graph is too.
+  const old = graphs.indexOf(wcGraph);
+  if (old >= 0) graphs.splice(old, 1);
+  wcGraph = new Graph($("wsurface"), $("wworld"), {
+    pad: 32,
+    maxScale: 1,
+    markerPrefix: "w",
+    insets: () => ({ l: 0, r: 0, t: 8, b: 8 }),
+    // Selecting a principal finds it in the lists below.
+    onSelect: (n) => {
+      const row = $("wc-result").querySelector(`[data-arn="${CSS.escape(n.id)}"]`);
+      if (!row) return;
+      row.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      row.classList.remove("flash");
+      void row.offsetWidth;
+      row.classList.add("flash");
+    },
+  });
+  graphs.push(wcGraph);
+  wcGraph.setData(whoCanGraph(r));
+  requestAnimationFrame(() => wcGraph.fit());
+}
+function runWhoCan() {
+  const out = call("who_can_query", input.account, $("wc-action").value, $("wc-resource").value, $("wc-policy").value, input.scp, input.inv, $("wc-context").value);
+  const el = $("wc-result");
+  if (out.error) {
+    el.innerHTML = `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not answer</h2><p>${esc(sentence(out.error))}</p></div></div>`;
+    return;
+  }
+  const r = out.result;
+  const n = r.direct.length + r.via.length;
+  const direct = r.direct.map((d) => `<tr data-arn="${esc(d.principal)}"><td data-label="Principal">${whoCell(d.principal)}</td><td data-label="Granted by" class="td-mono">${d.granted_by.map((g) => esc(short(g))).join("<br>") || '<span class="t-faint">Resource policy</span>'}</td></tr>`).join("");
+  const via = r.via.map((v) => `<li class="wc-via" data-arn="${esc(v.principal)}"><div class="wc-via-h">${whoCell(v.principal)}<span class="tag high">${plural(v.steps.length, "step")}</span></div>
+      ${stepsHtml({ start: v.principal, steps: v.steps })}</li>`).join("");
+  const outside = r.outside.map((o) => `<li data-arn="outside:${esc(o.principal)}"><b class="mono">${esc(o.principal)}</b><span>${esc(o.what)}, ${esc(o.statement)}${o.conditional ? ", with a condition" : ""}</span></li>`).join("");
+  el.innerHTML = `<div class="verdict glass ${n ? (r.via.length ? "v-crit" : "v-warn") : "v-ok"} wc-sum"><span class="vb">${n ? IC.warn : IC.ok}</span>
+      <div><h2>${n ? `${plural(n, "principal")} can` : "Nobody in the export can"} ${esc(r.action)}</h2>
+      <p>On ${esc(r.resource)}. Checked ${plural(r.checked, "principal")}: ${r.direct.length} directly, ${r.via.length} through escalation, ${r.cannot} cannot.${r.via.length ? " Escalation paths are the ones to look at first: these principals were probably never meant to have this access." : ""}</p></div></div>
+    ${n || r.outside.length ? `<div class="glass ev-block"><div class="card-h"><h3>Access graph</h3><span class="sub">Every route to the resource. Select a principal to find it below.</span>
+      <div class="right"><button class="btn" id="wc-fit">Fit</button></div></div>
+      <div class="wc-graph"><div class="surface" id="wsurface"><div class="world" id="wworld"><svg></svg></div></div></div></div>` : ""}
+    ${r.direct.length ? `<div class="glass ev-block"><div class="card-h"><h3>Directly</h3><span class="sub">Their own policies allow it</span></div><table class="mtable"><thead><tr><th>Principal</th><th>Granted by</th></tr></thead><tbody>${direct}</tbody></table></div>` : ""}
+    ${r.via.length ? `<div class="glass ev-block"><div class="card-h"><h3>Through escalation</h3><span class="sub">Shortest confirmed path to someone who can</span></div><ul class="card-b wc-vias">${via}</ul></div>` : ""}
+    ${r.outside.length ? `<div class="glass ev-block"><div class="card-h"><h3>Outside the export</h3><span class="sub">Named by the resource policy; their own policies are unknown</span></div><ul class="card-b wif-deps">${outside}</ul></div>` : ""}
+    <div class="dl-row"><button class="btn" id="wc-dl-text">Download text</button><button class="btn" id="wc-dl-json">Download JSON</button></div>`;
+  if (n || r.outside.length) {
+    drawWhoCanGraph(r);
+    $("wc-fit").addEventListener("click", () => wcGraph.fit());
+  }
+  $("wc-dl-text").addEventListener("click", () => download("iam-trace-who-can.txt", out.text, "text/plain"));
+  $("wc-dl-json").addEventListener("click", () => download("iam-trace-who-can.json", JSON.stringify(r, null, 2)));
+}
 
 // ------------------------------------------------------------------------------------- policy check
 
@@ -1367,7 +1582,9 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Saved in your browser</b>: your data and last analysis come back after a refresh. Settings lists what is saved and deletes any of it.",
+    ["Added", ["<b>What would change this</b>: under every Evaluate result, the smallest checked fix for a denied request, or what an allowed one depends on. <b>Try this change</b> applies it.",
+      "<b>Who can</b>: every principal that can perform an action on a resource, directly or through escalation, drawn as an access graph.",
+      "<b>Saved in your browser</b>: your data and last analysis come back after a refresh. Settings lists what is saved and deletes any of it.",
       "<b>Policy check</b>: a new screen and <code class='c'>iam-trace check</code> flag 14 risky patterns (full admin, iam:PassRole on any role, NotAction, public principals, a typo in a Deny and more), each with why it matters and how to fix it.",
       "<b>Resource inventory</b>: <code class='c'>iam-trace inventory collect</code> (read-only) and a new Data input tab. Techniques that take over an existing Lambda function, EC2 instance or similar are confirmed with the exact resource, or ruled out.",
       "Report-a-wrong-answer links on Evaluate results, graph findings and Policy check findings. Account IDs are replaced before the issue opens.",
@@ -1473,6 +1690,12 @@ const SAVED = {
     read: () => (edited.diff ? { old: $("d-old").value, new: $("d-new").value } : null),
     apply: (v) => { edited.diff = true; $("d-old").value = v.old; $("d-new").value = v.new; drawOld(); drawNew(); },
     clear: () => { edited.diff = false; $("d-old").value = JSON.stringify(DIFF_EXAMPLE.before, null, 2); $("d-new").value = JSON.stringify(DIFF_EXAMPLE.after, null, 2); drawOld(); drawNew(); },
+  },
+  whocan: {
+    label: "Who can query", where: "whocan",
+    read: () => ($("wc-action").value.trim() || $("wc-resource").value.trim() ? { action: $("wc-action").value, resource: $("wc-resource").value, policy: $("wc-policy").value, context: $("wc-context").value } : null),
+    apply: (v) => { $("wc-action").value = v.action; $("wc-resource").value = v.resource; $("wc-policy").value = v.policy || ""; $("wc-context").value = v.context || ""; },
+    clear: () => { for (const id of ["wc-action", "wc-resource", "wc-policy", "wc-context"]) $(id).value = ""; $("wc-result").innerHTML = ""; },
   },
   check: {
     label: "Policy check", where: "check",

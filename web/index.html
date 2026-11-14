@@ -43,6 +43,7 @@
     <h4>Attack paths</h4>
     <button class="nav-item" data-go="overview"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</button>
     <button class="nav-item" data-go="graph"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11l9.4-5M7.3 13l9.4 5"/></svg>Attack graph<span class="count" id="nav-paths" hidden></span></button>
+    <button class="nav-item" data-go="whocan"><svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21 20c0-2.6-1.6-4.8-4-5.6"/></svg>Who can</button>
     <button class="nav-item" data-go="findings"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.4-3.4 8-8 9-4.6-1-8-4.6-8-9V7z"/><path d="M12 8v4M12 15.5v.5"/></svg>Findings<span class="count" id="nav-findings" hidden></span></button>
     <button class="nav-item" data-go="input"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>Data input</button>
     <h4>Tools</h4>
@@ -143,6 +144,28 @@
       <div class="run-bar glass"><span class="muted" id="run-note">Load an account export to begin.</span><button class="btn" id="run-reset">Clear</button><button class="btn primary lg" id="run" disabled>Run analysis</button></div>
     </div></section>
 
+    <!-- ============================================================== who can -->
+    <section class="view" id="v-whocan"><div class="page">
+      <div class="page-head">
+        <div><h1>Who can</h1><p>Every user and role in the account that can perform an action on a resource: directly, or by escalating to someone who can.</p></div>
+      </div>
+      <div class="glass wc-form">
+        <div class="wc-fields">
+          <div class="f"><label for="wc-action">Action</label><input id="wc-action" spellcheck="false" autocomplete="off" placeholder="s3:GetObject"></div>
+          <div class="f wc-res"><label for="wc-resource">Resource ARN</label><input id="wc-resource" spellcheck="false" autocomplete="off" placeholder="arn:aws:s3:::my-bucket/*, or * for any"></div>
+          <button class="btn primary" id="wc-run" disabled>Find who can</button>
+        </div>
+        <details class="wc-more"><summary>Resource policy and context (optional)</summary>
+          <div class="wc-extra">
+            <div class="f"><label for="wc-policy">The resource's own policy (bucket, key, queue...)</label><textarea id="wc-policy" rows="5" spellcheck="false" placeholder='{"Version": "2012-10-17", "Statement": [ ... ]}'></textarea></div>
+            <div class="f"><label for="wc-context">Context keys, one KEY=VALUE per line</label><textarea id="wc-context" rows="5" spellcheck="false" placeholder="aws:SecureTransport=true"></textarea></div>
+          </div>
+        </details>
+        <div class="wc-try" id="wc-try"></div>
+      </div>
+      <div id="wc-result"></div>
+    </div></section>
+
     <!-- ============================================================== policy check -->
     <section class="view" id="v-check"><div class="page workspace">
       <div class="page-head">
@@ -173,13 +196,14 @@
     </div></section>
 
     <!-- ============================================================== evaluate -->
-    <section class="view" id="v-evaluate"><div class="page">
+    <section class="view" id="v-evaluate"><div class="page workspace ev-ws">
       <div class="page-head">
         <div><h1>Evaluate a request</h1><p>Can this principal perform this action on this resource? See every step AWS checks and the statement that decided it.</p></div>
         <div class="actions"><label class="muted small-label" for="ev-scenario">Example</label><select class="btn" id="ev-scenario"></select></div>
       </div>
       <div class="tool-grid">
-        <div class="glass">
+        <div class="glass ev-panel">
+          <div class="ev-scroll">
           <div class="card-h"><h3>Request</h3></div>
           <div class="form">
             <div class="f"><label for="ev-principal">Principal ARN</label><input id="ev-principal" spellcheck="false" autocomplete="off"></div>
@@ -189,6 +213,7 @@
           </div>
           <div class="card-h card-h-top"><h3>Policies</h3><span class="sub" id="ev-pcount"></span></div>
           <div id="ev-policies"></div>
+          </div>
           <div class="ev-actions"><button class="btn" id="ev-clear">Clear policies</button><button class="btn primary" id="ev-run" disabled>Evaluate</button></div>
         </div>
         <div id="ev-result"></div>
@@ -213,7 +238,7 @@
         <h5>Start here</h5>
         <a href="#d-start">What iam-trace does</a><a href="#d-quick">Your first analysis</a>
         <h5>Using the app</h5>
-        <a href="#d-attack">Attack paths</a><a href="#d-check">Policy check</a><a href="#d-evaluate">Evaluate a request</a><a href="#d-diff">Policy diff</a><a href="#d-input">Getting your data</a><a href="#d-words">Words used here</a>
+        <a href="#d-attack">Attack paths</a><a href="#d-whocan">Who can</a><a href="#d-check">Policy check</a><a href="#d-evaluate">Evaluate a request</a><a href="#d-diff">Policy diff</a><a href="#d-input">Getting your data</a><a href="#d-words">Words used here</a>
         <h5>Automation</h5>
         <a href="#d-cli">Command line</a><a href="#d-action">GitHub Action</a><a href="#d-formats">Output and exit codes</a>
         <h5>Good to know</h5>
@@ -290,6 +315,13 @@
           </ol>
           <h3>Reading the result</h3>
           <p>The banner says <strong>Allowed</strong> or <strong>Denied</strong> and why. Below it, the seven checks AWS makes are shown in order. The path lights up to the step that decided, and the trace table shows the exact statement that matched. Click any step to highlight it.</p>
+          <h3>What would change this</h3>
+          <p>Under the verdict, iam-trace says what would change the answer. It changes one thing at a time and evaluates again, so everything it suggests is checked:</p>
+          <ul>
+            <li><strong>Denied:</strong> the smallest fix. Remove or narrow the Deny, send a context value, or add the missing Allow to each layer that refused, written out as JSON. <strong>Try this change</strong> applies it to your request and evaluates again.</li>
+            <li><strong>Allowed:</strong> what the decision depends on: the only statement that grants it, or the context keys that would deny it if they changed.</li>
+            <li><strong>Near misses:</strong> Allow statements that name the action but fail on the resource or a condition. Usually the typo.</li>
+          </ul>
           <h3>How AWS decides, in short</h3>
           <ol class="steps-list">
             <li><strong>Any explicit Deny wins.</strong> If any policy denies the request, it is denied.</li>
@@ -299,6 +331,19 @@
             <li><strong>Permissions boundaries and session policies</strong> can only narrow what identity policies allow.</li>
           </ol>
           <p>If nothing allows the request, it is denied by default. Requests across accounts need an Allow from both sides.</p>
+        </section>
+
+        <section class="dsec" id="d-whocan">
+          <h2>Who can</h2>
+          <div class="tldr"><b>Answers</b><span>Who in this account can do this action on this resource?</span><b>Use it when</b><span>reviewing access to something sensitive: a bucket, a key, an admin role.</span><b>You need</b><span>an account export loaded in Data input.</span></div>
+          <p>Enter an action and a resource. Every user and role in the export is evaluated with the same engine as Evaluate, and grouped:</p>
+          <ul>
+            <li><strong>Directly:</strong> their own policies allow it. The statements that grant it are listed.</li>
+            <li><strong>Through escalation:</strong> they can't do it themselves, but have a confirmed path to someone who can. These are the ones to look at first.</li>
+            <li><strong>Outside the export:</strong> principals the resource policy names that the export doesn't contain, such as another account or anyone (<code class="c">*</code>).</li>
+          </ul>
+          <p>The <strong>access graph</strong> above the lists shows every route to the resource: principals that must escalate on the left, with each hop labelled by its technique, then the principals with direct access, then the resource. Principals outside the export join on a dashed line. Select one to find it in the lists.</p>
+          <p>Paste the resource's own policy (a bucket or key policy) under the optional section to include it. SCPs and the resource inventory from Data input are used automatically.</p>
         </section>
 
         <section class="dsec" id="d-check">
@@ -355,6 +400,7 @@ iam-trace check policy.json   <span class="m"># the action list is included; cat
           <table class="dtable glass"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody>
             <tr><td><code class="c">iam-trace escalate</code></td><td>Attack paths for an account export (<code class="c">--auth-details</code>) or one policy (<code class="c">--policy</code>).</td></tr>
             <tr><td><code class="c">iam-trace inventory collect</code></td><td>Lists existing functions, instances and similar resources with their roles (read-only), for <code class="c">escalate --inventory</code>.</td></tr>
+            <tr><td><code class="c">iam-trace who-can</code></td><td>Every principal in an account export that can perform an action on a resource, directly or through escalation.</td></tr>
             <tr><td><code class="c">iam-trace check</code></td><td>Flags risky patterns in policy files or every policy in an account export, with a fix for each.</td></tr>
             <tr><td><code class="c">iam-trace can</code></td><td>Evaluates one request and prints the decision and trace.</td></tr>
             <tr><td><code class="c">iam-trace diff</code></td><td>Compares two policy files by what they allow.</td></tr>
