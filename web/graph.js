@@ -217,6 +217,12 @@ export class Graph {
     const bh = this.bounds.y1 - this.bounds.y0;
     this.view.s = Math.max(0.25, Math.min(this.maxScale, w / bw, h / bh));
     this.view.x = ins.l + this.pad + (w - bw * this.view.s) / 2 - this.bounds.x0 * this.view.s;
+    // On a phone, fitting everything makes cards unreadable. Keep them legible, start at the left
+    // (where the attacker is) and let the reader pan along the path.
+    if (r.width < 600 && this.interactive && this.view.s < 0.6) {
+      this.view.s = 0.6;
+      this.view.x = this.pad - this.bounds.x0 * this.view.s;
+    }
     this.view.y = ins.t + this.pad + (h - bh * this.view.s) / 2 - this.bounds.y0 * this.view.s;
     this.apply();
   }

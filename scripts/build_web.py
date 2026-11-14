@@ -70,7 +70,7 @@ def main() -> int:
     if DIST.exists():
         shutil.rmtree(DIST)
     DIST.mkdir(parents=True)
-    for name in ("index.html", "theme.js", "app.js", "graph.js", "examples.js", "style.css"):
+    for name in ("index.html", "theme.js", "app.js", "graph.js", "examples.js", "store.js", "style.css"):
         shutil.copy2(WEB / name, DIST / name)
     shutil.copytree(WEB / "fonts", DIST / "fonts")
     (DIST / "examples").mkdir()

@@ -10,6 +10,7 @@
 
 import { Graph, ICON, KIND_COLOR, KIND_NAME } from "./graph.js";
 import { EVALUATE_EXAMPLES, DIFF_EXAMPLE, ATTACK_POLICY_EXAMPLE, CHECK_EXAMPLE } from "./examples.js";
+import { store as dataStore } from "./store.js";
 
 const PYODIDE_URL = new URL(document.querySelector('meta[name="pyodide-url"]').content, location.href).href;
 const root = document.documentElement;
@@ -152,9 +153,16 @@ const VIEWS = {
   input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"],
   docs: ["Help", "Documentation"], changelog: ["Help", "Changelog"], settings: ["App", "Settings"],
 };
+let currentView = null;
 function go(view) {
   if (!VIEWS[view]) view = "overview";
+  const changed = view !== currentView;
+  currentView = view;
   document.querySelectorAll(".view").forEach((v) => v.classList.toggle("on", v.id === "v-" + view));
+  // A screen opens at its top, the way a new page would.
+  if (changed) $("v-" + view).scrollTop = 0;
+  closeSheet(false);
+  if (view === "settings") renderSaved();
   document.querySelectorAll(".nav-item[data-go]").forEach((n) => n.classList.toggle("on", n.dataset.go === view));
   $("crumb-group").textContent = VIEWS[view][0];
   $("crumb-view").textContent = VIEWS[view][1];
@@ -167,6 +175,38 @@ document.addEventListener("click", (e) => {
   if (b) go(b.dataset.go);
 });
 window.addEventListener("hashchange", () => go(location.hash.slice(1)));
+
+// ------------------------------------------------------------------------------------- result sheet
+
+// Results of Policy diff and Policy check open over the whole work area, so the editors keep
+// all the space while you write and the result gets all of it while you read.
+let sheetReturn = null;
+function openSheet(title, body, actions = "") {
+  const sheet = $("sheet");
+  $("sheet-title").textContent = title;
+  $("sheet-body").innerHTML = body;
+  $("sheet-actions").innerHTML = actions;
+  sheet.querySelector(".sheet-b").scrollTop = 0;
+  if (sheet.hidden) {
+    sheetReturn = document.activeElement;
+    sheet.hidden = false;
+    sheet.classList.remove("open");
+    void sheet.offsetWidth; // start the transition from the closed state
+    sheet.classList.add("open");
+  }
+  $("sheet-title").focus({ preventScroll: true });
+  applyWidths(sheet);
+}
+function closeSheet(restoreFocus = true) {
+  const sheet = $("sheet");
+  if (sheet.hidden) return;
+  sheet.classList.remove("open");
+  sheet.hidden = true;
+  if (restoreFocus && sheetReturn && document.contains(sheetReturn)) sheetReturn.focus();
+  sheetReturn = null;
+}
+$("sheet-back").addEventListener("click", () => closeSheet());
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("sheet").hidden) closeSheet(); });
 
 // ------------------------------------------------------------------------------------- engine
 
@@ -188,10 +228,11 @@ function reportLink(fields, label = "Report a wrong answer") {
 }
 const ready = [];
 
-function chip(id, state, text) {
-  const el = $(id);
-  el.querySelector("i").className = state;
-  el.querySelector("span").textContent = text;
+// The top bar says nothing once the engine is ready; it only speaks while starting or on failure.
+function engineStatus(state, text = "") {
+  const el = $("engine-status");
+  el.dataset.state = state;
+  el.textContent = text;
 }
 function call(fn, ...args) {
   return JSON.parse(api[fn](...args));
@@ -217,8 +258,7 @@ async function boot() {
   engineVersion = String(pyodide.pyimport("iamtrace").__version__);
   const summary = JSON.parse(api.catalog_summary());
   hasCatalog = Boolean(summary);
-  chip("engine-chip", "", "Engine ready");
-  chip("catalog-chip", hasCatalog ? "" : "off", hasCatalog ? `${summary.actions.toLocaleString()} actions` : "No action catalog");
+  engineStatus("ready");
   $("about-catalog").textContent = hasCatalog ? `${summary.actions.toLocaleString()} actions in ${summary.services} services` : "Not included in this build";
   $("ev-run").disabled = false;
   $("d-run").disabled = !hasCatalog;
@@ -233,8 +273,7 @@ function whenReady(f) {
   else ready.push(f);
 }
 boot().catch((e) => {
-  chip("engine-chip", "error", "Engine failed to start");
-  chip("catalog-chip", "off", "Catalog unavailable");
+  engineStatus("error", "The analysis engine could not start. Reload the page to try again.");
   overlay("");
   console.error(e);
   toast("The analysis engine could not start. Reload the page to try again.");
@@ -397,6 +436,7 @@ function inventoryOf(data) {
 }
 
 function validate() {
+  persist(input.src);
   const text = input[input.src].trim();
   const box = $("validation");
   if (input.src === "account") input.accountValid = false;
@@ -513,7 +553,7 @@ function renderPicker(list) {
     return `<button class="pick-item ${p === input.start ? "on" : ""}" data-arn="${esc(p)}"><div class="who" data-kind="${k}"><span class="wi">${ICON[k] || ICON.resource}</span><div><b>${esc(nameOf(p))}</b><small>${esc(short(p))}</small></div></div><span class="radio"></span></button>`;
   }).join("") + (shown.length > 300 ? `<p class="list-empty">${shown.length - 300} more. Refine the search.</p>` : "") + (!shown.length ? '<p class="list-empty">No principal matches.</p>' : "");
   $("pick").querySelectorAll(".who").forEach((w) => w.style.setProperty("--kind", KIND_COLOR[w.dataset.kind] || KIND_COLOR.resource));
-  $("pick").querySelectorAll(".pick-item").forEach((b) => b.addEventListener("click", () => { input.start = b.dataset.arn; renderPicker(list); updateRun(); }));
+  $("pick").querySelectorAll(".pick-item").forEach((b) => b.addEventListener("click", () => { input.start = b.dataset.arn; renderPicker(list); updateRun(); persist("account"); }));
 }
 $("pick-search").addEventListener("input", () => renderPicker(input.principals));
 
@@ -537,12 +577,13 @@ function updateRun() {
 }
 
 $("run").addEventListener("click", runAnalysis);
-async function runAnalysis() {
+let lastRun = null; // { src, blast } of the last successful analysis, saved so a refresh re-runs it
+async function runAnalysis({ restoring = false, src = input.src } = {}) {
   if (!api) return;
-  overlay(input.src === "policy" ? "Checking the policy" : "Analysing the account");
+  overlay(restoring ? "Restoring your last analysis" : src === "policy" ? "Checking the policy" : "Analysing the account");
   await nextFrame();
   try {
-    if (input.src === "policy") {
+    if (src === "policy") {
       const out = call("escalate", input.policy);
       if (out.error) throw new Error(out.error);
       setModel(fromPolicy(out));
@@ -551,7 +592,9 @@ async function runAnalysis() {
       if (out.error) throw new Error(out.error);
       setModel(fromAccount(out));
     }
-    go("overview");
+    lastRun = { src: src === "policy" ? "policy" : "account", blast: $("opt-blast").checked };
+    persist("analysis");
+    if (!restoring) go("overview");
   } catch (e) {
     toast("The analysis failed");
     $("validation").insertAdjacentHTML("beforeend", `<div class="err">${IC.x}<div>${esc(sentence(e.message))}</div></div>`);
@@ -628,6 +671,18 @@ const CATEGORY = {
   "self-escalation": "Grant itself more permissions",
 };
 
+// A path as a vertical list of steps: principal, the technique that leads on, the next principal.
+function stepsHtml(path) {
+  const rows = [`<li class="sv-node mono">${esc(short(path.start))}</li>`];
+  for (const s of path.steps) {
+    rows.push(`<li class="sv-edge"><span class="mono">${esc(s.technique)}</span> ${esc(s.name || "")}</li>`);
+    rows.push(`<li class="sv-node mono">${esc(short(s.to))}</li>`);
+  }
+  return `<ol class="steps-v">${rows.join("")}</ol>`;
+}
+function pathItem(p, i, meta = "") {
+  return `<button class="path-item" data-path="${i}" aria-pressed="false"><span class="ph"><b>${esc(nameOf(p.start))} to ${esc(nameOf(p.end))}</b><span class="tag crit">${plural(p.steps.length, "step")}</span></span>${stepsHtml(p)}${meta ? `<span class="pmeta">${meta}</span>` : ""}</button>`;
+}
 function chainHtml(path) {
   const parts = [`<span class="st">${esc(short(path.start))}</span>`];
   for (const s of path.steps) parts.push(`<span class="via">${IC.arrow}${esc(s.technique)}</span><span class="st">${esc(short(s.to))}</span>`);
@@ -729,8 +784,7 @@ function renderOverview() {
   ].join("");
 
   const pathItems = startPaths.length
-    ? startPaths.slice(0, 6).map((p, i) => `<div class="path-item" data-path="${m.report.paths.indexOf(p)}"><div class="ph"><b>${esc(nameOf(p.start))} to ${esc(nameOf(p.end))}</b><span class="tag crit">${plural(p.steps.length, "step")}</span></div>
-        <div class="chain">${chainHtml(p)}</div><div class="pmeta"><span>${esc(sentence(p.why))}</span></div></div>`).join("")
+    ? startPaths.slice(0, 6).map((p) => pathItem(p, m.report.paths.indexOf(p), esc(sentence(p.why)))).join("")
     : `<p class="list-empty">No path to admin from ${who}.${possible.length ? " Possible techniques are listed in Findings." : ""}</p>`;
 
   const fixHtml = fixes.length
@@ -801,8 +855,8 @@ function principalRow(p) {
   const [status] = statusOf(p);
   const k = kindOf(p.arn);
   return `<tr><td><div class="who" data-kind="${k}"><span class="wi">${ICON[k] || ICON.resource}</span><div><b>${esc(nameOf(p.arn))}</b><small>${esc(short(p.arn))}</small></div></div></td>
-    <td>${status}</td><td>${p.admin_equivalent ? '<span class="t-faint">Is admin</span>' : p.path ? `${plural(p.path.steps.length, "step")}: <span class="mono">${p.path.steps.map((s) => esc(s.technique)).join(", ")}</span>` : '<span class="t-faint">None</span>'}</td>
-    <td>${p.confirmed}</td><td>${p.possible}</td><td>${p.policies ?? "-"}</td></tr>`;
+    <td data-label="Status">${status}</td><td data-label="Shortest path to admin">${p.admin_equivalent ? '<span class="t-faint">Is admin</span>' : p.path ? `${plural(p.path.steps.length, "step")}: <span class="mono">${p.path.steps.map((s) => esc(s.technique)).join(", ")}</span>` : '<span class="t-faint">None</span>'}</td>
+    <td data-label="Confirmed">${p.confirmed}</td><td data-label="Possible">${p.possible}</td><td data-label="Policies">${p.policies ?? "-"}</td></tr>`;
 }
 function hydrateWho(el) {
   el.querySelectorAll(".who[data-kind], .d-head[data-kind]").forEach((w) => w.style.setProperty("--kind", KIND_COLOR[w.dataset.kind] || KIND_COLOR.resource));
@@ -854,8 +908,7 @@ let selectedLabel = null;
 const main = new Graph($("gsurface"), $("gworld"), {
   pad: 40,
   maxScale: 1.05,
-  // Keep the graph clear of the paths panel on wide screens; on phones the panel overlays it.
-  insets: () => ({ l: $("g-paths-panel").classList.contains("closed") || window.innerWidth < 860 ? 0 : 320, r: 0, t: 50, b: 50 }),
+  insets: () => ({ l: 0, r: 0, t: 56, b: 56 }),
   onSelect: (n) => showNode(n),
   onEdge: (e, el) => showEdge(e, el),
 });
@@ -863,31 +916,49 @@ let preview = null;
 const graphs = [main];
 
 function renderGraphView() {
-  if (!model) return;
+  if (!model) {
+    main.setData(null);
+    $("g-summary").className = "";
+    $("g-summary").textContent = "No analysis yet. Load an account export in Data input, or try the example account from the Overview.";
+    $("g-paths").innerHTML = "";
+    return;
+  }
   const m = model;
   main.setData(graphData(m));
   const startPaths = m.report.paths.map((p, i) => [p, i]).filter(([p]) => p.start === m.start);
-  $("g-head").innerHTML = startPaths.length
-    ? `<span class="verdict-pill"><span class="dot">${IC.warn}</span><b>${plural(startPaths.length, "path")} to admin</b><span class="muted">from ${esc(short(m.start))}, shortest ${plural(Math.min(...startPaths.map(([p]) => p.steps.length)), "step")}</span></span>`
-    : `<span class="verdict-pill ok-pill"><span class="dot">${IC.ok}</span><b>No path to admin</b><span class="muted">from ${esc(short(m.start))}</span></span>`;
-  $("g-paths").innerHTML = startPaths.length
-    ? startPaths.map(([p, i]) => `<div class="path-item" data-path="${i}"><div class="ph"><b>${esc(nameOf(p.start))} to ${esc(nameOf(p.end))}</b><span class="tag crit">${plural(p.steps.length, "step")}</span></div><div class="chain">${chainHtml(p)}</div></div>`).join("")
-    : '<p class="list-empty">No path to admin. Possible techniques, if any, are drawn as dashed lines.</p>';
+  const shortest = startPaths.length ? Math.min(...startPaths.map(([p]) => p.steps.length)) : 0;
+  const sum = $("g-summary");
+  sum.className = startPaths.length ? "risk" : "safe";
+  sum.innerHTML = startPaths.length
+    ? `<b>${plural(startPaths.length, "path")}</b> from ${esc(short(m.start))}, the shortest in ${plural(shortest, "step")}. Select one to show only that path.`
+    : `<b>No path</b> from ${esc(short(m.start))}. Possible techniques, if any, are drawn as dashed lines.`;
+  $("g-paths").innerHTML = startPaths.map(([p, i]) => pathItem(p, i)).join("");
   $("g-paths").querySelectorAll(".path-item").forEach((el) => el.addEventListener("click", () => focusPath(Number(el.dataset.path))));
-  if (window.innerWidth < 860) $("g-paths-panel").classList.add("closed");
+  setPathsPanel(window.innerWidth >= 860);
   closeDetails();
 }
 function focusPath(i) {
   main.focus = main.focus === i ? null : i;
   main.render();
-  $("g-paths").querySelectorAll(".path-item").forEach((el) => el.classList.toggle("on", Number(el.dataset.path) === main.focus));
+  $("g-paths").querySelectorAll(".path-item").forEach((el) => {
+    const on = Number(el.dataset.path) === main.focus;
+    el.classList.toggle("on", on);
+    el.setAttribute("aria-pressed", String(on));
+  });
+  if (window.innerWidth < 860) setPathsPanel(false); // on phones, get out of the way of the graph
 }
 $("f-poss").addEventListener("change", (e) => { main.hidePossible = !e.target.checked; main.render(); });
 $("z-in").addEventListener("click", () => main.zoom(1.2));
 $("z-out").addEventListener("click", () => main.zoom(1 / 1.2));
 $("z-fit").addEventListener("click", () => main.fit());
-$("g-hide-paths").addEventListener("click", () => { $("g-paths-panel").classList.add("closed"); main.fit(); });
-$("g-show-paths").addEventListener("click", () => { $("g-paths-panel").classList.remove("closed"); main.fit(); });
+// The panel is a column beside the graph on wide screens and slides over it on phones.
+function setPathsPanel(open) {
+  $("gview").classList.toggle("paths-closed", !open);
+  $("g-paths-panel").setAttribute("aria-hidden", String(!open));
+  if (open && window.innerWidth >= 860) setTimeout(() => main.fit(), 260); // after the column animates
+}
+$("g-hide-paths").addEventListener("click", () => { setPathsPanel(false); $("g-show-paths").focus(); });
+$("g-show-paths").addEventListener("click", () => setPathsPanel(true));
 $("g-export").addEventListener("click", () => {
   if (!model) return toast("Run an analysis first");
   download(`iam-trace-${nameOf(model.start)}.json`, JSON.stringify(model.report, null, 2));
@@ -983,7 +1054,7 @@ function drawFindings(rows) {
   const body = $("find-body");
   if (findState.filter === "principals") {
     const list = model.principals.filter((p) => !q || p.arn.toLowerCase().includes(q));
-    body.innerHTML = `<div class="ptable-wrap"><table><thead><tr><th>Principal</th><th>Status</th><th>Shortest path to admin</th><th>Confirmed</th><th>Possible</th><th>Policies</th></tr></thead><tbody>${list.slice(0, findState.limit).map(principalRow).join("")}</tbody></table></div>`;
+    body.innerHTML = `<div class="ptable-wrap"><table class="stack"><thead><tr><th>Principal</th><th>Status</th><th>Shortest path to admin</th><th>Confirmed</th><th>Possible</th><th>Policies</th></tr></thead><tbody>${list.slice(0, findState.limit).map(principalRow).join("")}</tbody></table></div>`;
     $("find-count").textContent = plural(list.length, "principal");
   } else {
     const list = rows.filter((r) => (findState.filter === "all" || r.t.confidence === findState.filter) &&
@@ -991,13 +1062,13 @@ function drawFindings(rows) {
       .sort((a, b) => (a.t.confidence === "confirmed" ? 0 : 1) - (b.t.confidence === "confirmed" ? 0 : 1) || a.p.arn.localeCompare(b.p.arn));
     const k = (arn) => kindOf(arn);
     body.innerHTML = list.length
-      ? `<div class="ptable-wrap"><table><thead><tr><th>Confidence</th><th>Technique</th><th>Principal</th><th>Leads to</th><th>Permissions</th><th>Reference</th></tr></thead><tbody>${list.slice(0, findState.limit).map(({ p, t }) => `<tr>
+      ? `<div class="ptable-wrap"><table class="stack"><thead><tr><th>Confidence</th><th>Technique</th><th>Principal</th><th>Leads to</th><th>Permissions</th><th>Reference</th></tr></thead><tbody>${list.slice(0, findState.limit).map(({ p, t }) => `<tr>
           <td><span class="sev ${t.confidence === "confirmed" ? "c-crit" : "c-warn"}"><i></i>${t.confidence === "confirmed" ? "Confirmed" : "Possible"}</span></td>
-          <td><b class="mono">${esc(t.id)}</b><div class="cat-note">${esc(CATEGORY[t.category] || t.category)}</div></td>
+          <td data-label="Technique"><b class="mono">${esc(t.id)}</b><div class="cat-note">${esc(CATEGORY[t.category] || t.category)}</div></td>
           <td><div class="who" data-kind="${k(p.arn)}"><span class="wi">${ICON[k(p.arn)] || ICON.resource}</span><div><b>${esc(nameOf(p.arn))}</b><small>${esc(short(p.arn))}</small></div></div></td>
-          <td class="td-mono">${t.targets.map((x) => esc(short(x))).join("<br>")}${t.via ? `<div class="t-muted">through ${t.via.map((x) => esc(short(x))).join(", ")}</div>` : ""}</td>
-          <td class="td-mono">${t.permissions.map(esc).join("<br>")}</td>
-          <td><a href="${esc(t.source?.pathfinding || "#")}" target="_blank" rel="noopener">pathfinding.cloud</a></td></tr>`).join("")}</tbody></table></div>`
+          <td class="td-mono" data-label="Leads to">${t.targets.map((x) => esc(short(x))).join("<br>")}${t.via ? `<div class="t-muted">through ${t.via.map((x) => esc(short(x))).join(", ")}</div>` : ""}</td>
+          <td class="td-mono" data-label="Permissions">${t.permissions.map(esc).join("<br>")}</td>
+          <td data-label="Reference"><a href="${esc(t.source?.pathfinding || "#")}" target="_blank" rel="noopener">pathfinding.cloud</a></td></tr>`).join("")}</tbody></table></div>`
       : '<p class="list-empty">Nothing matches.</p>';
     $("find-count").textContent = plural(list.length, "finding");
     if (list.length > findState.limit) body.insertAdjacentHTML("beforeend", `<div class="more"><button class="btn" id="find-more">Show ${Math.min(100, list.length - findState.limit)} more</button></div>`);
@@ -1080,7 +1151,7 @@ function loadEvExample(ex) {
   renderEvPolicies();
   $("ev-result").innerHTML = `<div class="glass empty-state"><span class="es-ic">${IC.info}</span><h2>Ready to evaluate</h2><p>Press Evaluate to see the decision, every step AWS checks, and the statement that decided it.</p></div>`;
 }
-$("ev-clear").addEventListener("click", () => { for (const [k] of POLICY_TYPES) evPolicies[k] = ""; evOpen.clear(); renderEvPolicies(); });
+$("ev-clear").addEventListener("click", () => { for (const [k] of POLICY_TYPES) evPolicies[k] = ""; evOpen.clear(); renderEvPolicies(); edited.evaluate = true; persist("evaluate"); });
 $("ev-run").addEventListener("click", () => {
   const req = {
     principal: $("ev-principal").value, action: $("ev-action").value, resource: $("ev-resource").value,
@@ -1158,9 +1229,8 @@ const KINDS = [["newly_allowed", "Newly allowed", "crit"], ["deny_removed", "Den
 const LEVELS = ["Permissions management", "Write", "Tagging", "Read", "List", "Unknown"];
 $("d-run").addEventListener("click", () => {
   const out = call("diff", $("d-old").value, $("d-new").value);
-  const el = $("d-result");
   if (out.error) {
-    el.innerHTML = `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not compare</h2><p>${esc(sentence(out.error))}</p></div></div>`;
+    openSheet("Could not compare", `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not compare</h2><p>${esc(sentence(out.error))}</p></div></div>`);
     return;
   }
   const d = out.result;
@@ -1178,11 +1248,10 @@ $("d-run").addEventListener("click", () => {
   const rows = KINDS.filter(([k]) => n[k]).flatMap(([k, label, tone]) => [`<tr class="group-row g-${tone}"><td colspan="4">${label} (${n[k]})</td></tr>`,
     ...d.changes[k].map((e) => `<tr><td class="td-mono td-nowrap">${esc(e.action)}${e.highlight && k === "newly_allowed" ? `<span class="tag crit sens">Sensitive</span><span class="why-sens">${esc(sentence(e.highlight_reason))}</span>` : ""}</td><td>${esc(e.access_level)}</td>
       <td class="td-mono td-break">${e.resources.map(esc).join("<br>")}${e.principals && e.principals.length ? `<div class="t-muted">for ${e.principals.map(esc).join(", ")}</div>` : ""}</td><td class="td-mono">${e.conditions && Object.keys(e.conditions).length ? esc(JSON.stringify(e.conditions)) : '<span class="t-faint">None</span>'}</td></tr>`)]).join("");
-  el.innerHTML = `<div class="verdict glass ${v[0]}"><span class="vb">${v[1]}</span><div><h2>${v[2]}</h2><p>${v[3]}</p></div></div>
+  openSheet("Policy diff", `<div class="verdict glass ${v[0]}"><span class="vb">${v[1]}</span><div><h2>${v[2]}</h2><p>${v[3]}</p></div></div>
     <div class="kpis">${kp}</div>${d.unchanged ? "" : `<div class="grid-2"><div class="glass"><div class="card-h"><h3>Every change</h3><span class="sub">Grouped by kind, then access level</span></div>
-      <table><thead><tr><th>Action</th><th>Access level</th><th>Resources</th><th>Condition</th></tr></thead><tbody>${rows}</tbody></table></div>
-      <div class="glass"><div class="card-h"><h3>By access level</h3></div><div class="card-b bars">${bars}</div></div></div>`}`;
-  applyWidths(el);
+      <div class="table-scroll"><table class="rtable"><thead><tr><th>Action</th><th>Access level</th><th>Resources</th><th>Condition</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+      <div class="glass"><div class="card-h"><h3>By access level</h3></div><div class="card-b bars">${bars}</div></div></div>`}`);
 });
 
 // ------------------------------------------------------------------------------------- policy check
@@ -1212,11 +1281,13 @@ function pcList() {
     if (i < 0) pc.account = false;
     else pc.files.splice(i, 1);
     pcList();
+    persist("check");
   }));
 }
 async function pcAddFiles(list) {
   for (const f of list) pc.files.push({ name: f.name, text: await f.text() });
   pcList();
+  persist("check");
   toast(`${plural(list.length, "file")} added`);
 }
 $("pc-choose").addEventListener("click", () => $("pc-files").click());
@@ -1225,21 +1296,21 @@ const pcDrop = $("pc-drop");
 pcDrop.addEventListener("dragover", (e) => { e.preventDefault(); pcDrop.classList.add("over"); });
 pcDrop.addEventListener("dragleave", () => pcDrop.classList.remove("over"));
 pcDrop.addEventListener("drop", (e) => { e.preventDefault(); pcDrop.classList.remove("over"); pcAddFiles([...e.dataTransfer.files]); });
-$("pc-clear-files").addEventListener("click", () => { pc.files = []; pc.account = false; pcList(); });
-$("pc-example").addEventListener("click", () => { $("pc-text").value = JSON.stringify(CHECK_EXAMPLE, null, 2); drawPc(); whenReady(runCheck); });
+$("pc-clear-files").addEventListener("click", () => { pc.files = []; pc.account = false; pcList(); persist("check"); });
+$("pc-example").addEventListener("click", () => { $("pc-text").value = JSON.stringify(CHECK_EXAMPLE, null, 2); drawPc(); persist("check"); whenReady(runCheck); });
 $("pc-account").addEventListener("click", () => { pc.account = true; pcList(); whenReady(runCheck); });
 $("pc-run").addEventListener("click", runCheck);
 
 function runCheck() {
   const docs = pcDocs();
-  const el = $("pc-result");
   if (!docs.length) {
-    el.innerHTML = `<div class="verdict glass v-neutral"><span class="vb">${IC.info}</span><div><h2>Nothing to check</h2><p>Paste a policy, drop files or use Load example.</p></div></div>`;
+    toast("Paste a policy, drop files or use Load example first");
+    $("pc-text").focus();
     return;
   }
   const out = call("check", JSON.stringify(docs), $("pc-aws").checked);
   if (out.error) {
-    el.innerHTML = `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not check</h2><p>${esc(sentence(out.error))}</p></div></div>`;
+    openSheet("Could not check", `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not check</h2><p>${esc(sentence(out.error))}</p></div></div>`);
     return;
   }
   pc.report = out;
@@ -1280,11 +1351,12 @@ function drawCheck() {
     const items = r.findings.filter((f) => f.severity === k);
     return items.length ? `<section class="pc-group s-${SEV[k][0]}"><h2>${SEV[k][1]} severity <span>${items.length}</span></h2>${items.map(card).join("")}</section>` : "";
   }).join("");
-  const el = $("pc-result");
-  el.innerHTML = `<div class="verdict glass ${v[0]}"><span class="vb">${v[1]}</span><div><h2>${v[2]}</h2><p>${v[3]}</p></div></div>
+  const actions = total ? '<button class="btn" id="pc-dl-text">Text</button><button class="btn" id="pc-dl-sarif">SARIF</button><button class="btn" id="pc-dl-json">JSON</button>' : "";
+  openSheet("Policy check", `<div class="verdict glass ${v[0]}"><span class="vb">${v[1]}</span><div><h2>${v[2]}</h2><p>${v[3]}</p></div></div>
     <div class="kpis">${kp}</div>
-    ${total ? `<div class="table-tools pc-tools"><div class="seg-chips">${chips}</div><div class="right"><button class="btn" id="pc-dl-text">Download text</button><button class="btn" id="pc-dl-sarif">Download SARIF</button><button class="btn" id="pc-dl-json">Download JSON</button></div></div>
-    <div class="pc-cards">${groups || '<p class="list-empty">Nothing at this severity.</p>'}</div>` : ""}`;
+    ${total ? `<div class="pc-tools"><div class="seg-chips" role="group" aria-label="Filter by severity">${chips}</div></div>
+    <div class="pc-cards">${groups || '<p class="list-empty">Nothing at this severity.</p>'}</div>` : ""}`, actions);
+  const el = $("sheet-body");
   el.querySelectorAll(".chipf").forEach((c) => c.addEventListener("click", () => { pc.filter = c.dataset.f; drawCheck(); }));
   $("pc-dl-text")?.addEventListener("click", () => download("iam-trace-check.txt", text, "text/plain"));
   $("pc-dl-sarif")?.addEventListener("click", () => download("iam-trace-check.sarif", sarif));
@@ -1295,7 +1367,8 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Policy check</b>: a new screen and <code class='c'>iam-trace check</code> flag 14 risky patterns (full admin, iam:PassRole on any role, NotAction, public principals, a typo in a Deny and more), each with why it matters and how to fix it.",
+    ["Added", ["<b>Saved in your browser</b>: your data and last analysis come back after a refresh. Settings lists what is saved and deletes any of it.",
+      "<b>Policy check</b>: a new screen and <code class='c'>iam-trace check</code> flag 14 risky patterns (full admin, iam:PassRole on any role, NotAction, public principals, a typo in a Deny and more), each with why it matters and how to fix it.",
       "<b>Resource inventory</b>: <code class='c'>iam-trace inventory collect</code> (read-only) and a new Data input tab. Techniques that take over an existing Lambda function, EC2 instance or similar are confirmed with the exact resource, or ruled out.",
       "Report-a-wrong-answer links on Evaluate results, graph findings and Policy check findings. Account IDs are replaced before the issue opens.",
       "A complete web app: an Overview dashboard with the verdict, metrics, paths to admin, recommended fixes and principals at risk.",
@@ -1305,7 +1378,9 @@ const CHANGES = [
       "Settings: light, dark or system mode; bold, restrained or brand-colour style; graph node style.",
       "Marked as beta, with an honest comparison to pathfinding.cloud, PMapper, Cloudsplaining and iam-lens, and a public roadmap (ROADMAP.md).",
       "<code class='c'>web_api.analyze_account</code>: one call returns the analysis from a starting principal, a summary of every principal, and supports SCPs."]],
-    ["Changed", ["Renamed from IAM Lens to iam-trace. Install <code class='c'>iam-trace</code>, import <code class='c'>iamtrace</code>, catalog variable <code class='c'>IAMTRACE_CATALOG</code>.",
+    ["Changed", ["<b>Design review</b>: flat surfaces instead of glows and frosted glass (smoother scrolling too), type that scales with the window, and layouts for phones, tablets and wide screens.",
+      "Policy diff and Policy check fill the screen and open their results in a full-screen sheet. The attack graph's paths panel is a docked column with each path as a list of steps.",
+      "Renamed from IAM Lens to iam-trace. Install <code class='c'>iam-trace</code>, import <code class='c'>iamtrace</code>, catalog variable <code class='c'>IAMTRACE_CATALOG</code>.",
       "Escalation analysis skips techniques a principal cannot allow before evaluating them fully. Same results; 400 principals in 3 s instead of 24 s."]],
     ["Security", ["Wildcard matching runs in linear time. A crafted pattern could previously stall a CI job for minutes.",
       "Malformed input gives a clear error instead of crashing. Added a fuzz suite.",
@@ -1326,12 +1401,17 @@ const CHANGES = [
 ];
 const CT = { Added: "c-ok", Changed: "c-acc", Security: "c-crit", Fixed: "c-warn" };
 function renderChangelog(filter) {
-  $("timeline").innerHTML = CHANGES.map((r, i) => {
+  $("timeline").innerHTML = CHANGES.map((r) => {
     const groups = r.groups.filter(([t]) => filter === "all" || t === filter);
     if (!groups.length) return "";
-    return `<div class="rel glass ${i ? "muted-dot" : ""}"><div class="rel-h"><h2>${r.v}</h2><span class="tag ${r.status[0]}">${r.status[1]}</span><span class="date">${r.date}</span></div>
-      <p class="rel-sum">${r.sum}</p>${groups.map(([t, items]) => `<div class="rel-group"><span class="ctype ${CT[t]}">${t}</span><ul>${items.map((x) => `<li>${x}</li>`).join("")}</ul></div>`).join("")}</div>`;
-  }).join("");
+    return `<section class="rel" id="rel-${r.v}"><div class="rel-h"><h2>${r.v}</h2><span class="tag ${r.status[0]}">${r.status[1]}</span><span class="date">${r.date}</span></div>
+      <p class="rel-sum">${r.sum}</p>${groups.map(([t, items]) => `<div class="rel-group"><h3 class="ctype ${CT[t]}">${t}</h3><ul>${items.map((x) => `<li>${x}</li>`).join("")}</ul></div>`).join("")}</section>`;
+  }).join("") || '<p class="list-empty">No changes of this kind yet.</p>';
+  $("cl-versions").innerHTML = CHANGES.map((r) => `<a href="#rel-${r.v}" data-rel="${r.v}"><b class="mono">${r.v}</b><span>${r.date}</span></a>`).join("");
+  $("cl-versions").querySelectorAll("a").forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault();
+    $(`rel-${a.dataset.rel}`)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  }));
 }
 document.querySelectorAll("#cl-filters .chipf").forEach((c) => c.addEventListener("click", () => {
   document.querySelectorAll("#cl-filters .chipf").forEach((x) => x.classList.toggle("on", x === c));
@@ -1355,6 +1435,215 @@ docsView.addEventListener("scroll", () => {
 document.querySelectorAll(".codeblock .copy").forEach((b) => b.addEventListener("click", () => copy(b.closest(".codeblock").querySelector("pre").innerText)));
 document.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", () => copy(b.dataset.copy)));
 
+// ------------------------------------------------------------------------------------- saved data
+
+// Everything you load or type is saved in this browser (IndexedDB) and restored after a refresh,
+// unless you turn saving off in Settings. Each entry knows how to read itself from the page, put
+// itself back, and clear itself. Evaluate and Policy diff open with examples, so they are only
+// saved once you edit them.
+const edited = { evaluate: false, diff: false };
+const SAVED = {
+  account: {
+    label: "Account export", where: "input",
+    read: () => (input.account.trim() ? { text: input.account, file: input.file && { ...input.file, when: +input.file.when }, example: input.example, start: input.start } : null),
+    apply: (v) => { input.account = v.text; input.file = v.file ? { ...v.file, when: new Date(v.file.when) } : null; input.example = Boolean(v.example); input.start = v.start || ""; },
+    clear: () => { input.account = ""; input.file = null; input.example = false; input.start = ""; input.principals = []; input.accountValid = false; },
+  },
+  policy: { label: "Single policy", where: "input", read: () => input.policy.trim() || null, apply: (v) => { input.policy = v; }, clear: () => { input.policy = ""; } },
+  scp: { label: "Organization SCPs", where: "input", read: () => input.scp.trim() || null, apply: (v) => { input.scp = v; }, clear: () => { input.scp = ""; } },
+  inv: { label: "Resource inventory", where: "input", read: () => input.inv.trim() || null, apply: (v) => { input.inv = v; }, clear: () => { input.inv = ""; } },
+  analysis: {
+    label: "Last analysis", where: "overview", detail: (v) => `re-run from ${v.src === "policy" ? "the single policy" : "the account export"} when the page opens`,
+    read: () => lastRun, apply: (v) => { lastRun = v; $("opt-blast").checked = Boolean(v.blast); }, clear: () => { lastRun = null; },
+  },
+  evaluate: {
+    label: "Evaluate a request", where: "evaluate",
+    read: () => (edited.evaluate ? { principal: $("ev-principal").value, action: $("ev-action").value, resource: $("ev-resource").value, account: $("ev-account").value, context: $("ev-context").value, policies: { ...evPolicies } } : null),
+    apply: (v) => {
+      edited.evaluate = true;
+      $("ev-principal").value = v.principal; $("ev-action").value = v.action; $("ev-resource").value = v.resource;
+      $("ev-account").value = v.account; $("ev-context").value = v.context;
+      for (const [k] of POLICY_TYPES) evPolicies[k] = v.policies[k] || "";
+      renderEvPolicies();
+    },
+    clear: () => { edited.evaluate = false; loadEvExample(EVALUATE_EXAMPLES[0]); },
+  },
+  diff: {
+    label: "Policy diff", where: "diff",
+    read: () => (edited.diff ? { old: $("d-old").value, new: $("d-new").value } : null),
+    apply: (v) => { edited.diff = true; $("d-old").value = v.old; $("d-new").value = v.new; drawOld(); drawNew(); },
+    clear: () => { edited.diff = false; $("d-old").value = JSON.stringify(DIFF_EXAMPLE.before, null, 2); $("d-new").value = JSON.stringify(DIFF_EXAMPLE.after, null, 2); drawOld(); drawNew(); },
+  },
+  check: {
+    label: "Policy check", where: "check",
+    read: () => ($("pc-text").value.trim() || pc.files.length ? { text: $("pc-text").value, files: pc.files, aws: $("pc-aws").checked } : null),
+    apply: (v) => { $("pc-text").value = v.text; pc.files = v.files || []; $("pc-aws").checked = Boolean(v.aws); drawPc(); pcList(); },
+    clear: () => { $("pc-text").value = ""; pc.files = []; pc.account = false; drawPc(); pcList(); },
+  },
+};
+const saving = {
+  on: (() => { try { return localStorage.getItem("iam-trace-save") !== "off"; } catch { return true; } })(),
+  available: true, failed: false, warned: false, timers: new Map(),
+  ready: false, // nothing is written until saved data has been read back, or startup would erase it
+};
+function hasData() {
+  return Object.values(SAVED).some((s) => s.read() != null);
+}
+function unsaved() {
+  return hasData() && (!saving.on || !saving.available || saving.failed || saving.timers.size > 0);
+}
+function persist(key) {
+  if (!saving.ready) return;
+  if (!saving.on || !saving.available) { refreshSaveStatus(); return; }
+  clearTimeout(saving.timers.get(key));
+  saving.timers.set(key, setTimeout(async () => {
+    const value = SAVED[key].read();
+    try {
+      if (value == null) await dataStore.del(key);
+      else await dataStore.set(key, value);
+      saving.failed = false;
+    } catch (e) {
+      saving.failed = true;
+      if (!saving.warned) {
+        saving.warned = true;
+        toast("This browser refused to save your data. It will be lost when you close the tab.");
+      }
+      console.warn("iam-trace: could not save", key, e);
+    }
+    saving.timers.delete(key);
+    refreshSaveStatus();
+    if (currentView === "settings") renderSaved();
+  }, 400));
+  refreshSaveStatus();
+}
+const SAVE_IC = {
+  ok: '<svg class="i" viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg>',
+  warn: '<svg class="i" viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg>',
+};
+function refreshSaveStatus() {
+  const el = $("save-status");
+  el.hidden = !hasData();
+  let state = "ok";
+  let text = "Saved in this browser";
+  let title = "Your data is saved in this browser only and comes back after a refresh. Manage it in Settings.";
+  if (!saving.on) [state, text, title] = ["off", "Not saved", "Saving is turned off in Settings. Your data is lost when you close or refresh this tab."];
+  else if (!saving.available || saving.failed) [state, text, title] = ["error", "Not saved", "This browser is not letting iam-trace save (private browsing or storage full). Your data is lost when you close or refresh this tab."];
+  else if (saving.timers.size) [state, text] = ["saving", "Saving"];
+  el.dataset.state = state;
+  el.title = title;
+  el.innerHTML = `${state === "ok" || state === "saving" ? SAVE_IC.ok : SAVE_IC.warn}<span>${text}</span>`;
+}
+// Leaving with data that is not saved asks first; the browser shows its own wording.
+window.addEventListener("beforeunload", (e) => {
+  if (unsaved()) {
+    e.preventDefault();
+    e.returnValue = "";
+  }
+});
+$("save-status").addEventListener("click", () => setTimeout(() => $("saved-data")?.scrollIntoView({ block: "start" }), 0));
+
+// Edits save themselves.
+$("editor").addEventListener("input", () => persist(input.src));
+$("opt-blast").addEventListener("change", () => { if (lastRun) persist("analysis"); });
+$("v-evaluate").addEventListener("input", () => { edited.evaluate = true; persist("evaluate"); });
+$("ev-scenario")?.addEventListener("change", () => { edited.evaluate = true; persist("evaluate"); });
+$("v-diff").addEventListener("input", () => { edited.diff = true; persist("diff"); });
+$("d-swap").addEventListener("click", () => { edited.diff = true; persist("diff"); });
+$("v-check").addEventListener("input", () => persist("check"));
+$("v-check").addEventListener("change", () => persist("check"));
+
+function clearModel() {
+  model = null;
+  $("scope-text").textContent = "No account loaded";
+  $("nav-paths").hidden = true;
+  $("nav-findings").hidden = true;
+  renderOverview();
+  renderGraphView();
+  renderFindings();
+}
+async function deleteSaved(key) {
+  SAVED[key].clear();
+  if (key === "account" || key === "analysis") {
+    if (key === "account") { SAVED.analysis.clear(); await dataStore.del("analysis").catch(() => {}); }
+    clearModel();
+  }
+  if (SAVED[key].where === "input") setSource(input.src);
+  await dataStore.del(key).catch(() => {});
+  refreshSaveStatus();
+  renderSaved();
+}
+let confirmAll = false;
+async function renderSaved() {
+  const list = $("saved-list");
+  if (!list) return;
+  $("save-on").checked = saving.on;
+  let entries = [];
+  if (saving.available) entries = await dataStore.all().catch(() => []);
+  const byKey = new Map(entries.map((e) => [e.key, e]));
+  const rows = Object.entries(SAVED).filter(([k]) => byKey.has(k)).map(([k, s]) => {
+    const e = byKey.get(k);
+    const detail = s.detail ? s.detail(e.value) : bytes(e.bytes);
+    return `<div class="saved-row"><div><b>${esc(s.label)}</b><span>${esc(detail)}, saved ${esc(new Date(e.savedAt).toLocaleString())}</span></div>
+      <button class="btn" data-del="${k}" aria-label="Delete saved ${esc(s.label)}">Delete</button></div>`;
+  });
+  let note = "";
+  if (!saving.available) note = '<p class="saved-note warn">This browser is not letting iam-trace save (private browsing, or storage turned off). Your data lasts until you close the tab.</p>';
+  else if (!saving.on) note = '<p class="saved-note warn">Saving is off. Nothing new is saved, and you are asked before leaving with unsaved work.</p>';
+  list.innerHTML = note + (rows.length ? rows.join("") : '<p class="saved-note">Nothing is saved yet. What you load or type appears here.</p>');
+  list.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => deleteSaved(b.dataset.del)));
+  const all = $("delete-all");
+  all.disabled = !rows.length;
+  confirmAll = false;
+  all.textContent = "Delete all saved data";
+}
+$("save-on").addEventListener("change", async (e) => {
+  saving.on = e.target.checked;
+  try { localStorage.setItem("iam-trace-save", saving.on ? "on" : "off"); } catch { /* the choice still applies to this tab */ }
+  if (!saving.on) await dataStore.clear().catch(() => {});
+  else for (const k of Object.keys(SAVED)) persist(k);
+  refreshSaveStatus();
+  renderSaved();
+});
+// Two clicks, so a single misclick cannot wipe everything. No browser dialog.
+$("delete-all").addEventListener("click", async () => {
+  const b = $("delete-all");
+  if (!confirmAll) {
+    confirmAll = true;
+    b.textContent = "Click again to delete everything";
+    b.classList.add("danger");
+    setTimeout(() => { if (confirmAll) { confirmAll = false; b.textContent = "Delete all saved data"; b.classList.remove("danger"); } }, 4000);
+    return;
+  }
+  b.classList.remove("danger");
+  for (const k of Object.keys(SAVED)) SAVED[k].clear();
+  await dataStore.clear().catch(() => {});
+  clearModel();
+  setSource("account");
+  refreshSaveStatus();
+  renderSaved();
+  toast("All saved data deleted");
+});
+
+async function restoreSaved() {
+  saving.available = await dataStore.available();
+  if (!saving.available || !saving.on) { saving.ready = true; refreshSaveStatus(); return; }
+  let entries = [];
+  try { entries = await dataStore.all(); } catch { saving.failed = true; }
+  for (const e of entries) {
+    try { SAVED[e.key]?.apply(e.value); } catch (err) { console.warn("iam-trace: could not restore", e.key, err); }
+  }
+  saving.ready = true;
+  if (entries.some((e) => ["account", "policy", "scp", "inv"].includes(e.key))) setSource(lastRun?.src === "policy" ? "policy" : input.src);
+  refreshSaveStatus();
+  if (lastRun) {
+    whenReady(async () => {
+      if (lastRun.src === "policy" ? !input.policy.trim() : !(input.account.trim() && input.accountValid && input.start)) return;
+      await runAnalysis({ restoring: true, src: lastRun.src });
+      if (currentView === "input") go("overview");
+    });
+  }
+}
+
 // ------------------------------------------------------------------------------------- start
 
 applyPrefs();
@@ -1365,3 +1654,4 @@ setSource("account");
 loadEvExample(EVALUATE_EXAMPLES[0]);
 go(location.hash.slice(1) || "overview");
 whenReady(() => { validate(); updateRun(); });
+restoreSaved();

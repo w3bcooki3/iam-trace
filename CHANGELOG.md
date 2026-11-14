@@ -20,6 +20,10 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
   over an existing resource (naming the resource) or rule them out. Kinds that could not be
   collected stay "possible". On the example account, 25 possible findings become 17.
 - The example account has a user who may update one Lambda function, and an example inventory.
+- Your work is saved in the browser (IndexedDB) and comes back after a refresh, including the
+  last analysis. The top bar says "Saved in this browser" or "Not saved"; leaving with unsaved
+  data asks first. Settings, Saved data, lists every saved item with its size and time, and can
+  delete one item, delete everything, or turn saving off.
 - A complete web app: an Overview dashboard with the verdict, metrics, paths to admin,
   recommended fixes and principals at risk; a full-screen attack graph with three node styles;
   Findings with search, filters and downloads (text, SARIF, JSON); Data input with file drop,
@@ -43,6 +47,16 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Changed
 
+- Web app design review: flat surfaces instead of glows, gradients and frosted glass (which also
+  made scrolling slow); a neutral palette with a blue accent; type that scales with the window;
+  pages that use wide screens; no status badges in the top bar.
+- Policy diff and Policy check fill the screen; results open in a full-screen sheet with Back to
+  editing (Esc) and a short entrance animation that respects reduced motion.
+- The attack graph's paths panel is a docked, collapsible column with each path as a list of
+  steps; on phones it slides over the graph, and the graph opens at a readable size.
+- The changelog page has a version index and filters beside readable-width notes.
+- Scrolling: one scroll area per screen (tables no longer scroll inside the page), each screen
+  opens at the top, and long tables become labelled cards on phones.
 - Renamed from IAM Lens to iam-trace (the name was taken). The package installs as `iam-trace`,
   the command is `iam-trace`, the Python module is `iamtrace` and the catalog variable is
   `IAMTRACE_CATALOG`.
