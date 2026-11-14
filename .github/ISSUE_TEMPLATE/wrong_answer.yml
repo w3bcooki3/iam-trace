@@ -1,0 +1,50 @@
+name: Wrong answer
+description: iam-trace's decision differs from what AWS does.
+title: "Wrong answer: "
+labels: ["wrong answer"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks. Wrong answers are the most useful reports we get.
+        **Remove account IDs, names and anything sensitive before pasting policies.** Example values such as 111122223333 are fine.
+  - type: input
+    id: request
+    attributes:
+      label: Request
+      description: Principal, action and resource.
+      placeholder: arn:aws:iam::111122223333:user/alice  s3:GetObject  arn:aws:s3:::bucket/key
+    validations:
+      required: true
+  - type: input
+    id: iamtrace
+    attributes:
+      label: What iam-trace said
+      placeholder: "Deny (explicit deny at step: explicit_deny)"
+    validations:
+      required: true
+  - type: input
+    id: aws
+    attributes:
+      label: What AWS does
+      description: How you know, for example the policy simulator, CloudTrail, or an actual request.
+      placeholder: "Allow, confirmed with aws iam simulate-custom-policy"
+    validations:
+      required: true
+  - type: textarea
+    id: policies
+    attributes:
+      label: Policies involved
+      description: Minimal policies that reproduce it, with sensitive values replaced.
+      render: json
+  - type: textarea
+    id: context
+    attributes:
+      label: Context keys and anything else
+      placeholder: aws:SecureTransport=true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Shown in the app under Settings > About, or `iam-trace --version`.
+      placeholder: 0.2.0

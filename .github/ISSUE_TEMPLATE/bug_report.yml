@@ -1,0 +1,32 @@
+name: Bug or confusing behaviour
+description: Something broke, or the app or CLI was hard to understand.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - Web app
+        - Command line
+        - GitHub Action
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Remove anything sensitive from inputs. A minimal example policy is ideal.
+  - type: input
+    id: env
+    attributes:
+      label: Version and environment
+      placeholder: "0.2.0, Chrome 131 on Windows / Python 3.12"
