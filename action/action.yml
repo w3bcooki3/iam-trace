@@ -1,0 +1,92 @@
+name: iam-trace policy review
+description: >
+  Comments a semantic diff on pull requests that change IAM policy files, and can fail the check
+  when a change allows new privilege-escalation techniques.
+author: iam-trace contributors
+branding:
+  icon: shield
+  color: blue
+
+inputs:
+  paths:
+    description: Comma-separated glob patterns of policy files to review.
+    default: "**/*.json"
+  fail-on-escalation:
+    description: Fail when a changed identity policy allows a technique the base version did not.
+    default: "true"
+  fail-on-diff:
+    description: "Also fail on diff findings: never, any, new-allow or highlighted."
+    default: "never"
+  comment:
+    description: Post (or update) a pull-request comment with the review.
+    default: "true"
+  python-version:
+    description: Python version to run iam-trace with.
+    default: "3.12"
+  github-token:
+    description: Token used to post the comment. Needs pull-requests write permission.
+    default: ${{ github.token }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install iam-trace
+      shell: bash
+      env:
+        ACTION_PATH: ${{ github.action_path }}
+      run: pip install --quiet "$ACTION_PATH/.."
+
+    - name: Make sure an action catalog is available
+      shell: bash
+      run: |
+        # The packaged catalog is used when present; otherwise download it (public AWS endpoint, free).
+        iam-trace catalog info >/dev/null 2>&1 || iam-trace catalog refresh
+
+    - name: Review changed policy files
+      id: review
+      shell: bash
+      env:
+        BASE: ${{ github.event.pull_request.base.sha }}
+        HEAD: ${{ github.event.pull_request.head.sha }}
+        PATHS: ${{ inputs.paths }}
+        FAIL_ON_DIFF: ${{ inputs.fail-on-diff }}
+        FAIL_ON_ESCALATION: ${{ inputs.fail-on-escalation }}
+      run: |
+        # Inputs arrive through the environment, never interpolated into the script.
+        if [ -z "$BASE" ]; then echo "This action runs on pull_request events."; exit 1; fi
+        git fetch --no-tags --depth=200 origin "$BASE" "$HEAD" >/dev/null 2>&1 || true
+        args=(--base "$BASE" --head "$HEAD" --paths "$PATHS" --comment-file "$RUNNER_TEMP/iamtrace.md"
+              --fail-on-diff "$FAIL_ON_DIFF")
+        if [ "$FAIL_ON_ESCALATION" = "true" ]; then args+=(--fail-on-escalation); fi
+        set +e
+        python -m iamtrace.pr_review "${args[@]}"
+        echo "exit=$?" >> "$GITHUB_OUTPUT"
+        cat "$RUNNER_TEMP/iamtrace.md" >> "$GITHUB_STEP_SUMMARY"
+
+    - name: Post or update the pull-request comment
+      if: inputs.comment == 'true' && github.event.pull_request.head.repo.full_name == github.repository
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PR: ${{ github.event.pull_request.number }}
+        REPO: ${{ github.repository }}
+      run: |
+        # Forked pull requests get a read-only token, so they only get the job summary.
+        id=$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
+             --jq '.[] | select(.user.login == "github-actions[bot]") | select(.body | startswith("<!-- iamtrace-pr-review -->")) | .id' | head -n1)
+        if [ -n "$id" ]; then
+          gh api -X PATCH "repos/$REPO/issues/comments/$id" -F body=@"$RUNNER_TEMP/iamtrace.md" >/dev/null
+        else
+          gh pr comment "$PR" --repo "$REPO" --body-file "$RUNNER_TEMP/iamtrace.md"
+        fi
+
+    - name: Fail on findings
+      if: steps.review.outputs.exit != '0'
+      shell: bash
+      run: |
+        echo "iam-trace found changes that the configured fail-on settings reject. See the comment or job summary."
+        exit 1
