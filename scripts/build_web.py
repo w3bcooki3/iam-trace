@@ -75,6 +75,7 @@ def main() -> int:
     shutil.copytree(WEB / "fonts", DIST / "fonts")
     (DIST / "examples").mkdir()
     shutil.copy2(ROOT / "examples" / "account" / "auth-details.json", DIST / "examples" / "auth-details.json")
+    shutil.copy2(ROOT / "examples" / "account" / "inventory.json", DIST / "examples" / "inventory.json")
     n = zip_dir(PKG, DIST / "iamtrace.zip", "iamtrace", skip_catalog=True)
     print(f"iamtrace.zip: {n} files")
     if (CATALOG / "services").is_dir():

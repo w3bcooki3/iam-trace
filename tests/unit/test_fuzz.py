@@ -153,3 +153,30 @@ def test_random_evaluations_never_crash(seed: int) -> None:
 def test_malformed_documents_raise_policy_error(text: str) -> None:
     with pytest.raises(PolicyError):
         parse_any_policy(text, "fuzz")
+
+
+@pytest.mark.parametrize("seed", range(20))
+def test_random_policies_check_without_crashing(seed: int) -> None:
+    from iamtrace.catalog import default_catalog
+    from iamtrace.check import SEVERITIES, check_documents
+
+    rng = random.Random(seed)
+    docs = []
+    for i in range(20):
+        resource = rng.random() < 0.4
+        doc = {"Version": "2012-10-17", "Statement": [rand_statement(rng, resource) for _ in range(rng.randint(1, 4))]}
+        docs.append((f"p{i}.json", json.dumps(doc)))
+    report = check_documents(docs, default_catalog())
+    assert all(f["severity"] in SEVERITIES for f in report["findings"])
+    json.dumps(report)
+
+
+@pytest.mark.parametrize(
+    "text", ["", "null", "[]", '{"Statement": [null]}', '{"Statement": ' + "[" * 2000 + "]" * 2000 + "}"]
+)
+def test_malformed_documents_are_check_findings(text: str) -> None:
+    from iamtrace.catalog import default_catalog
+    from iamtrace.check import check_documents
+
+    report = check_documents([("bad.json", text)], default_catalog())
+    assert [f["rule"] for f in report["findings"]] == ["invalid-policy"]

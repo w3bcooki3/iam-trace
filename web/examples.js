@@ -129,3 +129,18 @@ export const ATTACK_POLICY_EXAMPLE = {
     { Sid: "ManageKeys", Effect: "Allow", Action: ["iam:CreateAccessKey", "iam:ListUsers"], Resource: "*" },
   ],
 };
+
+// A policy with several problems, for the Policy check screen.
+export const CHECK_EXAMPLE = {
+  Version: V,
+  Statement: [
+    { Sid: "Deploy", Effect: "Allow", Action: ["lambda:CreateFunction", "lambda:InvokeFunction", "iam:PassRole"], Resource: "*" },
+    { Sid: "ManageKeys", Effect: "Allow", Action: "kms:PutKeyPolicy", Resource: "*" },
+    { Sid: "Logs", Effect: "Allow", Action: "logs:GetLogEvents", NotResource: `arn:aws:logs:*:${A}:log-group:/secure/*` },
+    {
+      Sid: "ProfileFields", Effect: "Allow", Action: "dynamodb:GetItem", Resource: `arn:aws:dynamodb:us-east-1:${A}:table/users`,
+      Condition: { "ForAllValues:StringEquals": { "dynamodb:Attributes": ["id", "name", "email"] } },
+    },
+    { Sid: "NoBucketDeletes", Effect: "Deny", Action: "s3:DeleteBuckets", Resource: "*" },
+  ],
+};

@@ -1,6 +1,11 @@
 # iam-trace
 
-iam-trace explains what AWS IAM policies allow. It answers three questions:
+[![ci](https://github.com/w3bcooki3/iam-trace/actions/workflows/ci.yml/badge.svg)](https://github.com/w3bcooki3/iam-trace/actions/workflows/ci.yml)
+[![pages](https://github.com/w3bcooki3/iam-trace/actions/workflows/pages.yml/badge.svg)](https://w3bcooki3.github.io/iam-trace/)
+[![licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
+![python 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue.svg)
+
+iam-trace explains what AWS IAM policies allow. It answers four questions:
 
 1. **Can principal P do action A on resource R?** Yes or no, with a trace of the evaluation step
    and the statement that decided it.
@@ -8,14 +13,48 @@ iam-trace explains what AWS IAM policies allow. It answers three questions:
    actions and resources, grouped by access level. Reordering statements is not a change.
 3. **If this principal is compromised, what can an attacker do?** Known privilege-escalation
    techniques, multi-step paths to admin-equivalent principals, and the blast radius.
+4. **What in this policy is risky?** Patterns such as full admin, `iam:PassRole` on any role,
+   public principals and actions that match nothing, each with the reason and a fix.
 
 The engine is a typed Python package with no dependencies. It makes no network calls when it
 evaluates, so the same code runs in the CLI, in CI and in the browser.
 
+**Beta.** iam-trace is tested against every worked example in AWS's documentation and hundreds of
+other cases, but it has not yet been compared case by case with AWS's own policy simulator (see
+"Differential testing"). Use it alongside your existing reviews, not instead of them.
+
+Try it in the browser: <https://w3bcooki3.github.io/iam-trace/>. Nothing is uploaded.
+
+## Who it is for
+
+Developers and small teams who look after AWS accounts without a dedicated security engineer, and
+security engineers who want a quick, explainable answer. iam-trace aims to be the tool you can
+hand to someone who has never heard of "privilege escalation":
+
+- No install, no AWS credentials and no upload: drop an export into the web app.
+- Plain-language answers with the evidence: the path, the technique and the permission to remove.
+- The same checks in CI, so a risky policy change is caught in the pull request that adds it.
+
+## How it relates to other tools
+
+iam-trace stands on other people's work and sits next to some good open-source tools. Pick the
+one that fits the job; they combine well.
+
+| Tool | What it is best at | How iam-trace differs |
+|---|---|---|
+| [pathfinding.cloud](https://pathfinding.cloud) (Datadog Security Labs) | The reference library of cloud privilege-escalation techniques, with labs. It documents techniques; it does not analyse your account. | iam-trace uses its 92 AWS techniques (Apache-2.0, see `NOTICE`) to check your policies, and links every finding back to it. |
+| [PMapper](https://github.com/nccgroup/PMapper) (NCC Group) | Mapping who can become whom in an account or organization, with a local authorization simulator and queries. Command line, reads your account with AWS credentials. | iam-trace works from an exported file in the browser, explains each step in plain language, and adds policy diffs and pull-request reviews. |
+| [Cloudsplaining](https://github.com/salesforce/cloudsplaining) (Salesforce) | Least-privilege findings across an account (unrestricted actions, resource exposure, data exfiltration, privilege escalation) in an HTML report with a triage sheet. | iam-trace chains techniques into multi-step paths to admin, traces individual decisions, and diffs policy changes. It does not yet flag general least-privilege issues (see the roadmap). |
+| [iam-lens](https://github.com/cloud-copilot/iam-lens) (Cloud Copilot) | Simulating requests and answering "who can do this?" across many accounts and organizations. | iam-trace focuses on escalation paths and policy changes, in the browser, for one account at a time. |
+| AWS IAM policy simulator and IAM Access Analyzer | AWS's own answers: the simulator for single requests, Access Analyzer for external access and unused permissions. | The simulator cannot model RCPs, session policies or role trust policies, and neither follows multi-step escalation paths. iam-trace will be measured against the simulator (see "Differential testing"). |
+
+If iam-trace finds a technique or case that pathfinding.cloud does not describe, the right thing
+to do is contribute it there too.
+
 ## Status
 
 <!-- counts:start -->
-Offline tests: **543 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
+Offline tests: **640 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
 
 Live differential run: **not run yet**. See "Differential testing" below.
 <!-- counts:end -->
@@ -30,8 +69,9 @@ Python 3.11 or newer.
 
     pip install git+https://github.com/w3bcooki3/iam-trace
 
-`expand`, `diff` and `escalate --blast-radius` need the action catalog. If the installed package
-doesn't include one yet, download it once (about 10 MB, from AWS's public endpoint):
+The package includes the action catalog that `check`, `expand`, `diff` and
+`escalate --blast-radius` use. A workflow refreshes it weekly. To update yours sooner (about
+10 MB, from AWS's public endpoint):
 
     iam-trace catalog refresh
     iam-trace catalog info
@@ -73,6 +113,41 @@ Inputs:
 - Context: give keys with `--context KEY=VALUE`. Repeat a key to give it several values;
   `KEY=[]` sets an empty set.
 
+### check
+
+    iam-trace check policy.json trust.json
+    iam-trace check --auth-details auth.json --fail-on high --format sarif
+
+Flags risky patterns in each policy on its own, with the reason and a fix for each finding.
+Policy types are inferred: a policy that names principals is treated as resource-based (this
+includes trust policies). With `--auth-details`, every customer managed policy, inline policy
+and trust policy in the export is checked once, and each finding lists what the policy is
+attached to. AWS managed policies are skipped unless you add `--include-aws-managed`.
+A policy that can't be read is reported as an `invalid-policy` finding, so one bad file doesn't
+stop the rest from being checked.
+
+| Rule | Severity | Flags |
+| --- | --- | --- |
+| `invalid-policy` | high | a document AWS would reject |
+| `full-admin` | high | `"Action": "*"` on `"Resource": "*"` |
+| `allow-not-action` | high | Allow with NotAction (medium when Resource is not `*`) |
+| `passrole-any-role` | high | `iam:PassRole` on all roles, with no `iam:PassedToService` |
+| `privilege-escalation` | high or medium | every permission a pathfinding.cloud technique needs; high for self-escalation |
+| `public-principal` | high | `"Principal": "*"` with no condition on who the caller is |
+| `permissions-management` | medium | permissions-management actions on `"Resource": "*"` |
+| `allow-not-resource` | medium | Allow with NotResource |
+| `for-all-values-allow` | medium | `ForAllValues` in an Allow without a `Null` check |
+| `duplicate-key` | medium | the same key twice; AWS keeps the last |
+| `unknown-action` | low (medium in a Deny) | an action that matches nothing |
+| `service-no-source` | low | a service principal in a resource policy without `aws:SourceAccount` or `aws:SourceArn` |
+| `trust-whole-account` | low | a trust policy that trusts an account root without `sts:ExternalId` or a principal condition |
+| `missing-version` | low | no `Version`, so policy variables are literal text |
+
+A statement with a condition the rule doesn't look for is reported one level lower, and the
+finding says so: the condition may or may not narrow it. `check` doesn't know what else is
+attached to a principal, so it describes what a policy grants. Use `escalate` to find out what
+an attacker can actually reach.
+
 ### expand
 
     iam-trace expand 's3:Put*' 'iam:*Policy*'
@@ -109,7 +184,26 @@ On the example account in `examples/account/`:
          allowed every action on every resource
 
 Each technique cites its [pathfinding.cloud](https://pathfinding.cloud) page and the research
-that first documented it. To check a single policy without an account export:
+that first documented it.
+
+Techniques that abuse an existing resource, such as editing the code of a Lambda function to act
+as its role, need to know which resources exist and which role each one runs as. The IAM export
+doesn't say, so without more data they're reported as "possible". A resource inventory supplies
+it:
+
+    iam-trace inventory collect --out inventory.json       # read-only, uses your AWS CLI
+    iam-trace escalate --auth-details auth.json --inventory inventory.json
+
+`inventory collect` runs only list, describe and get calls (ReadOnlyAccess or SecurityAudit is
+enough) for Lambda functions, EC2 instances, CodeBuild projects, CloudFormation stacks, Glue dev
+endpoints, SageMaker notebooks, Step Functions state machines and App Runner services, in every
+enabled region or the ones you pass with `--regions`. Each finding then names the resource it
+goes through, permissions are checked against that resource's ARN, and a technique with no
+reachable resource is dropped. A kind whose collection failed in any region stays "possible";
+it's never treated as empty. iam-trace itself still makes no network calls: it runs the `aws`
+command you have configured.
+
+To check a single policy without an account export:
 
     iam-trace escalate --policy new.json --baseline old.json --fail-on new
 
@@ -120,7 +214,7 @@ Every command supports `--format text|json|sarif`; `diff` also supports `markdow
 | Exit code | Meaning |
 |---|---|
 | 0 | Success. For `can`, the request is allowed. |
-| 1 | For `can`, the request is denied. For `diff` and `escalate`, a `--fail-on` condition matched. |
+| 1 | For `can`, the request is denied. For `check`, `diff` and `escalate`, a `--fail-on` condition matched. |
 | 2 | A usage error, an unreadable file, or a policy AWS would reject. |
 
 ## GitHub Action
@@ -142,10 +236,13 @@ jobs:
           paths: "policies/**/*.json"
           fail-on-escalation: "true"   # fail if a changed identity policy allows a new technique
           fail-on-diff: "never"        # or any | new-allow | highlighted
+          fail-on-check: "high"        # or never | medium | low
 ```
 
 The action reviews policy files that changed between the PR's base and head. It posts or updates
-one comment, and also writes the review to the job summary.
+one comment, and also writes the review to the job summary. The comment includes the risky
+patterns `iam-trace check` finds that the change introduces; problems already present in the
+base version are not repeated.
 
 JSON files that aren't policy documents are ignored. For pull requests from forks, the token is
 read-only, so the review goes to the job summary only.
@@ -162,6 +259,8 @@ read-only, so the review goes to the job summary only.
   and technique. Three node styles.
 - **Findings**: every technique for every principal, searchable, with text, SARIF and JSON
   downloads.
+- **Policy check**: paste policies, drop files or use the loaded account export; every finding
+  says where it is, why it matters and how to fix it. Text, SARIF and JSON downloads.
 - **Data input**: drop an account export or a single policy, add organization SCPs, choose the
   starting principal. The input is validated before it runs.
 - **Evaluate a request** and **Policy diff**: the `can` and `diff` commands with a full trace.
@@ -253,6 +352,10 @@ Everything here uses free services:
 
 No step creates AWS resources.
 
+## Roadmap
+
+See [ROADMAP.md](ROADMAP.md) for what comes next and how to help.
+
 ## Limitations
 
 The most important ones:
@@ -268,8 +371,10 @@ The most important ones:
 - **Catalog access levels:** access levels are derived from AWS's annotation flags, because the
   JSON reference has no access-level field.
 - **Diff conditions:** the diff compares conditions by equality.
-- **Escalation analysis:** it can't see existing resources, such as Lambda functions, that an
-  attacker could take over, so those techniques are reported as "possible".
+- **Escalation analysis:** without a resource inventory, techniques that take over existing
+  resources (Lambda functions, EC2 instances, ...) are reported as "possible". The inventory
+  covers eight kinds; launch templates, Batch, CodeDeploy, ECS tasks and Bedrock AgentCore stay
+  "possible".
 
 The full list is in [docs/limitations.md](docs/limitations.md).
 
@@ -283,7 +388,8 @@ The full list is in [docs/limitations.md](docs/limitations.md).
       evaluate.py         the decision engine and traces
       servicerules.py     RCP service list, trust/key policy rules
       catalog/            action catalog loader and refresh
-      expand.py, diff.py, escalate.py
+      expand.py, diff.py, escalate.py, check.py
+      inventory.py, collect.py  resource inventory and its read-only collector
       output.py           text / JSON / SARIF
       cli.py, pr_review.py, web_api.py
       data/               escalation technique data (see NOTICE)

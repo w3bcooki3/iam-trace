@@ -2,7 +2,7 @@
 
 Exit codes:
   0  success (for `can`: the request is allowed)
-  1  for `can`: the request is denied. For `diff`/`escalate` with --fail-on: a finding matched.
+  1  for `can`: the request is denied. For `check`/`diff`/`escalate` with --fail-on: a finding matched.
   2  usage error, unreadable file, or a policy AWS would reject
 """
 
@@ -17,10 +17,13 @@ from pathlib import Path
 from iamtrace import __version__
 from iamtrace.catalog import ACCESS_LEVELS, Catalog, CatalogMissing, user_cache_dir
 from iamtrace.catalog.refresh import refresh
+from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
+from iamtrace.collect import CollectError, aws_cli, collect
 from iamtrace.diff import diff_markdown, diff_policies, diff_sarif, diff_text
 from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
 from iamtrace.expand import expand_patterns, expand_policies, expand_sarif, expand_text
+from iamtrace.inventory import load_inventory
 from iamtrace.loader import load_any_policy, load_levels, load_policies, load_policy, parse_context
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import can_sarif, can_text, to_json
@@ -218,8 +221,16 @@ def cmd_escalate(args: argparse.Namespace) -> int:
         except (OSError, json.JSONDecodeError, RecursionError) as e:
             raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
         env = Environment.from_auth_details(data)
+        if args.inventory:
+            try:
+                inv_data = json.loads(Path(args.inventory).read_text(encoding="utf-8-sig"))
+            except (OSError, json.JSONDecodeError, RecursionError) as e:
+                raise PolicyError(f"{args.inventory}: cannot read: {e}") from e
+            env.resources = load_inventory(inv_data, env)
         report = analyze(env, start=args.principal, catalog=cat, scps=scps)
     elif args.policy:
+        if args.inventory:
+            raise PolicyError("--inventory needs --auth-details: roles are resolved through the account export")
         principal = args.principal or "arn:aws:iam::111122223333:role/policy-under-test"
         boundary = load_policy(args.boundary, PolicyType.BOUNDARY) if args.boundary else None
         env = Environment.single([load_policy(f, PolicyType.IDENTITY) for f in args.policy], principal, boundary)
@@ -262,6 +273,12 @@ def _add_escalate(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> N
         "--policy", action="append", metavar="FILE", help="identity policy file(s) of one hypothetical principal"
     )
     p.add_argument("--principal", metavar="ARN", help="start from this principal (default: analyse every principal)")
+    p.add_argument(
+        "--inventory",
+        metavar="FILE",
+        help="with --auth-details: existing resources and their roles (from `iam-trace inventory collect`), "
+        "to confirm or rule out techniques that abuse existing resources",
+    )
     p.add_argument("--boundary", metavar="FILE", help="with --policy: a permissions boundary")
     p.add_argument(
         "--baseline", metavar="FILE", help="with --policy: the previous version, to report only new findings"
@@ -278,6 +295,106 @@ def _add_escalate(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> N
     _add_catalog_arg(p)
     _add_format(p)
     p.set_defaults(func=cmd_escalate)
+
+
+# --- check ----------------------------------------------------------------------------
+
+
+def cmd_check(args: argparse.Namespace) -> int:
+    cat = _catalog(args)
+    if args.auth_details and args.files:
+        raise PolicyError("give policy files or --auth-details, not both")
+    if args.auth_details:
+        try:
+            data = json.loads(Path(args.auth_details).read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError, RecursionError) as e:
+            raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
+        report = check_auth_details(data, cat, include_aws_managed=args.include_aws_managed)
+    elif args.files:
+        docs = []
+        for f in args.files:
+            try:
+                docs.append((f, Path(f).read_text(encoding="utf-8-sig")))
+            except OSError as e:
+                raise PolicyError(f"{f}: cannot read: {e.strerror}") from e
+        report = check_documents(docs, cat)
+    else:
+        raise PolicyError("give one or more policy files, or --auth-details FILE (an account export)")
+    out = {"text": check_text, "json": to_json, "sarif": check_sarif}[args.format](report)
+    sys.stdout.write(out)
+    if args.fail_on == "never":
+        return 0
+    levels = ["high", "medium", "low"]
+    worst = levels[: levels.index(args.fail_on) + 1]
+    return 1 if any(f["severity"] in worst for f in report["findings"]) else 0
+
+
+def _add_check(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "check",
+        help="flag risky patterns in policies, with a reason and a fix for each",
+        description="Check policy files (identity, resource or trust policies; the type is inferred) or every "
+        "policy in an account export for risky patterns such as full admin access, iam:PassRole on any role, "
+        "public principals and actions that match nothing.",
+    )
+    p.add_argument("files", nargs="*", metavar="FILE", help="policy JSON files")
+    p.add_argument("--auth-details", metavar="FILE", help="output of aws iam get-account-authorization-details")
+    p.add_argument(
+        "--include-aws-managed",
+        action="store_true",
+        help="with --auth-details: also check AWS managed policies (skipped by default; they are broad by design)",
+    )
+    p.add_argument(
+        "--fail-on",
+        choices=["never", "high", "medium", "low"],
+        default="never",
+        help="exit 1 if there is a finding at this severity or higher",
+    )
+    _add_catalog_arg(p)
+    _add_format(p)
+    p.set_defaults(func=cmd_check)
+
+
+# --- inventory ------------------------------------------------------------------------
+
+
+def cmd_inventory_collect(args: argparse.Namespace) -> int:
+    regions = [r.strip() for r in args.regions.split(",") if r.strip()] if args.regions else None
+    kinds = [k.strip() for k in args.kinds.split(",") if k.strip()] if args.kinds else None
+    inv = collect(aws_cli(args.profile), regions, kinds, log=lambda m: print(m, file=sys.stderr))
+    text = to_json(inv)
+    if args.out:
+        Path(args.out).write_text(text, encoding="utf-8")
+    else:
+        sys.stdout.write(text)
+    print(
+        f"{len(inv['Resources'])} resources; collected: {', '.join(inv['Collected']) or 'nothing'}",
+        file=sys.stderr,
+    )
+    if inv["Errors"]:
+        print(
+            f"{len(inv['Errors'])} call(s) failed; those kinds stay unknown in the analysis (see Errors in the file)",
+            file=sys.stderr,
+        )
+    return 0
+
+
+def _add_inventory(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser("inventory", help="list existing resources and their roles, for escalate --inventory")
+    isub = p.add_subparsers(dest="inventory_command", required=True)
+    c = isub.add_parser(
+        "collect",
+        help="collect with the AWS CLI (read-only list and describe calls)",
+        description="Runs read-only AWS CLI calls (list, describe, get) to find Lambda functions, EC2 instances, "
+        "CodeBuild projects, CloudFormation stacks, Glue dev endpoints, SageMaker notebooks, Step Functions state "
+        "machines and App Runner services, with the role each runs as. Needs the AWS CLI configured; the "
+        "ReadOnlyAccess or SecurityAudit managed policy is enough.",
+    )
+    c.add_argument("--regions", metavar="LIST", help="comma-separated regions (default: every enabled region)")
+    c.add_argument("--kinds", metavar="LIST", help="comma-separated kinds to collect (default: all)")
+    c.add_argument("--profile", metavar="NAME", help="AWS CLI profile to use")
+    c.add_argument("--out", metavar="FILE", help="write here instead of standard output")
+    c.set_defaults(func=cmd_inventory_collect)
 
 
 # --- catalog --------------------------------------------------------------------------
@@ -323,16 +440,18 @@ def _add_catalog(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> No
 
 SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]], None]] = [
     _add_can,
+    _add_check,
     _add_expand,
     _add_diff,
     _add_escalate,
+    _add_inventory,
     _add_catalog,
 ]
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="iam-trace", description="Explain what AWS IAM policies allow.")
-    parser.add_argument("--version", action="version", version=f"iamtrace {__version__}")
+    parser.add_argument("--version", action="version", version=f"iam-trace {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
     for add in SUBCOMMANDS:
         add(sub)
@@ -345,7 +464,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     handler: Handler = args.func
     try:
         return handler(args)
-    except (PolicyError, ValueError, CatalogMissing) as e:
+    except (PolicyError, ValueError, CatalogMissing, CollectError) as e:
         print(f"iamtrace: error: {e}", file=sys.stderr)
         return 2
 

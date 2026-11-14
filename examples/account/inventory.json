@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "Account": "111122223333",
+  "Regions": [
+    "us-east-1"
+  ],
+  "Collected": [
+    "lambda-function",
+    "ec2-instance"
+  ],
+  "Resources": [
+    {
+      "Arn": "arn:aws:lambda:us-east-1:111122223333:function:nightly-report",
+      "Role": "arn:aws:iam::111122223333:role/report-runner"
+    },
+    {
+      "Arn": "arn:aws:lambda:us-east-1:111122223333:function:payments-api",
+      "Role": "arn:aws:iam::111122223333:role/ec2-admin"
+    },
+    {
+      "Arn": "arn:aws:ec2:us-east-1:111122223333:instance/i-0example1234",
+      "Role": "arn:aws:iam::111122223333:instance-profile/ec2-admin"
+    }
+  ],
+  "Errors": []
+}

@@ -1,7 +1,7 @@
 name: iam-trace policy review
 description: >
-  Comments a semantic diff on pull requests that change IAM policy files, and can fail the check
-  when a change allows new privilege-escalation techniques.
+  Comments a semantic diff on pull requests that change IAM policy files, flags risky patterns the
+  change introduces, and can fail the check when a change allows new privilege-escalation techniques.
 author: iam-trace contributors
 branding:
   icon: shield
@@ -16,6 +16,9 @@ inputs:
     default: "true"
   fail-on-diff:
     description: "Also fail on diff findings: never, any, new-allow or highlighted."
+    default: "never"
+  fail-on-check:
+    description: "Fail when the change introduces a risky pattern (iam-trace check) at this severity or higher: never, high, medium or low."
     default: "never"
   comment:
     description: Post (or update) a pull-request comment with the review.
@@ -55,12 +58,13 @@ runs:
         PATHS: ${{ inputs.paths }}
         FAIL_ON_DIFF: ${{ inputs.fail-on-diff }}
         FAIL_ON_ESCALATION: ${{ inputs.fail-on-escalation }}
+        FAIL_ON_CHECK: ${{ inputs.fail-on-check }}
       run: |
         # Inputs arrive through the environment, never interpolated into the script.
         if [ -z "$BASE" ]; then echo "This action runs on pull_request events."; exit 1; fi
         git fetch --no-tags --depth=200 origin "$BASE" "$HEAD" >/dev/null 2>&1 || true
         args=(--base "$BASE" --head "$HEAD" --paths "$PATHS" --comment-file "$RUNNER_TEMP/iamtrace.md"
-              --fail-on-diff "$FAIL_ON_DIFF")
+              --fail-on-diff "$FAIL_ON_DIFF" --fail-on-check "$FAIL_ON_CHECK")
         if [ "$FAIL_ON_ESCALATION" = "true" ]; then args+=(--fail-on-escalation); fi
         set +e
         python -m iamtrace.pr_review "${args[@]}"

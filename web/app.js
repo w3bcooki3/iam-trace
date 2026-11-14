@@ -9,7 +9,7 @@
 // Inline style attributes are blocked too, so styling goes through classes and element.style.
 
 import { Graph, ICON, KIND_COLOR, KIND_NAME } from "./graph.js";
-import { EVALUATE_EXAMPLES, DIFF_EXAMPLE, ATTACK_POLICY_EXAMPLE } from "./examples.js";
+import { EVALUATE_EXAMPLES, DIFF_EXAMPLE, ATTACK_POLICY_EXAMPLE, CHECK_EXAMPLE } from "./examples.js";
 
 const PYODIDE_URL = new URL(document.querySelector('meta[name="pyodide-url"]').content, location.href).href;
 const root = document.documentElement;
@@ -89,6 +89,7 @@ const IC = {
   info: '<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8v.5"/></svg>',
   upload: '<svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>',
   file: '<svg class="i" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>',
+  flag: '<svg class="i" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>',
 };
 
 // ------------------------------------------------------------------------------------- settings
@@ -148,7 +149,7 @@ $("menu-btn").addEventListener("click", () => root.classList.toggle("nav-open"))
 
 const VIEWS = {
   overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"],
-  input: ["Attack paths", "Data input"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"],
+  input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"],
   docs: ["Help", "Documentation"], changelog: ["Help", "Changelog"], settings: ["App", "Settings"],
 };
 function go(view) {
@@ -171,6 +172,20 @@ window.addEventListener("hashchange", () => go(location.hash.slice(1)));
 
 let api = null;
 let hasCatalog = false;
+let engineVersion = "";
+
+// "Report a wrong answer": a pre-filled GitHub issue the user reviews before submitting. Policies
+// are never included, and 12-digit account IDs become AWS's documentation example 111122223333.
+const ISSUES = "https://github.com/w3bcooki3/iam-trace/issues/new";
+const scrub = (s) => String(s ?? "").replace(/\b\d{12}\b/g, "111122223333");
+function reportUrl(fields) {
+  const q = new URLSearchParams({ template: "wrong_answer.yml", version: engineVersion });
+  for (const [k, v] of Object.entries(fields)) q.set(k, scrub(v));
+  return `${ISSUES}?${q.toString()}`;
+}
+function reportLink(fields, label = "Report a wrong answer") {
+  return `<a class="report-link" href="${esc(reportUrl(fields))}" target="_blank" rel="noopener noreferrer" title="Opens a pre-filled GitHub issue you can edit before submitting. Policies are not included; account IDs are replaced with 111122223333.">${IC.flag}${label}</a>`;
+}
 const ready = [];
 
 function chip(id, state, text) {
@@ -199,6 +214,7 @@ async function boot() {
   }
   pyodide.runPython("import sys; sys.path.insert(0, '/home/pyodide/lib')");
   api = pyodide.pyimport("iamtrace.web_api");
+  engineVersion = String(pyodide.pyimport("iamtrace").__version__);
   const summary = JSON.parse(api.catalog_summary());
   hasCatalog = Boolean(summary);
   chip("engine-chip", "", "Engine ready");
@@ -206,6 +222,8 @@ async function boot() {
   $("about-catalog").textContent = hasCatalog ? `${summary.actions.toLocaleString()} actions in ${summary.services} services` : "Not included in this build";
   $("ev-run").disabled = false;
   $("d-run").disabled = !hasCatalog;
+  $("pc-run").disabled = !hasCatalog;
+  if (!hasCatalog) $("pc-note").textContent = "Policy check needs the action catalog, which this build of the site does not include.";
   $("d-note").textContent = hasCatalog ? `Compares using the action catalog: ${summary.actions.toLocaleString()} actions in ${summary.services} services.` : "Diff needs the action catalog, which this build of the site does not include.";
   $("opt-blast").disabled = !hasCatalog;
   ready.splice(0).forEach((f) => f());
@@ -224,7 +242,7 @@ boot().catch((e) => {
 
 // ------------------------------------------------------------------------------------- data input
 
-const input = { src: "account", account: "", policy: "", scp: "", file: null, start: "", principals: [], example: false, accountValid: false };
+const input = { src: "account", account: "", policy: "", scp: "", inv: "", file: null, start: "", principals: [], example: false, accountValid: false };
 let lastValid = null;
 
 function setEditor(text) {
@@ -250,6 +268,13 @@ const SRC_TEXT = {
   account: ["Drop the account export here", "A .json file from aws iam get-account-authorization-details. Or paste it into the editor below.", "auth-details.json"],
   policy: ["Drop a policy file here", "One identity-based policy document. It is analysed as the only policy of a role.", "policy.json"],
   scp: ["Drop SCP files here", "One SCP document, or a JSON array of them. They apply to every principal in the account export.", "scps.json"],
+  inv: ["Drop the resource inventory here", "From iam-trace inventory collect. It lets techniques that abuse existing functions and instances be confirmed or ruled out.", "inventory.json"],
+};
+// Kinds the inventory can describe, as people say them (mirrors iamtrace.inventory.KINDS).
+const INV_KINDS = {
+  "lambda-function": "Lambda functions", "ec2-instance": "EC2 instances", "codebuild-project": "CodeBuild projects",
+  "cloudformation-stack": "CloudFormation stacks", "glue-dev-endpoint": "Glue dev endpoints", "sagemaker-notebook": "SageMaker notebooks",
+  "state-machine": "Step Functions state machines", "apprunner-service": "App Runner services",
 };
 function setSource(src) {
   input.src = src;
@@ -258,7 +283,9 @@ function setSource(src) {
   $("dz-title").textContent = t;
   $("dz-sub").textContent = s;
   $("ed-name").textContent = src === "account" && input.file ? input.file.name : f;
-  $("pick-card").hidden = src === "policy";
+  $("pick-card").hidden = src !== "account";
+  $("get-export").hidden = src === "inv";
+  $("get-inventory").hidden = src !== "inv";
   setEditor(input[src]);
   showFileRow();
   validate();
@@ -333,7 +360,11 @@ async function loadExampleAccount() {
 $("ed-example").addEventListener("click", async () => {
   if (input.src === "account") await loadExampleAccount();
   else if (input.src === "policy") input.policy = JSON.stringify(ATTACK_POLICY_EXAMPLE, null, 2);
-  else input.scp = JSON.stringify([{ Version: "2012-10-17", Statement: [{ Sid: "AllowAll", Effect: "Allow", Action: "*", Resource: "*" }] },
+  else if (input.src === "inv") {
+    const r = await fetch("examples/inventory.json");
+    input.inv = r.ok ? await r.text() : "";
+    if (!input.account.trim()) await loadExampleAccount();
+  } else input.scp = JSON.stringify([{ Version: "2012-10-17", Statement: [{ Sid: "AllowAll", Effect: "Allow", Action: "*", Resource: "*" }] },
     { Version: "2012-10-17", Statement: [{ Sid: "DenyLeavingOrg", Effect: "Deny", Action: "organizations:LeaveOrganization", Resource: "*" }] }], null, 2);
   setSource(input.src);
 });
@@ -374,8 +405,12 @@ function validate() {
   const set = (cls, label) => { tag.className = `tag ${cls}`; tag.textContent = label; };
   if (!text) {
     set("plain", "Waiting");
-    box.innerHTML = `<p class="muted">${input.src === "scp" ? "Optional. Leave empty if the account is not in AWS Organizations." : "Nothing loaded yet. Drop a file, paste JSON, or press Load example."}</p>`;
-    if (input.src !== "policy") renderPicker([]);
+    const empty = {
+      scp: "Optional. Leave empty if the account is not in AWS Organizations.",
+      inv: "Optional. Without it, techniques that abuse existing functions, instances and similar resources are reported as possible.",
+    };
+    box.innerHTML = `<p class="muted">${empty[input.src] || "Nothing loaded yet. Drop a file, paste JSON, or press Load example."}</p>`;
+    if (input.src === "account") renderPicker([]);
     updateRun();
     return;
   }
@@ -408,6 +443,7 @@ function validate() {
     checks.push(`<div class="check ok">${IC.ok}<div>${plural(inv.statements, "policy statement")} found</div></div>`);
     if (!input.scp.trim()) checks.push(`<div class="check warn">${IC.warn}<div>No SCPs supplied<small>If the account is in AWS Organizations, add its SCPs for a stricter result.</small></div></div>`);
     else checks.push(`<div class="check ok">${IC.ok}<div>SCPs will be applied<small>From the Organization SCPs tab</small></div></div>`);
+    if (input.inv.trim()) checks.push(`<div class="check ok">${IC.ok}<div>Resource inventory will be used<small>From the Resource inventory tab</small></div></div>`);
     box.innerHTML = checks.join("");
     lastValid = { kind: "account" };
     whenReady(() => {
@@ -436,6 +472,20 @@ function validate() {
       box.innerHTML = `<div class="check ok">${IC.ok}<div>Policy document with ${plural(countStatements(data), "statement")}</div></div>
         <div class="check ok">${IC.info}<div>Analysed as the only policy of a role<small>Techniques that need other principals are reported as possible.</small></div></div>`;
       lastValid = { kind: "policy" };
+    }
+  } else if (input.src === "inv") {
+    const resources = Array.isArray(data?.Resources) ? data.Resources : null;
+    if (!data || typeof data !== "object" || Array.isArray(data) || !resources) {
+      set("crit", "Not an inventory");
+      box.innerHTML = `<div class="check bad">${IC.x}<div>This is not a resource inventory<small>Expected the output of iam-trace inventory collect, with Collected and Resources.</small></div></div>`;
+    } else {
+      const collected = (data.Collected || []).filter((k) => INV_KINDS[k]);
+      const errors = Array.isArray(data.Errors) ? data.Errors.length : 0;
+      set(errors ? "warn" : "ok", "Ready");
+      box.innerHTML = `<div class="check ok">${IC.ok}<div>${plural(resources.length, "resource")}${data.Account ? ` in account ${esc(data.Account)}` : ""}${data.Regions ? `, ${plural(data.Regions.length, "region")}` : ""}</div></div>
+        <div class="check ${collected.length ? "ok" : "warn"}">${collected.length ? IC.ok : IC.warn}<div>${collected.length ? `Complete for ${collected.map((k) => INV_KINDS[k]).join(", ")}` : "No kind was collected completely"}<small>Kinds not listed stay possible in the analysis.</small></div></div>
+        ${errors ? `<div class="check warn">${IC.warn}<div>${plural(errors, "call")} failed during collection<small>Those kinds are treated as unknown, not empty.</small></div></div>` : ""}
+        <div class="check ok">${IC.info}<div>Used the next time you run an account analysis</div></div>`;
     }
   } else {
     const docs = Array.isArray(data) ? data : [data];
@@ -481,6 +531,9 @@ function updateRun() {
   if (!api) note = "Starting the analysis engine.";
   $("run").disabled = !can;
   $("run-note").textContent = note;
+  const pcAcc = $("pc-account");
+  pcAcc.disabled = !(input.account.trim() && input.accountValid);
+  pcAcc.title = pcAcc.disabled ? "Load an account export in Data input first" : "Check every policy in the account export loaded in Data input";
 }
 
 $("run").addEventListener("click", runAnalysis);
@@ -494,7 +547,7 @@ async function runAnalysis() {
       if (out.error) throw new Error(out.error);
       setModel(fromPolicy(out));
     } else {
-      const out = call("analyze_account", input.account, input.start, input.scp, $("opt-blast").checked);
+      const out = call("analyze_account", input.account, input.start, input.scp, $("opt-blast").checked, input.inv);
       if (out.error) throw new Error(out.error);
       setModel(fromAccount(out));
     }
@@ -523,6 +576,7 @@ function fromAccount(out) {
     allPaths: out.account.paths,
     inventory: out.inventory,
     scps: out.scps,
+    resources: out.resources,
     text: out.text,
     sarif: out.sarif,
   };
@@ -708,7 +762,7 @@ function renderOverview() {
   const riskRows = ranked.slice(0, 12).map((p) => principalRow(p)).join("");
 
   el.innerHTML = `${banner}
-    <div class="page-head"><div><h1>Overview</h1><p>Analysed <span class="mono">${esc(m.source)}</span> from <span class="mono">${who}</span> against 92 privilege-escalation techniques from pathfinding.cloud${m.scps ? `, with ${plural(m.scps, "SCP")} applied` : ""}.</p></div>
+    <div class="page-head"><div><h1>Overview</h1><p>Analysed <span class="mono">${esc(m.source)}</span> from <span class="mono">${who}</span> against 92 privilege-escalation techniques from pathfinding.cloud${m.scps ? `, with ${plural(m.scps, "SCP")} applied` : ""}${m.resources ? `, using a resource inventory of ${plural(Object.values(m.resources).reduce((a, b) => a + b, 0), "resource")}` : ""}.</p></div>
       <div class="actions"><button class="btn" data-go="input">Change input</button><button class="btn primary" data-go="graph">Open attack graph</button></div></div>
     <div class="posture glass p-${tone}"><div class="posture-main"><span class="sev-badge">${tone === "ok" ? IC.ok : IC.warn}</span><div><h2>${head}</h2><p>${body}</p>${startPaths.length ? `<div class="chain">${chainHtml(startPaths[0])}</div>` : ""}</div></div>
       <div class="posture-side"><div class="ps-item"><div class="l">Starting principal</div><div class="v mono">${who}</div></div><div class="ps-item"><div class="l">Reaches</div><div class="v">${reaches}</div></div>
@@ -850,7 +904,7 @@ function closeDetails() {
 function techCard(t) {
   const src = t.source || {};
   return `<div class="tech"><div class="th"><a class="id" href="${esc(src.pathfinding || t.pathfinding_url || "#")}" target="_blank" rel="noopener">${esc(t.id)}</a><span class="tag ${t.confidence === "confirmed" ? "crit" : "warn"}">${t.confidence === "confirmed" ? "Confirmed" : "Possible"}</span></div>
-    <div class="nm">${esc(t.name)}</div><div class="why">Leads to ${t.targets.map((x) => esc(short(x))).join(", ")}.${src.author ? ` First documented by ${src.first_documented ? `<a href="${esc(src.first_documented)}" target="_blank" rel="noopener">${esc(src.author)}</a>` : esc(src.author)}.` : ""}</div></div>`;
+    <div class="nm">${esc(t.name)}</div><div class="why">Leads to ${t.targets.map((x) => esc(short(x))).join(", ")}${t.via ? `, through ${t.via.map((x) => `<span class="mono">${esc(short(x))}</span>`).join(", ")}` : ""}.${src.author ? ` First documented by ${src.first_documented ? `<a href="${esc(src.first_documented)}" target="_blank" rel="noopener">${esc(src.author)}</a>` : esc(src.author)}.` : ""}</div></div>`;
 }
 function showNode(n) {
   main.selected = n.id;
@@ -889,7 +943,8 @@ function showEdge(e, el) {
   const techs = from ? from.techniques.filter((t) => ids.includes(t.id) || t.id === e.label) : [];
   $("g-details").innerHTML = `<div class="d-head"><div class="d-top"><div><div class="d-name mono">${esc(e.label)}</div><div class="d-kind">${esc(nameOf(e.from))} to ${esc(nameOf(e.to))}</div></div><button class="icon-btn" id="d-close" aria-label="Close">${IC.x}</button></div></div>
     <div class="d-sec">${techs.length ? techs.map(techCard).join("") : `<p>${esc(sentence(e.name))}</p>`}</div>
-    ${techs.length ? `<div class="d-sec"><h4>Permissions involved</h4>${[...new Set(techs.flatMap((t) => t.permissions))].map((x) => `<div class="policy-line"><span class="mono">${esc(x)}</span></div>`).join("")}</div>` : ""}`;
+    ${techs.length ? `<div class="d-sec"><h4>Permissions involved</h4>${[...new Set(techs.flatMap((t) => t.permissions))].map((x) => `<div class="policy-line"><span class="mono">${esc(x)}</span></div>`).join("")}</div>` : ""}
+    <div class="d-sec">${reportLink({ title: `Wrong finding: ${e.label}`, request: `${e.from} -> ${e.to} via ${e.label}`, iamtrace: `${e.confidence} technique ${e.label} (${e.name})` }, "Report a wrong finding")}</div>`;
   $("g-details").classList.remove("closed");
   $("d-close").addEventListener("click", closeDetails);
 }
@@ -940,7 +995,7 @@ function drawFindings(rows) {
           <td><span class="sev ${t.confidence === "confirmed" ? "c-crit" : "c-warn"}"><i></i>${t.confidence === "confirmed" ? "Confirmed" : "Possible"}</span></td>
           <td><b class="mono">${esc(t.id)}</b><div class="cat-note">${esc(CATEGORY[t.category] || t.category)}</div></td>
           <td><div class="who" data-kind="${k(p.arn)}"><span class="wi">${ICON[k(p.arn)] || ICON.resource}</span><div><b>${esc(nameOf(p.arn))}</b><small>${esc(short(p.arn))}</small></div></div></td>
-          <td class="td-mono">${t.targets.map((x) => esc(short(x))).join("<br>")}</td>
+          <td class="td-mono">${t.targets.map((x) => esc(short(x))).join("<br>")}${t.via ? `<div class="t-muted">through ${t.via.map((x) => esc(short(x))).join(", ")}</div>` : ""}</td>
           <td class="td-mono">${t.permissions.map(esc).join("<br>")}</td>
           <td><a href="${esc(t.source?.pathfinding || "#")}" target="_blank" rel="noopener">pathfinding.cloud</a></td></tr>`).join("")}</tbody></table></div>`
       : '<p class="list-empty">Nothing matches.</p>';
@@ -1070,8 +1125,11 @@ function renderEvResult(out, req) {
       <td class="t-muted">${s.t ? esc(sentence(s.t.detail)) : s.skipped ? "Skipped: an earlier step decided." : "No policy of this type was supplied."}</td><td>${stm}</td></tr>`;
   }).join("");
   const warn = r.warnings && r.warnings.length ? `<div class="notice">${IC.warn}<div><b>Check these assumptions</b><ul>${r.warnings.map((w) => `<li>${esc(sentence(w))}</li>`).join("")}</ul></div></div>` : "";
+  const decisionText = `${r.decision} (decided at step: ${r.deciding_step})`;
+  const report = reportLink({ title: `Wrong answer: ${req.action}`, request: `${req.principal}  ${req.action}  ${req.resource}`, iamtrace: decisionText });
   el.innerHTML = `<div class="verdict glass ${allowed ? "v-ok" : "v-crit"}"><span class="vb">${allowed ? IC.ok : IC.x}</span><div><h2>${allowed ? "Allowed" : "Denied"}</h2><p>${why}</p></div>
       <div class="vreq">${esc(short(req.principal))}<br>${esc(req.action)}<br>${esc(short(req.resource))}</div></div>${warn}
+    <div class="report-row">Does AWS disagree? ${report}</div>
     <div class="glass ev-block"><div class="card-h"><h3>Evaluation path</h3><span class="sub">AWS checks these steps in order. Select one to see what it matched.</span></div><ol class="pipe" id="ev-pipe">${pipe}</ol></div>
     <div class="glass"><div class="card-h"><h3>Trace</h3></div><table><thead><tr><th>Step</th><th>Check</th><th>Result</th><th class="w28">Reason</th><th>Matching statements</th></tr></thead><tbody id="ev-trace">${rows}</tbody></table></div>`;
   const pick = (key) => {
@@ -1127,15 +1185,125 @@ $("d-run").addEventListener("click", () => {
   applyWidths(el);
 });
 
+// ------------------------------------------------------------------------------------- policy check
+
+// Rule text marks commands and keys with backticks, as Markdown would; show them as code.
+const codeText = (s) => esc(s).replace(/`([^`]+)`/g, '<code class="c">$1</code>');
+// Severity to colour: the engine's high/medium/low use the app's crit/high/warn tones.
+const SEV = { high: ["crit", "High"], medium: ["high", "Medium"], low: ["warn", "Low"] };
+const pc = { files: [], account: false, report: null, filter: "all" };
+const drawPc = editorWith($("pc-text"), $("pcg"), "");
+
+function pcDocs() {
+  const docs = [];
+  if ($("pc-text").value.trim()) docs.push({ name: "pasted policy", text: $("pc-text").value });
+  docs.push(...pc.files);
+  if (pc.account && input.account) docs.push({ name: input.file?.name || "account export", text: input.account });
+  return docs;
+}
+function pcList() {
+  const rows = pc.files.map((f, i) => ({ name: f.name, meta: bytes(f.text.length), i }));
+  if (pc.account) rows.push({ name: input.file?.name || "Account export", meta: "from Data input", i: -1 });
+  $("pc-list-card").hidden = !rows.length;
+  $("pc-list").innerHTML = rows.map((r) => `<div class="pc-file"><span class="fi">${IC.file}</span><div><b class="mono">${esc(r.name)}</b><small>${esc(r.meta)}</small></div>
+    <button class="icon-btn" data-rm="${r.i}" title="Remove" aria-label="Remove ${esc(r.name)}">${IC.x}</button></div>`).join("");
+  $("pc-list").querySelectorAll("[data-rm]").forEach((b) => b.addEventListener("click", () => {
+    const i = Number(b.dataset.rm);
+    if (i < 0) pc.account = false;
+    else pc.files.splice(i, 1);
+    pcList();
+  }));
+}
+async function pcAddFiles(list) {
+  for (const f of list) pc.files.push({ name: f.name, text: await f.text() });
+  pcList();
+  toast(`${plural(list.length, "file")} added`);
+}
+$("pc-choose").addEventListener("click", () => $("pc-files").click());
+$("pc-files").addEventListener("change", (e) => { pcAddFiles([...e.target.files]); e.target.value = ""; });
+const pcDrop = $("pc-drop");
+pcDrop.addEventListener("dragover", (e) => { e.preventDefault(); pcDrop.classList.add("over"); });
+pcDrop.addEventListener("dragleave", () => pcDrop.classList.remove("over"));
+pcDrop.addEventListener("drop", (e) => { e.preventDefault(); pcDrop.classList.remove("over"); pcAddFiles([...e.dataTransfer.files]); });
+$("pc-clear-files").addEventListener("click", () => { pc.files = []; pc.account = false; pcList(); });
+$("pc-example").addEventListener("click", () => { $("pc-text").value = JSON.stringify(CHECK_EXAMPLE, null, 2); drawPc(); whenReady(runCheck); });
+$("pc-account").addEventListener("click", () => { pc.account = true; pcList(); whenReady(runCheck); });
+$("pc-run").addEventListener("click", runCheck);
+
+function runCheck() {
+  const docs = pcDocs();
+  const el = $("pc-result");
+  if (!docs.length) {
+    el.innerHTML = `<div class="verdict glass v-neutral"><span class="vb">${IC.info}</span><div><h2>Nothing to check</h2><p>Paste a policy, drop files or use Load example.</p></div></div>`;
+    return;
+  }
+  const out = call("check", JSON.stringify(docs), $("pc-aws").checked);
+  if (out.error) {
+    el.innerHTML = `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not check</h2><p>${esc(sentence(out.error))}</p></div></div>`;
+    return;
+  }
+  pc.report = out;
+  pc.filter = "all";
+  const n = out.result.summary;
+  const nav = $("nav-check");
+  nav.hidden = !n.high;
+  nav.textContent = n.high;
+  drawCheck();
+}
+function drawCheck() {
+  const { result: r, text, sarif } = pc.report;
+  const s = r.summary;
+  const total = r.findings.length;
+  let v;
+  if (s.high) v = ["v-crit", IC.warn, `${plural(s.high, "high-severity finding")}`, "Fix these first: each one grants far more than most principals need, or opens access to anyone."];
+  else if (total) v = ["v-warn", IC.info, `${plural(total, "finding")} to review`, "Nothing high severity. Review the rest; each one says why it matters and how to fix it."];
+  else v = ["v-ok", IC.ok, "No risky patterns found", "This does not prove the policies are least-privilege. Run the attack-path analysis to look for escalation through other principals."];
+  const kp = [["high", s.high], ["medium", s.medium], ["low", s.low]].map(([k, c]) => `<div class="kpi glass ${c ? `k-${SEV[k][0]}` : "k-plain"}"><div class="kh">${SEV[k][1]}</div><div class="kv"><b>${c}</b></div></div>`).join("")
+    + `<div class="kpi glass k-plain"><div class="kh">Policies checked</div><div class="kv"><b>${s.policies}</b>${s.skipped_aws_managed ? `<span>${s.skipped_aws_managed} AWS managed skipped</span>` : ""}</div></div>`;
+  const chips = [["all", `All (${total})`], ["high", `High (${s.high})`], ["medium", `Medium (${s.medium})`], ["low", `Low (${s.low})`]]
+    .map(([k, l]) => `<button class="chipf ${pc.filter === k ? "on" : ""}" data-f="${k}">${l}</button>`).join(" ");
+  const card = (f) => {
+    const where = f.statement ? `${f.policy}, statement ${f.statement}` : f.policy;
+    const attached = (f.attached_to || []).filter((a) => !f.policy.startsWith(a));
+    const tech = (f.techniques || []).map((t, i) => `<li><a href="${esc(f.links[i])}" target="_blank" rel="noopener">${esc(t)}</a></li>`).join("");
+    return `<article class="pc-card glass">
+      <div class="pc-h"><h3>${esc(f.title)}</h3><code class="pc-rule">${esc(f.rule)}</code></div>
+      <p class="pc-where mono">${esc(where)}</p>
+      ${attached.length ? `<p class="pc-att">Attached to ${attached.map((a) => `<span class="mono">${esc(short(a))}</span>`).join(", ")}</p>` : ""}
+      <p class="pc-detail">${codeText(f.detail)}</p>
+      ${tech ? `<ul class="pc-tech">${tech}</ul>` : ""}
+      <div class="pc-explain"><div><h4>Why it matters</h4><p>${codeText(f.why)}</p></div><div><h4>How to fix it</h4><p>${codeText(f.fix)}</p></div></div>
+      <div class="report-row">Is this wrong? ${reportLink({ title: `Wrong check finding: ${f.rule}`, request: `iam-trace check, rule ${f.rule}, ${f.statement || "whole policy"}`, iamtrace: f.detail }, "Report a wrong finding")}</div>
+    </article>`;
+  };
+  const groups = ["high", "medium", "low"].filter((k) => pc.filter === "all" || pc.filter === k).map((k) => {
+    const items = r.findings.filter((f) => f.severity === k);
+    return items.length ? `<section class="pc-group s-${SEV[k][0]}"><h2>${SEV[k][1]} severity <span>${items.length}</span></h2>${items.map(card).join("")}</section>` : "";
+  }).join("");
+  const el = $("pc-result");
+  el.innerHTML = `<div class="verdict glass ${v[0]}"><span class="vb">${v[1]}</span><div><h2>${v[2]}</h2><p>${v[3]}</p></div></div>
+    <div class="kpis">${kp}</div>
+    ${total ? `<div class="table-tools pc-tools"><div class="seg-chips">${chips}</div><div class="right"><button class="btn" id="pc-dl-text">Download text</button><button class="btn" id="pc-dl-sarif">Download SARIF</button><button class="btn" id="pc-dl-json">Download JSON</button></div></div>
+    <div class="pc-cards">${groups || '<p class="list-empty">Nothing at this severity.</p>'}</div>` : ""}`;
+  el.querySelectorAll(".chipf").forEach((c) => c.addEventListener("click", () => { pc.filter = c.dataset.f; drawCheck(); }));
+  $("pc-dl-text")?.addEventListener("click", () => download("iam-trace-check.txt", text, "text/plain"));
+  $("pc-dl-sarif")?.addEventListener("click", () => download("iam-trace-check.sarif", sarif));
+  $("pc-dl-json")?.addEventListener("click", () => download("iam-trace-check.json", JSON.stringify(r, null, 2)));
+}
+
 // ------------------------------------------------------------------------------------- changelog
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["A complete web app: an Overview dashboard with the verdict, metrics, paths to admin, recommended fixes and principals at risk.",
+    ["Added", ["<b>Policy check</b>: a new screen and <code class='c'>iam-trace check</code> flag 14 risky patterns (full admin, iam:PassRole on any role, NotAction, public principals, a typo in a Deny and more), each with why it matters and how to fix it.",
+      "<b>Resource inventory</b>: <code class='c'>iam-trace inventory collect</code> (read-only) and a new Data input tab. Techniques that take over an existing Lambda function, EC2 instance or similar are confirmed with the exact resource, or ruled out.",
+      "Report-a-wrong-answer links on Evaluate results, graph findings and Policy check findings. Account IDs are replaced before the issue opens.",
+      "A complete web app: an Overview dashboard with the verdict, metrics, paths to admin, recommended fixes and principals at risk.",
       "Full-screen attack graph with three node styles, a paths panel and a details panel for every principal and technique.",
       "Data input with file drop, validation, a searchable principal picker, organization SCPs and an optional blast-radius count.",
       "Findings with search, filters and downloads (text, SARIF, JSON); documentation and this changelog inside the app.",
       "Settings: light, dark or system mode; bold, restrained or brand-colour style; graph node style.",
+      "Marked as beta, with an honest comparison to pathfinding.cloud, PMapper, Cloudsplaining and iam-lens, and a public roadmap (ROADMAP.md).",
       "<code class='c'>web_api.analyze_account</code>: one call returns the analysis from a starting principal, a summary of every principal, and supports SCPs."]],
     ["Changed", ["Renamed from IAM Lens to iam-trace. Install <code class='c'>iam-trace</code>, import <code class='c'>iamtrace</code>, catalog variable <code class='c'>IAMTRACE_CATALOG</code>.",
       "Escalation analysis skips techniques a principal cannot allow before evaluating them fully. Same results; 400 principals in 3 s instead of 24 s."]],

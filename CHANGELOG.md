@@ -6,12 +6,38 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Policy check: `iam-trace check` and a new screen in the app flag 14 risky patterns, each with
+  where it is, why it matters and how to fix it. Examples: full admin, `iam:PassRole` on any
+  role, Allow with `NotAction`, public principals, `ForAllValues` in an Allow, a typo in a Deny,
+  and every permission a pathfinding.cloud technique needs. Works on policy files or every
+  policy in an account export (with what each is attached to). Text, JSON and SARIF output;
+  `--fail-on` for CI. The GitHub Action lists the findings a pull request introduces (not ones
+  already there) and fails on them with the new `fail-on-check` input.
+- Resource inventory: `iam-trace inventory collect` lists existing Lambda functions, EC2
+  instances, CodeBuild projects, CloudFormation stacks, Glue dev endpoints, SageMaker notebooks,
+  Step Functions state machines and App Runner services with their roles, using read-only AWS CLI
+  calls. `escalate --inventory` and a new Data input tab use it to confirm techniques that take
+  over an existing resource (naming the resource) or rule them out. Kinds that could not be
+  collected stay "possible". On the example account, 25 possible findings become 17.
+- The example account has a user who may update one Lambda function, and an example inventory.
 - A complete web app: an Overview dashboard with the verdict, metrics, paths to admin,
   recommended fixes and principals at risk; a full-screen attack graph with three node styles;
   Findings with search, filters and downloads (text, SARIF, JSON); Data input with file drop,
   validation, a principal picker, organization SCPs and an optional blast-radius count.
   Evaluate and Policy diff use the same design. Documentation, this changelog and settings
   (light, dark or system mode; bold, restrained or brand-colour style) are inside the app.
+- Marked as beta in the app and README. New README sections on who iam-trace is for and how it
+  relates to pathfinding.cloud, PMapper, Cloudsplaining, iam-lens and AWS's own tools; a
+  `ROADMAP.md` with the plan to 1.0.
+- "Report a wrong answer" links next to every Evaluate result and graph finding. They open a
+  prefilled GitHub issue; 12-digit account IDs are replaced with `111122223333` first.
+- Project files: `CONTRIBUTING.md`, `SECURITY.md` (private vulnerability reporting),
+  `CODE_OF_CONDUCT.md`, issue forms (wrong answer, bug, feature), a pull request template and
+  Dependabot for workflow actions.
+- Release workflow: pushing a `v*` tag checks the version and changelog, runs every check and
+  publishes to PyPI with trusted publishing and attestations, then creates the GitHub release.
+- Package metadata for PyPI: SPDX licence, classifiers, keywords and project links.
+  `iam-trace --version` prints the version.
 - `web_api.analyze_account`: one call returns the analysis from a starting principal, a summary of
   every principal with its shortest path to admin, and accepts organization SCPs.
 

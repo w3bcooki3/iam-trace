@@ -26,6 +26,10 @@ Confidence. "confirmed" means every permission and the target's trust policy wer
 (an existing Lambda function, EC2 instance, ...) that the IAM export does not list, the target is
 only known as a resource pattern, or iam-trace does not know which service principal must trust
 the passed role. Only confirmed edges form paths.
+
+A resource inventory (iamtrace.inventory) lists the existing resources and their roles. With one,
+existing-resource techniques are checked against each resource and become confirmed, or are
+ruled out when the kind was collected and nothing matches.
 """
 
 from __future__ import annotations
@@ -38,8 +42,11 @@ from functools import cache
 from importlib import resources
 from typing import Any
 
+from iamtrace.arn import resource_matches
 from iamtrace.catalog import ACCESS_LEVELS, Catalog
+from iamtrace.context import Context
 from iamtrace.evaluate import PolicySet, Request, evaluate
+from iamtrace.inventory import TECHNIQUE_KIND, Inventory
 from iamtrace.matching import any_action_matches
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import sarif_log
@@ -105,6 +112,8 @@ MODIFY_PERMISSIONS = frozenset(
 
 FULL_ADMIN = "allowed every action on every resource"
 
+_NO_CONTEXT = Context()
+
 ADMIN_PROBE = "iamtraceprobe:AnyAction"  # only Action "*" (or a NotAction that spares it) matches
 
 
@@ -160,6 +169,7 @@ class Environment:
         self.warnings = warnings
         self.raw = raw or {}
         self.inventory = inventory  # False for a single policy with no account export
+        self.resources: Inventory | None = None  # existing resources and their roles, if given
 
     @classmethod
     def from_auth_details(cls, data: dict[str, Any]) -> Environment:
@@ -286,6 +296,7 @@ class _Analyzer:
         self._cache: dict[tuple[str, str, str, str], bool] = {}
         self._may: dict[tuple[str, str], bool] = {}
         self._trust: dict[tuple[str, str], bool] = {}
+        self._patterns: dict[str, tuple[str, ...] | None] = {}
 
     def can(
         self,
@@ -303,7 +314,10 @@ class _Analyzer:
             json.dumps(context or {}, sort_keys=True) + (trust.id if trust else ""),
         )
         if key not in self._cache:
-            req = Request(node.caller(), action, resource, resource_account=node.account, context=context or {})
+            # The resource's own account when its ARN has one (S3 ARNs do not), else the caller's.
+            parts = resource.split(":", 5)
+            account = parts[4] if len(parts) > 4 and parts[0] == "arn" and parts[4] else node.account
+            req = Request(node.caller(), action, resource, resource_account=account, context=context or {})
             ps = PolicySet(
                 identity=node.policies, boundary=node.boundary, scps=self.scps, resource=[trust] if trust else []
             )
@@ -383,7 +397,10 @@ class _Analyzer:
             result = self._check(node, t)
             if result is None:
                 continue
-            targets, confidence, grants_admin, edge_targets = result
+            # (targets, confidence, grants_admin, edge_targets[, via]): via names the existing
+            # resources an inventory-backed finding goes through.
+            targets, confidence, grants_admin, edge_targets = result[:4]
+            via: list[str] = list(result[4]) if len(result) > 4 else []
             found.append(
                 {
                     "id": t["id"],
@@ -393,6 +410,7 @@ class _Analyzer:
                     "targets": targets,
                     "confidence": confidence,
                     "grants_admin": grants_admin,
+                    **({"via": via} if via else {}),
                     "source": {
                         "pathfinding": t["pathfinding_url"],
                         "first_documented": t["first_documented"].get("link"),
@@ -477,6 +495,10 @@ class _Analyzer:
             return None
 
         if cat == "existing-passrole":
+            kind = TECHNIQUE_KIND.get(tid)
+            inv = env.resources
+            if inv is not None and kind in inv.collected:
+                return self._existing(node, perms, inv, kind)
             if not all(self.any_allowed(node, p) for p in perms):
                 return None
             roles = [
@@ -487,6 +509,45 @@ class _Analyzer:
             label = roles or [f"existing {service} resources and the roles attached to them (not in the IAM export)"]
             return (label, "possible", False, [])
         return None
+
+    def _existing(self, node: Node, perms: list[str], inv: Inventory, kind: str) -> tuple[Any, ...] | None:
+        """Check an existing-resource technique against each inventoried resource of its kind."""
+        roles: set[str] = set()
+        via: set[str] = set()
+        decided: dict[tuple[str, ...], bool] = {}
+        patterns = self._resource_patterns(node)
+        for r in inv.of_kind(kind):
+            if r.role is None or r.role == node.arn:
+                continue
+            # Resources that the same Resource/NotResource patterns match, in the same account,
+            # get the same decision, so evaluate once per group. Patterns with policy variables
+            # depend on the request, so those fall back to one evaluation per resource.
+            if patterns is None:
+                sig: tuple[str, ...] = (r.arn,)
+            else:
+                acct = r.arn.split(":")[4]
+                sig = (acct, *(x for x in patterns if resource_matches(x, r.arn, _NO_CONTEXT, False)))
+            if sig not in decided:
+                decided[sig] = all(self.can(node, p, r.arn) for p in perms)
+            if decided[sig]:
+                roles.add(r.role)
+                via.add(r.arn)
+        if not roles:
+            return None  # the kind was collected and nothing reachable runs as a role
+        edges = sorted(x for x in roles if x in self.env.nodes)
+        return (sorted(roles), "confirmed", False, edges, sorted(via))
+
+    def _resource_patterns(self, node: Node) -> tuple[str, ...] | None:
+        """Every Resource and NotResource pattern in the policies that decide for this node, or
+        None if any of them uses a policy variable."""
+        if node.arn not in self._patterns:
+            pols = list(node.policies) + ([node.boundary] if node.boundary else [])
+            pols += [p for level in self.scps or [] for p in level]
+            pats = sorted(
+                {x for pol in pols for st in pol.statements for x in (st.resources or ()) + (st.not_resources or ())}
+            )
+            self._patterns[node.arn] = None if any("${" in x for x in pats) else tuple(pats)
+        return self._patterns[node.arn]
 
     def _self_escalation(self, node: Node, t: dict[str, Any]) -> tuple[list[str], str, bool, list[str]] | None:
         perms = [p.lower() for p in t["permissions"]]
@@ -581,7 +642,8 @@ def analyze(
             for arn in order
         ],
         "paths": paths,
-        "warnings": env.warnings,
+        "warnings": env.warnings + (env.resources.warnings if env.resources else []),
+        "inventory": env.resources.summary() if env.resources else None,
         "blast_radius": None,
     }
     if catalog is not None:
@@ -671,6 +733,8 @@ def escalate_text(r: dict[str, Any]) -> str:
         for t in p["techniques"]:
             lines.append(f"  {t['id']:<18} {t['name']}  [{t['category']}, {t['confidence']}]")
             lines.append(f"      targets: {', '.join(t['targets'])}")
+            if t.get("via"):
+                lines.append(f"      via:     {', '.join(t['via'])}")
             src = t["source"]
             lines.append(f"      source:  {src['pathfinding']}")
             if src.get("first_documented"):
@@ -697,6 +761,10 @@ def escalate_text(r: dict[str, Any]) -> str:
         ]
         lines += [f"  {k}: {v}" for k, v in br["actions_by_access_level"].items()]
         lines.append(f"  ({br['note']})")
+    inv = r.get("inventory")
+    if inv is not None:
+        counts = ", ".join(f"{n} {k}" for k, n in inv.items()) or "no kinds collected"
+        lines += ["", f"Resource inventory: {counts}."]
     if r["warnings"]:
         lines += ["", "Warnings:"] + [f"  - {w}" for w in r["warnings"]]
     return "\n".join(lines).rstrip() + "\n"

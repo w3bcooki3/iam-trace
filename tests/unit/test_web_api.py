@@ -141,7 +141,7 @@ def test_analyze_account_summarises_every_principal() -> None:
     assert by_arn[DEV]["path"] is not None
     assert [s["technique"] for s in by_arn[DEV]["path"]["steps"]] == ["sts-001", "ec2-001"]
     assert by_arn["arn:aws:iam::111122223333:role/ec2-admin"]["admin_equivalent"]
-    assert out["inventory"]["users"] == 1 and out["inventory"]["roles"] == 2
+    assert out["inventory"]["users"] == 1 and out["inventory"]["roles"] == 3
     assert out["result"]["start"] == DEV
     assert json.loads(out["sarif"])["version"] == "2.1.0"
 
@@ -164,3 +164,52 @@ def test_analyze_account_scp_can_break_a_path() -> None:
 )
 def test_analyze_account_reports_errors(text: str, principal: str) -> None:
     assert "error" in json.loads(web_api.analyze_account(text, principal))
+
+
+@pytest.fixture
+def real_catalog(monkeypatch: pytest.MonkeyPatch) -> object:
+    from iamtrace.catalog import PACKAGED
+
+    web_api._catalog.cache_clear()
+    monkeypatch.setattr(web_api, "CATALOG_DIR", str(PACKAGED))
+    yield
+    web_api._catalog.cache_clear()
+
+
+@pytest.mark.usefixtures("real_catalog")
+def test_check_policies_and_export_together() -> None:
+    export = (Path(__file__).parents[2] / "examples" / "account" / "auth-details.json").read_text()
+    admin = '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Action":"*","Resource":"*"}}'
+    out = json.loads(
+        web_api.check(json.dumps([{"name": "admin.json", "text": admin}, {"name": "account.json", "text": export}]))
+    )
+    rules = {f["rule"] for f in out["result"]["findings"]}
+    assert {"full-admin", "passrole-any-role"} <= rules
+    assert out["result"]["summary"]["policies"] == 8  # 1 file + 4 inline + 3 trust policies
+    assert out["result"]["findings"][0]["severity"] == "high"
+    assert "Fix:" in out["text"] and json.loads(out["sarif"])["version"] == "2.1.0"
+
+
+@pytest.mark.usefixtures("real_catalog")
+def test_check_errors() -> None:
+    assert "error" in json.loads(web_api.check("[]"))
+    bad = json.loads(web_api.check(json.dumps([{"name": "x", "text": "{oops"}])))
+    assert bad["result"]["findings"][0]["rule"] == "invalid-policy"
+
+
+def test_analyze_account_with_inventory() -> None:
+    inv = (Path(__file__).parents[2] / "examples" / "account" / "inventory.json").read_text()
+    dev = "arn:aws:iam::111122223333:user/dev"
+    without = json.loads(web_api.analyze_account(ACCOUNT, dev))
+    with_inv = json.loads(web_api.analyze_account(ACCOUNT, dev, "", False, inv))
+
+    def lambda_003(out: dict) -> dict:
+        p = next(p for p in out["result"]["principals"] if p["arn"] == dev)
+        return next(t for t in p["techniques"] if t["id"] == "lambda-003")
+
+    assert lambda_003(without)["confidence"] == "possible" and without["resources"] is None
+    assert lambda_003(with_inv)["confidence"] == "confirmed"
+    assert lambda_003(with_inv)["via"] == ["arn:aws:lambda:us-east-1:111122223333:function:nightly-report"]
+    assert with_inv["resources"] == {"ec2-instance": 1, "lambda-function": 2}
+    bad = json.loads(web_api.analyze_account(ACCOUNT, dev, "", False, "{oops"))
+    assert "inventory" in bad["error"]

@@ -203,3 +203,23 @@ def test_md_text_escapes_markdown() -> None:
 
     out = md_text("see [link](https://x) @team <b>")
     assert "@team" not in out and "<b>" not in out and "\\[link\\]" in out
+
+
+def test_review_reports_only_new_check_findings(repo: Path, tmp_path: Path) -> None:
+    from iamtrace.catalog import PACKAGED
+
+    # The base already has a typo; the change keeps it and adds iam:PassRole on every role.
+    write(repo, "policies/app.json", policy("s3:GetObjects"))
+    git(repo, "commit", "-qam", "typo")
+    base = git(repo, "rev-parse", "HEAD")
+    write(repo, "policies/app.json", policy("s3:GetObjects", "iam:PassRole"))
+    git(repo, "commit", "-qam", "passrole")
+    head = git(repo, "rev-parse", "HEAD")
+    out = tmp_path / "c.md"
+    args = ["--base", base, "--head", head, "--repo", str(repo), "--catalog", str(PACKAGED), "--comment-file", str(out)]
+    assert pr_review.main([*args, "--fail-on-check", "medium"]) == 1
+    comment = out.read_text()
+    assert "New risky patterns: **1**" in comment
+    assert "<code>passrole-any-role</code>" in comment
+    assert "unknown-action" not in comment
+    assert pr_review.main(args) == 0

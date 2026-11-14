@@ -26,7 +26,7 @@
   <!-- ================================================================== top bar -->
   <header class="top">
     <button class="icon-btn menu-btn" id="menu-btn" aria-label="Menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-    <div class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24"><path d="M3 16h5l4-10 4 10h5"/></svg></span>iam-trace</div>
+    <div class="logo"><span class="logo-mark"><svg viewBox="0 0 24 24"><path d="M3 16h5l4-10 4 10h5"/></svg></span>iam-trace<span class="beta" title="Early version: tested, but not yet compared live with AWS. Use alongside your existing reviews.">Beta</span></div>
     <div class="crumbs">
       <span class="scope-pill" id="scope-pill"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18"/></svg><span id="scope-text">No account loaded</span></span>
       <span class="sl">/</span><span id="crumb-group">Attack paths</span><span class="sl">/</span><b id="crumb-view">Overview</b>
@@ -46,6 +46,7 @@
     <button class="nav-item" data-go="findings"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.4-3.4 8-8 9-4.6-1-8-4.6-8-9V7z"/><path d="M12 8v4M12 15.5v.5"/></svg>Findings<span class="count" id="nav-findings" hidden></span></button>
     <button class="nav-item" data-go="input"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>Data input</button>
     <h4>Tools</h4>
+    <button class="nav-item" data-go="check"><svg class="i" viewBox="0 0 24 24"><path d="M9 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M3 4l3 3 4-5"/><path d="M9 12h7M9 16h5"/></svg>Policy check<span class="count" id="nav-check" hidden></span></button>
     <button class="nav-item" data-go="evaluate"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Evaluate a request</button>
     <button class="nav-item" data-go="diff"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M4 8h6M14 16h6M17 13v6"/></svg>Policy diff</button>
     <h4>Help</h4>
@@ -90,6 +91,7 @@
         <button class="src on" data-src="account" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 14h8"/></svg></span><div><b>Account export</b><span>Every user, group, role and policy in one AWS account</span></div></button>
         <button class="src" data-src="policy" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><div><b>Single policy</b><span>Check one identity policy on its own</span></div></button>
         <button class="src" data-src="scp" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg></span><div><b>Organization SCPs</b><span>Optional guardrails applied to the account export</span></div></button>
+        <button class="src" data-src="inv" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="8" height="7" rx="1.5"/><path d="M15 16.5h4M17 14.5v4"/></svg></span><div><b>Resource inventory</b><span>Optional: existing functions, instances and the roles they run as</span></div></button>
       </div>
       <div class="input-grid">
         <div>
@@ -114,13 +116,47 @@
           <div class="glass"><div class="card-h"><h3>Options</h3></div><div class="card-b">
             <label class="toggle">Count blast radius (slower: checks every AWS action)<input type="checkbox" id="opt-blast"><span class="switch"></span></label>
           </div></div>
-          <div class="glass"><div class="card-h"><h3>Get the export</h3></div><div class="card-b">
+          <div class="glass" id="get-export"><div class="card-h"><h3>Get the export</h3></div><div class="card-b">
             <div class="cmd" id="cmd">aws iam get-account-authorization-details --output json &gt; auth-details.json<button class="icon-btn copy" data-copy="aws iam get-account-authorization-details --output json > auth-details.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
             <p class="cmd-note">Read-only. Needs <span class="mono">iam:GetAccountAuthorizationDetails</span>, which the AWS managed policy SecurityAudit includes.</p>
+          </div></div>
+          <div class="glass" id="get-inventory" hidden><div class="card-h"><h3>Get the inventory</h3></div><div class="card-b">
+            <div class="cmd">iam-trace inventory collect --out inventory.json<button class="icon-btn copy" data-copy="iam-trace inventory collect --out inventory.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
+            <p class="cmd-note">Read-only list and describe calls through your AWS CLI, in every enabled region. ReadOnlyAccess or SecurityAudit is enough. Add <span class="mono">--regions us-east-1,eu-west-1</span> to limit it.</p>
           </div></div>
         </div>
       </div>
       <div class="run-bar glass"><span class="muted" id="run-note">Load an account export to begin.</span><button class="btn" id="run-reset">Clear</button><button class="btn primary lg" id="run" disabled>Run analysis</button></div>
+    </div></section>
+
+    <!-- ============================================================== policy check -->
+    <section class="view" id="v-check"><div class="page">
+      <div class="page-head">
+        <div><h1>Policy check</h1><p>Flags risky patterns in policies, each with the reason it matters and how to fix it. Paste a policy, drop files, or check the account export from Data input.</p></div>
+        <div class="actions"><button class="btn" id="pc-example">Load example</button><button class="btn" id="pc-account" disabled title="Load an account export in Data input first">Check the loaded account</button></div>
+      </div>
+      <div class="pc-grid">
+        <div>
+          <div class="editor pc-editor">
+            <div class="editor-bar"><span class="fname">Policy</span><span>identity, resource or trust policy, or an account export</span></div>
+            <div class="editor-body"><div class="gutter" id="pcg" aria-hidden="true"></div><textarea id="pc-text" spellcheck="false" aria-label="Policy to check" placeholder="Paste a policy here"></textarea></div>
+          </div>
+        </div>
+        <div class="side-stack">
+          <div class="dropzone glass pc-drop" id="pc-drop">
+            <span class="dz-ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>
+            <div><b>Drop policy files</b><span>Several at once is fine. Each is checked on its own.</span></div>
+            <button class="btn" id="pc-choose">Choose files</button>
+            <input type="file" id="pc-files" class="hidden-input" accept=".json,application/json" multiple tabindex="-1">
+          </div>
+          <div class="glass" id="pc-list-card" hidden><div class="card-h"><h3>Also checking</h3><div class="right"><button class="link-like btn" id="pc-clear-files">Remove all</button></div></div><div class="card-b pc-list" id="pc-list"></div></div>
+          <div class="glass"><div class="card-h"><h3>Options</h3></div><div class="card-b">
+            <label class="toggle">Include AWS managed policies (account exports only; they are broad by design)<input type="checkbox" id="pc-aws"><span class="switch"></span></label>
+          </div></div>
+        </div>
+      </div>
+      <div class="diff-run glass"><span class="muted" id="pc-note">Checks for 14 risky patterns.</span><button class="btn primary" id="pc-run" disabled>Check</button></div>
+      <div id="pc-result"></div>
     </div></section>
 
     <!-- ============================================================== evaluate -->
@@ -165,7 +201,7 @@
         <h5>Start here</h5>
         <a href="#d-start">What iam-trace does</a><a href="#d-quick">Your first analysis</a>
         <h5>Using the app</h5>
-        <a href="#d-attack">Attack paths</a><a href="#d-evaluate">Evaluate a request</a><a href="#d-diff">Policy diff</a><a href="#d-input">Getting your data</a><a href="#d-words">Words used here</a>
+        <a href="#d-attack">Attack paths</a><a href="#d-check">Policy check</a><a href="#d-evaluate">Evaluate a request</a><a href="#d-diff">Policy diff</a><a href="#d-input">Getting your data</a><a href="#d-words">Words used here</a>
         <h5>Automation</h5>
         <a href="#d-cli">Command line</a><a href="#d-action">GitHub Action</a><a href="#d-formats">Output and exit codes</a>
         <h5>Good to know</h5>
@@ -177,6 +213,7 @@
           <p>iam-trace reads your AWS IAM policies and tells you, with evidence, what they really allow. Pick the question you have:</p>
           <div class="qcards">
             <button class="qcard" data-doc="d-attack"><span class="qi"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11l9.4-5M7.3 13l9.4 5"/></svg></span><b>"If these keys leak, how bad is it?"</b><span>Attack paths</span></button>
+            <button class="qcard" data-doc="d-check"><span class="qi"><svg class="i" viewBox="0 0 24 24"><path d="M9 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M3 4l3 3 4-5"/><path d="M9 12h7M9 16h5"/></svg></span><b>"What in this policy is risky?"</b><span>Policy check</span></button>
             <button class="qcard" data-doc="d-evaluate"><span class="qi"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></span><b>"Why was this request denied?"</b><span>Evaluate a request</span></button>
             <button class="qcard" data-doc="d-diff"><span class="qi"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M4 8h6M14 16h6"/></svg></span><b>"Is this policy change safe?"</b><span>Policy diff</span></button>
           </div>
@@ -221,7 +258,7 @@
             <li><strong>Findings</strong> lists every technique for every principal, so you can search and export them.</li>
           </ul>
           <h3>Confirmed or possible?</h3>
-          <p><strong>Confirmed</strong> means the policies in your export fully allow the technique. <strong>Possible</strong> means it also depends on something the export does not describe, such as an existing Lambda function and the role it runs as. Possible techniques are drawn as dashed amber lines. Check those resources yourself.</p>
+          <p><strong>Confirmed</strong> means the policies in your export fully allow the technique. <strong>Possible</strong> means it also depends on something the export does not describe, such as an existing Lambda function and the role it runs as. Possible techniques are drawn as dashed amber lines. Check those resources yourself, or add a <a href="#d-input">resource inventory</a> so iam-trace can.</p>
           <h3>Example</h3>
           <p>In the sample account, the user <code class="c">dev</code> can assume the role <code class="c">ops</code> (technique sts-001). <code class="c">ops</code> can launch an EC2 instance with the <code class="c">ec2-admin</code> role attached and read its credentials (ec2-001). <code class="c">ec2-admin</code> has full access. So dev reaches admin in two steps:</p>
           <div class="codeblock"><div class="cb-h">result</div><pre>user/dev --[<span class="r">sts-001</span>]--> role/ops --[<span class="r">ec2-001</span>]--> role/ec2-admin
@@ -252,6 +289,16 @@
           <p>If nothing allows the request, it is denied by default. Requests across accounts need an Allow from both sides.</p>
         </section>
 
+        <section class="dsec" id="d-check">
+          <h2>Policy check</h2>
+          <div class="tldr"><b>Answers</b><span>What in this policy is risky, and how do I fix it?</span><b>Use it when</b><span>writing or reviewing a policy, or auditing every policy in an account.</span><b>You need</b><span>one or more policies, or an account export.</span></div>
+          <p>Policy check reads each policy on its own and flags patterns that commonly lead to trouble. Every finding says <strong>where</strong> it is (policy and statement), <strong>why it matters</strong> and <strong>how to fix it</strong>.</p>
+          <p>It catches things like full administrator access, <code class="c">iam:PassRole</code> on any role, Allow with <code class="c">NotAction</code>, trust and bucket policies open to <code class="c">"Principal": "*"</code>, conditions that pass when a key is missing, and actions that match nothing. A typo in a Deny is the worst case: the policy looks safe but protects nothing.</p>
+          <p>Severity is <span class="tag crit">High</span>, <span class="tag high">Medium</span> or <span class="tag warn">Low</span>. If a statement has a condition the rule doesn't look for, the finding drops one level and says so, because the condition may narrow it.</p>
+          <p>Check an account export and every customer managed policy, inline policy and trust policy is checked once, with the users, groups and roles it's attached to. AWS managed policies are skipped unless you turn them on: they are broad by design.</p>
+          <p>Policy check looks at one policy at a time. It can't see what else a principal has, so a clean result doesn't prove least privilege. To see what an attacker could actually reach, use <a href="#d-attack">Attack paths</a>.</p>
+        </section>
+
         <section class="dsec" id="d-diff">
           <h2>Policy diff</h2>
           <div class="tldr"><b>Answers</b><span>What does this policy change actually grant or remove?</span><b>Use it when</b><span>reviewing a pull request that edits a policy.</span><b>You need</b><span>the policy before and after the change.</span></div>
@@ -270,6 +317,10 @@
             <li><strong>Treat it as internal:</strong> it describes how your account is set up.</li>
           </ul>
           <div class="callout callout-warn"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg><div>The export does not include your organization's SCPs. If the account is in AWS Organizations, add them under <strong>Organization SCPs</strong> in Data input. SCPs can block a path, so results without them may overstate the risk.</div></div>
+          <h3>Optional: a resource inventory</h3>
+          <p>Some techniques take over something that already exists, such as editing an existing Lambda function's code to act as its role. The export doesn't list your functions or instances, so these are <strong>possible</strong> until you add a resource inventory:</p>
+          <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>iam-trace inventory collect --out inventory.json</pre></div>
+          <p>It runs read-only list and describe calls through your AWS CLI and records each Lambda function, EC2 instance, CodeBuild project, CloudFormation stack, Glue dev endpoint, SageMaker notebook, Step Functions state machine and App Runner service with the role it runs as. Load the file under <strong>Resource inventory</strong> in Data input. Findings then name the exact resource, and techniques with nothing to take over disappear. If a kind couldn't be collected, it stays possible instead of being treated as empty.</p>
         </section>
 
         <section class="dsec" id="d-words">
@@ -288,9 +339,11 @@
           <h2>Command line</h2>
           <p>The same engine runs in a terminal and in CI. Python 3.11 or newer; no other dependencies.</p>
           <div class="codeblock"><div class="cb-h">install<button class="copy">Copy</button></div><pre>pip install git+https://github.com/w3bcooki3/iam-trace
-iam-trace catalog refresh     <span class="m"># once: downloads AWS's action list (about 10 MB)</span></pre></div>
+iam-trace check policy.json   <span class="m"># the action list is included; catalog refresh updates it</span></pre></div>
           <table class="dtable glass"><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody>
             <tr><td><code class="c">iam-trace escalate</code></td><td>Attack paths for an account export (<code class="c">--auth-details</code>) or one policy (<code class="c">--policy</code>).</td></tr>
+            <tr><td><code class="c">iam-trace inventory collect</code></td><td>Lists existing functions, instances and similar resources with their roles (read-only), for <code class="c">escalate --inventory</code>.</td></tr>
+            <tr><td><code class="c">iam-trace check</code></td><td>Flags risky patterns in policy files or every policy in an account export, with a fix for each.</td></tr>
             <tr><td><code class="c">iam-trace can</code></td><td>Evaluates one request and prints the decision and trace.</td></tr>
             <tr><td><code class="c">iam-trace diff</code></td><td>Compares two policy files by what they allow.</td></tr>
             <tr><td><code class="c">iam-trace expand</code></td><td>Lists the actions a wildcard such as <code class="c">'iam:*Policy*'</code> covers.</td></tr>
@@ -303,13 +356,15 @@ iam-trace can --principal arn:aws:iam::111122223333:user/alice \
   --action s3:GetObject --resource arn:aws:s3:::example-app/data.csv \
   --resource-account 111122223333 --identity developer.json
 
+iam-trace check --auth-details auth.json --fail-on high
+
 iam-trace diff before.json after.json --fail-on highlighted</pre></div>
           <p>Every command explains its options with <code class="c">--help</code>.</p>
         </section>
 
         <section class="dsec" id="d-action">
           <h2>GitHub Action</h2>
-          <p>Add this workflow and every pull request that changes a policy file gets a review comment: what the change grants, and any new escalation technique. It can also fail the check.</p>
+          <p>Add this workflow and every pull request that changes a policy file gets a review comment: what the change grants, any new escalation technique, and any risky pattern the change introduces. It can also fail the check.</p>
           <div class="codeblock"><div class="cb-h">.github/workflows/iam.yml<button class="copy">Copy</button></div><pre><span class="k">on</span>: pull_request
 <span class="k">permissions</span>:
   contents: read
@@ -325,21 +380,23 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
         with:
           paths: <span class="s">"policies/**/*.json"</span>
           fail-on-escalation: <span class="s">"true"</span>
-          fail-on-diff: <span class="s">"never"</span>   <span class="m"># or any | new-allow | highlighted</span></pre></div>
+          fail-on-diff: <span class="s">"never"</span>   <span class="m"># or any | new-allow | highlighted</span>
+          fail-on-check: <span class="s">"high"</span>   <span class="m"># or never | medium | low</span></pre></div>
           <table class="dtable glass"><thead><tr><th>Setting</th><th>Meaning</th></tr></thead><tbody>
             <tr><td><code class="c">paths</code></td><td>Which files are policies, as comma-separated glob patterns.</td></tr>
             <tr><td><code class="c">fail-on-escalation</code></td><td>Fail if a changed policy allows a technique the old version did not.</td></tr>
             <tr><td><code class="c">fail-on-diff</code></td><td>Also fail on diff results: never, any, new-allow or highlighted (sensitive).</td></tr>
+            <tr><td><code class="c">fail-on-check</code></td><td>Fail if the change introduces a Policy check finding at this severity or higher: never, high, medium or low. Problems already in the old version don't count.</td></tr>
             <tr><td><code class="c">comment</code></td><td>Post or update one review comment on the pull request.</td></tr>
           </tbody></table>
         </section>
 
         <section class="dsec" id="d-formats">
           <h2>Output and exit codes</h2>
-          <p>Every command prints readable text by default. Add <code class="c">--format json</code> for scripts or <code class="c">--format sarif</code> for GitHub code scanning; <code class="c">diff</code> also has <code class="c">markdown</code>. In the app, use <strong>Download report</strong> on the Attack graph or the buttons on Findings.</p>
+          <p>Every command prints readable text by default. Add <code class="c">--format json</code> for scripts or <code class="c">--format sarif</code> for GitHub code scanning; <code class="c">diff</code> also has <code class="c">markdown</code>. In the app, use <strong>Download report</strong> on the Attack graph or the buttons on Findings and Policy check.</p>
           <table class="dtable glass"><thead><tr><th>Exit code</th><th>Meaning</th></tr></thead><tbody>
             <tr><td><code class="c">0</code></td><td>Success. For <code class="c">can</code>: the request is allowed.</td></tr>
-            <tr><td><code class="c">1</code></td><td>For <code class="c">can</code>: denied. For <code class="c">diff</code> and <code class="c">escalate</code>: a <code class="c">--fail-on</code> rule matched.</td></tr>
+            <tr><td><code class="c">1</code></td><td>For <code class="c">can</code>: denied. For <code class="c">check</code>, <code class="c">diff</code> and <code class="c">escalate</code>: a <code class="c">--fail-on</code> rule matched.</td></tr>
             <tr><td><code class="c">2</code></td><td>Something is wrong with the input: a usage error, an unreadable file, or a policy AWS would reject.</td></tr>
           </tbody></table>
         </section>
@@ -362,14 +419,17 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
             <li><strong>Context keys you don't supply count as missing.</strong> Only principal and account keys are filled in automatically.</li>
             <li><strong>Some service rules are not modelled</strong>, such as S3 ACLs, Block Public Access, VPC endpoint policies and KMS grants.</li>
             <li><strong>One account at a time.</strong> Paths into other accounts are not followed.</li>
+            <li><strong>Existing resources need an inventory.</strong> Without one, techniques that take over a function or instance are possible, not confirmed. Launch templates, Batch, CodeDeploy, ECS tasks and Bedrock AgentCore stay possible even with one.</li>
           </ul>
           <p>The repository's <code class="c">docs/limitations.md</code> has the complete list.</p>
         </section>
 
         <section class="dsec" id="d-faq">
           <h2>Questions</h2>
-          <h3>How is this different from AWS IAM Access Analyzer or the policy simulator?</h3>
-          <p>The simulator checks one request at a time and cannot model RCPs, session policies or role trust policies. Access Analyzer focuses on access from outside your account. iam-trace shows the full reasoning for a decision, compares policy versions by meaning, and follows multi-step escalation paths inside an account.</p>
+          <h3>Why "beta"?</h3>
+          <p>iam-trace passes AWS's documented examples and hundreds of tests, but it has not yet been compared case by case with AWS's own policy simulator, and it has the limitations listed above. Use it alongside your existing reviews, not instead of them.</p>
+          <h3>How does it relate to other tools?</h3>
+          <p>iam-trace builds on <strong>pathfinding.cloud</strong>, Datadog Security Labs' library of escalation techniques, and links every finding to it. Other good open-source tools cover related ground: <strong>PMapper</strong> (NCC Group) maps escalation paths from the command line, <strong>Cloudsplaining</strong> (Salesforce) reports least-privilege violations, and <strong>iam-lens</strong> (Cloud Copilot) simulates requests across many accounts. iam-trace's focus is different: it runs entirely in the browser with no install or upload, explains every finding in plain language, and puts evaluation, policy diffs and escalation paths in one place, with a GitHub Action for pull requests. Use whichever fits your job; they work well together.</p>
           <h3>A technique shows as possible. What should I do?</h3>
           <p>Look at the resource it depends on, for example which role an existing Lambda function uses. If that role is powerful, treat the technique as real.</p>
           <h3>Can I use it in CI?</h3>
@@ -434,7 +494,7 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
       <div class="glass set-card">
         <div class="card-h"><h3>About</h3></div>
         <div class="set-row"><div class="lab"><b>iam-trace</b><span>Open source under the MIT licence.</span></div>
-          <div class="kv-list"><span>Version</span><div class="mono">0.2.0</div><span>Engine</span><div>Python, running in this browser with Pyodide 0.29.3</div><span>Action catalog</span><div id="about-catalog">Loading</div><span>Techniques</span><div>92, from pathfinding.cloud</div><span>Source</span><div><a href="https://github.com/w3bcooki3/iam-trace" target="_blank" rel="noopener">github.com/w3bcooki3/iam-trace</a></div></div></div>
+          <div class="kv-list"><span>Version</span><div><span class="mono">0.2.0</span>, beta. Tested against AWS's documented examples; not yet compared live with AWS's policy simulator.</div><span>Engine</span><div>Python, running in this browser with Pyodide 0.29.3</div><span>Action catalog</span><div id="about-catalog">Loading</div><span>Techniques</span><div>92, from pathfinding.cloud</div><span>Source</span><div><a href="https://github.com/w3bcooki3/iam-trace" target="_blank" rel="noopener">github.com/w3bcooki3/iam-trace</a></div></div></div>
       </div>
     </div></section>
   </main>

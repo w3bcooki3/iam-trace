@@ -1,14 +1,33 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "iam-trace"
 version = "0.2.0"
-description = "Explains what AWS IAM policies allow: decisions with traces, semantic diffs, escalation paths."
+description = "See how an attacker could escalate in your AWS account, why a request is allowed or denied, and what a policy change grants."
 readme = "README.md"
-license = { text = "MIT" }
+license = "MIT"
+license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.11"
+authors = [{ name = "iam-trace contributors" }]
+keywords = ["aws", "iam", "security", "privilege-escalation", "policy", "cloud-security", "devsecops"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: System :: Systems Administration",
+    "Typing :: Typed",
+]
 # No runtime dependencies on purpose: the engine must run offline and inside Pyodide.
 dependencies = []
 
@@ -16,6 +35,13 @@ dependencies = []
 dev = ["pytest>=8", "mypy>=1.10", "ruff>=0.5"]
 # Only needed for the live differential run against the AWS policy simulator.
 differential = ["boto3>=1.34"]
+
+[project.urls]
+Homepage = "https://w3bcooki3.github.io/iam-trace/"
+Documentation = "https://w3bcooki3.github.io/iam-trace/#docs"
+Source = "https://github.com/w3bcooki3/iam-trace"
+Issues = "https://github.com/w3bcooki3/iam-trace/issues"
+Changelog = "https://github.com/w3bcooki3/iam-trace/blob/main/CHANGELOG.md"
 
 [project.scripts]
 iam-trace = "iamtrace.cli:main"

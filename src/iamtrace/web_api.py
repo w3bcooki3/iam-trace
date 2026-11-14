@@ -12,9 +12,11 @@ from functools import cache
 from typing import Any
 
 from iamtrace.catalog import Catalog, CatalogMissing
+from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
 from iamtrace.diff import diff_policies, diff_text
 from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
+from iamtrace.inventory import load_inventory
 from iamtrace.loader import parse_any_policy, parse_context
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import can_text
@@ -90,6 +92,47 @@ def diff(old_text: str, new_text: str) -> dict[str, Any]:
 
 
 @_safe
+def check(documents_json: str, include_aws_managed: bool = False) -> dict[str, Any]:
+    """documents: [{name, text}]. A document that is an account export is checked policy by
+    policy; anything else is one policy. Returns the report with text and SARIF renderings."""
+    cat = _catalog()
+    if cat is None:
+        return {"error": "the action catalog is not available on this page"}
+    docs = [d for d in json.loads(documents_json) if str(d.get("text", "")).strip()]
+    if not docs:
+        return {"error": "paste a policy or drop a file to check"}
+    reports = []
+    singles: list[tuple[str, str]] = []
+    for d in docs:
+        text = str(d["text"]).lstrip("\ufeff")
+        try:
+            data = json.loads(text)
+        except (json.JSONDecodeError, RecursionError):
+            data = None
+        if isinstance(data, dict) and any(k in data for k in ("UserDetailList", "RoleDetailList", "GroupDetailList")):
+            reports.append(check_auth_details(data, cat, include_aws_managed=include_aws_managed))
+        else:
+            singles.append((str(d.get("name") or f"policy {len(singles) + 1}"), text))
+    if singles:
+        reports.append(check_documents(singles, cat))
+    report = reports[0] if len(reports) == 1 else _merge(reports)
+    return {"result": report, "text": check_text(report), "sarif": check_sarif(report)}
+
+
+def _merge(reports: list[dict[str, Any]]) -> dict[str, Any]:
+    order = {"high": 0, "medium": 1, "low": 2}
+    findings = sorted(
+        (f for r in reports for f in r["findings"]),
+        key=lambda f: (order[f["severity"]], f["policy"], f["statement"], f["rule"]),
+    )
+    summary: dict[str, int] = {}
+    for r in reports:
+        for k, v in r["summary"].items():
+            summary[k] = summary.get(k, 0) + v
+    return {"summary": summary, "findings": findings, "catalog": reports[0]["catalog"]}
+
+
+@_safe
 def escalate(policy_text: str) -> dict[str, Any]:
     pol = Policy.from_json(policy_text, policy_id="policy", policy_type=PolicyType.IDENTITY)
     arn = "arn:aws:iam::111122223333:role/policy-under-test"
@@ -149,13 +192,18 @@ def _inventory(data: dict[str, Any]) -> dict[str, int]:
 
 @_safe
 def analyze_account(
-    auth_details_text: str, principal: str, scp_text: str = "", blast_radius: bool = False
+    auth_details_text: str,
+    principal: str,
+    scp_text: str = "",
+    blast_radius: bool = False,
+    inventory_text: str = "",
 ) -> dict[str, Any]:
     """Everything the web app's attack-path screens show, in one call.
 
     `result` and `graph` are the analysis from the chosen starting principal (as escalate_account).
     `account` summarises every principal in the export: its techniques and its shortest path to an
     admin-equivalent principal, if any. `scp_text` is one level of SCPs that apply to the account.
+    `inventory_text` is an optional resource inventory (iamtrace.inventory).
     """
     data = json.loads(auth_details_text)
     if not isinstance(data, dict):
@@ -164,6 +212,12 @@ def analyze_account(
     start = principal.strip()
     if not start:
         return {"error": "choose the principal the attacker starts as"}
+    if inventory_text.strip():
+        try:
+            inv_data = json.loads(inventory_text)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"the resource inventory is not valid JSON: {e}") from e
+        env.resources = load_inventory(inv_data, env)
     scps = _scp_level(scp_text)
     report = analyze(env, start=start, catalog=_catalog() if blast_radius else None, scps=scps)
     everyone = analyze(env, scps=scps)
@@ -195,6 +249,7 @@ def analyze_account(
         "account": {"principals": principals, "paths": everyone["paths"]},
         "inventory": _inventory(data),
         "scps": sum(len(level) for level in scps) if scps else 0,
+        "resources": env.resources.summary() if env.resources else None,
         "text": escalate_text(report),
         "sarif": escalate_sarif(report),
     }

@@ -1,40 +1,182 @@
 {
   "UserDetailList": [
     {
-      "UserName": "dev", "Arn": "arn:aws:iam::111122223333:user/dev", "Path": "/", "GroupList": ["developers"],
-      "UserPolicyList": [], "AttachedManagedPolicies": []
+      "UserName": "dev",
+      "Arn": "arn:aws:iam::111122223333:user/dev",
+      "Path": "/",
+      "GroupList": [
+        "developers"
+      ],
+      "UserPolicyList": [
+        {
+          "PolicyName": "update-report-function",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "lambda:UpdateFunctionCode",
+                  "lambda:GetFunction"
+                ],
+                "Resource": "arn:aws:lambda:us-east-1:111122223333:function:nightly-report"
+              }
+            ]
+          }
+        }
+      ],
+      "AttachedManagedPolicies": []
     }
   ],
   "GroupDetailList": [
     {
-      "GroupName": "developers", "Arn": "arn:aws:iam::111122223333:group/developers", "Path": "/",
-      "GroupPolicyList": [{"PolicyName": "assume-ops", "PolicyDocument": {"Version": "2012-10-17", "Statement": [
-        {"Effect": "Allow", "Action": "sts:AssumeRole", "Resource": "arn:aws:iam::111122223333:role/ops"}]}}],
+      "GroupName": "developers",
+      "Arn": "arn:aws:iam::111122223333:group/developers",
+      "Path": "/",
+      "GroupPolicyList": [
+        {
+          "PolicyName": "assume-ops",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "sts:AssumeRole",
+                "Resource": "arn:aws:iam::111122223333:role/ops"
+              }
+            ]
+          }
+        }
+      ],
       "AttachedManagedPolicies": []
     }
   ],
   "RoleDetailList": [
     {
-      "RoleName": "ops", "Arn": "arn:aws:iam::111122223333:role/ops", "Path": "/",
-      "AssumeRolePolicyDocument": {"Version": "2012-10-17", "Statement": [
-        {"Effect": "Allow", "Principal": {"AWS": "arn:aws:iam::111122223333:root"}, "Action": "sts:AssumeRole"}]},
-      "RolePolicyList": [{"PolicyName": "deploy", "PolicyDocument": {"Version": "2012-10-17", "Statement": [
-        {"Effect": "Allow", "Action": ["iam:PassRole", "ec2:RunInstances"], "Resource": "*"}]}}],
+      "RoleName": "ops",
+      "Arn": "arn:aws:iam::111122223333:role/ops",
+      "Path": "/",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::111122223333:root"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "RolePolicyList": [
+        {
+          "PolicyName": "deploy",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "iam:PassRole",
+                  "ec2:RunInstances"
+                ],
+                "Resource": "*"
+              }
+            ]
+          }
+        }
+      ],
       "AttachedManagedPolicies": []
     },
     {
-      "RoleName": "ec2-admin", "Arn": "arn:aws:iam::111122223333:role/ec2-admin", "Path": "/",
-      "AssumeRolePolicyDocument": {"Version": "2012-10-17", "Statement": [
-        {"Effect": "Allow", "Principal": {"Service": "ec2.amazonaws.com"}, "Action": "sts:AssumeRole"}]},
+      "RoleName": "ec2-admin",
+      "Arn": "arn:aws:iam::111122223333:role/ec2-admin",
+      "Path": "/",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "ec2.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
       "RolePolicyList": [],
-      "AttachedManagedPolicies": [{"PolicyName": "AdministratorAccess", "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"}]
+      "AttachedManagedPolicies": [
+        {
+          "PolicyName": "AdministratorAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        }
+      ],
+      "InstanceProfileList": [
+        {
+          "InstanceProfileName": "ec2-admin",
+          "Arn": "arn:aws:iam::111122223333:instance-profile/ec2-admin",
+          "Path": "/"
+        }
+      ]
+    },
+    {
+      "RoleName": "report-runner",
+      "Arn": "arn:aws:iam::111122223333:role/report-runner",
+      "Path": "/",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "lambda.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+          }
+        ]
+      },
+      "RolePolicyList": [
+        {
+          "PolicyName": "read-reports",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:GetObject",
+                  "s3:PutObject"
+                ],
+                "Resource": "arn:aws:s3:::example-reports/*"
+              }
+            ]
+          }
+        }
+      ],
+      "AttachedManagedPolicies": []
     }
   ],
   "Policies": [
     {
-      "PolicyName": "AdministratorAccess", "Arn": "arn:aws:iam::aws:policy/AdministratorAccess", "DefaultVersionId": "v1",
-      "PolicyVersionList": [{"VersionId": "v1", "IsDefaultVersion": true, "Document": {"Version": "2012-10-17",
-        "Statement": [{"Effect": "Allow", "Action": "*", "Resource": "*"}]}}]
+      "PolicyName": "AdministratorAccess",
+      "Arn": "arn:aws:iam::aws:policy/AdministratorAccess",
+      "DefaultVersionId": "v1",
+      "PolicyVersionList": [
+        {
+          "VersionId": "v1",
+          "IsDefaultVersion": true,
+          "Document": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "*",
+                "Resource": "*"
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }

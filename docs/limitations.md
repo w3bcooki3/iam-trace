@@ -84,7 +84,14 @@ These are covered only by hand-written tests that quote the AWS docs
   `NOTICE` for the commit). New techniques appear only when the data file is updated.
 - Techniques that take over existing resources (a running Lambda function, an EC2 instance, an
   SSM-managed host) are reported as "possible": an IAM export does not list those resources or
-  which role each one uses. They do not form paths.
+  which role each one uses. They do not form paths. A resource inventory (`--inventory`, from
+  `iam-trace inventory collect`) fixes this for Lambda functions, EC2 instances, CodeBuild
+  projects, CloudFormation stacks, Glue dev endpoints, SageMaker notebooks, Step Functions state
+  machines and App Runner services. Launch templates, Batch, CodeDeploy, ECS tasks and Bedrock
+  AgentCore stay "possible": they involve several resources or short-lived ones.
+- With an inventory, each permission is evaluated against the resource's own ARN. Permissions
+  that AWS also checks on a second resource (for example the SSM document for
+  `ssm:SendCommand`) are checked on the main resource only.
 - Grants scoped to specific non-IAM resources are checked against the resource patterns in the
   principal's own policies and `"*"`, not against an inventory.
 - The service principal a passed role must trust is a best-effort table
