@@ -1,0 +1,58 @@
+# Weekly refresh of the action catalog from AWS's machine-readable Service Authorization
+# Reference. Opens (or updates) a pull request when anything changed. Uses only public AWS
+# endpoints and the repository's own GITHUB_TOKEN; no AWS credentials.
+name: catalog-refresh
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"  # Mondays 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Download the service reference
+        run: python -m iamtrace.catalog.refresh src/iamtrace/catalog/data
+      - name: Compare derived access levels with the HTML reference
+        id: levels
+        run: |
+          set +e
+          python scripts/check_access_levels.py --catalog src/iamtrace/catalog/data --out access-levels.md
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+      - name: Open or update the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LEVELS_EXIT: ${{ steps.levels.outputs.exit }}
+        run: |
+          if git diff --quiet -- src/iamtrace/catalog/data && [ -z "$(git ls-files --others --exclude-standard src/iamtrace/catalog/data)" ]; then
+            echo "Catalog unchanged."; exit 0
+          fi
+          branch="catalog/refresh"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add src/iamtrace/catalog/data
+          git commit -m "Refresh action catalog from the Service Authorization Reference"
+          git push --force origin "$branch"
+          {
+            echo "Automated refresh from https://servicereference.us-east-1.amazonaws.com/."
+            echo
+            echo "### Access-level check (exit $LEVELS_EXIT)"
+            echo
+            cat access-levels.md 2>/dev/null || echo "The access-level check did not produce a report."
+          } > body.md
+          if gh pr view "$branch" >/dev/null 2>&1; then
+            gh pr edit "$branch" --body-file body.md
+          else
+            gh pr create --head "$branch" --title "Refresh action catalog" --body-file body.md
+          fi
