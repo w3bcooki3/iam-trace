@@ -1,0 +1,516 @@
+{
+ "prefix": "continuum",
+ "name": "Continuum",
+ "actions": {
+  "AssociateCollector": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [
+    "continuum:CollectorArn"
+   ],
+   "data_plane": null
+  },
+  "CreateCodeFinding": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-findings",
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateCodeScan": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-scans",
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateCollector": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environments",
+    "integrations"
+   ],
+   "condition_keys": [
+    "continuum:RepositoryName"
+   ],
+   "data_plane": null
+  },
+  "CreateIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "integrations"
+   ],
+   "condition_keys": [
+    "continuum:S3BucketName"
+   ],
+   "data_plane": null
+  },
+  "DeleteCollector": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "integrations"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DisassociateCollector": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [
+    "continuum:CollectorArn"
+   ],
+   "data_plane": null
+  },
+  "GetCodeFinding": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-findings"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCodeIssue": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-issues"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCodeIssueArtifact": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-issues"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCodeScan": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-scans"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCollector": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCollectorDataAccessAuthorization": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [
+    "continuum:EnvironmentArn"
+   ],
+   "data_plane": null
+  },
+  "GetEnvironment": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetIntegration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "integrations"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAssociatedCollectors": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAssociatedEnvironments": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCodeFindings": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCodeIssueArtifacts": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-issues"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCodeIssues": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCodeScans": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCollectors": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListEnvironments": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environments"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListIntegrations": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "integrations"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartIntegrationAuthorization": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateCollector": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "collectors"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environments",
+    "integrations"
+   ],
+   "condition_keys": [
+    "continuum:RepositoryName"
+   ],
+   "data_plane": null
+  },
+  "UpdateIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "integrations"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "code-findings": [
+   "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-findings/${FindingId}"
+  ],
+  "code-issues": [
+   "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-issues/${IssueId}"
+  ],
+  "code-scans": [
+   "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-scans/${ScanRunId}"
+  ],
+  "collectors": [
+   "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}"
+  ],
+  "environments": [
+   "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}"
+  ],
+  "integrations": [
+   "arn:${Partition}:continuum:${Region}:${Account}:integrations/${IntegrationId}"
+  ]
+ },
+ "condition_keys": {
+  "continuum:CollectorArn": [
+   "ArrayOfARN"
+  ],
+  "continuum:EnvironmentArn": [
+   "ARN"
+  ],
+  "continuum:RepositoryName": [
+   "ArrayOfString"
+  ],
+  "continuum:S3BucketName": [
+   "String"
+  ]
+ }
+}

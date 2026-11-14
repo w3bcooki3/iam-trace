@@ -1,0 +1,1064 @@
+{
+ "prefix": "redshift-serverless",
+ "name": "Redshift Serverless",
+ "actions": {
+  "ConvertRecoveryPointToSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint",
+    "snapshot"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCustomDomainAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateEndpointAccess": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpointAccess"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateNamespace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateReservation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateScheduledAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace",
+    "snapshot"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateSnapshotCopyConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateUsageLimit": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateWorkgroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteCustomDomainAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEndpointAccess": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpointAccess"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteNamespace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteScheduledAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSnapshotCopyConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteUsageLimit": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteWorkgroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeOneTimeCredit": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCredentials": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCustomDomainAssociation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetEndpointAccess": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpointAccess"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetIdentityCenterAuthToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetManagedWorkgroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "managed-workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetNamespace": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "namespace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRecoveryPoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetReservation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetReservationOffering": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetScheduledAction": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSnapshot": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableRestoreStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTrack": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetUsageLimit": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWorkgroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutonomicsDenylist": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCustomDomainAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEndpointAccess": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpointAccess"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListManagedWorkgroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListNamespaces": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRecoveryPoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListReservationOfferings": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListReservations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListScheduledActions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSnapshotCopyConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "namespace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSnapshots": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTableRestoreStatus": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "namespace",
+    "workgroup"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListTracks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListUsageLimits": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWorkgroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreFromRecoveryPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreFromSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreTableFromRecoveryPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace",
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreTableFromSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace",
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace",
+    "recoveryPoint",
+    "snapshot",
+    "workgroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace",
+    "recoveryPoint",
+    "snapshot",
+    "workgroup"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAutonomicsDenylist": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateCustomDomainAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateEndpointAccess": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpointAccess"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateLakehouseConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateNamespace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "namespace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateScheduledAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSnapshotCopyConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateUsageLimit": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateWorkgroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "endpointAccess": [
+   "arn:${Partition}:redshift-serverless:${Region}:${Account}:managedvpcendpoint/${EndpointAccessId}"
+  ],
+  "managed-workgroup": [
+   "arn:${Partition}:redshift-serverless:${Region}:${Account}:managed-workgroup/${ManagedWorkgroupName}"
+  ],
+  "namespace": [
+   "arn:${Partition}:redshift-serverless:${Region}:${Account}:namespace/${NamespaceId}"
+  ],
+  "recoveryPoint": [
+   "arn:${Partition}:redshift-serverless:${Region}:${Account}:recoverypoint/${RecoveryPointId}"
+  ],
+  "snapshot": [
+   "arn:${Partition}:redshift-serverless:${Region}:${Account}:snapshot/${SnapshotId}"
+  ],
+  "workgroup": [
+   "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "redshift-serverless:endpointAccessId": [
+   "String"
+  ],
+  "redshift-serverless:managedWorkgroupName": [
+   "String"
+  ],
+  "redshift-serverless:namespaceId": [
+   "String"
+  ],
+  "redshift-serverless:recoveryPointId": [
+   "String"
+  ],
+  "redshift-serverless:snapshotId": [
+   "String"
+  ],
+  "redshift-serverless:tableRestoreRequestId": [
+   "String"
+  ],
+  "redshift-serverless:workgroupId": [
+   "String"
+  ]
+ }
+}

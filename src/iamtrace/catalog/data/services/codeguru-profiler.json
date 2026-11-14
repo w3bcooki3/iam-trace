@@ -1,0 +1,369 @@
+{
+ "prefix": "codeguru-profiler",
+ "name": "CodeGuru Profiler",
+ "actions": {
+  "AddNotificationChannels": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetFrameMetricData": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ConfigureAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreateProfilingGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteProfilingGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeProfilingGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFindingsReportAccountSummary": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetNotificationConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRecommendations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFindingsReports": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProfileTimes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProfilingGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PostAgentProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "PutPermission": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveNotificationChannel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemovePermission": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SubmitFeedback": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateProfilingGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProfilingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "ProfilingGroup": [
+   "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

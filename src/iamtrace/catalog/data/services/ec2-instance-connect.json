@@ -1,0 +1,81 @@
+{
+ "prefix": "ec2-instance-connect",
+ "name": "EC2 Instance Connect",
+ "actions": {
+  "OpenTunnel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance-connect-endpoint",
+    "instance-connect-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SendSSHPublicKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "ec2:osuser"
+   ],
+   "data_plane": false
+  },
+  "SendSerialConsoleSSHPublicKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "instance": [
+   "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}"
+  ],
+  "instance-connect-endpoint": [
+   "arn:${Partition}:ec2:${Region}:${Account}:instance-connect-endpoint/${InstanceConnectEndpointId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "ec2-instance-connect:maxTunnelDuration": [
+   "Numeric"
+  ],
+  "ec2-instance-connect:privateIpAddress": [
+   "IPAddress"
+  ],
+  "ec2-instance-connect:remotePort": [
+   "Numeric"
+  ],
+  "ec2:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "ec2:osuser": [
+   "String"
+  ]
+ }
+}

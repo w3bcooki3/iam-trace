@@ -1,0 +1,38 @@
+{
+ "prefix": "consoleapp",
+ "name": "Console Mobile App",
+ "actions": {
+  "GetDeviceIdentity": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "DeviceIdentity"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListDeviceIdentities": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "DeviceIdentity": [
+   "arn:${Partition}:consoleapp::${Account}:device/${DeviceId}/identity/${IdentityId}"
+  ]
+ },
+ "condition_keys": {}
+}

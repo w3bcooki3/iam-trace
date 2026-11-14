@@ -1,0 +1,854 @@
+{
+ "prefix": "batch",
+ "name": "Batch",
+ "actions": {
+  "CancelJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateComputeEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-environment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateConsumableResource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "consumable-resource"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateJobQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-environment",
+    "job-queue",
+    "scheduling-policy",
+    "service-environment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateQuotaShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job-queue",
+    "quota-share"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateSchedulingPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "scheduling-policy"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateServiceEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service-environment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteComputeEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-environment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteConsumableResource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "consumable-resource"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteJobQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job-queue"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteQuotaShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "quota-share"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSchedulingPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "scheduling-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteServiceEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service-environment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeregisterJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job-definition-revision"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeComputeEnvironments": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeConsumableResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "consumable-resource"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeJobDefinitions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeJobQueues": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeQuotaShare": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "quota-share"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeSchedulingPolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeServiceEnvironments": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeServiceJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetJobQueueSnapshot": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job-queue"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConsumableResources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListJobsByConsumableResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "consumable-resource"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListQuotaShares": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job-queue"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSchedulingPolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListServiceJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "compute-environment",
+    "consumable-resource",
+    "job",
+    "job-definition-revision",
+    "job-queue",
+    "quota-share",
+    "scheduling-policy",
+    "service-environment",
+    "service-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RegisterJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "consumable-resource",
+    "job-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "batch:AWSLogsCreateGroup",
+    "batch:AWSLogsGroup",
+    "batch:AWSLogsRegion",
+    "batch:AWSLogsStreamPrefix",
+    "batch:EKSImage",
+    "batch:EKSNamespace",
+    "batch:EKSPrivileged",
+    "batch:EKSRunAsGroup",
+    "batch:EKSRunAsUser",
+    "batch:EKSServiceAccountName",
+    "batch:Image",
+    "batch:LogDriver",
+    "batch:Privileged",
+    "batch:User"
+   ],
+   "data_plane": false
+  },
+  "SetCapacityTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-environment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "SubmitJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "consumable-resource",
+    "job",
+    "job-definition",
+    "job-definition-revision",
+    "job-queue"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "SubmitServiceJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job-queue",
+    "quota-share",
+    "service-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "batch:SchedulingPriority"
+   ],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-environment",
+    "consumable-resource",
+    "job",
+    "job-definition-revision",
+    "job-queue",
+    "quota-share",
+    "scheduling-policy",
+    "service-environment",
+    "service-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "TerminateJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TerminateServiceJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-environment",
+    "consumable-resource",
+    "job",
+    "job-definition-revision",
+    "job-queue",
+    "quota-share",
+    "scheduling-policy",
+    "service-environment",
+    "service-job"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateComputeEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-environment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateConsumableResource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "consumable-resource"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateJobQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-environment",
+    "job-queue",
+    "scheduling-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateQuotaShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "quota-share"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSchedulingPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "scheduling-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateServiceEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service-environment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateServiceJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service-job"
+   ],
+   "condition_keys": [
+    "batch:SchedulingPriority"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "compute-environment": [
+   "arn:${Partition}:batch:${Region}:${Account}:compute-environment/${ComputeEnvironmentName}"
+  ],
+  "consumable-resource": [
+   "arn:${Partition}:batch:${Region}:${Account}:consumable-resource/${ConsumableResourceName}"
+  ],
+  "job": [
+   "arn:${Partition}:batch:${Region}:${Account}:job/${JobId}"
+  ],
+  "job-definition": [
+   "arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}"
+  ],
+  "job-definition-revision": [
+   "arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}"
+  ],
+  "job-queue": [
+   "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}"
+  ],
+  "quota-share": [
+   "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}/quota-share/${QuotaShareName}"
+  ],
+  "scheduling-policy": [
+   "arn:${Partition}:batch:${Region}:${Account}:scheduling-policy/${SchedulingPolicyName}"
+  ],
+  "service-environment": [
+   "arn:${Partition}:batch:${Region}:${Account}:service-environment/${ServiceEnvironmentName}"
+  ],
+  "service-job": [
+   "arn:${Partition}:batch:${Region}:${Account}:service-job/${JobId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "batch:AWSLogsCreateGroup": [
+   "Bool"
+  ],
+  "batch:AWSLogsGroup": [
+   "String"
+  ],
+  "batch:AWSLogsRegion": [
+   "String"
+  ],
+  "batch:AWSLogsStreamPrefix": [
+   "String"
+  ],
+  "batch:EKSImage": [
+   "String"
+  ],
+  "batch:EKSNamespace": [
+   "String"
+  ],
+  "batch:EKSPrivileged": [
+   "Bool"
+  ],
+  "batch:EKSRunAsGroup": [
+   "Numeric"
+  ],
+  "batch:EKSRunAsUser": [
+   "Numeric"
+  ],
+  "batch:EKSServiceAccountName": [
+   "String"
+  ],
+  "batch:Image": [
+   "String"
+  ],
+  "batch:LogDriver": [
+   "String"
+  ],
+  "batch:Privileged": [
+   "Bool"
+  ],
+  "batch:SchedulingPriority": [
+   "Numeric"
+  ],
+  "batch:ShareIdentifier": [
+   "String"
+  ],
+  "batch:User": [
+   "String"
+  ]
+ }
+}

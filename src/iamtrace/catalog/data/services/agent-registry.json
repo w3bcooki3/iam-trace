@@ -1,0 +1,367 @@
+{
+ "prefix": "agent-registry",
+ "name": "Agent Registry",
+ "actions": {
+  "CreateRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRegistryRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRegistryRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetDiscoverableRegistryRecord": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetRegistry": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRegistryRecord": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeRegistryMcp": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListDiscoverableRegistryRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListRegistries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRegistryRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry",
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SearchDiscoverableRegistryRecords": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SubmitRegistryRecordForApproval": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "registry-record"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "registry-record"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRegistryRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRegistryRecordStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "registry": [
+   "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}"
+  ],
+  "registry-record": [
+   "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}"
+  ]
+ },
+ "condition_keys": {
+  "agent-registry:RecordCreatorAccount": [
+   "String"
+  ],
+  "agent-registry:RecordSourceAccount": [
+   "String"
+  ],
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

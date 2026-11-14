@@ -1,0 +1,1884 @@
+{
+ "prefix": "backup",
+ "name": "Backup",
+ "actions": {
+  "AssociateBackupVaultMpaApprovalTeam": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [
+    "backup:MpaApprovalTeamArn"
+   ],
+   "data_plane": false
+  },
+  "CancelLegalHold": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "legalHold"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CopyFromBackupVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [
+    "backup:CopyTargetOrgPaths",
+    "backup:CopyTargets"
+   ],
+   "data_plane": null
+  },
+  "CopyIntoBackupVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "CreateBackupAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateBackupPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateBackupSelection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateBackupVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFramework": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "framework"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateLegalHold": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "legalHold"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateLogicallyAirGappedBackupVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "backup:MaxRetentionDays",
+    "backup:MinRetentionDays"
+   ],
+   "data_plane": false
+  },
+  "CreateReportPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "reportPlan"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "backup:FrameworkArns"
+   ],
+   "data_plane": false
+  },
+  "CreateRestoreAccessBackupVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRestoreTestingPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRestoreTestingSelection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTieringConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tieringConfiguration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteBackupAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupAccessPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBackupPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBackupSelection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBackupVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBackupVaultAccessPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBackupVaultLockConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBackupVaultNotifications": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBackupVaultSharingPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteFramework": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "framework"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRecoveryPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteReportPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "reportPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRestoreTestingPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRestoreTestingSelection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTieringConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tieringConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeBackupAccessPoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupAccessPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeBackupJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeBackupVault": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeCopyJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFramework": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "framework"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeGlobalSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeProtectedResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRecoveryPoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRegionSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeReportJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeReportPlan": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "reportPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRestoreJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeScanJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateBackupVaultMpaApprovalTeam": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateRecoveryPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateRecoveryPointFromParent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ExportBackupPlanTemplate": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBackupPlan": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBackupPlanFromJSON": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBackupPlanFromTemplate": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBackupSelection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBackupVaultAccessPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBackupVaultNotifications": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBackupVaultSharingPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetLegalHold": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "legalHold"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPITRMalwareScanResults": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRecoveryPointIndexDetails": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRecoveryPointRestoreMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRestoreJobMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRestoreTestingInferredMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRestoreTestingPlan": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRestoreTestingSelection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSupportedResourceTypes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTieringConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tieringConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupAccessPoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupAccessPointsByRecoveryPoint": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupAccessPointsByResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupJobSummaries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupPlanTemplates": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupPlanVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupPlans": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupSelections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBackupVaults": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCopyJobSummaries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCopyJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFrameworks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIndexedRecoveryPoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIndexedRecoveryPointsForSearch": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListLegalHolds": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProtectedResources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProtectedResourcesByBackupVault": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRecoveryPointsByBackupVault": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRecoveryPointsByLegalHold": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "legalHold"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRecoveryPointsByResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListReportJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListReportPlans": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRestoreAccessBackupVaults": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRestoreJobSummaries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRestoreJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRestoreJobsByProtectedResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRestoreTestingPlans": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRestoreTestingSelections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListScanJobSummaries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListScanJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTags": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backupAccessPoint",
+    "backupPlan",
+    "backupVault",
+    "framework",
+    "legalHold",
+    "recoveryPoint",
+    "reportPlan",
+    "restoreTestingPlan",
+    "tieringConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTieringConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutBackupVaultAccessPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutBackupVaultLockConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [
+    "backup:ChangeableForDays",
+    "backup:MaxRetentionDays",
+    "backup:MinRetentionDays"
+   ],
+   "data_plane": false
+  },
+  "PutBackupVaultNotifications": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutBackupVaultSharingPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutRestoreValidationResult": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RevokeRestoreAccessBackupVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SearchRecoveryPoint": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartBackupJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupVault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartCopyJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartReportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "reportPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartRestoreJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartScanJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopBackupJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupAccessPoint",
+    "backupPlan",
+    "backupVault",
+    "framework",
+    "legalHold",
+    "recoveryPoint",
+    "reportPlan",
+    "restoreTestingPlan",
+    "tieringConfiguration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupAccessPoint",
+    "backupPlan",
+    "backupVault",
+    "framework",
+    "legalHold",
+    "recoveryPoint",
+    "reportPlan",
+    "restoreTestingPlan",
+    "tieringConfiguration"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateBackupPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backupPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFramework": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "framework"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGlobalSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRecoveryPointIndexSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [
+    "backup:Index"
+   ],
+   "data_plane": false
+  },
+  "UpdateRecoveryPointLifecycle": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recoveryPoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRegionSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateReportPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "reportPlan"
+   ],
+   "condition_keys": [
+    "backup:FrameworkArns"
+   ],
+   "data_plane": false
+  },
+  "UpdateRestoreTestingPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRestoreTestingSelection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "restoreTestingPlan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTieringConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tieringConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "backupAccessPoint": [
+   "arn:${Partition}:backup:${Region}:${Account}:accesspoint/${AccessPointName}"
+  ],
+  "backupPlan": [
+   "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}"
+  ],
+  "backupVault": [
+   "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}"
+  ],
+  "framework": [
+   "arn:${Partition}:backup:${Region}:${Account}:framework:${FrameworkName}-${FrameworkId}"
+  ],
+  "legalHold": [
+   "arn:${Partition}:backup:${Region}:${Account}:legal-hold:${LegalHoldId}"
+  ],
+  "recoveryPoint": [
+   "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}"
+  ],
+  "reportPlan": [
+   "arn:${Partition}:backup:${Region}:${Account}:report-plan:${ReportPlanName}-${ReportPlanId}"
+  ],
+  "restoreTestingPlan": [
+   "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}"
+  ],
+  "tieringConfiguration": [
+   "arn:${Partition}:backup:${Region}:${Account}:tiering-configuration:${TieringConfigurationName}-${TieringConfigurationId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "backup:ChangeableForDays": [
+   "Numeric"
+  ],
+  "backup:CopyTargetOrgPaths": [
+   "ArrayOfString"
+  ],
+  "backup:CopyTargets": [
+   "ArrayOfARN"
+  ],
+  "backup:FrameworkArns": [
+   "ArrayOfARN"
+  ],
+  "backup:Index": [
+   "String"
+  ],
+  "backup:MaxRetentionDays": [
+   "Numeric"
+  ],
+  "backup:MinRetentionDays": [
+   "Numeric"
+  ],
+  "backup:MpaApprovalTeamArn": [
+   "ARN"
+  ]
+ }
+}

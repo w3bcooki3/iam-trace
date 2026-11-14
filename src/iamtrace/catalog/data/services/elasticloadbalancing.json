@@ -1,0 +1,1423 @@
+{
+ "prefix": "elasticloadbalancing",
+ "name": "ELB",
+ "actions": {
+  "AddListenerCertificates": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener/app",
+    "listener/net"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "AddTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener-rule/app",
+    "listener-rule/net",
+    "listener/app",
+    "listener/gwy",
+    "listener/net",
+    "loadbalancer",
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/",
+    "targetgroup",
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticloadbalancing:CreateAction",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "AddTrustStoreRevocations": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ApplySecurityGroupsToLoadBalancer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:SecurityGroup"
+   ],
+   "data_plane": false
+  },
+  "AttachLoadBalancerToSubnets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:Subnet"
+   ],
+   "data_plane": false
+  },
+  "ConfigureHealthCheck": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateAppCookieStickinessPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateLBCookieStickinessPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateListener": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticloadbalancing:ListenerProtocol",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:SecurityPolicy"
+   ],
+   "data_plane": false
+  },
+  "CreateLoadBalancer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer",
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:Scheme",
+    "elasticloadbalancing:SecurityGroup",
+    "elasticloadbalancing:Subnet"
+   ],
+   "data_plane": false
+  },
+  "CreateLoadBalancerListeners": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ListenerProtocol",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateLoadBalancerPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:SecurityPolicy"
+   ],
+   "data_plane": false
+  },
+  "CreateRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener/app",
+    "listener/net"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateTargetGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "targetgroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateTrustStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateWebACLAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer/app/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "DeleteListener": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener/app",
+    "listener/gwy",
+    "listener/net"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteLoadBalancer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer",
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteLoadBalancerListeners": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteLoadBalancerPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener-rule/app",
+    "listener-rule/net"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteSharedTrustStoreAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteTargetGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "targetgroup"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteTrustStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteWebACLAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer/app/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "DeregisterInstancesFromLoadBalancer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeregisterTargets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "targetgroup"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribeAccountLimits": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeCapacityReservation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeInstanceHealth": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeListenerAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeListenerCertificates": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeListeners": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLoadBalancerAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLoadBalancerPolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLoadBalancerPolicyTypes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLoadBalancers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRules": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeSSLPolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTags": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTargetGroupAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTargetGroups": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTargetHealth": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrustStoreAssociations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrustStoreRevocations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrustStores": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeWebACLAssociation": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DetachLoadBalancerFromSubnets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DisableAvailabilityZonesForLoadBalancer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "EnableAvailabilityZonesForLoadBalancer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetLoadBalancerWebACL": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "loadbalancer/app/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetTrustStoreCaCertificatesBundle": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetTrustStoreRevocationContent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ModifyCapacityReservation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ModifyIpPools": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer/app/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ModifyListener": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener/app",
+    "listener/gwy",
+    "listener/net"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ListenerProtocol",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:SecurityPolicy"
+   ],
+   "data_plane": false
+  },
+  "ModifyListenerAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener/app",
+    "listener/gwy",
+    "listener/net"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ModifyLoadBalancerAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer",
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ModifyRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener-rule/app",
+    "listener-rule/net"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ModifyTargetGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "targetgroup"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ModifyTargetGroupAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "targetgroup"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ModifyTrustStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RegisterInstancesWithLoadBalancer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RegisterTargets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "targetgroup"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RemoveListenerCertificates": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener/app",
+    "listener/net"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RemoveTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener-rule/app",
+    "listener-rule/net",
+    "listener/app",
+    "listener/gwy",
+    "listener/net",
+    "loadbalancer",
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/",
+    "targetgroup",
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RemoveTrustStoreRevocations": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "truststore"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SetIpAddressType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SetLoadBalancerListenerSSLCertificate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SetLoadBalancerPoliciesForBackendServer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SetLoadBalancerPoliciesOfListener": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:SecurityPolicy"
+   ],
+   "data_plane": false
+  },
+  "SetRulePriorities": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "listener-rule/app",
+    "listener-rule/net"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SetSecurityGroups": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer/app/",
+    "loadbalancer/net/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:SecurityGroup"
+   ],
+   "data_plane": false
+  },
+  "SetSubnets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "loadbalancer/app/",
+    "loadbalancer/gwy/",
+    "loadbalancer/net/"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}",
+    "elasticloadbalancing:Subnet"
+   ],
+   "data_plane": false
+  },
+  "SetWebAcl": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "listener-rule/app": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener-rule/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}/${ListenerRuleId}"
+  ],
+  "listener-rule/net": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener-rule/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}/${ListenerRuleId}"
+  ],
+  "listener/app": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}"
+  ],
+  "listener/gwy": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/gwy/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}"
+  ],
+  "listener/net": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}"
+  ],
+  "loadbalancer": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}"
+  ],
+  "loadbalancer/app/": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}"
+  ],
+  "loadbalancer/gwy/": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/gwy/${LoadBalancerName}/${LoadBalancerId}"
+  ],
+  "loadbalancer/net/": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}"
+  ],
+  "targetgroup": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:targetgroup/${TargetGroupName}/${TargetGroupId}"
+  ],
+  "truststore": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:truststore/${TrustStoreName}/${TrustStoreId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "elasticloadbalancing:CreateAction": [
+   "String"
+  ],
+  "elasticloadbalancing:ListenerProtocol": [
+   "ArrayOfString",
+   "String"
+  ],
+  "elasticloadbalancing:ResourceTag/": [
+   "String"
+  ],
+  "elasticloadbalancing:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "elasticloadbalancing:Scheme": [
+   "String"
+  ],
+  "elasticloadbalancing:SecurityGroup": [
+   "ArrayOfString"
+  ],
+  "elasticloadbalancing:SecurityPolicy": [
+   "ArrayOfString"
+  ],
+  "elasticloadbalancing:Subnet": [
+   "ArrayOfString"
+  ]
+ }
+}

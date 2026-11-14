@@ -1,0 +1,626 @@
+{
+ "prefix": "elasticfilesystem",
+ "name": "EFS",
+ "actions": {
+  "Backup": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ClientMount": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [
+    "elasticfilesystem:AccessPointArn",
+    "elasticfilesystem:AccessedViaMountTarget"
+   ],
+   "data_plane": null
+  },
+  "ClientRootAccess": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [
+    "elasticfilesystem:AccessPointArn",
+    "elasticfilesystem:AccessedViaMountTarget"
+   ],
+   "data_plane": null
+  },
+  "ClientWrite": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [
+    "elasticfilesystem:AccessPointArn",
+    "elasticfilesystem:AccessedViaMountTarget"
+   ],
+   "data_plane": null
+  },
+  "CreateAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFileSystem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticfilesystem:Encrypted"
+   ],
+   "data_plane": false
+  },
+  "CreateMountTarget": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateReplicationConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-point"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFileSystem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFileSystemPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMountTarget": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteReplicationConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DescribeAccessPoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "access-point",
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAccountPreferences": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeBackupPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFileSystemPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFileSystems": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLifecycleConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeMountTargetSecurityGroups": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeMountTargets": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "access-point",
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeReplicationConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTags": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "access-point",
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyMountTargetSecurityGroups": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutAccountPreferences": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutBackupPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutFileSystemPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutLifecycleConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ReplicationRead": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ReplicationWrite": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "Restore": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-point",
+    "file-system"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticfilesystem:CreateAction"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-point",
+    "file-system"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateFileSystem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFileSystemProtection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "access-point": [
+   "arn:${Partition}:elasticfilesystem:${Region}:${Account}:access-point/${AccessPointId}"
+  ],
+  "file-system": [
+   "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "elasticfilesystem:AccessPointArn": [
+   "ARN"
+  ],
+  "elasticfilesystem:AccessedViaMountTarget": [
+   "Bool"
+  ],
+  "elasticfilesystem:CreateAction": [
+   "String"
+  ],
+  "elasticfilesystem:Encrypted": [
+   "Bool"
+  ]
+ }
+}

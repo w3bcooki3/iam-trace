@@ -1,0 +1,354 @@
+"""Command-line interface.
+
+Exit codes:
+  0  success (for `can`: the request is allowed)
+  1  for `can`: the request is denied. For `diff`/`escalate` with --fail-on: a finding matched.
+  2  usage error, unreadable file, or a policy AWS would reject
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from collections.abc import Callable, Sequence
+from pathlib import Path
+
+from iamtrace import __version__
+from iamtrace.catalog import ACCESS_LEVELS, Catalog, CatalogMissing, user_cache_dir
+from iamtrace.catalog.refresh import refresh
+from iamtrace.diff import diff_markdown, diff_policies, diff_sarif, diff_text
+from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
+from iamtrace.evaluate import PolicySet, Request, evaluate
+from iamtrace.expand import expand_patterns, expand_policies, expand_sarif, expand_text
+from iamtrace.loader import load_any_policy, load_levels, load_policies, load_policy, parse_context
+from iamtrace.model import Policy, PolicyError, PolicyType
+from iamtrace.output import can_sarif, can_text, to_json
+from iamtrace.principals import Principal
+
+Handler = Callable[[argparse.Namespace], int]
+
+
+def _add_format(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--format", choices=["text", "json", "sarif"], default="text", help="output format")
+
+
+# --- can --------------------------------------------------------------------------
+
+
+def _principal(args: argparse.Namespace) -> Principal:
+    spec: str = args.principal
+    if spec.startswith("service:"):
+        return Principal.service(spec.split(":", 1)[1])
+    if spec == "anonymous":
+        return Principal.anonymous()
+    return Principal.from_arn(spec, role_arn=args.role_arn, federating_user_arn=args.federating_user)
+
+
+def cmd_can(args: argparse.Namespace) -> int:
+    principal = _principal(args)
+    policies = PolicySet(
+        identity=load_policies(args.identity, PolicyType.IDENTITY),
+        resource=load_policies(args.resource_policy, PolicyType.RESOURCE),
+        boundary=load_policy(args.boundary, PolicyType.BOUNDARY) if args.boundary else None,
+        session=load_policies(args.session_policy, PolicyType.SESSION),
+        scps=load_levels(args.scp, PolicyType.SCP),
+        rcps=load_levels(args.rcp, PolicyType.RCP),
+        scp_exempt=args.management_account_principal,
+        rcp_exempt=args.management_account_resource,
+        resource_is_aws_managed_key=args.aws_managed_key,
+    )
+    req = Request(
+        principal=principal,
+        action=args.action,
+        resource=args.resource,
+        resource_account=args.resource_account,
+        context=parse_context(args.context, args.context_json),
+    )
+    result = evaluate(req, policies)
+    out = {"text": can_text, "json": lambda r: to_json(r.to_dict()), "sarif": can_sarif}[args.format](result)
+    sys.stdout.write(out)
+    return 0 if result.allowed else 1
+
+
+def _add_can(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "can",
+        help="decide whether a principal can perform an action on a resource",
+        description="Evaluate one request against the supplied policies and print the decision with a trace.",
+    )
+    p.add_argument(
+        "--principal",
+        required=True,
+        help="caller ARN (IAM user, role, assumed-role session, federated user, or account root), "
+        "'service:NAME' for a service principal, or 'anonymous'",
+    )
+    p.add_argument("--action", required=True, help="for example s3:GetObject")
+    p.add_argument("--resource", default="*", help="resource ARN, or * for actions without a resource type")
+    p.add_argument(
+        "--resource-account", help="account that owns the resource (needed for S3 and other ARNs without one)"
+    )
+    p.add_argument("--role-arn", help="for a role session: the role ARN including its path")
+    p.add_argument("--federating-user", help="for a federated user: ARN of the IAM user who federated")
+    p.add_argument("--identity", action="append", metavar="FILE", help="identity-based policy (repeatable)")
+    p.add_argument("--resource-policy", action="append", metavar="FILE", help="resource-based policy (repeatable)")
+    p.add_argument("--boundary", metavar="FILE", help="permissions boundary")
+    p.add_argument("--session-policy", action="append", metavar="FILE", help="session policy (repeatable)")
+    p.add_argument(
+        "--scp",
+        action="append",
+        metavar="FILES",
+        help="SCPs for one organization level, comma-separated; repeat per level, root first",
+    )
+    p.add_argument("--rcp", action="append", metavar="FILES", help="RCPs for one level, like --scp")
+    p.add_argument("--management-account-principal", action="store_true", help="principal is in the management account")
+    p.add_argument("--management-account-resource", action="store_true", help="resource is in the management account")
+    p.add_argument("--aws-managed-key", action="store_true", help="resource is an AWS managed KMS key")
+    p.add_argument(
+        "--context", action="append", metavar="KEY=VALUE", help="context key; repeat a key for several values"
+    )
+    p.add_argument("--context-json", metavar="FILE", help="context keys as a JSON object")
+    _add_format(p)
+    p.set_defaults(func=cmd_can)
+
+
+# --- expand -------------------------------------------------------------------------
+
+
+def _catalog(args: argparse.Namespace) -> Catalog:
+    return Catalog.load(getattr(args, "catalog", None))
+
+
+def cmd_expand(args: argparse.Namespace) -> int:
+    cat = _catalog(args)
+    if not args.patterns and not args.policy:
+        raise PolicyError("give at least one action pattern or --policy FILE")
+    if args.policy:
+        report = expand_policies([load_any_policy(f) for f in args.policy], cat)
+    else:
+        report = expand_patterns(args.patterns, cat)
+    out = {"text": expand_text, "json": to_json, "sarif": expand_sarif}[args.format](report)
+    sys.stdout.write(out)
+    return 0
+
+
+def _add_catalog_arg(p: argparse.ArgumentParser) -> None:
+    p.add_argument("--catalog", metavar="DIR", help="catalog directory (default: packaged, then user cache)")
+
+
+def _add_expand(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "expand",
+        help="expand wildcard actions into concrete actions with access levels",
+        description="List the concrete actions an Action pattern (or every statement of a policy) covers.",
+    )
+    p.add_argument("patterns", nargs="*", help="action patterns such as s3:Get* or iam:*Policy*")
+    p.add_argument("--policy", action="append", metavar="FILE", help="expand every statement of a policy file")
+    _add_catalog_arg(p)
+    _add_format(p)
+    p.set_defaults(func=cmd_expand)
+
+
+# --- diff ----------------------------------------------------------------------------
+
+
+def _load_optional(path: str) -> Policy | None:
+    """A missing or empty file (or /dev/null) means "no policy": the file is new or deleted."""
+    p = Path(path)
+    if not p.exists() or not p.read_text(encoding="utf-8-sig").strip():
+        return None
+    return load_any_policy(p, policy_id=path)
+
+
+def cmd_diff(args: argparse.Namespace) -> int:
+    cat = _catalog(args)
+    d = diff_policies(_load_optional(args.old), _load_optional(args.new), cat)
+    if args.format == "text":
+        out = diff_text(d)
+    elif args.format == "json":
+        out = to_json(d)
+    elif args.format == "markdown":
+        out = diff_markdown(d, args.title)
+    else:
+        out = diff_sarif(d, args.new)
+    sys.stdout.write(out)
+    if args.fail_on == "any" and not d["unchanged"]:
+        return 1
+    if args.fail_on == "new-allow" and d["changes"]["newly_allowed"]:
+        return 1
+    if args.fail_on == "highlighted" and d["highlighted"]:
+        return 1
+    return 0
+
+
+def _add_diff(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "diff",
+        help="show what a policy change grants or takes away",
+        description="Semantic diff of two policy files: newly allowed or denied actions and resources, grouped by "
+        "access level. Reordering, renaming Sids or splitting statements is not a change. Use /dev/null for a "
+        "file that was added or deleted.",
+    )
+    p.add_argument("old")
+    p.add_argument("new")
+    p.add_argument("--title", help="heading for markdown output")
+    p.add_argument(
+        "--fail-on",
+        choices=["never", "any", "new-allow", "highlighted"],
+        default="never",
+        help="exit 1 when: anything changed, anything is newly allowed, or a newly allowed action is "
+        "permissions management or part of a known escalation path",
+    )
+    _add_catalog_arg(p)
+    p.add_argument("--format", choices=["text", "json", "sarif", "markdown"], default="text")
+    p.set_defaults(func=cmd_diff)
+
+
+# --- escalate ------------------------------------------------------------------------
+
+
+def cmd_escalate(args: argparse.Namespace) -> int:
+    scps = load_levels(args.scp, PolicyType.SCP)
+    cat = None
+    if args.blast_radius:
+        cat = _catalog(args)
+    if args.auth_details:
+        try:
+            data = json.loads(Path(args.auth_details).read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError, RecursionError) as e:
+            raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
+        env = Environment.from_auth_details(data)
+        report = analyze(env, start=args.principal, catalog=cat, scps=scps)
+    elif args.policy:
+        principal = args.principal or "arn:aws:iam::111122223333:role/policy-under-test"
+        boundary = load_policy(args.boundary, PolicyType.BOUNDARY) if args.boundary else None
+        env = Environment.single([load_policy(f, PolicyType.IDENTITY) for f in args.policy], principal, boundary)
+        report = analyze(env, start=principal, catalog=cat, scps=scps)
+        if args.baseline:
+            base_env = Environment.single([load_policy(args.baseline, PolicyType.IDENTITY)], principal, boundary)
+            base = analyze(base_env, start=principal, scps=scps)
+            old_ids = {t["id"] for p in base["principals"] for t in p["techniques"]}
+            report["new_findings"] = [
+                t for p in report["principals"] for t in p["techniques"] if t["id"] not in old_ids
+            ]
+    else:
+        raise PolicyError("give --auth-details FILE (an account export) or --policy FILE")
+
+    out = {"text": escalate_text, "json": to_json, "sarif": escalate_sarif}[args.format](report)
+    sys.stdout.write(out)
+    any_finding = bool(report["paths"]) or any(p["techniques"] for p in report["principals"])
+    admin = bool(report["paths"]) or any(
+        p["admin_equivalent"] for p in report["principals"] if p["arn"] == report["start"]
+    )
+    if args.fail_on == "any" and any_finding:
+        return 1
+    if args.fail_on == "admin" and admin:
+        return 1
+    if args.fail_on == "new" and report.get("new_findings"):
+        return 1
+    return 0
+
+
+def _add_escalate(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "escalate",
+        help="find privilege-escalation techniques, multi-principal paths and blast radius",
+        description="Analyse an account export (aws iam get-account-authorization-details) or a single policy "
+        "for known privilege-escalation techniques (pathfinding.cloud) and paths to admin-equivalent principals.",
+    )
+    src = p.add_mutually_exclusive_group()
+    src.add_argument("--auth-details", metavar="FILE", help="output of aws iam get-account-authorization-details")
+    src.add_argument(
+        "--policy", action="append", metavar="FILE", help="identity policy file(s) of one hypothetical principal"
+    )
+    p.add_argument("--principal", metavar="ARN", help="start from this principal (default: analyse every principal)")
+    p.add_argument("--boundary", metavar="FILE", help="with --policy: a permissions boundary")
+    p.add_argument(
+        "--baseline", metavar="FILE", help="with --policy: the previous version, to report only new findings"
+    )
+    p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
+    p.add_argument("--blast-radius", action="store_true", help="count every action the reachable principals allow")
+    p.add_argument(
+        "--fail-on",
+        choices=["never", "any", "admin", "new"],
+        default="never",
+        help="exit 1 on any finding, on a path to (or start at) an admin-equivalent principal, "
+        "or on findings that are new compared with --baseline",
+    )
+    _add_catalog_arg(p)
+    _add_format(p)
+    p.set_defaults(func=cmd_escalate)
+
+
+# --- catalog --------------------------------------------------------------------------
+
+
+def cmd_catalog_refresh(args: argparse.Namespace) -> int:
+    out = Path(args.out) if args.out else user_cache_dir()
+    out.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        refresh(out, log=lambda m: print(m, file=sys.stderr))
+    except (RuntimeError, OSError) as e:
+        print(f"iamtrace: error: catalog refresh failed: {e}", file=sys.stderr)
+        return 2
+    return 0
+
+
+def cmd_catalog_info(args: argparse.Namespace) -> int:
+    cat = _catalog(args)
+    levels: dict[str, int] = {}
+    for a in cat.all_actions():
+        levels[a.access_level] = levels.get(a.access_level, 0) + 1
+    print(f"catalog: {cat.meta.get('path')}")
+    print(f"services: {len(cat.services)}")
+    print(f"actions: {len(cat)}")
+    for level in ACCESS_LEVELS:
+        if level in levels:
+            print(f"  {level}: {levels[level]}")
+    return 0
+
+
+def _add_catalog(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser("catalog", help="download or inspect the action catalog")
+    csub = p.add_subparsers(dest="catalog_command", required=True)
+    r = csub.add_parser("refresh", help="download the Service Authorization Reference from AWS")
+    r.add_argument("--out", metavar="DIR", help=f"where to write it (default: {user_cache_dir()})")
+    r.set_defaults(func=cmd_catalog_refresh)
+    i = csub.add_parser("info", help="show what the current catalog contains")
+    _add_catalog_arg(i)
+    i.set_defaults(func=cmd_catalog_info)
+
+
+# --- entry point ------------------------------------------------------------------
+
+SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]], None]] = [
+    _add_can,
+    _add_expand,
+    _add_diff,
+    _add_escalate,
+    _add_catalog,
+]
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="iam-trace", description="Explain what AWS IAM policies allow.")
+    parser.add_argument("--version", action="version", version=f"iamtrace {__version__}")
+    sub = parser.add_subparsers(dest="command", required=True)
+    for add in SUBCOMMANDS:
+        add(sub)
+    return parser
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+    handler: Handler = args.func
+    try:
+        return handler(args)
+    except (PolicyError, ValueError, CatalogMissing) as e:
+        print(f"iamtrace: error: {e}", file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

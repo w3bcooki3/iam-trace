@@ -1,0 +1,651 @@
+{
+ "prefix": "codestar-connections",
+ "name": "CodeStar Connections",
+ "actions": {
+  "CreateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "codestar-connections:ProviderType"
+   ],
+   "data_plane": false
+  },
+  "CreateHost": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "codestar-connections:ProviderType",
+    "codestar-connections:VpcId"
+   ],
+   "data_plane": false
+  },
+  "CreateRepositoryLink": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Connection"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateSyncConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "RepositoryLink"
+   ],
+   "condition_keys": [
+    "codestar-connections:Branch"
+   ],
+   "data_plane": false
+  },
+  "DeleteConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHost": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Host"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRepositoryLink": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "RepositoryLink"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSyncConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConnection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConnectionToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Connection"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetHost": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Host"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetIndividualAccessToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "codestar-connections:ProviderType"
+   ],
+   "data_plane": null
+  },
+  "GetInstallationUrl": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "codestar-connections:ProviderType"
+   ],
+   "data_plane": null
+  },
+  "GetRepositoryLink": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "RepositoryLink"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRepositorySyncStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "RepositoryLink"
+   ],
+   "condition_keys": [
+    "codestar-connections:Branch"
+   ],
+   "data_plane": false
+  },
+  "GetResourceSyncStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSyncBlockerSummary": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSyncConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConnections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Connection"
+   ],
+   "condition_keys": [
+    "codestar-connections:ProviderTypeFilter"
+   ],
+   "data_plane": false
+  },
+  "ListHosts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "codestar-connections:ProviderTypeFilter"
+   ],
+   "data_plane": false
+  },
+  "ListInstallationTargets": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListRepositoryLinks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRepositorySyncDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSyncConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Connection",
+    "Host",
+    "RepositoryLink"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PassConnection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Connection"
+   ],
+   "condition_keys": [
+    "codestar-connections:PassedToService"
+   ],
+   "data_plane": false
+  },
+  "PassRepository": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "RepositoryLink"
+   ],
+   "condition_keys": [
+    "codestar-connections:PassedToService"
+   ],
+   "data_plane": false
+  },
+  "RegisterAppCode": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "codestar-connections:HostArn"
+   ],
+   "data_plane": null
+  },
+  "StartAppRegistrationHandshake": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "codestar-connections:HostArn"
+   ],
+   "data_plane": null
+  },
+  "StartOAuthHandshake": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "codestar-connections:ProviderType"
+   ],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Connection",
+    "Host",
+    "RepositoryLink"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Connection",
+    "Host",
+    "RepositoryLink"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateConnectionInstallation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Connection"
+   ],
+   "condition_keys": [
+    "codestar-connections:InstallationId"
+   ],
+   "data_plane": null
+  },
+  "UpdateHost": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Host"
+   ],
+   "condition_keys": [
+    "codestar-connections:VpcId"
+   ],
+   "data_plane": false
+  },
+  "UpdateRepositoryLink": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "RepositoryLink"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSyncBlocker": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSyncConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "codestar-connections:Branch"
+   ],
+   "data_plane": false
+  },
+  "UseConnection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Connection"
+   ],
+   "condition_keys": [
+    "codestar-connections:BranchName",
+    "codestar-connections:FullRepositoryId",
+    "codestar-connections:OwnerId",
+    "codestar-connections:ProviderAction",
+    "codestar-connections:ProviderPermissionsRequired",
+    "codestar-connections:RepositoryName"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "Connection": [
+   "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}"
+  ],
+  "Host": [
+   "arn:${Partition}:codestar-connections:${Region}:${Account}:host/${HostId}"
+  ],
+  "RepositoryLink": [
+   "arn:${Partition}:codestar-connections:${Region}:${Account}:repository-link/${RepositoryLinkId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "codestar-connections:Branch": [
+   "String"
+  ],
+  "codestar-connections:BranchName": [
+   "String"
+  ],
+  "codestar-connections:FullRepositoryId": [
+   "String"
+  ],
+  "codestar-connections:HostArn": [
+   "ARN"
+  ],
+  "codestar-connections:InstallationId": [
+   "String"
+  ],
+  "codestar-connections:OwnerId": [
+   "String"
+  ],
+  "codestar-connections:PassedToService": [
+   "String"
+  ],
+  "codestar-connections:ProviderAction": [
+   "String"
+  ],
+  "codestar-connections:ProviderPermissionsRequired": [
+   "String"
+  ],
+  "codestar-connections:ProviderType": [
+   "String"
+  ],
+  "codestar-connections:ProviderTypeFilter": [
+   "String"
+  ],
+  "codestar-connections:RepositoryName": [
+   "String"
+  ],
+  "codestar-connections:VpcId": [
+   "String"
+  ]
+ }
+}

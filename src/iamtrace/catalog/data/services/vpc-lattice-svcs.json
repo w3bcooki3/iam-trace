@@ -1,0 +1,90 @@
+{
+ "prefix": "vpc-lattice-svcs",
+ "name": "VPC Lattice Services",
+ "actions": {
+  "Connect": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TCP Service"
+   ],
+   "condition_keys": [
+    "vpc-lattice-svcs:Port",
+    "vpc-lattice-svcs:ServiceArn",
+    "vpc-lattice-svcs:ServiceNetworkArn",
+    "vpc-lattice-svcs:SourceVpc",
+    "vpc-lattice-svcs:SourceVpcOwnerAccount"
+   ],
+   "data_plane": null
+  },
+  "Invoke": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Service"
+   ],
+   "condition_keys": [
+    "vpc-lattice-svcs:Port",
+    "vpc-lattice-svcs:RequestHeader/${HeaderName}",
+    "vpc-lattice-svcs:RequestMethod",
+    "vpc-lattice-svcs:RequestPath",
+    "vpc-lattice-svcs:RequestQueryString/${QueryStringKey}",
+    "vpc-lattice-svcs:ServiceArn",
+    "vpc-lattice-svcs:ServiceNetworkArn",
+    "vpc-lattice-svcs:SourceVpc",
+    "vpc-lattice-svcs:SourceVpcOwnerAccount"
+   ],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "Service": [
+   "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}/${RequestPath}"
+  ],
+  "TCP Service": [
+   "arn:${Partition}:vpc-lattice:${Region}:${Account}:service/${ServiceId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "vpc-lattice-svcs:Port": [
+   "Numeric"
+  ],
+  "vpc-lattice-svcs:RequestHeader/${HeaderName}": [
+   "String"
+  ],
+  "vpc-lattice-svcs:RequestMethod": [
+   "String"
+  ],
+  "vpc-lattice-svcs:RequestPath": [
+   "String"
+  ],
+  "vpc-lattice-svcs:RequestQueryString/${QueryStringKey}": [
+   "ArrayOfString"
+  ],
+  "vpc-lattice-svcs:ServiceArn": [
+   "ARN"
+  ],
+  "vpc-lattice-svcs:ServiceNetworkArn": [
+   "ARN"
+  ],
+  "vpc-lattice-svcs:SourceVpc": [
+   "String"
+  ],
+  "vpc-lattice-svcs:SourceVpcOwnerAccount": [
+   "String"
+  ]
+ }
+}

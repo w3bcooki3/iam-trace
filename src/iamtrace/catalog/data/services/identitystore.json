@@ -1,0 +1,563 @@
+{
+ "prefix": "identitystore",
+ "name": "Identity Store",
+ "actions": {
+  "AddRegion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:GroupExternalIdIssuers",
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "CreateGroupMembership": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Group",
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "CreateIdentityStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion",
+    "identitystore:ReservedUserId",
+    "identitystore:UserExternalIdIssuers"
+   ],
+   "data_plane": false
+  },
+  "DeleteGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Group",
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:GroupExternalIdIssuers",
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "DeleteGroupMembership": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Group",
+    "GroupMembership",
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "DeleteIdentityStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion",
+    "identitystore:UserExternalIdIssuers"
+   ],
+   "data_plane": false
+  },
+  "DescribeGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Group",
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:GroupExternalIdIssuers",
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "DescribeGroupMembership": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Group",
+    "GroupMembership",
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "DescribeIdentityStore": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "DescribeRegion": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": null
+  },
+  "DescribeUser": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion",
+    "identitystore:UserExternalIdIssuers"
+   ],
+   "data_plane": false
+  },
+  "GetGroupId": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Group",
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "GetGroupMembershipId": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Group",
+    "GroupMembership",
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "GetUserId": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "IsMemberInGroups": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "AllGroupMemberships",
+    "Group",
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "ListGroupMemberships": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "AllGroupMemberships",
+    "Group",
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "ListGroupMembershipsForMember": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "AllGroupMemberships",
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "ListGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "AllGroups",
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:GroupExternalIdIssuers",
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "ListIdentityStores": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRegions": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": null
+  },
+  "ListUsers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "AllUsers",
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion",
+    "identitystore:UserExternalIdIssuers"
+   ],
+   "data_plane": false
+  },
+  "RemoveRegion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ReserveUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": null
+  },
+  "UpdateGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Group",
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:GroupExternalIdIssuers",
+    "identitystore:PrimaryRegion"
+   ],
+   "data_plane": false
+  },
+  "UpdateIdentityStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore"
+   ],
+   "condition_keys": [
+    "identitystore:VpceAccessRequired"
+   ],
+   "data_plane": false
+  },
+  "UpdateUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Identitystore",
+    "User"
+   ],
+   "condition_keys": [
+    "identitystore:PrimaryRegion",
+    "identitystore:UserExternalIdIssuers"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "AllGroupMemberships": [
+   "arn:${Partition}:identitystore:::membership/*"
+  ],
+  "AllGroups": [
+   "arn:${Partition}:identitystore:::group/*"
+  ],
+  "AllUsers": [
+   "arn:${Partition}:identitystore:::user/*"
+  ],
+  "Group": [
+   "arn:${Partition}:identitystore:::group/${GroupId}"
+  ],
+  "GroupMembership": [
+   "arn:${Partition}:identitystore:::membership/${MembershipId}"
+  ],
+  "Identitystore": [
+   "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}"
+  ],
+  "User": [
+   "arn:${Partition}:identitystore:::user/${UserId}"
+  ]
+ },
+ "condition_keys": {
+  "identitystore:GroupExternalIdIssuers": [
+   "ArrayOfARN"
+  ],
+  "identitystore:IdentityStoreArn": [
+   "ARN"
+  ],
+  "identitystore:PrimaryRegion": [
+   "String"
+  ],
+  "identitystore:ReservedUserId": [
+   "String"
+  ],
+  "identitystore:UserExternalIdIssuers": [
+   "ArrayOfARN"
+  ],
+  "identitystore:UserId": [
+   "String"
+  ],
+  "identitystore:VpceAccessRequired": [
+   "Bool"
+  ]
+ }
+}

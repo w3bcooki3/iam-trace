@@ -1,0 +1,1119 @@
+{
+ "prefix": "autoscaling",
+ "name": "EC2 Auto Scaling",
+ "actions": {
+  "AttachInstances": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AttachLoadBalancerTargetGroups": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:TargetGroupARNs"
+   ],
+   "data_plane": false
+  },
+  "AttachLoadBalancers": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:LoadBalancerNames"
+   ],
+   "data_plane": false
+  },
+  "AttachTrafficSources": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:TrafficSourceIdentifiers"
+   ],
+   "data_plane": false
+  },
+  "BatchDeleteScheduledAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchPutScheduledUpdateGroupAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelInstanceRefresh": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CompleteLifecycleAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateAutoScalingGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:CapacityReservationIds",
+    "autoscaling:CapacityReservationResourceGroupArns",
+    "autoscaling:ImageId",
+    "autoscaling:InstanceTypes",
+    "autoscaling:LaunchConfigurationName",
+    "autoscaling:LaunchTemplateVersionSpecified",
+    "autoscaling:LoadBalancerNames",
+    "autoscaling:MaxSize",
+    "autoscaling:MinSize",
+    "autoscaling:OperatorPrincipal",
+    "autoscaling:TargetCapacityTypes",
+    "autoscaling:TargetGroupARNs",
+    "autoscaling:TrafficSourceIdentifiers",
+    "autoscaling:VPCZoneIdentifiers",
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateLaunchConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launchConfiguration"
+   ],
+   "condition_keys": [
+    "autoscaling:ImageId",
+    "autoscaling:InstanceType",
+    "autoscaling:MetadataHttpEndpoint",
+    "autoscaling:MetadataHttpPutResponseHopLimit",
+    "autoscaling:MetadataHttpTokens",
+    "autoscaling:SpotPrice"
+   ],
+   "data_plane": false
+  },
+  "CreateOrUpdateTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteAutoScalingGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteLaunchConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launchConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteLifecycleHook": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteNotificationConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteScheduledAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteWarmPool": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAccountLimits": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAccountSettings": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAdjustmentTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAutoScalingGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAutoScalingInstances": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAutoScalingNotificationTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeInstanceRefreshes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLaunchConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLifecycleHookTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLifecycleHooks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLoadBalancerTargetGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLoadBalancers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeMetricCollectionTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeNotificationConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribePolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeScalingActivities": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeScalingProcessTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeScheduledActions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTags": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTerminationPolicyTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrafficSources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeWarmPool": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetachInstances": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetachLoadBalancerTargetGroups": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:TargetGroupARNs"
+   ],
+   "data_plane": false
+  },
+  "DetachLoadBalancers": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:LoadBalancerNames"
+   ],
+   "data_plane": false
+  },
+  "DetachTrafficSources": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:TrafficSourceIdentifiers"
+   ],
+   "data_plane": false
+  },
+  "DisableMetricsCollection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EnableMetricsCollection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EnterStandby": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ExecutePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ExitStandby": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPredictiveScalingForecast": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "LaunchInstances": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutAccountSetting": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutLifecycleHook": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutNotificationConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutScalingPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutScheduledUpdateGroupAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:MaxSize",
+    "autoscaling:MinSize"
+   ],
+   "data_plane": false
+  },
+  "PutWarmPool": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RecordLifecycleActionHeartbeat": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ResumeProcesses": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RollbackInstanceRefresh": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SetDesiredCapacity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SetInstanceHealth": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SetInstanceProtection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartInstanceRefresh": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:ImageId",
+    "autoscaling:TargetCapacityTypes"
+   ],
+   "data_plane": false
+  },
+  "SuspendProcesses": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TerminateInstanceInAutoScalingGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAutoScalingGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autoScalingGroup"
+   ],
+   "condition_keys": [
+    "autoscaling:CapacityReservationIds",
+    "autoscaling:CapacityReservationResourceGroupArns",
+    "autoscaling:ImageId",
+    "autoscaling:InstanceTypes",
+    "autoscaling:LaunchConfigurationName",
+    "autoscaling:LaunchTemplateVersionSpecified",
+    "autoscaling:MaxSize",
+    "autoscaling:MinSize",
+    "autoscaling:TargetCapacityTypes",
+    "autoscaling:VPCZoneIdentifiers"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "autoScalingGroup": [
+   "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}"
+  ],
+  "launchConfiguration": [
+   "arn:${Partition}:autoscaling:${Region}:${Account}:launchConfiguration:${Id}:launchConfigurationName/${LaunchConfigurationName}"
+  ]
+ },
+ "condition_keys": {
+  "autoscaling:CapacityReservationIds": [
+   "ArrayOfString"
+  ],
+  "autoscaling:CapacityReservationResourceGroupArns": [
+   "ArrayOfString"
+  ],
+  "autoscaling:ForceDelete": [
+   "Bool"
+  ],
+  "autoscaling:ImageId": [
+   "String"
+  ],
+  "autoscaling:InstanceType": [
+   "String"
+  ],
+  "autoscaling:InstanceTypes": [
+   "String"
+  ],
+  "autoscaling:LaunchConfigurationName": [
+   "String"
+  ],
+  "autoscaling:LaunchTemplateVersionSpecified": [
+   "Bool"
+  ],
+  "autoscaling:LoadBalancerNames": [
+   "ArrayOfString"
+  ],
+  "autoscaling:MaxSize": [
+   "Numeric"
+  ],
+  "autoscaling:MetadataHttpEndpoint": [
+   "String"
+  ],
+  "autoscaling:MetadataHttpPutResponseHopLimit": [
+   "Numeric"
+  ],
+  "autoscaling:MetadataHttpTokens": [
+   "String"
+  ],
+  "autoscaling:MinSize": [
+   "Numeric"
+  ],
+  "autoscaling:OperatorPrincipal": [
+   "String"
+  ],
+  "autoscaling:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "autoscaling:SpotPrice": [
+   "Numeric"
+  ],
+  "autoscaling:TargetCapacityTypes": [
+   "ArrayOfString"
+  ],
+  "autoscaling:TargetGroupARNs": [
+   "ArrayOfARN"
+  ],
+  "autoscaling:TrafficSourceIdentifiers": [
+   "ArrayOfString"
+  ],
+  "autoscaling:VPCZoneIdentifiers": [
+   "ArrayOfString"
+  ],
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

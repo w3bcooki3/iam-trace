@@ -1,0 +1,3998 @@
+{
+ "prefix": "ses",
+ "name": "SES",
+ "actions": {
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-ingress-point",
+    "mailmanager-rule-set"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ApplyTrackingConfigurationOverrides": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ClickTrackingEnabled",
+    "ses:OpenTrackingEnabled"
+   ],
+   "data_plane": null
+  },
+  "AssociateEmailIdentityCertificate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion",
+    "ses:FromAddress"
+   ],
+   "data_plane": false
+  },
+  "BatchGetMetricData": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CancelExportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "export-job"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:ExportSourceType"
+   ],
+   "data_plane": false
+  },
+  "CloneReceiptRuleSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateAddonInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "addon-instance"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:AddonSubscriptionArn"
+   ],
+   "data_plane": false
+  },
+  "CreateAddonSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "addon-subscription"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAddressList": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAddressListImportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateArchive": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateConfigurationSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "dedicated-ip-pool",
+    "mailmanager-archive"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateConfigurationSetEventDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateConfigurationSetTrackingOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateContactList": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateCustomVerificationEmailTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-verification-email-template"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateDedicatedIpPool": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dedicated-ip-pool"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateDeliverabilityTestReport": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateEmailIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateEmailIdentityPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateEmailTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "template"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateExportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:ExportSourceType"
+   ],
+   "data_plane": false
+  },
+  "CreateImportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateIngressPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-ingress-point"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:MailManagerRuleSetArn",
+    "ses:MailManagerTrafficPolicyArn"
+   ],
+   "data_plane": false
+  },
+  "CreateMultiRegionEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateReceiptFilter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateReceiptRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateReceiptRuleSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateRelay": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-smtp-relay"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRuleSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-rule-set"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateTenant": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateTenantResourceAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity",
+    "template",
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "CreateTrafficPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-traffic-policy"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteAddonInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "addon-instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAddonSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "addon-subscription"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAddressList": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteArchive": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteConfigurationSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteConfigurationSetEventDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteConfigurationSetTrackingOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteContactList": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteCustomVerificationEmailTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-verification-email-template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteDedicatedIpPool": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dedicated-ip-pool"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteEmailIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteEmailIdentityPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteEmailTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteIdentityPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteIngressPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-ingress-point"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMultiRegionEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "multi-region-endpoint"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteReceiptFilter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteReceiptRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteReceiptRuleSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteRelay": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-smtp-relay"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRuleSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-rule-set"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSuppressedDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteTenant": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteTenantResourceAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity",
+    "template",
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeleteTrafficPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-traffic-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteVerifiedEmailAddress": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DeregisterMemberFromAddressList": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeActiveReceiptRuleSet": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DescribeConfigurationSet": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DescribeReceiptRule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DescribeReceiptRuleSet": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "DisassociateEmailIdentityCertificate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion",
+    "ses:FromAddress"
+   ],
+   "data_plane": false
+  },
+  "GetAccount": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetAccountSendingEnabled": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetAddonInstance": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "addon-instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAddonSubscription": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "addon-subscription"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAddressList": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAddressListImportJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetArchive": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetArchiveExport": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetArchiveMessage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetArchiveMessageContent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetArchiveSearch": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetArchiveSearchResults": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBlacklistReports": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetConfigurationSet": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetConfigurationSetEventDestinations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetContact": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetContactList": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetCustomVerificationEmailTemplate": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "custom-verification-email-template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetDedicatedIp": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetDedicatedIpPool": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dedicated-ip-pool"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetDedicatedIps": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dedicated-ip-pool"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetDeliverabilityDashboardOptions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetDeliverabilityTestReport": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "deliverability-test-report"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetDomainDeliverabilityCampaign": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetDomainStatisticsReport": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetEmailAddressInsights": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetEmailIdentity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetEmailIdentityPolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetEmailTemplate": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetExportJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "export-job"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:ExportSourceType"
+   ],
+   "data_plane": false
+  },
+  "GetIdentityDkimAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetIdentityMailFromDomainAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetIdentityNotificationAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetIdentityPolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetIdentityVerificationAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetImportJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "import-job"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetIngressPoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-ingress-point"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMemberOfAddressList": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMessageInsights": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetMultiRegionEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "multi-region-endpoint"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetRelay": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-smtp-relay"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetReputationEntity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetRuleSet": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-rule-set"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSendQuota": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetSendStatistics": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetSuppressedDestination": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetTemplate": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetTenant": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "GetTrafficPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-traffic-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAddonInstances": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAddonSubscriptions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAddressListImportJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAddressLists": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListArchiveExports": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListArchiveSearches": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListArchives": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConfigurationSets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListContactLists": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListContacts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListCustomVerificationEmailTemplates": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListDedicatedIpPools": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListDeliverabilityTestReports": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListDomainDeliverabilityCampaigns": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListEmailIdentities": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListEmailIdentityCertificates": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListEmailTemplates": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListExportJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:ExportSourceType"
+   ],
+   "data_plane": false
+  },
+  "ListIdentities": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListIdentityPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListImportJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListIngressPoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMembersOfAddressList": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMultiRegionEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListReceiptFilters": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListReceiptRuleSets": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListRecommendations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListRelays": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListReputationEntities": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListResourceTenants": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity",
+    "template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListRuleSets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSuppressedDestinations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "addon-instance",
+    "addon-subscription",
+    "configuration-set",
+    "contact-list",
+    "custom-verification-email-template",
+    "dedicated-ip-pool",
+    "deliverability-test-report",
+    "identity",
+    "mailmanager-archive",
+    "mailmanager-ingress-point",
+    "mailmanager-rule-set",
+    "mailmanager-smtp-relay",
+    "mailmanager-traffic-policy",
+    "template",
+    "tenant"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListTemplates": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListTenantResources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListTenants": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ListTrafficPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListVerifiedEmailAddresses": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutAccountDedicatedIpWarmupAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutAccountDetails": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutAccountPricingAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutAccountSendingAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutAccountSuppressionAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutAccountVdmAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutConfigurationSetArchivingOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "mailmanager-archive"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutConfigurationSetDeliveryOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "dedicated-ip-pool"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutConfigurationSetReputationOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutConfigurationSetSendingOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutConfigurationSetSuppressionOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutConfigurationSetTrackingOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutConfigurationSetVdmOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutDedicatedIpInPool": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dedicated-ip-pool"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutDedicatedIpPoolScalingAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dedicated-ip-pool"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutDedicatedIpWarmupAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutDeliverabilityDashboardOption": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutEmailIdentityConfigurationSetAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutEmailIdentityDkimAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutEmailIdentityDkimSigningAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutEmailIdentityFeedbackAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutEmailIdentityMailFromAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutIdentityPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutSuppressedDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "PutTenantSuppressionAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "RegisterMemberToAddressList": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ReorderReceiptRuleSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "ReplicateEmailIdentityDkimSigningKey": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "ses:ReplicaRegion"
+   ],
+   "data_plane": null
+  },
+  "SendBounce": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:FromAddress"
+   ],
+   "data_plane": null
+  },
+  "SendBulkEmail": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity",
+    "template"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:MultiRegionEndpointId",
+    "ses:TenantName"
+   ],
+   "data_plane": true
+  },
+  "SendBulkTemplatedEmail": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity",
+    "template"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:FeedbackAddress",
+    "ses:FromAddress",
+    "ses:FromDisplayName",
+    "ses:Recipients"
+   ],
+   "data_plane": null
+  },
+  "SendCustomVerificationEmail": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-verification-email-template",
+    "identity"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:FeedbackAddress",
+    "ses:FromAddress",
+    "ses:FromDisplayName",
+    "ses:Recipients"
+   ],
+   "data_plane": false
+  },
+  "SendEmail": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity",
+    "template"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:FeedbackAddress",
+    "ses:FromAddress",
+    "ses:FromDisplayName",
+    "ses:MultiRegionEndpointId",
+    "ses:Recipients",
+    "ses:TenantName"
+   ],
+   "data_plane": null
+  },
+  "SendRawEmail": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:FeedbackAddress",
+    "ses:FromAddress",
+    "ses:FromDisplayName",
+    "ses:Recipients"
+   ],
+   "data_plane": null
+  },
+  "SendTemplatedEmail": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set",
+    "identity",
+    "template"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion",
+    "ses:FeedbackAddress",
+    "ses:FromAddress",
+    "ses:FromDisplayName",
+    "ses:Recipients"
+   ],
+   "data_plane": true
+  },
+  "SetActiveReceiptRuleSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "SetIdentityDkimEnabled": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "SetIdentityFeedbackForwardingEnabled": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "SetIdentityHeadersInNotificationsEnabled": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "SetIdentityMailFromDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "SetIdentityNotificationTopic": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "SetReceiptRulePosition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "StartAddressListImportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartArchiveExport": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartArchiveSearch": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopAddressListImportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-address-list"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopArchiveExport": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopArchiveSearch": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "addon-instance",
+    "addon-subscription",
+    "configuration-set",
+    "contact-list",
+    "custom-verification-email-template",
+    "dedicated-ip-pool",
+    "deliverability-test-report",
+    "identity",
+    "mailmanager-address-list",
+    "mailmanager-archive",
+    "mailmanager-ingress-point",
+    "mailmanager-rule-set",
+    "mailmanager-smtp-relay",
+    "mailmanager-traffic-policy",
+    "template",
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "TestRenderEmailTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "template"
+   ],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "TestRenderTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "addon-instance",
+    "addon-subscription",
+    "configuration-set",
+    "contact-list",
+    "custom-verification-email-template",
+    "dedicated-ip-pool",
+    "deliverability-test-report",
+    "identity",
+    "mailmanager-address-list",
+    "mailmanager-archive",
+    "mailmanager-ingress-point",
+    "mailmanager-rule-set",
+    "mailmanager-smtp-relay",
+    "mailmanager-traffic-policy",
+    "template",
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:TagKeys",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateAccountSendingEnabled": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateArchive": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateConfigurationSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion",
+    "ses:ConfigurationSetOptions"
+   ],
+   "data_plane": false
+  },
+  "UpdateConfigurationSetEventDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateConfigurationSetReputationMetricsEnabled": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateConfigurationSetSendingEnabled": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateConfigurationSetTrackingOptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactList": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-list"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateCustomVerificationEmailTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-verification-email-template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateEmailIdentityPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identity"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateEmailTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateIngressPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-ingress-point"
+   ],
+   "condition_keys": [
+    "ses:MailManagerRuleSetArn",
+    "ses:MailManagerTrafficPolicyArn"
+   ],
+   "data_plane": false
+  },
+  "UpdateReceiptRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateRelay": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-smtp-relay"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateReputationEntityCustomerManagedStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateReputationEntityPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "reputation-policy",
+    "tenant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateRuleSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-rule-set"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "UpdateTrafficPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mailmanager-traffic-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "VerifyDomainDkim": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "VerifyDomainIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "VerifyEmailAddress": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
+  "VerifyEmailIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "addon-instance": [
+   "arn:${Partition}:ses:${Region}:${Account}:addon-instance/${AddonInstanceId}"
+  ],
+  "addon-subscription": [
+   "arn:${Partition}:ses:${Region}:${Account}:addon-subscription/${AddonSubscriptionId}"
+  ],
+  "configuration-set": [
+   "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}"
+  ],
+  "contact-list": [
+   "arn:${Partition}:ses:${Region}:${Account}:contact-list/${ContactListName}"
+  ],
+  "custom-verification-email-template": [
+   "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}"
+  ],
+  "dedicated-ip-pool": [
+   "arn:${Partition}:ses:${Region}:${Account}:dedicated-ip-pool/${DedicatedIPPool}"
+  ],
+  "deliverability-test-report": [
+   "arn:${Partition}:ses:${Region}:${Account}:deliverability-test-report/${ReportId}"
+  ],
+  "export-job": [
+   "arn:${Partition}:ses:${Region}:${Account}:export-job/${ExportJobId}"
+  ],
+  "identity": [
+   "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}"
+  ],
+  "import-job": [
+   "arn:${Partition}:ses:${Region}:${Account}:import-job/${ImportJobId}"
+  ],
+  "mailmanager-address-list": [
+   "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}"
+  ],
+  "mailmanager-archive": [
+   "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}"
+  ],
+  "mailmanager-ingress-point": [
+   "arn:${Partition}:ses:${Region}:${Account}:mailmanager-ingress-point/${IngressPointId}"
+  ],
+  "mailmanager-rule-set": [
+   "arn:${Partition}:ses:${Region}:${Account}:mailmanager-rule-set/${RuleSetId}"
+  ],
+  "mailmanager-smtp-relay": [
+   "arn:${Partition}:ses:${Region}:${Account}:mailmanager-smtp-relay/${RelayId}"
+  ],
+  "mailmanager-traffic-policy": [
+   "arn:${Partition}:ses:${Region}:${Account}:mailmanager-traffic-policy/${TrafficPolicyId}"
+  ],
+  "multi-region-endpoint": [
+   "arn:${Partition}:ses:${Region}:${Account}:multi-region-endpoint/${EndpointName}"
+  ],
+  "reputation-policy": [
+   "arn:${Partition}:ses:${Region}:aws:reputation-policy/${ReputationPolicyName}"
+  ],
+  "template": [
+   "arn:${Partition}:ses:${Region}:${Account}:template/${TemplateName}"
+  ],
+  "tenant": [
+   "arn:${Partition}:ses:${Region}:${Account}:tenant/${TenantName}/${TenantId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "ses:AddonSubscriptionArn": [
+   "ARN"
+  ],
+  "ses:ApiVersion": [
+   "String"
+  ],
+  "ses:ClickTrackingEnabled": [
+   "String"
+  ],
+  "ses:ConfigurationSetOptions": [
+   "ArrayOfString"
+  ],
+  "ses:ExportSourceType": [
+   "String"
+  ],
+  "ses:FeedbackAddress": [
+   "String"
+  ],
+  "ses:FromAddress": [
+   "String"
+  ],
+  "ses:FromDisplayName": [
+   "String"
+  ],
+  "ses:MailManagerIngressPointType": [
+   "String"
+  ],
+  "ses:MailManagerRuleSetArn": [
+   "ARN"
+  ],
+  "ses:MailManagerTrafficPolicyArn": [
+   "ARN"
+  ],
+  "ses:MultiRegionEndpointId": [
+   "String"
+  ],
+  "ses:OpenTrackingEnabled": [
+   "String"
+  ],
+  "ses:Recipients": [
+   "ArrayOfString"
+  ],
+  "ses:ReplicaRegion": [
+   "ArrayOfString"
+  ],
+  "ses:TenantName": [
+   "String"
+  ]
+ }
+}

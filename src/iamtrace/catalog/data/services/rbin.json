@@ -1,0 +1,209 @@
+{
+ "prefix": "rbin",
+ "name": "Recycle Bin",
+ "actions": {
+  "CreateRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rbin:Request/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "DeleteRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "rbin:Attribute/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "GetRule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "rbin:Attribute/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "ListRules": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "rbin:Request/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "rbin:Attribute/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "LockRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "rbin:Attribute/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "rbin:Attribute/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "UnlockRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "rbin:Attribute/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "rbin:Attribute/ResourceType"
+   ],
+   "data_plane": false
+  },
+  "UpdateRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "rbin:Attribute/ResourceType"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "rule": [
+   "arn:${Partition}:rbin:${Region}:${Account}:rule/${ResourceName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "rbin:Attribute/ResourceType": [
+   "String"
+  ],
+  "rbin:Request/ResourceType": [
+   "String"
+  ]
+ }
+}

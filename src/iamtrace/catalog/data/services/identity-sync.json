@@ -1,0 +1,198 @@
+{
+ "prefix": "identity-sync",
+ "name": "Identity Sync",
+ "actions": {
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateSyncFilter": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateSyncProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateSyncTarget": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteSyncFilter": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteSyncProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteSyncTarget": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource",
+    "SyncTargetResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetSyncProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetSyncTarget": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "SyncProfileResource",
+    "SyncTargetResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListSyncFilters": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartSync": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StopSync": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateSyncTarget": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "SyncProfileResource",
+    "SyncTargetResource"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "SyncProfileResource": [
+   "arn:${Partition}:identity-sync:${Region}:${Account}:profile/${SyncProfileName}"
+  ],
+  "SyncTargetResource": [
+   "arn:${Partition}:identity-sync:${Region}:${Account}:target/${SyncProfileName}/${SyncTargetName}"
+  ]
+ },
+ "condition_keys": {}
+}

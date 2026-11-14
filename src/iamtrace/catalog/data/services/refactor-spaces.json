@@ -1,0 +1,477 @@
+{
+ "prefix": "refactor-spaces",
+ "name": "Migration Hub Refactor Spaces",
+ "actions": {
+  "CreateApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds"
+   ],
+   "data_plane": false
+  },
+  "CreateEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRoute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:RouteCreatedByAccount",
+    "refactor-spaces:ServiceCreatedByAccount",
+    "refactor-spaces:SourcePath"
+   ],
+   "data_plane": false
+  },
+  "CreateService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:ServiceCreatedByAccount"
+   ],
+   "data_plane": false
+  },
+  "DeleteApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds"
+   ],
+   "data_plane": false
+  },
+  "DeleteEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRoute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "route"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:RouteCreatedByAccount",
+    "refactor-spaces:ServiceCreatedByAccount",
+    "refactor-spaces:SourcePath"
+   ],
+   "data_plane": false
+  },
+  "DeleteService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:ServiceCreatedByAccount"
+   ],
+   "data_plane": false
+  },
+  "GetApplication": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds"
+   ],
+   "data_plane": false
+  },
+  "GetEnvironment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRoute": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "route"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:RouteCreatedByAccount",
+    "refactor-spaces:ServiceCreatedByAccount",
+    "refactor-spaces:SourcePath"
+   ],
+   "data_plane": false
+  },
+  "GetService": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:ServiceCreatedByAccount"
+   ],
+   "data_plane": false
+  },
+  "ListApplications": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEnvironmentVpcs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEnvironments": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRoutes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "route"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListServices": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "environment",
+    "route",
+    "service"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:RouteCreatedByAccount",
+    "refactor-spaces:ServiceCreatedByAccount",
+    "refactor-spaces:SourcePath"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "environment",
+    "route",
+    "service"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:RouteCreatedByAccount",
+    "refactor-spaces:ServiceCreatedByAccount",
+    "refactor-spaces:SourcePath"
+   ],
+   "data_plane": false
+  },
+  "UpdateRoute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "route"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "refactor-spaces:ApplicationCreatedByAccount",
+    "refactor-spaces:CreatedByAccountIds",
+    "refactor-spaces:RouteCreatedByAccount",
+    "refactor-spaces:ServiceCreatedByAccount",
+    "refactor-spaces:SourcePath"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "application": [
+   "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}"
+  ],
+  "environment": [
+   "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}"
+  ],
+  "route": [
+   "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}/route/${RouteId}"
+  ],
+  "service": [
+   "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}/service/${ServiceId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "refactor-spaces:ApplicationCreatedByAccount": [
+   "String"
+  ],
+  "refactor-spaces:CreatedByAccountIds": [
+   "ArrayOfString"
+  ],
+  "refactor-spaces:RouteCreatedByAccount": [
+   "String"
+  ],
+  "refactor-spaces:ServiceCreatedByAccount": [
+   "String"
+  ],
+  "refactor-spaces:SourcePath": [
+   "String"
+  ]
+ }
+}

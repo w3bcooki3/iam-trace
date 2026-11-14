@@ -1,0 +1,42 @@
+{
+ "prefix": "geo-maps",
+ "name": "Geo Maps",
+ "actions": {
+  "GetStaticMap": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "provider"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetTile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "provider"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  }
+ },
+ "resources": {
+  "provider": [
+   "arn:${Partition}:geo-maps:${Region}::provider/default"
+  ]
+ },
+ "condition_keys": {}
+}

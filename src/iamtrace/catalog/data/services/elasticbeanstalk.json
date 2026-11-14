@@ -1,0 +1,821 @@
+{
+ "prefix": "elasticbeanstalk",
+ "name": "Elastic Beanstalk",
+ "actions": {
+  "AbortEnvironmentUpdate": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AddTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "applicationversion",
+    "configurationtemplate",
+    "environment",
+    "platform"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "ApplyEnvironmentManagedAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AssociateEnvironmentOperationsRole": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CheckDNSAvailability": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ComposeEnvironments": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "applicationversion"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateApplicationVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "applicationversion"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateConfigurationTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configurationtemplate"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticbeanstalk:FromApplication",
+    "elasticbeanstalk:FromApplicationVersion",
+    "elasticbeanstalk:FromConfigurationTemplate",
+    "elasticbeanstalk:FromEnvironment",
+    "elasticbeanstalk:FromPlatform",
+    "elasticbeanstalk:FromSolutionStack"
+   ],
+   "data_plane": null
+  },
+  "CreateEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "elasticbeanstalk:FromApplicationVersion",
+    "elasticbeanstalk:FromConfigurationTemplate",
+    "elasticbeanstalk:FromPlatform",
+    "elasticbeanstalk:FromSolutionStack"
+   ],
+   "data_plane": null
+  },
+  "CreatePlatformVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "platform"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateStorageLocation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteApplicationVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applicationversion"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteConfigurationTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configurationtemplate"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteEnvironmentConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeletePlatformVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "platform"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeAccountAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeApplicationVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "applicationversion"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeApplications": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeConfigurationOptions": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configurationtemplate",
+    "environment",
+    "solutionstack"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeConfigurationSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configurationtemplate",
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeEnvironmentHealth": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeEnvironmentManagedActionHistory": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeEnvironmentManagedActions": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeEnvironmentResources": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeEnvironments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEvents": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application",
+    "applicationversion",
+    "configurationtemplate",
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeInstancesHealth": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribePlatformVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "platform"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DisassociateEnvironmentOperationsRole": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAvailableSolutionStacks": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "solutionstack"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListPlatformBranches": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListPlatformVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "platform"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application",
+    "applicationversion",
+    "configurationtemplate",
+    "environment",
+    "platform"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutInstanceStatistics": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RebuildEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RemoveTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "applicationversion",
+    "configurationtemplate",
+    "environment",
+    "platform"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "RequestEnvironmentInfo": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RestartAppServer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RetrieveEnvironmentInfo": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SwapEnvironmentCNAMEs": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [
+    "elasticbeanstalk:FromEnvironment"
+   ],
+   "data_plane": null
+  },
+  "TerminateEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateApplicationResourceLifecycle": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateApplicationVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applicationversion"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateConfigurationTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configurationtemplate"
+   ],
+   "condition_keys": [
+    "elasticbeanstalk:FromApplication",
+    "elasticbeanstalk:FromApplicationVersion",
+    "elasticbeanstalk:FromConfigurationTemplate",
+    "elasticbeanstalk:FromEnvironment",
+    "elasticbeanstalk:FromPlatform",
+    "elasticbeanstalk:FromSolutionStack"
+   ],
+   "data_plane": null
+  },
+  "UpdateEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "environment"
+   ],
+   "condition_keys": [
+    "elasticbeanstalk:FromApplicationVersion",
+    "elasticbeanstalk:FromConfigurationTemplate",
+    "elasticbeanstalk:FromPlatform",
+    "elasticbeanstalk:FromSolutionStack"
+   ],
+   "data_plane": null
+  },
+  "UpdateTagsForResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "applicationversion",
+    "configurationtemplate",
+    "environment",
+    "platform"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "ValidateConfigurationSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configurationtemplate",
+    "environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "application": [
+   "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:application/${ApplicationName}"
+  ],
+  "applicationversion": [
+   "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:applicationversion/${ApplicationName}/${VersionLabel}"
+  ],
+  "configurationtemplate": [
+   "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:configurationtemplate/${ApplicationName}/${TemplateName}"
+  ],
+  "environment": [
+   "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}"
+  ],
+  "platform": [
+   "arn:${Partition}:elasticbeanstalk:${Region}::platform/${PlatformNameWithVersion}"
+  ],
+  "solutionstack": [
+   "arn:${Partition}:elasticbeanstalk:${Region}::solutionstack/${SolutionStackName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "elasticbeanstalk:FromApplication": [
+   "ARN"
+  ],
+  "elasticbeanstalk:FromApplicationVersion": [
+   "ARN"
+  ],
+  "elasticbeanstalk:FromConfigurationTemplate": [
+   "ARN"
+  ],
+  "elasticbeanstalk:FromEnvironment": [
+   "ARN"
+  ],
+  "elasticbeanstalk:FromPlatform": [
+   "ARN"
+  ],
+  "elasticbeanstalk:FromSolutionStack": [
+   "ARN"
+  ],
+  "elasticbeanstalk:InApplication": [
+   "ARN"
+  ]
+ }
+}

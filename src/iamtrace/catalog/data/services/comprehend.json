@@ -1,0 +1,1436 @@
+{
+ "prefix": "comprehend",
+ "name": "Comprehend",
+ "actions": {
+  "BatchDetectDominantLanguage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDetectEntities": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDetectKeyPhrases": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDetectSentiment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDetectSyntax": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDetectTargetedSentiment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ClassifyDocument": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "document-classifier-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ContainsPiiEntities": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateDataset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flywheel"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDocumentClassifier": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:ModelKmsKey",
+    "comprehend:OutputKmsKey",
+    "comprehend:VolumeKmsKey",
+    "comprehend:VpcSecurityGroupIds",
+    "comprehend:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier",
+    "document-classifier-endpoint",
+    "entity-recognizer",
+    "entity-recognizer-endpoint",
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateEntityRecognizer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "entity-recognizer"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:ModelKmsKey",
+    "comprehend:VolumeKmsKey",
+    "comprehend:VpcSecurityGroupIds",
+    "comprehend:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateFlywheel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier",
+    "entity-recognizer",
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDocumentClassifier": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier-endpoint",
+    "entity-recognizer-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEntityRecognizer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "entity-recognizer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFlywheel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier",
+    "entity-recognizer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDataset": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flywheel-dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDocumentClassificationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "document-classification-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDocumentClassifier": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "document-classifier"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDominantLanguageDetectionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dominant-language-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "document-classifier-endpoint",
+    "entity-recognizer-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEntitiesDetectionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "entities-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEntityRecognizer": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "entity-recognizer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEventsDetectionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "events-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFlywheel": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFlywheelIteration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flywheel"
+   ],
+   "condition_keys": [
+    "comprehend:FlywheelIterationId"
+   ],
+   "data_plane": false
+  },
+  "DescribeKeyPhrasesDetectionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key-phrases-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribePiiEntitiesDetectionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pii-entities-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "document-classifier",
+    "entity-recognizer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeSentimentDetectionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "sentiment-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTargetedSentimentDetectionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "targeted-sentiment-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTopicsDetectionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "topics-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectDominantLanguage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectEntities": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "entity-recognizer-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectKeyPhrases": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectPiiEntities": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectSentiment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectSyntax": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectTargetedSentiment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectToxicContent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ImportModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier",
+    "entity-recognizer"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:ModelKmsKey"
+   ],
+   "data_plane": false
+  },
+  "ListDatasets": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDocumentClassificationJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDocumentClassifierSummaries": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDocumentClassifiers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDominantLanguageDetectionJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEndpoints": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEntitiesDetectionJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEntityRecognizerSummaries": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEntityRecognizers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEventsDetectionJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlywheelIterationHistory": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlywheels": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListKeyPhrasesDetectionJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPiiEntitiesDetectionJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSentimentDetectionJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "document-classification-job",
+    "document-classifier",
+    "document-classifier-endpoint",
+    "dominant-language-detection-job",
+    "entities-detection-job",
+    "entity-recognizer",
+    "entity-recognizer-endpoint",
+    "events-detection-job",
+    "flywheel",
+    "flywheel-dataset",
+    "key-phrases-detection-job",
+    "pii-entities-detection-job",
+    "sentiment-detection-job",
+    "targeted-sentiment-detection-job",
+    "topics-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTargetedSentimentDetectionJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTopicsDetectionJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier",
+    "entity-recognizer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDocumentClassificationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classification-job",
+    "document-classifier",
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDominantLanguageDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dominant-language-detection-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:OutputKmsKey",
+    "comprehend:VolumeKmsKey",
+    "comprehend:VpcSecurityGroupIds",
+    "comprehend:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "StartEntitiesDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "entities-detection-job",
+    "entity-recognizer",
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartEventsDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "events-detection-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:OutputKmsKey"
+   ],
+   "data_plane": false
+  },
+  "StartFlywheelIteration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartKeyPhrasesDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key-phrases-detection-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:OutputKmsKey",
+    "comprehend:VolumeKmsKey",
+    "comprehend:VpcSecurityGroupIds",
+    "comprehend:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "StartPiiEntitiesDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pii-entities-detection-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:OutputKmsKey"
+   ],
+   "data_plane": false
+  },
+  "StartSentimentDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "sentiment-detection-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:OutputKmsKey",
+    "comprehend:VolumeKmsKey",
+    "comprehend:VpcSecurityGroupIds",
+    "comprehend:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "StartTargetedSentimentDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "targeted-sentiment-detection-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:OutputKmsKey",
+    "comprehend:VolumeKmsKey",
+    "comprehend:VpcSecurityGroupIds",
+    "comprehend:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "StartTopicsDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "topics-detection-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "comprehend:OutputKmsKey",
+    "comprehend:VolumeKmsKey",
+    "comprehend:VpcSecurityGroupIds",
+    "comprehend:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "StopDominantLanguageDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dominant-language-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopEntitiesDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "entities-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopEventsDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "events-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopKeyPhrasesDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key-phrases-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopPiiEntitiesDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pii-entities-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopSentimentDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "sentiment-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTargetedSentimentDetectionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "targeted-sentiment-detection-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTrainingDocumentClassifier": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTrainingEntityRecognizer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "entity-recognizer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classification-job",
+    "document-classifier",
+    "document-classifier-endpoint",
+    "dominant-language-detection-job",
+    "entities-detection-job",
+    "entity-recognizer",
+    "entity-recognizer-endpoint",
+    "events-detection-job",
+    "flywheel",
+    "flywheel-dataset",
+    "key-phrases-detection-job",
+    "pii-entities-detection-job",
+    "sentiment-detection-job",
+    "targeted-sentiment-detection-job",
+    "topics-detection-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classification-job",
+    "document-classifier",
+    "document-classifier-endpoint",
+    "dominant-language-detection-job",
+    "entities-detection-job",
+    "entity-recognizer",
+    "entity-recognizer-endpoint",
+    "events-detection-job",
+    "flywheel",
+    "flywheel-dataset",
+    "key-phrases-detection-job",
+    "pii-entities-detection-job",
+    "sentiment-detection-job",
+    "targeted-sentiment-detection-job",
+    "topics-detection-job"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier-endpoint",
+    "entity-recognizer-endpoint",
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFlywheel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "document-classifier",
+    "entity-recognizer",
+    "flywheel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "document-classification-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:document-classification-job/${JobId}"
+  ],
+  "document-classifier": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier/${DocumentClassifierName}"
+  ],
+  "document-classifier-endpoint": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:document-classifier-endpoint/${DocumentClassifierEndpointName}"
+  ],
+  "dominant-language-detection-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:dominant-language-detection-job/${JobId}"
+  ],
+  "entities-detection-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:entities-detection-job/${JobId}"
+  ],
+  "entity-recognizer": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer/${EntityRecognizerName}"
+  ],
+  "entity-recognizer-endpoint": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:entity-recognizer-endpoint/${EntityRecognizerEndpointName}"
+  ],
+  "events-detection-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:events-detection-job/${JobId}"
+  ],
+  "flywheel": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}"
+  ],
+  "flywheel-dataset": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:flywheel/${FlywheelName}/dataset/${DatasetName}"
+  ],
+  "key-phrases-detection-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:key-phrases-detection-job/${JobId}"
+  ],
+  "pii-entities-detection-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:pii-entities-detection-job/${JobId}"
+  ],
+  "sentiment-detection-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:sentiment-detection-job/${JobId}"
+  ],
+  "targeted-sentiment-detection-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:targeted-sentiment-detection-job/${JobId}"
+  ],
+  "topics-detection-job": [
+   "arn:${Partition}:comprehend:${Region}:${Account}:topics-detection-job/${JobId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "comprehend:DataLakeKmsKey": [
+   "ARN"
+  ],
+  "comprehend:FlywheelIterationId": [
+   "String"
+  ],
+  "comprehend:ModelKmsKey": [
+   "ARN"
+  ],
+  "comprehend:OutputKmsKey": [
+   "ARN"
+  ],
+  "comprehend:VolumeKmsKey": [
+   "ARN"
+  ],
+  "comprehend:VpcSecurityGroupIds": [
+   "ArrayOfString"
+  ],
+  "comprehend:VpcSubnets": [
+   "ArrayOfString"
+  ]
+ }
+}

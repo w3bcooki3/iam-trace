@@ -1,0 +1,30 @@
+{
+ "prefix": "vpce",
+ "name": "VPC Endpoints",
+ "actions": {
+  "AllowMultiRegion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "vpc-endpoint",
+    "vpc-endpoint-service"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "vpc-endpoint": [
+   "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint/${VpcEndpointId}"
+  ],
+  "vpc-endpoint-service": [
+   "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint-service/${VpcEndpointServiceId}"
+  ]
+ },
+ "condition_keys": {}
+}

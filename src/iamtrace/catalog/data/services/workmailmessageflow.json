@@ -1,0 +1,42 @@
+{
+ "prefix": "workmailmessageflow",
+ "name": "WorkMail Message Flow",
+ "actions": {
+  "GetRawMessageContent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "RawMessage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutRawMessageContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "RawMessage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "RawMessage": [
+   "arn:${Partition}:workmailmessageflow:${Region}:${Account}:message/${OrganizationId}/${Context}/${MessageId}"
+  ]
+ },
+ "condition_keys": {}
+}

@@ -1,0 +1,1519 @@
+{
+ "prefix": "odb",
+ "name": "Oracle Database@AWS",
+ "actions": {
+  "AcceptMarketplaceRegistration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateIamRoleToResource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-autonomous-vm-cluster",
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateVirtualMachinesToCloudVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AssociateVirtualMachinesToExadbVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "exadb-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "odb-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAutonomousDatabaseBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAutonomousDatabaseWallet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateCloudAutonomousVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure",
+    "odb-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCloudExadataInfrastructure": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCloudVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure",
+    "exascale-db-storage-vault",
+    "odb-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDbNode": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db-node"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateExadbVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "exascale-db-storage-vault",
+    "odb-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateExascaleDbStorageVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateGrantShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateOdbNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateOdbPeeringConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "odb-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateOutboundIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-autonomous-vm-cluster",
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAutonomousDatabaseBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database-backup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCloudAutonomousVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-autonomous-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCloudExadataInfrastructure": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCloudVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDbNode": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db-node"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteExadbVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "exadb-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteExascaleDbStorageVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "exascale-db-storage-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGrantShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteOdbNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "odb-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteOdbPeeringConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "odb-peering-connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure",
+    "exascale-db-storage-vault",
+    "odb-network"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DisassociateIamRoleFromResource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-autonomous-vm-cluster",
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateVirtualMachinesFromCloudVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DisassociateVirtualMachinesFromExadbVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "exadb-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "FailoverAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutonomousDatabase": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutonomousDatabaseBackup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "autonomous-database-backup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutonomousDatabaseWalletDetails": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCloudAutonomousVmCluster": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-autonomous-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCloudExadataInfrastructure": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCloudExadataInfrastructureUnallocatedResources": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCloudVmCluster": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDbNode": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-vm-cluster",
+    "db-node"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDbServer": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetExadbVmCluster": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "exadb-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetExascaleDbStorageVault": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "exascale-db-storage-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetOciOnboardingStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetOdbNetwork": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "odb-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetOdbPeeringConnection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "odb-peering-connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure",
+    "exascale-db-storage-vault",
+    "odb-network"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InitializeService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutonomousDatabaseBackups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutonomousDatabaseCharacterSets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutonomousDatabaseClones": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutonomousDatabasePeers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutonomousDatabaseVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutonomousDatabases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutonomousVirtualMachines": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-autonomous-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCloudAutonomousVmClusters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCloudExadataInfrastructures": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCloudVmClusters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDbNodes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDbServers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDbSystemShapes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListExadbVmClusters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "exascale-db-storage-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListExascaleDbStorageVaults": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlexComponents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGiMinorVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGiVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListOdbNetworks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListOdbPeeringConnections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "odb-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSystemVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "autonomous-database",
+    "autonomous-database-backup",
+    "cloud-autonomous-vm-cluster",
+    "cloud-exadata-infrastructure",
+    "cloud-vm-cluster",
+    "db-node",
+    "exadb-vm-cluster",
+    "exascale-db-storage-vault",
+    "odb-network",
+    "odb-peering-connection"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure",
+    "exascale-db-storage-vault",
+    "odb-network"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RebootAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RebootDbNode": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-vm-cluster",
+    "db-node"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ShrinkAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDbNode": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-vm-cluster",
+    "db-node"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopDbNode": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-vm-cluster",
+    "db-node"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SwitchoverAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database",
+    "autonomous-database-backup",
+    "cloud-autonomous-vm-cluster",
+    "cloud-exadata-infrastructure",
+    "cloud-vm-cluster",
+    "db-node",
+    "exadb-vm-cluster",
+    "exascale-db-storage-vault",
+    "odb-network",
+    "odb-peering-connection"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database",
+    "autonomous-database-backup",
+    "cloud-autonomous-vm-cluster",
+    "cloud-exadata-infrastructure",
+    "cloud-vm-cluster",
+    "db-node",
+    "exadb-vm-cluster",
+    "exascale-db-storage-vault",
+    "odb-network",
+    "odb-peering-connection"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAutonomousDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAutonomousDatabaseBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "autonomous-database-backup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCloudAutonomousVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-autonomous-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateCloudExadataInfrastructure": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCloudExadataInfrastructureStorageCapacity": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateCloudVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateExadbVmCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "exadb-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateExascaleCloudExadataInfrastructure": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-exadata-infrastructure"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateExascaleDbStorageVault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "exascale-db-storage-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGrantShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateOdbNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "odb-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateOdbPeeringConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "odb-peering-connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateOutboundIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cloud-autonomous-vm-cluster",
+    "cloud-vm-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "autonomous-database": [
+   "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}"
+  ],
+  "autonomous-database-backup": [
+   "arn:${Partition}:odb:${Region}:${Account}:autonomous-database-backup/${AutonomousDatabaseBackupId}"
+  ],
+  "cloud-autonomous-vm-cluster": [
+   "arn:${Partition}:odb:${Region}:${Account}:cloud-autonomous-vm-cluster/${CloudAutonomousVmClusterId}"
+  ],
+  "cloud-exadata-infrastructure": [
+   "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}"
+  ],
+  "cloud-vm-cluster": [
+   "arn:${Partition}:odb:${Region}:${Account}:cloud-vm-cluster/${CloudVmClusterId}"
+  ],
+  "db-node": [
+   "arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}"
+  ],
+  "exadb-vm-cluster": [
+   "arn:${Partition}:odb:${Region}:${Account}:exadb-vm-cluster/${ExadbVmClusterId}"
+  ],
+  "exascale-db-storage-vault": [
+   "arn:${Partition}:odb:${Region}:${Account}:exascale-db-storage-vault/${ExascaleDbStorageVaultId}"
+  ],
+  "odb-network": [
+   "arn:${Partition}:odb:${Region}:${Account}:odb-network/${OdbNetworkId}"
+  ],
+  "odb-peering-connection": [
+   "arn:${Partition}:odb:${Region}:${Account}:odb-peering-connection/${OdbPeeringConnectionId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

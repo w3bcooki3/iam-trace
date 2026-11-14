@@ -1,0 +1,1325 @@
+{
+ "prefix": "events",
+ "name": "EventBridge",
+ "actions": {
+  "ActivateEventSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-source"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-bus",
+    "subscriber"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CancelReplay": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "replay"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateApiDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-destination",
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateArchive": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "alias",
+    "archive",
+    "event-bus",
+    "key"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [
+    "events:EventBusArn"
+   ],
+   "data_plane": false
+  },
+  "CreateEventBus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-bus",
+    "event-busv2"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateEventSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-busv2",
+    "event-sourcev2"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "events:source"
+   ],
+   "data_plane": false
+  },
+  "CreatePartnerEventSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-source"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateSubscriber": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-busv2",
+    "subscriber"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "events:ContentFilterPresent",
+    "events:Metadata/${MetadataKey}",
+    "events:Metadata/${MetadataKey}/Matcher"
+   ],
+   "data_plane": false
+  },
+  "DeactivateEventSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-source"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeauthorizeConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteApiDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-destination"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteArchive": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEventBus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-bus",
+    "event-busv2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEventSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-sourcev2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePartnerEventSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-source"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-busv2"
+   ],
+   "condition_keys": [
+    "events:PolicyName"
+   ],
+   "data_plane": false
+  },
+  "DeleteRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus"
+   ],
+   "condition_keys": [
+    "events:ManagedBy",
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "DeleteSubscriber": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "subscriber"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeApiDestination": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "api-destination",
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeArchive": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "archive"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeConnection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEventBus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "event-bus",
+    "event-busv2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEventSource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "event-source",
+    "event-sourcev2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribePartnerEventSource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "event-source"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeReplay": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "replay"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus"
+   ],
+   "condition_keys": [
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "DescribeSubscriber": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "subscriber"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisableRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus"
+   ],
+   "condition_keys": [
+    "events:ManagedBy",
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "EnableRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus"
+   ],
+   "condition_keys": [
+    "events:ManagedBy",
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "event-busv2"
+   ],
+   "condition_keys": [
+    "events:PolicyName"
+   ],
+   "data_plane": false
+  },
+  "InvokeApiDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-destination"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListApiDestinations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListArchives": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConnections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEventBuses": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEventSources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPartnerEventSourceAccounts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "event-source"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPartnerEventSources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListReplays": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListResourcePolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "event-busv2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRuleNamesByTarget": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSubscribers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "event-bus",
+    "event-busv2",
+    "event-sourcev2",
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus",
+    "subscriber"
+   ],
+   "condition_keys": [
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "ListTargetsByRule": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus"
+   ],
+   "condition_keys": [
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "PutEvents": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-bus",
+    "event-busv2"
+   ],
+   "condition_keys": [
+    "events:SystemMetadata/AwsDetailType",
+    "events:SystemMetadata/AwsSource",
+    "events:SystemMetadata/ContentType",
+    "events:detail-type",
+    "events:eventBusInvocation",
+    "events:source"
+   ],
+   "data_plane": true
+  },
+  "PutPartnerEvents": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "PutPermission": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutRawEvents": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-busv2"
+   ],
+   "condition_keys": [
+    "events:Metadata/${MetadataKey}",
+    "events:SystemMetadata/AwsDetailType",
+    "events:SystemMetadata/AwsSource",
+    "events:SystemMetadata/ContentType",
+    "events:eventBusInvocation"
+   ],
+   "data_plane": true
+  },
+  "PutResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-busv2"
+   ],
+   "condition_keys": [
+    "events:PolicyName"
+   ],
+   "data_plane": false
+  },
+  "PutRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "events:ManagedBy",
+    "events:creatorAccount",
+    "events:detail-type",
+    "events:detail.eventTypeCode",
+    "events:detail.service",
+    "events:detail.userIdentity.principalId",
+    "events:source"
+   ],
+   "data_plane": false
+  },
+  "PutTargets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus"
+   ],
+   "condition_keys": [
+    "events:ManagedBy",
+    "events:TargetArn",
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "RemovePermission": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveTargets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus"
+   ],
+   "condition_keys": [
+    "events:ManagedBy",
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "RetrieveConnectionCredentials": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RevokeResource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-busv2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartReplay": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "archive",
+    "event-bus",
+    "replay"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-bus",
+    "event-busv2",
+    "event-sourcev2",
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus",
+    "subscriber"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "TestEventPattern": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-bus",
+    "event-busv2",
+    "event-sourcev2",
+    "rule-on-custom-event-bus",
+    "rule-on-default-event-bus",
+    "subscriber"
+   ],
+   "condition_keys": [
+    "aws:TagKeys",
+    "events:creatorAccount"
+   ],
+   "data_plane": false
+  },
+  "UpdateApiDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-destination"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateArchive": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "alias",
+    "archive",
+    "key"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [
+    "events:EventBusArn"
+   ],
+   "data_plane": false
+  },
+  "UpdateEventBus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-bus",
+    "event-busv2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateEventSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-busv2",
+    "event-sourcev2"
+   ],
+   "condition_keys": [
+    "events:source"
+   ],
+   "data_plane": false
+  },
+  "UpdateSubscriber": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "event-busv2",
+    "subscriber"
+   ],
+   "condition_keys": [
+    "events:ContentFilterPresent",
+    "events:Metadata/${MetadataKey}",
+    "events:Metadata/${MetadataKey}/Matcher"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "alias": [
+   "arn:${Partition}:kms:${Region}:${Account}:alias/${Alias}"
+  ],
+  "api-destination": [
+   "arn:${Partition}:events:${Region}:${Account}:api-destination/${ApiDestinationName}"
+  ],
+  "archive": [
+   "arn:${Partition}:events:${Region}:${Account}:archive/${ArchiveName}"
+  ],
+  "connection": [
+   "arn:${Partition}:events:${Region}:${Account}:connection/${ConnectionName}"
+  ],
+  "create-snapshot": [
+   "arn:${Partition}:events:${Region}:${Account}:target/create-snapshot"
+  ],
+  "endpoint": [
+   "arn:${Partition}:events:${Region}:${Account}:endpoint/${EndpointName}"
+  ],
+  "event-bus": [
+   "arn:${Partition}:events:${Region}:${Account}:event-bus/${EventBusName}"
+  ],
+  "event-busv2": [
+   "arn:${Partition}:events:${Region}:${Account}:event-busv2/${EventBusName}/${OpaqueId}"
+  ],
+  "event-source": [
+   "arn:${Partition}:events:${Region}::event-source/${EventSourceName}"
+  ],
+  "event-sourcev2": [
+   "arn:${Partition}:events:${Region}:${Account}:event-sourcev2/${SourceType}/${EventSourceName}/${OpaqueId}"
+  ],
+  "key": [
+   "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"
+  ],
+  "reboot-instance": [
+   "arn:${Partition}:events:${Region}:${Account}:target/reboot-instance"
+  ],
+  "replay": [
+   "arn:${Partition}:events:${Region}:${Account}:replay/${ReplayName}"
+  ],
+  "rule-on-custom-event-bus": [
+   "arn:${Partition}:events:${Region}:${Account}:rule/${EventBusName}/${RuleName}"
+  ],
+  "rule-on-default-event-bus": [
+   "arn:${Partition}:events:${Region}:${Account}:rule/${RuleName}"
+  ],
+  "stop-instance": [
+   "arn:${Partition}:events:${Region}:${Account}:target/stop-instance"
+  ],
+  "subscriber": [
+   "arn:${Partition}:events:${Region}:${Account}:subscriber/${SubscriberName}/${OpaqueId}"
+  ],
+  "terminate-instance": [
+   "arn:${Partition}:events:${Region}:${Account}:target/terminate-instance"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "events:ContentFilterPresent": [
+   "Bool"
+  ],
+  "events:EventBusArn": [
+   "ArrayOfARN"
+  ],
+  "events:ManagedBy": [
+   "String"
+  ],
+  "events:Metadata/${MetadataKey}": [
+   "ArrayOfString"
+  ],
+  "events:Metadata/${MetadataKey}/Matcher": [
+   "String"
+  ],
+  "events:PolicyName": [
+   "String"
+  ],
+  "events:SystemMetadata/AwsDetailType": [
+   "String"
+  ],
+  "events:SystemMetadata/AwsSource": [
+   "String"
+  ],
+  "events:SystemMetadata/ContentType": [
+   "String"
+  ],
+  "events:TargetArn": [
+   "ArrayOfARN"
+  ],
+  "events:creatorAccount": [
+   "String"
+  ],
+  "events:detail-type": [
+   "ArrayOfString"
+  ],
+  "events:detail.eventTypeCode": [
+   "String"
+  ],
+  "events:detail.service": [
+   "String"
+  ],
+  "events:detail.userIdentity.principalId": [
+   "String"
+  ],
+  "events:eventBusInvocation": [
+   "String"
+  ],
+  "events:source": [
+   "ArrayOfString"
+  ]
+ }
+}

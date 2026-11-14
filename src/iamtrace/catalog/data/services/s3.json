@@ -1,0 +1,4469 @@
+{
+ "prefix": "s3",
+ "name": "S3",
+ "actions": {
+  "AbortMultipartUpload": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:deliverySourceArn",
+    "s3:logType",
+    "s3:resourceArnBeingAuthorized"
+   ],
+   "data_plane": null
+  },
+  "AssociateAccessGrantsIdentityCenter": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "BypassGovernanceRetention": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:RequestObjectTag/<key>",
+    "s3:RequestObjectTagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-acl",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-copy-source",
+    "s3:x-amz-grant-full-control",
+    "s3:x-amz-grant-read",
+    "s3:x-amz-grant-read-acp",
+    "s3:x-amz-grant-write",
+    "s3:x-amz-grant-write-acp",
+    "s3:x-amz-metadata-directive",
+    "s3:x-amz-server-side-encryption",
+    "s3:x-amz-server-side-encryption-aws-kms-key-id",
+    "s3:x-amz-server-side-encryption-customer-algorithm",
+    "s3:x-amz-storage-class",
+    "s3:x-amz-website-redirect-location"
+   ],
+   "data_plane": true
+  },
+  "CreateAccessGrant": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrant"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:AccessGrantScope",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "CreateAccessGrantsInstance": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "CreateAccessGrantsLocation": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantslocation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:AccessGrantsLocationScope",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "CreateAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:AccessPointNetworkOrigin",
+    "s3:AccessPointTag/${TagKey}",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:locationconstraint",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-acl",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "CreateAccessPointForObjectLambda": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "CreateBucket": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:locationconstraint",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-acl",
+    "s3:x-amz-bucket-namespace",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-grant-full-control",
+    "s3:x-amz-grant-read",
+    "s3:x-amz-grant-read-acp",
+    "s3:x-amz-grant-write",
+    "s3:x-amz-grant-write-acp",
+    "s3:x-amz-object-ownership"
+   ],
+   "data_plane": false
+  },
+  "CreateBucketMetadataTableConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "CreateJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:RequestJobOperation",
+    "s3:RequestJobPriority",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "CreateMultiRegionAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "multiregionaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "CreateStorageLensGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessGrant": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessGrantScope",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessGrantsInstance": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessGrantsInstanceResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessGrantsLocation": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantslocation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessGrantsLocationScope",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessPointNetworkOrigin",
+    "s3:AccessPointTag/${TagKey}",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessPointForObjectLambda": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessPointPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessPointNetworkOrigin",
+    "s3:AccessPointTag/${TagKey}",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccessPointPolicyForObjectLambda": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteBucket": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteBucketMetadataTableConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteBucketPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteBucketWebsite": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteJobTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "s3:ExistingJobOperation",
+    "s3:ExistingJobPriority",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteMultiRegionAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "multiregionaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "DeleteObject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:if-match",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "DeleteObjectAnnotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-object-if-match"
+   ],
+   "data_plane": null
+  },
+  "DeleteObjectTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "DeleteObjectVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "DeleteObjectVersionAnnotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-object-if-match"
+   ],
+   "data_plane": null
+  },
+  "DeleteObjectVersionTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "DeleteStorageLensConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "storagelensconfiguration"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteStorageLensConfigurationTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "storagelensconfiguration"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DeleteStorageLensGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "storagelensgroup"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DescribeJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "DescribeMultiRegionAccessPointOperation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "multiregionaccesspointrequestarn"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "DissociateAccessGrantsIdentityCenter": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccelerateConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetAccessGrant": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrant"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessGrantScope",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessGrantsInstance": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessGrantsInstanceForPrefix": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessGrantsInstanceResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessGrantsLocation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrantslocation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessGrantsLocationScope",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessPoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessPointNetworkOrigin",
+    "s3:AccessPointTag/${TagKey}",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessPointConfigurationForObjectLambda": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessPointForObjectLambda": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessPointPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessPointNetworkOrigin",
+    "s3:AccessPointTag/${TagKey}",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessPointPolicyForObjectLambda": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessPointPolicyStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessPointNetworkOrigin",
+    "s3:AccessPointTag/${TagKey}",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccessPointPolicyStatusForObjectLambda": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetAccountPublicAccessBlock": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetAnalyticsConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketAbac": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetBucketAcl": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketCORS": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketLocation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketLogging": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketMetadataTableConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketNotification": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketObjectLockConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:signatureversion"
+   ],
+   "data_plane": null
+  },
+  "GetBucketOwnershipControls": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketPolicyStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketPublicAccessBlock": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetBucketRequestPayment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketTagging": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketVersioning": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetBucketWebsite": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetDataAccess": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetEncryptionConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetIntelligentTieringConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetInventoryConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetJobTagging": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetLifecycleConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetMetricsConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetMultiRegionAccessPoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "multiregionaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "GetMultiRegionAccessPointPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "multiregionaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "GetMultiRegionAccessPointPolicyStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "multiregionaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "GetMultiRegionAccessPointRoutes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "multiregionaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "GetObject": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "GetObjectAcl": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "GetObjectAnnotation": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetObjectAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetObjectLegalHold": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "GetObjectRetention": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "GetObjectTagging": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "GetObjectTorrent": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetObjectVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "GetObjectVersionAcl": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "GetObjectVersionAnnotation": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetObjectVersionAnnotationForReplication": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetObjectVersionAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetObjectVersionForReplication": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetObjectVersionTagging": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "GetObjectVersionTorrent": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetReplicationConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetStorageLensConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "storagelensconfiguration"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetStorageLensConfigurationTagging": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "storagelensconfiguration"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "GetStorageLensDashboard": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "storagelensconfiguration"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetStorageLensGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "storagelensgroup"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "InitiateReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount"
+   ],
+   "data_plane": null
+  },
+  "ListAccessGrants": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListAccessGrantsInstances": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListAccessGrantsLocations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListAccessPoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListAccessPointsForObjectLambda": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListAllMyBuckets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListBucket": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:delimiter",
+    "s3:max-keys",
+    "s3:prefix",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "ListBucketMultipartUploads": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessGrantsInstanceArn",
+    "s3:AccessPointNetworkOrigin",
+    "s3:AccessPointTag/${TagKey}",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListBucketVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:delimiter",
+    "s3:max-keys",
+    "s3:prefix",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "ListCallerAccessGrants": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListMultiRegionAccessPoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "ListMultipartUploadParts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "ListObjectAnnotations": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:annotation-prefix",
+    "s3:authType",
+    "s3:max-annotation-results",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "ListObjectVersionAnnotations": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:annotation-prefix",
+    "s3:authType",
+    "s3:max-annotation-results",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "ListStorageLensConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListStorageLensGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accessgrant",
+    "accessgrantsinstance",
+    "accessgrantslocation",
+    "accesspoint",
+    "bucket",
+    "storagelensgroup"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ObjectOwnerOverrideToBucketOwner": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PauseReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:destinationRegion",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutAccelerateConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutAccessGrantsInstanceResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantsinstance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutAccessPointConfigurationForObjectLambda": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutAccessPointPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutAccessPointPolicyForObjectLambda": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutAccessPointPublicAccessBlock": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutAccountPublicAccessBlock": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutAnalyticsConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutBucketAbac": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutBucketAcl": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-acl",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-grant-full-control",
+    "s3:x-amz-grant-read",
+    "s3:x-amz-grant-read-acp",
+    "s3:x-amz-grant-write",
+    "s3:x-amz-grant-write-acp"
+   ],
+   "data_plane": false
+  },
+  "PutBucketCORS": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutBucketLogging": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutBucketNotification": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutBucketObjectLockConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "PutBucketOwnershipControls": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutBucketPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutBucketPublicAccessBlock": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutBucketRequestPayment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutBucketTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutBucketVersioning": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutBucketWebsite": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutEncryptionConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutIntelligentTieringConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutInventoryConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:InventoryAccessibleOptionalFields",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutJobTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:ExistingJobOperation",
+    "s3:ExistingJobPriority",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutLifecycleConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutMetricsConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutMultiRegionAccessPointPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "multiregionaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "PutObject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ObjectCreationOperation",
+    "s3:RequestObjectTag/<key>",
+    "s3:RequestObjectTagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:if-match",
+    "s3:if-none-match",
+    "s3:object-lock-event-hold",
+    "s3:object-lock-event-hold-duration-days",
+    "s3:object-lock-legal-hold",
+    "s3:object-lock-mode",
+    "s3:object-lock-remaining-retention-days",
+    "s3:object-lock-retain-until-date",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-acl",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-copy-source",
+    "s3:x-amz-grant-full-control",
+    "s3:x-amz-grant-read",
+    "s3:x-amz-grant-read-acp",
+    "s3:x-amz-grant-write",
+    "s3:x-amz-grant-write-acp",
+    "s3:x-amz-metadata-directive",
+    "s3:x-amz-object-annotation-directive",
+    "s3:x-amz-server-side-encryption",
+    "s3:x-amz-server-side-encryption-aws-kms-key-id",
+    "s3:x-amz-server-side-encryption-customer-algorithm",
+    "s3:x-amz-storage-class",
+    "s3:x-amz-website-redirect-location"
+   ],
+   "data_plane": true
+  },
+  "PutObjectAcl": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-acl",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-grant-full-control",
+    "s3:x-amz-grant-read",
+    "s3:x-amz-grant-read-acp",
+    "s3:x-amz-grant-write",
+    "s3:x-amz-grant-write-acp",
+    "s3:x-amz-storage-class"
+   ],
+   "data_plane": true
+  },
+  "PutObjectAnnotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-object-if-match"
+   ],
+   "data_plane": null
+  },
+  "PutObjectLegalHold": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:object-lock-legal-hold",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "PutObjectRetention": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:object-lock-event-hold",
+    "s3:object-lock-event-hold-duration-days",
+    "s3:object-lock-mode",
+    "s3:object-lock-remaining-retention-days",
+    "s3:object-lock-retain-until-date",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "PutObjectTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:RequestObjectTag/<key>",
+    "s3:RequestObjectTagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "PutObjectVersionAcl": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:AccessGrantsInstanceArn",
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-acl",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-grant-full-control",
+    "s3:x-amz-grant-read",
+    "s3:x-amz-grant-read-acp",
+    "s3:x-amz-grant-write",
+    "s3:x-amz-grant-write-acp",
+    "s3:x-amz-storage-class"
+   ],
+   "data_plane": true
+  },
+  "PutObjectVersionAnnotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-object-if-match"
+   ],
+   "data_plane": null
+  },
+  "PutObjectVersionTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:RequestObjectTag/<key>",
+    "s3:RequestObjectTagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:versionid",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "PutReplicationConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:isReplicationPauseRequest",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutStorageLensConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "PutStorageLensConfigurationTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "storagelensconfiguration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "ReplicateDelete": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "ReplicateObject": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:object-lock-event-hold",
+    "s3:object-lock-event-hold-duration-days",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-server-side-encryption",
+    "s3:x-amz-server-side-encryption-aws-kms-key-id",
+    "s3:x-amz-server-side-encryption-customer-algorithm"
+   ],
+   "data_plane": null
+  },
+  "ReplicateObjectAnnotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "ReplicateTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "RestoreObject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": true
+  },
+  "SubmitMultiRegionAccessPointRoutes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "multiregionaccesspoint"
+   ],
+   "condition_keys": [
+    "s3:AccessPointNetworkOrigin",
+    "s3:DataAccessPointAccount",
+    "s3:DataAccessPointArn",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion"
+   ],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrant",
+    "accessgrantsinstance",
+    "accessgrantslocation",
+    "accesspoint",
+    "bucket",
+    "storagelensgroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrant",
+    "accessgrantsinstance",
+    "accessgrantslocation",
+    "accesspoint",
+    "bucket",
+    "storagelensgroup"
+   ],
+   "condition_keys": [
+    "aws:TagKeys",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "UpdateAccessGrantsLocation": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accessgrantslocation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3:AccessGrantsLocationScope",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "UpdateBucketMetadataAnnotationTableConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "UpdateBucketMetadataInventoryTableConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "UpdateBucketMetadataJournalTableConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "UpdateJobPriority": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "s3:ExistingJobOperation",
+    "s3:ExistingJobPriority",
+    "s3:RequestJobPriority",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "UpdateJobStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "s3:ExistingJobOperation",
+    "s3:ExistingJobPriority",
+    "s3:JobSuspendedCause",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  },
+  "UpdateObjectEncryption": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspointobject",
+    "object"
+   ],
+   "condition_keys": [
+    "s3:ExistingObjectTag/<key>",
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256",
+    "s3:x-amz-server-side-encryption",
+    "s3:x-amz-server-side-encryption-aws-kms-key-id"
+   ],
+   "data_plane": null
+  },
+  "UpdateStorageLensGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "storagelensgroup"
+   ],
+   "condition_keys": [
+    "s3:ResourceAccount",
+    "s3:TlsVersion",
+    "s3:authType",
+    "s3:signatureAge",
+    "s3:signatureversion",
+    "s3:x-amz-content-sha256"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "accessgrant": [
+   "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/grant/${Token}"
+  ],
+  "accessgrantsinstance": [
+   "arn:${Partition}:s3:${Region}:${Account}:access-grants/default"
+  ],
+  "accessgrantslocation": [
+   "arn:${Partition}:s3:${Region}:${Account}:access-grants/default/location/${Token}"
+  ],
+  "accesspoint": [
+   "arn:${Partition}:s3:${Region}:${Account}:accesspoint/${AccessPointName}"
+  ],
+  "accesspointobject": [
+   "arn:${Partition}:s3:${Region}:${Account}:accesspoint/${AccessPointName}/object/${ObjectName}"
+  ],
+  "bucket": [
+   "arn:${Partition}:s3:::${BucketName}"
+  ],
+  "job": [
+   "arn:${Partition}:s3:${Region}:${Account}:job/${JobId}"
+  ],
+  "multiregionaccesspoint": [
+   "arn:${Partition}:s3::${Account}:accesspoint/${AccessPointAlias}"
+  ],
+  "multiregionaccesspointrequestarn": [
+   "arn:${Partition}:s3:us-west-2:${Account}:async-request/mrap/${Operation}/${Token}"
+  ],
+  "object": [
+   "arn:${Partition}:s3:::${BucketName}/${ObjectName}"
+  ],
+  "objectlambdaaccesspoint": [
+   "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}"
+  ],
+  "storagelensconfiguration": [
+   "arn:${Partition}:s3:${Region}:${Account}:storage-lens/${ConfigId}"
+  ],
+  "storagelensgroup": [
+   "arn:${Partition}:s3:${Region}:${Account}:storage-lens-group/${Name}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "s3:AccessGrantScope": [
+   "String"
+  ],
+  "s3:AccessGrantsInstanceArn": [
+   "ARN"
+  ],
+  "s3:AccessGrantsLocationScope": [
+   "String"
+  ],
+  "s3:AccessPointNetworkOrigin": [
+   "String"
+  ],
+  "s3:AccessPointTag/${TagKey}": [
+   "String"
+  ],
+  "s3:BucketTag/${TagKey}": [
+   "String"
+  ],
+  "s3:DataAccessPointAccount": [
+   "String"
+  ],
+  "s3:DataAccessPointArn": [
+   "ARN"
+  ],
+  "s3:ExistingJobOperation": [
+   "String"
+  ],
+  "s3:ExistingJobPriority": [
+   "Numeric"
+  ],
+  "s3:ExistingObjectTag/<key>": [
+   "String"
+  ],
+  "s3:InventoryAccessibleOptionalFields": [
+   "ArrayOfString"
+  ],
+  "s3:JobSuspendedCause": [
+   "String"
+  ],
+  "s3:ObjectCreationOperation": [
+   "Bool"
+  ],
+  "s3:RequestJobOperation": [
+   "String"
+  ],
+  "s3:RequestJobPriority": [
+   "Numeric"
+  ],
+  "s3:RequestObjectTag/<key>": [
+   "String"
+  ],
+  "s3:RequestObjectTagKeys": [
+   "ArrayOfString"
+  ],
+  "s3:ResourceAccount": [
+   "String"
+  ],
+  "s3:TlsVersion": [
+   "Numeric"
+  ],
+  "s3:annotation-prefix": [
+   "String"
+  ],
+  "s3:authType": [
+   "String"
+  ],
+  "s3:delimiter": [
+   "String"
+  ],
+  "s3:deliverySourceArn": [
+   "ARN"
+  ],
+  "s3:destinationRegion": [
+   "String"
+  ],
+  "s3:if-match": [
+   "String"
+  ],
+  "s3:if-none-match": [
+   "String"
+  ],
+  "s3:isReplicationPauseRequest": [
+   "Bool"
+  ],
+  "s3:locationconstraint": [
+   "String"
+  ],
+  "s3:logType": [
+   "String"
+  ],
+  "s3:max-annotation-results": [
+   "Numeric"
+  ],
+  "s3:max-keys": [
+   "Numeric"
+  ],
+  "s3:object-lock-event-hold": [
+   "String"
+  ],
+  "s3:object-lock-event-hold-duration-days": [
+   "Numeric"
+  ],
+  "s3:object-lock-legal-hold": [
+   "String"
+  ],
+  "s3:object-lock-mode": [
+   "String"
+  ],
+  "s3:object-lock-remaining-retention-days": [
+   "Numeric"
+  ],
+  "s3:object-lock-retain-until-date": [
+   "Date"
+  ],
+  "s3:prefix": [
+   "String"
+  ],
+  "s3:resourceArnBeingAuthorized": [
+   "ARN"
+  ],
+  "s3:signatureAge": [
+   "Numeric"
+  ],
+  "s3:signatureversion": [
+   "String"
+  ],
+  "s3:versionid": [
+   "String"
+  ],
+  "s3:x-amz-acl": [
+   "String"
+  ],
+  "s3:x-amz-bucket-namespace": [
+   "String"
+  ],
+  "s3:x-amz-content-sha256": [
+   "String"
+  ],
+  "s3:x-amz-copy-source": [
+   "String"
+  ],
+  "s3:x-amz-grant-full-control": [
+   "String"
+  ],
+  "s3:x-amz-grant-read": [
+   "String"
+  ],
+  "s3:x-amz-grant-read-acp": [
+   "String"
+  ],
+  "s3:x-amz-grant-write": [
+   "String"
+  ],
+  "s3:x-amz-grant-write-acp": [
+   "String"
+  ],
+  "s3:x-amz-metadata-directive": [
+   "String"
+  ],
+  "s3:x-amz-object-annotation-directive": [
+   "String"
+  ],
+  "s3:x-amz-object-if-match": [
+   "String"
+  ],
+  "s3:x-amz-object-ownership": [
+   "String"
+  ],
+  "s3:x-amz-server-side-encryption": [
+   "String"
+  ],
+  "s3:x-amz-server-side-encryption-aws-kms-key-id": [
+   "ARN"
+  ],
+  "s3:x-amz-server-side-encryption-customer-algorithm": [
+   "String"
+  ],
+  "s3:x-amz-storage-class": [
+   "String"
+  ],
+  "s3:x-amz-website-redirect-location": [
+   "String"
+  ]
+ }
+}

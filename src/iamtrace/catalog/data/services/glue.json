@@ -1,0 +1,4959 @@
+{
+ "prefix": "glue",
+ "name": "Glue",
+ "actions": {
+  "AccessDataQualityRuntimeConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AuthorizeInboundIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "BatchCreatePartition": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "BatchDeleteConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "BatchDeletePartition": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "BatchDeleteTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "BatchDeleteTableVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "BatchGetBlueprints": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetCrawlers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "crawler"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetCustomEntityTypes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetDevEndpoints": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "devendpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetPartition": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "BatchGetStageFiles": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "BatchGetTableOptimizer": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetTriggers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "trigger"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetWorkflows": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchStopJobRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchUpdatePartition": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "CancelDataQualityRuleRecommendationRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelDataQualityRulesetEvaluationRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelMLTaskRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CheckSchemaVersionValidity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCatalog": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "CreateClassifier": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateColumnStatisticsTaskSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connectionType",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "glue:ConnectionType",
+    "glue:CredentialVendingMode",
+    "glue:InstanceUrl",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "CreateCrawler": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCustomEntityType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDataQualityRuleset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "CreateDevEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateGlueIdentityCenterConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateInboundIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database",
+    "integration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateIntegrationResourceProperty": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database",
+    "integrationResourceProperty"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateIntegrationTableProperties": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "glue:SecurityGroupIds",
+    "glue:SubnetIds",
+    "glue:VpcIds"
+   ],
+   "data_plane": false
+  },
+  "CreateMLTransform": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePartition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "CreatePartitionIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "CreateRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateSchema": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateScript": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateSecurityConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "glue:SecurityGroupIds",
+    "glue:SubnetIds",
+    "glue:VpcIds"
+   ],
+   "data_plane": false
+  },
+  "CreateTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "CreateTableOptimizer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTrigger": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trigger"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateUsageProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "usageProfile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateUserDefinedFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "CreateWorkflow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCatalog": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "DeleteClassifier": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteColumnStatisticsForPartition": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "DeleteColumnStatisticsForTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "DeleteColumnStatisticsTaskSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "DeleteConnectionType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connectionType"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCrawler": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "crawler"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCustomEntityType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDataQualityRuleset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table",
+    "userdefinedfunction"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "DeleteDevEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "devendpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGlueIdentityCenterConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "integration"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteIntegrationResourceProperty": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database",
+    "integrationResourceProperty"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteIntegrationTableProperties": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMLTransform": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePartition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "DeletePartitionIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "DeleteRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteSchema": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSchemaVersions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSecurityConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "DeleteTableOptimizer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTableVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "DeleteTrigger": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trigger"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteUsageProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "usageProfile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteUserDefinedFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "userdefinedfunction"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "DeleteWorkflow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeregisterDataPreview": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeConnectionType": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connectionType"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEntity": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "connectionType",
+    "rootcatalog"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeInboundIntegrations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeIntegrations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "integration"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "FederateAuthorization": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:EnabledForRedshiftAutoDiscovery",
+    "glue:FederatedAuthorizationSource"
+   ],
+   "data_plane": null
+  },
+  "GetBlueprint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBlueprintRun": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBlueprintRuns": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCatalog": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:EnabledForRedshiftAutoDiscovery",
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetCatalogImportStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetCatalogs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:EnabledForRedshiftAutoDiscovery",
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetClassifier": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetClassifiers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetColumnStatisticsForPartition": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "GetColumnStatisticsForTable": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "GetColumnStatisticsTaskRun": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetColumnStatisticsTaskRuns": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetColumnStatisticsTaskSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCompletion": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "completion"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetConnection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "connection",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetConnections": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "connection",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetCrawler": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "crawler"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCrawlerMetrics": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCrawlers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCustomEntityType": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDashboardUrl": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataCatalogEncryptionSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "rootcatalog"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataPreviewStatement": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetDataQualityModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset",
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataQualityModelResult": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset",
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataQualityResult": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataQualityRuleRecommendationRun": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataQualityRuleset": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataQualityRulesetEvaluationRun": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDatabase": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetDatabases": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetDataflowGraph": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDevEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "devendpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDevEndpoints": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetEntityRecords": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "connectionType"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetEnvironment": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetExecutors": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetExecutorsThreads": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetGeneratedCode": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetGlueIdentityCenterConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetIntegrationResourceProperty": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database",
+    "integrationResourceProperty"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetIntegrationTableProperties": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetJobBookmark": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetJobRun": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetJobRuns": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetJobUpgradeAnalysis": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetJobs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetLogParsingStatus": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetMLTaskRun": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMLTaskRuns": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMLTransform": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMLTransforms": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMapping": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetNotebookInstanceStatus": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetPartition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetPartitionIndexes": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "GetPartitions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetPlan": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetQueries": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetQuery": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetRecipeAction": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetRegistry": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "rootcatalog"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetSchema": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSchemaByDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSchemaVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSchemaVersionsDiff": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSecurityConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSecurityConfigurations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSessionEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetStage": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStageAttempt": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStageAttemptTaskList": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStageAttemptTaskSummary": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStageFiles": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStages": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStatement": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetStorage": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStorageUnit": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetSystemLogsForJobRun": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSystemLogsForSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTable": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetTableOptimizer": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetTableVersions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetTables": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetTags": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint",
+    "catalog",
+    "connection",
+    "connectionType",
+    "crawler",
+    "customEntityType",
+    "database",
+    "devendpoint",
+    "job",
+    "trigger",
+    "usageProfile",
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTrigger": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "trigger"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTriggers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetUsageProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "usageProfile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetUserDefinedFunction": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "userdefinedfunction"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetUserDefinedFunctions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "userdefinedfunction"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "GetWorkflow": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWorkflowRun": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWorkflowRunProperties": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWorkflowRuns": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GlueNotebookAuthorize": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GlueNotebookRefreshCredentials": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ImportCatalogToGlue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "ListBlueprints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListColumnStatisticsTaskRuns": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConnectionTypes": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCrawlers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCrawls": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "crawler"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCustomEntityTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataQualityResults": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataQualityRuleRecommendationRuns": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataQualityRulesetEvaluationRuns": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataQualityRulesets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDevEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEntities": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "connectionType",
+    "rootcatalog"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIntegrationResourceProperties": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database",
+    "integrationResourceProperty"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListJobUpgradeAnalyses": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMLTransforms": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRegistries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSchemaVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSchemas": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSessions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListStatements": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTableOptimizerRuns": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTriggers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListUsageProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWorkflows": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ManagedConnector": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ModifyIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "integration"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "NotifyEvent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PassConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PublishDataQuality": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutDataCatalogEncryptionSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rootcatalog"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutDataQualityProfileAnnotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset",
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutDataQualityStatisticAnnotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset",
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutSchemaVersionMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutWorkflowRunProperties": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "QuerySchemaVersionMetadata": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RefreshOAuth2Tokens": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "connectionType",
+    "rootcatalog"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RegisterConnectionType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connectionType"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "RegisterSchemaVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveSchemaVersionMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RenameTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "RequestLogParsing": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ResetJobBookmark": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ResumeWorkflowRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RunDataPreviewStatement": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RunStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SearchTables": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "SendFeedback": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SendRecipeAction": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartBlueprintRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartColumnStatisticsTaskRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartColumnStatisticsTaskRunSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartCompletion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartCrawler": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "crawler"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartCrawlerSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDataQualityRuleRecommendationRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDataQualityRulesetEvaluationRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartExportLabelsTaskRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartImportLabelsTaskRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartJobRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartJobUpgradeAnalysis": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartMLEvaluationTaskRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartMLLabelingSetGenerationTaskRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartNotebook": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartTrigger": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trigger"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartWorkflowRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopColumnStatisticsTaskRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopColumnStatisticsTaskRunSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopCrawler": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "crawler"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopCrawlerSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopJobUpgradeAnalysis": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTrigger": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trigger"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopWorkflowRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "catalog",
+    "connection",
+    "connectionType",
+    "crawler",
+    "customEntityType",
+    "dataQualityRuleset",
+    "database",
+    "devendpoint",
+    "integration",
+    "integrationResourceProperty",
+    "job",
+    "mlTransform",
+    "registry",
+    "schema",
+    "session",
+    "trigger",
+    "usageProfile",
+    "workflow"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "TerminateNotebook": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "TestConnection": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "connectionType"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "catalog",
+    "connection",
+    "connectionType",
+    "crawler",
+    "customEntityType",
+    "dataQualityRuleset",
+    "database",
+    "devendpoint",
+    "integration",
+    "integrationResourceProperty",
+    "job",
+    "mlTransform",
+    "registry",
+    "schema",
+    "session",
+    "trigger",
+    "usageProfile",
+    "workflow"
+   ],
+   "condition_keys": [
+    "aws:TagKeys",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "UpdateBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCatalog": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "UpdateClassifier": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateColumnStatisticsForPartition": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "UpdateColumnStatisticsForTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": null
+  },
+  "UpdateColumnStatisticsTaskSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "connectionType",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:ConnectionType",
+    "glue:CredentialVendingMode",
+    "glue:InstanceUrl",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "UpdateCrawler": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "crawler"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCrawlerSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDataQualityRuleset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityRuleset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "UpdateDevEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "devendpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGlueIdentityCenterConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateIntegrationResourceProperty": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database",
+    "integrationResourceProperty"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateIntegrationTableProperties": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "connection",
+    "database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "glue:SecurityGroupIds",
+    "glue:SubnetIds",
+    "glue:VpcIds"
+   ],
+   "data_plane": false
+  },
+  "UpdateJobFromSourceControl": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMLTransform": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePartition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "UpdateRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSchema": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry",
+    "schema"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSourceControlFromJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [
+    "glue:FederatedAuthorizationSource",
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "UpdateTableOptimizer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "database",
+    "rootcatalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTrigger": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trigger"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateUsageProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "usageProfile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateUserDefinedFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "database",
+    "rootcatalog",
+    "userdefinedfunction"
+   ],
+   "condition_keys": [
+    "glue:LakeFormationPermissions"
+   ],
+   "data_plane": false
+  },
+  "UpdateWorkflow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workflow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpgradeJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UseGlueStudio": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UseMLTransforms": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlTransform"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "blueprint": [
+   "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}"
+  ],
+  "catalog": [
+   "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}"
+  ],
+  "completion": [
+   "arn:${Partition}:glue:${Region}:${Account}:completion/${CompletionId}"
+  ],
+  "connection": [
+   "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}"
+  ],
+  "connectionType": [
+   "arn:${Partition}:glue:${Region}:${Account}:connectionType:${ConnectionTypeName}"
+  ],
+  "crawler": [
+   "arn:${Partition}:glue:${Region}:${Account}:crawler/${CrawlerName}"
+  ],
+  "customEntityType": [
+   "arn:${Partition}:glue:${Region}:${Account}:customEntityType/${CustomEntityTypeId}"
+  ],
+  "dataQualityRuleset": [
+   "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}"
+  ],
+  "database": [
+   "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}"
+  ],
+  "devendpoint": [
+   "arn:${Partition}:glue:${Region}:${Account}:devEndpoint/${DevEndpointName}"
+  ],
+  "integration": [
+   "arn:${Partition}:glue:${Region}:${Account}:integration:${IntegrationId}"
+  ],
+  "integrationResourceProperty": [
+   "arn:${Partition}:glue:${Region}:${Account}:integrationresourceproperty/${ResourceType}/${ResourceName}"
+  ],
+  "job": [
+   "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"
+  ],
+  "mlTransform": [
+   "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}"
+  ],
+  "registry": [
+   "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}"
+  ],
+  "rootcatalog": [
+   "arn:${Partition}:glue:${Region}:${Account}:catalog"
+  ],
+  "schema": [
+   "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}"
+  ],
+  "session": [
+   "arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"
+  ],
+  "table": [
+   "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}"
+  ],
+  "tableversion": [
+   "arn:${Partition}:glue:${Region}:${Account}:tableVersion/${DatabaseName}/${TableName}/${TableVersionName}"
+  ],
+  "trigger": [
+   "arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}"
+  ],
+  "usageProfile": [
+   "arn:${Partition}:glue:${Region}:${Account}:usageProfile/${UsageProfileId}"
+  ],
+  "userdefinedfunction": [
+   "arn:${Partition}:glue:${Region}:${Account}:userDefinedFunction/${DatabaseName}/${UserDefinedFunctionName}"
+  ],
+  "workflow": [
+   "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "glue:ConnectionType": [
+   "String"
+  ],
+  "glue:CredentialIssuingService": [
+   "String"
+  ],
+  "glue:CredentialVendingMode": [
+   "String"
+  ],
+  "glue:EnabledForRedshiftAutoDiscovery": [
+   "Bool"
+  ],
+  "glue:FederatedAuthorizationSource": [
+   "String"
+  ],
+  "glue:InstanceUrl": [
+   "String"
+  ],
+  "glue:LakeFormationPermissions": [
+   "String"
+  ],
+  "glue:RoleAssumedBy": [
+   "String"
+  ],
+  "glue:SecurityGroupIds": [
+   "ArrayOfString"
+  ],
+  "glue:SubnetIds": [
+   "ArrayOfString"
+  ],
+  "glue:VpcIds": [
+   "ArrayOfString"
+  ]
+ }
+}

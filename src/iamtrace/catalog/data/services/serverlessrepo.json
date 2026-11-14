@@ -1,0 +1,246 @@
+{
+ "prefix": "serverlessrepo",
+ "name": "Serverless Application Repository",
+ "actions": {
+  "CreateApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateApplicationVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateCloudFormationChangeSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [
+    "serverlessrepo:applicationType"
+   ],
+   "data_plane": false
+  },
+  "CreateCloudFormationTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [
+    "serverlessrepo:applicationType"
+   ],
+   "data_plane": false
+  },
+  "DeleteApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetApplication": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [
+    "serverlessrepo:applicationType"
+   ],
+   "data_plane": false
+  },
+  "GetApplicationPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCloudFormationTemplate": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListApplicationDependencies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [
+    "serverlessrepo:applicationType"
+   ],
+   "data_plane": false
+  },
+  "ListApplicationVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [
+    "serverlessrepo:applicationType"
+   ],
+   "data_plane": false
+  },
+  "ListApplications": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutApplicationPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SearchApplications": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "serverlessrepo:applicationType"
+   ],
+   "data_plane": null
+  },
+  "UnshareApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateApplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "applications"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "applications": [
+   "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}"
+  ]
+ },
+ "condition_keys": {
+  "serverlessrepo:applicationType": [
+   "String"
+  ]
+ }
+}

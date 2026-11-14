@@ -1,0 +1,1643 @@
+{
+ "prefix": "networkmanager",
+ "name": "Network Manager",
+ "actions": {
+  "AcceptAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateConnectPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device",
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateCustomerGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device",
+    "global-network",
+    "link"
+   ],
+   "condition_keys": [
+    "networkmanager:cgwArn"
+   ],
+   "data_plane": false
+  },
+  "AssociateLink": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device",
+    "global-network",
+    "link"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateTransitGatewayConnectPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device",
+    "global-network",
+    "link"
+   ],
+   "condition_keys": [
+    "networkmanager:tgwConnectPeerArn"
+   ],
+   "data_plane": false
+  },
+  "CreateConnectAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment",
+    "core-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateConnectPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCoreNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCoreNetworkPrefixListAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateDevice": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDirectConnectGatewayAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "networkmanager:directConnectGatewayArn",
+    "networkmanager:edgeLocations"
+   ],
+   "data_plane": false
+  },
+  "CreateGlobalNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateLink": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network",
+    "site"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateSite": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateSiteToSiteVpnAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "networkmanager:vpnConnectionArn"
+   ],
+   "data_plane": false
+  },
+  "CreateTransitGatewayPeering": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "networkmanager:tgwArn"
+   ],
+   "data_plane": false
+  },
+  "CreateTransitGatewayRouteTableAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "peering"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "networkmanager:tgwRtbArn"
+   ],
+   "data_plane": false
+  },
+  "CreateVpcAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "networkmanager:subnetArns",
+    "networkmanager:vpcArn"
+   ],
+   "data_plane": false
+  },
+  "DeleteAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteConnectPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connect-peer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCoreNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCoreNetworkPolicyVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCoreNetworkPrefixListAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDevice": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device",
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGlobalNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteLink": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network",
+    "link"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePeering": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "peering"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSite": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network",
+    "site"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeregisterTransitGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "networkmanager:tgwArn"
+   ],
+   "data_plane": false
+  },
+  "DescribeGlobalNetworks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateConnectPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateCustomerGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "networkmanager:cgwArn"
+   ],
+   "data_plane": false
+  },
+  "DisassociateLink": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device",
+    "global-network",
+    "link"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateTransitGatewayConnectPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "networkmanager:tgwConnectPeerArn"
+   ],
+   "data_plane": false
+  },
+  "ExecuteCoreNetworkChangeSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConnectAttachment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConnectPeer": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "connect-peer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConnectPeerAssociations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConnections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "connection",
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCoreNetwork": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCoreNetworkChangeEvents": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCoreNetworkChangeSet": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCoreNetworkPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCustomerGatewayAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDevices": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "device",
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDirectConnectGatewayAttachment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetLinkAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "device",
+    "global-network",
+    "link"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetLinks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network",
+    "link"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetNetworkResourceCounts": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetNetworkResourceRelationships": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetNetworkResources": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetNetworkRoutes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetNetworkTelemetry": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRouteAnalysis": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSiteToSiteVpnAttachment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSites": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network",
+    "site"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTransitGatewayConnectPeerAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTransitGatewayPeering": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "peering"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTransitGatewayRegistrations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTransitGatewayRouteTableAttachment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetVpcAttachment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAttachmentNatConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAttachmentRoutingPolicyAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAttachments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConnectPeers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "connect-peer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCoreNetworkPolicyVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCoreNetworkPrefixListAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCoreNetworkRoutingInformation": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCoreNetworks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListOrganizationServiceAccessStatus": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPeerings": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attachment",
+    "connect-peer",
+    "connection",
+    "core-network",
+    "device",
+    "global-network",
+    "link",
+    "peering",
+    "site"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "PutAttachmentRoutingPolicyLabel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment",
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutCoreNetworkPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RegisterTransitGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "networkmanager:tgwArn"
+   ],
+   "data_plane": false
+  },
+  "RejectAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveAttachmentRoutingPolicyLabel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment",
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreCoreNetworkPolicyVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartOrganizationServiceAccessUpdate": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartRouteAnalysis": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment",
+    "connect-peer",
+    "connection",
+    "core-network",
+    "device",
+    "global-network",
+    "link",
+    "peering",
+    "site"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment",
+    "connect-peer",
+    "connection",
+    "core-network",
+    "device",
+    "global-network",
+    "link",
+    "peering",
+    "site"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAttachmentNatConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "connection",
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCoreNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDevice": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device",
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDirectConnectGatewayAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "networkmanager:edgeLocations"
+   ],
+   "data_plane": false
+  },
+  "UpdateGlobalNetwork": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateLink": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network",
+    "link"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateNetworkResourceMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSite": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network",
+    "site"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateVpcAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attachment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "networkmanager:subnetArns"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "attachment": [
+   "arn:${Partition}:networkmanager::${Account}:attachment/${ResourceId}"
+  ],
+  "connect-peer": [
+   "arn:${Partition}:networkmanager::${Account}:connect-peer/${ResourceId}"
+  ],
+  "connection": [
+   "arn:${Partition}:networkmanager::${Account}:connection/${GlobalNetworkId}/${ResourceId}"
+  ],
+  "core-network": [
+   "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}"
+  ],
+  "device": [
+   "arn:${Partition}:networkmanager::${Account}:device/${GlobalNetworkId}/${ResourceId}"
+  ],
+  "global-network": [
+   "arn:${Partition}:networkmanager::${Account}:global-network/${ResourceId}"
+  ],
+  "link": [
+   "arn:${Partition}:networkmanager::${Account}:link/${GlobalNetworkId}/${ResourceId}"
+  ],
+  "peering": [
+   "arn:${Partition}:networkmanager::${Account}:peering/${ResourceId}"
+  ],
+  "site": [
+   "arn:${Partition}:networkmanager::${Account}:site/${GlobalNetworkId}/${ResourceId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "networkmanager:cgwArn": [
+   "ARN"
+  ],
+  "networkmanager:directConnectGatewayArn": [
+   "ARN"
+  ],
+  "networkmanager:edgeLocations": [
+   "ArrayOfString"
+  ],
+  "networkmanager:subnetArns": [
+   "ArrayOfARN"
+  ],
+  "networkmanager:tgwArn": [
+   "ARN"
+  ],
+  "networkmanager:tgwConnectPeerArn": [
+   "ARN"
+  ],
+  "networkmanager:tgwRtbArn": [
+   "ARN"
+  ],
+  "networkmanager:vpcArn": [
+   "ARN"
+  ],
+  "networkmanager:vpnConnectionArn": [
+   "ARN"
+  ]
+ }
+}

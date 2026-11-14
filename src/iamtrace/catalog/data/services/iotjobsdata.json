@@ -1,0 +1,76 @@
+{
+ "prefix": "iotjobsdata",
+ "name": "IoT Jobs DataPlane",
+ "actions": {
+  "DescribeJobExecution": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "thing"
+   ],
+   "condition_keys": [
+    "iot:JobId"
+   ],
+   "data_plane": null
+  },
+  "GetPendingJobExecutions": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "thing"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartNextPendingJobExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "thing"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateJobExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "thing"
+   ],
+   "condition_keys": [
+    "iot:JobId"
+   ],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "thing": [
+   "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"
+  ]
+ },
+ "condition_keys": {
+  "iot:JobId": [
+   "String"
+  ]
+ }
+}

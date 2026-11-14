@@ -1,0 +1,31 @@
+{
+ "prefix": "eks-auth",
+ "name": "EKS Auth",
+ "actions": {
+  "AssumeRoleForPodIdentity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "cluster": [
+   "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ]
+ }
+}

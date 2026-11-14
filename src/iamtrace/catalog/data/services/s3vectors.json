@@ -1,0 +1,400 @@
+{
+ "prefix": "s3vectors",
+ "name": "S3 Vectors",
+ "actions": {
+  "CreateIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3vectors:VectorBucketTag/${TagKey}",
+    "s3vectors:kmsKeyArn",
+    "s3vectors:sseType"
+   ],
+   "data_plane": null
+  },
+  "CreateVectorBucket": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3vectors:VectorBucketTag/${TagKey}",
+    "s3vectors:kmsKeyArn",
+    "s3vectors:sseType"
+   ],
+   "data_plane": null
+  },
+  "DeleteIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "DeleteVectorBucket": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "DeleteVectorBucketPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "DeleteVectors": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "GetIndex": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "GetVectorBucket": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "GetVectorBucketPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "GetVectors": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "ListIndexes": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Index",
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "ListVectorBuckets": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListVectors": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "PutVectorBucketDefaultIndexMode": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "PutVectorBucketPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "PutVectors": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "QueryVectors": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Index",
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Index",
+    "VectorBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "UpdateIndexMode": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "Index": [
+   "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}"
+  ],
+  "VectorBucket": [
+   "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "s3vectors:VectorBucketTag/${TagKey}": [
+   "String"
+  ],
+  "s3vectors:kmsKeyArn": [
+   "ARN"
+  ],
+  "s3vectors:sseType": [
+   "String"
+  ]
+ }
+}

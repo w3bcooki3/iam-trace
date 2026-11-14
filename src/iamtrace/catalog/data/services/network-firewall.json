@@ -1,0 +1,1523 @@
+{
+ "prefix": "network-firewall",
+ "name": "Network Firewall",
+ "actions": {
+  "AcceptNetworkFirewallTransitGatewayAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateAvailabilityZones": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateFirewallPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall",
+    "FirewallPolicy",
+    "FirewallPolicyV2"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "AssociateSubnets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AttachRuleGroupsToProxyConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyConfiguration",
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateContainerAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ContainerAssociation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFirewall": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall",
+    "FirewallPolicy",
+    "FirewallPolicyV2"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFirewallPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallPolicy",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup",
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFirewallPolicyV2": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateProxy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Proxy",
+    "ProxyConfiguration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateProxyConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyConfiguration",
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateProxyRuleGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateProxyRules": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateRuleGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTLSInspectionConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateVpcEndpointAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall",
+    "VpcEndpointAssociation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteContainerAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ContainerAssociation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFirewall": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFirewallPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallPolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFirewallPolicyV2": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallPolicyV2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteNetworkFirewallTransitGatewayAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProxy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Proxy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProxyConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProxyRuleGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProxyRules": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall",
+    "FirewallPolicy",
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRuleGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTLSInspectionConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteVpcEndpointAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "VpcEndpointAssociation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeContainerAssociation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ContainerAssociation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFirewall": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFirewallMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFirewallPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "FirewallPolicy",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup",
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFirewallPolicyV2": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFlowOperation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLoggingConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeProxy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Proxy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeProxyConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProxyConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeProxyRule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeProxyRuleGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall",
+    "FirewallPolicy",
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRuleGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRuleGroupMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRuleGroupSummary": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTLSInspectionConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeVpcEndpointAssociation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "VpcEndpointAssociation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetachRuleGroupsFromProxyConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyConfiguration",
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateAvailabilityZones": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateSubnets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAnalysisReportResults": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAnalysisReports": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListContainerAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFirewallPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "FirewallPolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFirewallPoliciesV2": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "FirewallPolicyV2"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFirewalls": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlowOperationResults": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlowOperations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProxies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Proxy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProxyConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProxyConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProxyRuleGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRuleGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTLSInspectionConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ContainerAssociation",
+    "Firewall",
+    "FirewallPolicy",
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup",
+    "TLSInspectionConfiguration",
+    "VpcEndpointAssociation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListVpcEndpointAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "VpcEndpointAssociation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall",
+    "FirewallPolicy",
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RejectNetworkFirewallTransitGatewayAttachment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartAnalysisReport": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartFlowCapture": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartFlowFlush": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ContainerAssociation",
+    "Firewall",
+    "FirewallPolicy",
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "Proxy",
+    "ProxyConfiguration",
+    "ProxyRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup",
+    "TLSInspectionConfiguration",
+    "VpcEndpointAssociation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ContainerAssociation",
+    "Firewall",
+    "FirewallPolicy",
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "Proxy",
+    "ProxyConfiguration",
+    "ProxyRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup",
+    "TLSInspectionConfiguration",
+    "VpcEndpointAssociation"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAvailabilityZoneChangeProtection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateContainerAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ContainerAssociation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFirewallAnalysisSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFirewallDeleteProtection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFirewallDescription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFirewallEncryptionConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFirewallPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallPolicy",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup",
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFirewallPolicyChangeProtection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFirewallPolicyV2": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallPolicyV2",
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateLoggingConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateProxy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Proxy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateProxyConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateProxyRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateProxyRuleGroupPriorities": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateProxyRulePriorities": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProxyRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRuleGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "FirewallRuleGroup",
+    "IpsRuleGroup",
+    "StatefulRuleGroup",
+    "StatelessRuleGroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSubnetChangeProtection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Firewall"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTLSInspectionConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TLSInspectionConfiguration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "ContainerAssociation": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:container-association/${Name}"
+  ],
+  "Firewall": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}"
+  ],
+  "FirewallPolicy": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy/${Name}"
+  ],
+  "FirewallPolicyV2": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy-v2/${Name}"
+  ],
+  "FirewallRuleGroup": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-rulegroup/${Name}"
+  ],
+  "IpsRuleGroup": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:ips-rulegroup/${Name}"
+  ],
+  "Proxy": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}"
+  ],
+  "ProxyConfiguration": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}"
+  ],
+  "ProxyRuleGroup": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}"
+  ],
+  "StatefulRuleGroup": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:stateful-rulegroup/${Name}"
+  ],
+  "StatelessRuleGroup": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:stateless-rulegroup/${Name}"
+  ],
+  "TLSInspectionConfiguration": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:tls-configuration/${Name}"
+  ],
+  "VpcEndpointAssociation": [
+   "arn:${Partition}:network-firewall:${Region}:${Account}:vpc-endpoint-association/${Name}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

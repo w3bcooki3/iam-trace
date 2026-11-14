@@ -1,0 +1,1709 @@
+{
+ "prefix": "kms",
+ "name": "KMS",
+ "actions": {
+  "CancelKeyDeletion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ConnectCustomKeyStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount"
+   ],
+   "data_plane": false
+  },
+  "CreateAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "alias",
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "CreateCustomKeyStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount"
+   ],
+   "data_plane": false
+  },
+  "CreateGrant": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:GrantConstraintSourceArn",
+    "kms:GrantConstraintType",
+    "kms:GrantIsForAWSResource",
+    "kms:GrantOperations",
+    "kms:GranteePrincipal",
+    "kms:GranteeServicePrincipal",
+    "kms:RetiringPrincipal",
+    "kms:RetiringServicePrincipal",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "CreateKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "kms:BypassPolicyLockoutSafetyCheck",
+    "kms:CallerAccount",
+    "kms:KeyOrigin",
+    "kms:KeySpec",
+    "kms:KeyUsage",
+    "kms:MultiRegion",
+    "kms:MultiRegionKeyType",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "Decapsulate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncapsulationAlgorithm",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "Decrypt": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncryptionAlgorithm",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:RecipientAttestation:ImageSha384",
+    "kms:RecipientAttestation:NitroTPMPCR0",
+    "kms:RecipientAttestation:NitroTPMPCR1",
+    "kms:RecipientAttestation:NitroTPMPCR10",
+    "kms:RecipientAttestation:NitroTPMPCR11",
+    "kms:RecipientAttestation:NitroTPMPCR12",
+    "kms:RecipientAttestation:NitroTPMPCR13",
+    "kms:RecipientAttestation:NitroTPMPCR14",
+    "kms:RecipientAttestation:NitroTPMPCR15",
+    "kms:RecipientAttestation:NitroTPMPCR16",
+    "kms:RecipientAttestation:NitroTPMPCR17",
+    "kms:RecipientAttestation:NitroTPMPCR18",
+    "kms:RecipientAttestation:NitroTPMPCR19",
+    "kms:RecipientAttestation:NitroTPMPCR2",
+    "kms:RecipientAttestation:NitroTPMPCR20",
+    "kms:RecipientAttestation:NitroTPMPCR21",
+    "kms:RecipientAttestation:NitroTPMPCR22",
+    "kms:RecipientAttestation:NitroTPMPCR23",
+    "kms:RecipientAttestation:NitroTPMPCR3",
+    "kms:RecipientAttestation:NitroTPMPCR4",
+    "kms:RecipientAttestation:NitroTPMPCR5",
+    "kms:RecipientAttestation:NitroTPMPCR6",
+    "kms:RecipientAttestation:NitroTPMPCR7",
+    "kms:RecipientAttestation:NitroTPMPCR8",
+    "kms:RecipientAttestation:NitroTPMPCR9",
+    "kms:RecipientAttestation:PCR0",
+    "kms:RecipientAttestation:PCR1",
+    "kms:RecipientAttestation:PCR10",
+    "kms:RecipientAttestation:PCR11",
+    "kms:RecipientAttestation:PCR12",
+    "kms:RecipientAttestation:PCR13",
+    "kms:RecipientAttestation:PCR14",
+    "kms:RecipientAttestation:PCR15",
+    "kms:RecipientAttestation:PCR16",
+    "kms:RecipientAttestation:PCR17",
+    "kms:RecipientAttestation:PCR18",
+    "kms:RecipientAttestation:PCR19",
+    "kms:RecipientAttestation:PCR2",
+    "kms:RecipientAttestation:PCR20",
+    "kms:RecipientAttestation:PCR21",
+    "kms:RecipientAttestation:PCR22",
+    "kms:RecipientAttestation:PCR23",
+    "kms:RecipientAttestation:PCR24",
+    "kms:RecipientAttestation:PCR25",
+    "kms:RecipientAttestation:PCR26",
+    "kms:RecipientAttestation:PCR27",
+    "kms:RecipientAttestation:PCR28",
+    "kms:RecipientAttestation:PCR29",
+    "kms:RecipientAttestation:PCR3",
+    "kms:RecipientAttestation:PCR30",
+    "kms:RecipientAttestation:PCR31",
+    "kms:RecipientAttestation:PCR4",
+    "kms:RecipientAttestation:PCR5",
+    "kms:RecipientAttestation:PCR6",
+    "kms:RecipientAttestation:PCR7",
+    "kms:RecipientAttestation:PCR8",
+    "kms:RecipientAttestation:PCR8:ServiceName",
+    "kms:RecipientAttestation:PCR9",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "DeleteAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "alias",
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "DeleteCustomKeyStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount"
+   ],
+   "data_plane": false
+  },
+  "DeleteImportedKeyMaterial": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "DeriveSharedSecret": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:KeyAgreementAlgorithm",
+    "kms:RecipientAttestation:ImageSha384",
+    "kms:RecipientAttestation:NitroTPMPCR0",
+    "kms:RecipientAttestation:NitroTPMPCR1",
+    "kms:RecipientAttestation:NitroTPMPCR10",
+    "kms:RecipientAttestation:NitroTPMPCR11",
+    "kms:RecipientAttestation:NitroTPMPCR12",
+    "kms:RecipientAttestation:NitroTPMPCR13",
+    "kms:RecipientAttestation:NitroTPMPCR14",
+    "kms:RecipientAttestation:NitroTPMPCR15",
+    "kms:RecipientAttestation:NitroTPMPCR16",
+    "kms:RecipientAttestation:NitroTPMPCR17",
+    "kms:RecipientAttestation:NitroTPMPCR18",
+    "kms:RecipientAttestation:NitroTPMPCR19",
+    "kms:RecipientAttestation:NitroTPMPCR2",
+    "kms:RecipientAttestation:NitroTPMPCR20",
+    "kms:RecipientAttestation:NitroTPMPCR21",
+    "kms:RecipientAttestation:NitroTPMPCR22",
+    "kms:RecipientAttestation:NitroTPMPCR23",
+    "kms:RecipientAttestation:NitroTPMPCR3",
+    "kms:RecipientAttestation:NitroTPMPCR4",
+    "kms:RecipientAttestation:NitroTPMPCR5",
+    "kms:RecipientAttestation:NitroTPMPCR6",
+    "kms:RecipientAttestation:NitroTPMPCR7",
+    "kms:RecipientAttestation:NitroTPMPCR8",
+    "kms:RecipientAttestation:NitroTPMPCR9",
+    "kms:RecipientAttestation:PCR0",
+    "kms:RecipientAttestation:PCR1",
+    "kms:RecipientAttestation:PCR10",
+    "kms:RecipientAttestation:PCR11",
+    "kms:RecipientAttestation:PCR12",
+    "kms:RecipientAttestation:PCR13",
+    "kms:RecipientAttestation:PCR14",
+    "kms:RecipientAttestation:PCR15",
+    "kms:RecipientAttestation:PCR16",
+    "kms:RecipientAttestation:PCR17",
+    "kms:RecipientAttestation:PCR18",
+    "kms:RecipientAttestation:PCR19",
+    "kms:RecipientAttestation:PCR2",
+    "kms:RecipientAttestation:PCR20",
+    "kms:RecipientAttestation:PCR21",
+    "kms:RecipientAttestation:PCR22",
+    "kms:RecipientAttestation:PCR23",
+    "kms:RecipientAttestation:PCR24",
+    "kms:RecipientAttestation:PCR25",
+    "kms:RecipientAttestation:PCR26",
+    "kms:RecipientAttestation:PCR27",
+    "kms:RecipientAttestation:PCR28",
+    "kms:RecipientAttestation:PCR29",
+    "kms:RecipientAttestation:PCR3",
+    "kms:RecipientAttestation:PCR30",
+    "kms:RecipientAttestation:PCR31",
+    "kms:RecipientAttestation:PCR4",
+    "kms:RecipientAttestation:PCR5",
+    "kms:RecipientAttestation:PCR6",
+    "kms:RecipientAttestation:PCR7",
+    "kms:RecipientAttestation:PCR8",
+    "kms:RecipientAttestation:PCR8:ServiceName",
+    "kms:RecipientAttestation:PCR9",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "DescribeCustomKeyStores": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount"
+   ],
+   "data_plane": false
+  },
+  "DescribeKey": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "DisableKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:TrailingDaysWithoutKeyUsage",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "DisableKeyRotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "DisconnectCustomKeyStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount"
+   ],
+   "data_plane": false
+  },
+  "EnableKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "EnableKeyRotation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:RotationPeriodInDays",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "Encapsulate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncapsulationAlgorithm",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "Encrypt": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncryptionAlgorithm",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GenerateDataKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncryptionAlgorithm",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:RecipientAttestation:ImageSha384",
+    "kms:RecipientAttestation:NitroTPMPCR0",
+    "kms:RecipientAttestation:NitroTPMPCR1",
+    "kms:RecipientAttestation:NitroTPMPCR10",
+    "kms:RecipientAttestation:NitroTPMPCR11",
+    "kms:RecipientAttestation:NitroTPMPCR12",
+    "kms:RecipientAttestation:NitroTPMPCR13",
+    "kms:RecipientAttestation:NitroTPMPCR14",
+    "kms:RecipientAttestation:NitroTPMPCR15",
+    "kms:RecipientAttestation:NitroTPMPCR16",
+    "kms:RecipientAttestation:NitroTPMPCR17",
+    "kms:RecipientAttestation:NitroTPMPCR18",
+    "kms:RecipientAttestation:NitroTPMPCR19",
+    "kms:RecipientAttestation:NitroTPMPCR2",
+    "kms:RecipientAttestation:NitroTPMPCR20",
+    "kms:RecipientAttestation:NitroTPMPCR21",
+    "kms:RecipientAttestation:NitroTPMPCR22",
+    "kms:RecipientAttestation:NitroTPMPCR23",
+    "kms:RecipientAttestation:NitroTPMPCR3",
+    "kms:RecipientAttestation:NitroTPMPCR4",
+    "kms:RecipientAttestation:NitroTPMPCR5",
+    "kms:RecipientAttestation:NitroTPMPCR6",
+    "kms:RecipientAttestation:NitroTPMPCR7",
+    "kms:RecipientAttestation:NitroTPMPCR8",
+    "kms:RecipientAttestation:NitroTPMPCR9",
+    "kms:RecipientAttestation:PCR0",
+    "kms:RecipientAttestation:PCR1",
+    "kms:RecipientAttestation:PCR10",
+    "kms:RecipientAttestation:PCR11",
+    "kms:RecipientAttestation:PCR12",
+    "kms:RecipientAttestation:PCR13",
+    "kms:RecipientAttestation:PCR14",
+    "kms:RecipientAttestation:PCR15",
+    "kms:RecipientAttestation:PCR16",
+    "kms:RecipientAttestation:PCR17",
+    "kms:RecipientAttestation:PCR18",
+    "kms:RecipientAttestation:PCR19",
+    "kms:RecipientAttestation:PCR2",
+    "kms:RecipientAttestation:PCR20",
+    "kms:RecipientAttestation:PCR21",
+    "kms:RecipientAttestation:PCR22",
+    "kms:RecipientAttestation:PCR23",
+    "kms:RecipientAttestation:PCR24",
+    "kms:RecipientAttestation:PCR25",
+    "kms:RecipientAttestation:PCR26",
+    "kms:RecipientAttestation:PCR27",
+    "kms:RecipientAttestation:PCR28",
+    "kms:RecipientAttestation:PCR29",
+    "kms:RecipientAttestation:PCR3",
+    "kms:RecipientAttestation:PCR30",
+    "kms:RecipientAttestation:PCR31",
+    "kms:RecipientAttestation:PCR4",
+    "kms:RecipientAttestation:PCR5",
+    "kms:RecipientAttestation:PCR6",
+    "kms:RecipientAttestation:PCR7",
+    "kms:RecipientAttestation:PCR8",
+    "kms:RecipientAttestation:PCR8:ServiceName",
+    "kms:RecipientAttestation:PCR9",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GenerateDataKeyPair": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:DataKeyPairSpec",
+    "kms:EncryptionAlgorithm",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:RecipientAttestation:ImageSha384",
+    "kms:RecipientAttestation:NitroTPMPCR0",
+    "kms:RecipientAttestation:NitroTPMPCR1",
+    "kms:RecipientAttestation:NitroTPMPCR10",
+    "kms:RecipientAttestation:NitroTPMPCR11",
+    "kms:RecipientAttestation:NitroTPMPCR12",
+    "kms:RecipientAttestation:NitroTPMPCR13",
+    "kms:RecipientAttestation:NitroTPMPCR14",
+    "kms:RecipientAttestation:NitroTPMPCR15",
+    "kms:RecipientAttestation:NitroTPMPCR16",
+    "kms:RecipientAttestation:NitroTPMPCR17",
+    "kms:RecipientAttestation:NitroTPMPCR18",
+    "kms:RecipientAttestation:NitroTPMPCR19",
+    "kms:RecipientAttestation:NitroTPMPCR2",
+    "kms:RecipientAttestation:NitroTPMPCR20",
+    "kms:RecipientAttestation:NitroTPMPCR21",
+    "kms:RecipientAttestation:NitroTPMPCR22",
+    "kms:RecipientAttestation:NitroTPMPCR23",
+    "kms:RecipientAttestation:NitroTPMPCR3",
+    "kms:RecipientAttestation:NitroTPMPCR4",
+    "kms:RecipientAttestation:NitroTPMPCR5",
+    "kms:RecipientAttestation:NitroTPMPCR6",
+    "kms:RecipientAttestation:NitroTPMPCR7",
+    "kms:RecipientAttestation:NitroTPMPCR8",
+    "kms:RecipientAttestation:NitroTPMPCR9",
+    "kms:RecipientAttestation:PCR0",
+    "kms:RecipientAttestation:PCR1",
+    "kms:RecipientAttestation:PCR10",
+    "kms:RecipientAttestation:PCR11",
+    "kms:RecipientAttestation:PCR12",
+    "kms:RecipientAttestation:PCR13",
+    "kms:RecipientAttestation:PCR14",
+    "kms:RecipientAttestation:PCR15",
+    "kms:RecipientAttestation:PCR16",
+    "kms:RecipientAttestation:PCR17",
+    "kms:RecipientAttestation:PCR18",
+    "kms:RecipientAttestation:PCR19",
+    "kms:RecipientAttestation:PCR2",
+    "kms:RecipientAttestation:PCR20",
+    "kms:RecipientAttestation:PCR21",
+    "kms:RecipientAttestation:PCR22",
+    "kms:RecipientAttestation:PCR23",
+    "kms:RecipientAttestation:PCR24",
+    "kms:RecipientAttestation:PCR25",
+    "kms:RecipientAttestation:PCR26",
+    "kms:RecipientAttestation:PCR27",
+    "kms:RecipientAttestation:PCR28",
+    "kms:RecipientAttestation:PCR29",
+    "kms:RecipientAttestation:PCR3",
+    "kms:RecipientAttestation:PCR30",
+    "kms:RecipientAttestation:PCR31",
+    "kms:RecipientAttestation:PCR4",
+    "kms:RecipientAttestation:PCR5",
+    "kms:RecipientAttestation:PCR6",
+    "kms:RecipientAttestation:PCR7",
+    "kms:RecipientAttestation:PCR8",
+    "kms:RecipientAttestation:PCR8:ServiceName",
+    "kms:RecipientAttestation:PCR9",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GenerateDataKeyPairWithoutPlaintext": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:DataKeyPairSpec",
+    "kms:EncryptionAlgorithm",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GenerateDataKeyWithoutPlaintext": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncryptionAlgorithm",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GenerateMac": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:MacAlgorithm",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GenerateRandom": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:RecipientAttestation:ImageSha384",
+    "kms:RecipientAttestation:NitroTPMPCR0",
+    "kms:RecipientAttestation:NitroTPMPCR1",
+    "kms:RecipientAttestation:NitroTPMPCR10",
+    "kms:RecipientAttestation:NitroTPMPCR11",
+    "kms:RecipientAttestation:NitroTPMPCR12",
+    "kms:RecipientAttestation:NitroTPMPCR13",
+    "kms:RecipientAttestation:NitroTPMPCR14",
+    "kms:RecipientAttestation:NitroTPMPCR15",
+    "kms:RecipientAttestation:NitroTPMPCR16",
+    "kms:RecipientAttestation:NitroTPMPCR17",
+    "kms:RecipientAttestation:NitroTPMPCR18",
+    "kms:RecipientAttestation:NitroTPMPCR19",
+    "kms:RecipientAttestation:NitroTPMPCR2",
+    "kms:RecipientAttestation:NitroTPMPCR20",
+    "kms:RecipientAttestation:NitroTPMPCR21",
+    "kms:RecipientAttestation:NitroTPMPCR22",
+    "kms:RecipientAttestation:NitroTPMPCR23",
+    "kms:RecipientAttestation:NitroTPMPCR3",
+    "kms:RecipientAttestation:NitroTPMPCR4",
+    "kms:RecipientAttestation:NitroTPMPCR5",
+    "kms:RecipientAttestation:NitroTPMPCR6",
+    "kms:RecipientAttestation:NitroTPMPCR7",
+    "kms:RecipientAttestation:NitroTPMPCR8",
+    "kms:RecipientAttestation:NitroTPMPCR9",
+    "kms:RecipientAttestation:PCR0",
+    "kms:RecipientAttestation:PCR1",
+    "kms:RecipientAttestation:PCR10",
+    "kms:RecipientAttestation:PCR11",
+    "kms:RecipientAttestation:PCR12",
+    "kms:RecipientAttestation:PCR13",
+    "kms:RecipientAttestation:PCR14",
+    "kms:RecipientAttestation:PCR15",
+    "kms:RecipientAttestation:PCR16",
+    "kms:RecipientAttestation:PCR17",
+    "kms:RecipientAttestation:PCR18",
+    "kms:RecipientAttestation:PCR19",
+    "kms:RecipientAttestation:PCR2",
+    "kms:RecipientAttestation:PCR20",
+    "kms:RecipientAttestation:PCR21",
+    "kms:RecipientAttestation:PCR22",
+    "kms:RecipientAttestation:PCR23",
+    "kms:RecipientAttestation:PCR24",
+    "kms:RecipientAttestation:PCR25",
+    "kms:RecipientAttestation:PCR26",
+    "kms:RecipientAttestation:PCR27",
+    "kms:RecipientAttestation:PCR28",
+    "kms:RecipientAttestation:PCR29",
+    "kms:RecipientAttestation:PCR3",
+    "kms:RecipientAttestation:PCR30",
+    "kms:RecipientAttestation:PCR31",
+    "kms:RecipientAttestation:PCR4",
+    "kms:RecipientAttestation:PCR5",
+    "kms:RecipientAttestation:PCR6",
+    "kms:RecipientAttestation:PCR7",
+    "kms:RecipientAttestation:PCR8",
+    "kms:RecipientAttestation:PCR8:ServiceName",
+    "kms:RecipientAttestation:PCR9"
+   ],
+   "data_plane": false
+  },
+  "GetKeyLastUsage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GetKeyPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GetKeyRotationStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "GetParametersForImport": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService",
+    "kms:WrappingAlgorithm",
+    "kms:WrappingKeySpec"
+   ],
+   "data_plane": false
+  },
+  "GetPublicKey": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ImportKeyMaterial": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ExpirationModel",
+    "kms:ValidTo",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ListAliases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ListGrants": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:GrantIsForAWSResource",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ListKeyPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ListKeyRotations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ListKeys": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ListResourceTags": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ListRetirableGrants": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutKeyPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:BypassPolicyLockoutSafetyCheck",
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ReEncryptFrom": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncryptionAlgorithm",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:ReEncryptOnSameKey",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ReEncryptTo": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncryptionAlgorithm",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:ReEncryptOnSameKey",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ReplicateKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ReplicaRegion",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "RetireGrant": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:EncryptionContext:${EncryptionContextKey}",
+    "kms:EncryptionContextKeys",
+    "kms:GrantConstraintType",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "RevokeGrant": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:GrantIsForAWSResource",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "RotateKeyOnDemand": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "ScheduleKeyDeletion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ScheduleKeyDeletionPendingWindowInDays",
+    "kms:TrailingDaysWithoutKeyUsage",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "Sign": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:MessageType",
+    "kms:RequestAlias",
+    "kms:SigningAlgorithm",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "SynchronizeMultiRegionKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "aws:TagKeys",
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "UpdateAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "alias",
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "UpdateCustomKeyStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "kms:CallerAccount"
+   ],
+   "data_plane": false
+  },
+  "UpdateKeyDescription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "UpdatePrimaryRegion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:PrimaryRegion",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "Verify": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:MessageType",
+    "kms:RequestAlias",
+    "kms:SigningAlgorithm",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  },
+  "VerifyMac": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key"
+   ],
+   "condition_keys": [
+    "kms:CallerAccount",
+    "kms:MacAlgorithm",
+    "kms:RequestAlias",
+    "kms:ViaService"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "alias": [
+   "arn:${Partition}:kms:${Region}:${Account}:alias/${Alias}"
+  ],
+  "key": [
+   "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "kms:BypassPolicyLockoutSafetyCheck": [
+   "Bool"
+  ],
+  "kms:CallerAccount": [
+   "String"
+  ],
+  "kms:CustomerMasterKeySpec": [
+   "String"
+  ],
+  "kms:CustomerMasterKeyUsage": [
+   "String"
+  ],
+  "kms:DataKeyPairSpec": [
+   "String"
+  ],
+  "kms:EncapsulationAlgorithm": [
+   "String"
+  ],
+  "kms:EncryptionAlgorithm": [
+   "String"
+  ],
+  "kms:EncryptionContext:${EncryptionContextKey}": [
+   "String"
+  ],
+  "kms:EncryptionContextKeys": [
+   "ArrayOfString"
+  ],
+  "kms:ExpirationModel": [
+   "String"
+  ],
+  "kms:GrantConstraintSourceArn": [
+   "ARN"
+  ],
+  "kms:GrantConstraintType": [
+   "String"
+  ],
+  "kms:GrantIsForAWSResource": [
+   "Bool"
+  ],
+  "kms:GrantOperations": [
+   "ArrayOfString"
+  ],
+  "kms:GranteePrincipal": [
+   "String"
+  ],
+  "kms:GranteeServicePrincipal": [
+   "String"
+  ],
+  "kms:KeyAgreementAlgorithm": [
+   "String"
+  ],
+  "kms:KeyOrigin": [
+   "String"
+  ],
+  "kms:KeySpec": [
+   "String"
+  ],
+  "kms:KeyUsage": [
+   "String"
+  ],
+  "kms:MacAlgorithm": [
+   "String"
+  ],
+  "kms:MessageType": [
+   "String"
+  ],
+  "kms:MultiRegion": [
+   "Bool"
+  ],
+  "kms:MultiRegionKeyType": [
+   "String"
+  ],
+  "kms:PrimaryRegion": [
+   "String"
+  ],
+  "kms:ReEncryptOnSameKey": [
+   "Bool"
+  ],
+  "kms:RecipientAttestation:ImageSha384": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR0": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR1": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR10": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR11": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR12": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR13": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR14": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR15": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR16": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR17": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR18": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR19": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR2": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR20": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR21": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR22": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR23": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR3": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR4": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR5": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR6": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR7": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR8": [
+   "String"
+  ],
+  "kms:RecipientAttestation:NitroTPMPCR9": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR0": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR1": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR10": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR11": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR12": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR13": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR14": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR15": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR16": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR17": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR18": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR19": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR2": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR20": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR21": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR22": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR23": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR24": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR25": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR26": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR27": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR28": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR29": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR3": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR30": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR31": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR4": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR5": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR6": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR7": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR8": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR8:ServiceName": [
+   "String"
+  ],
+  "kms:RecipientAttestation:PCR9": [
+   "String"
+  ],
+  "kms:ReplicaRegion": [
+   "String"
+  ],
+  "kms:RequestAlias": [
+   "String"
+  ],
+  "kms:ResourceAliases": [
+   "ArrayOfString"
+  ],
+  "kms:RetiringPrincipal": [
+   "String"
+  ],
+  "kms:RetiringServicePrincipal": [
+   "String"
+  ],
+  "kms:RotationPeriodInDays": [
+   "Numeric"
+  ],
+  "kms:ScheduleKeyDeletionPendingWindowInDays": [
+   "Numeric"
+  ],
+  "kms:SigningAlgorithm": [
+   "String"
+  ],
+  "kms:TrailingDaysWithoutKeyUsage": [
+   "Numeric"
+  ],
+  "kms:ValidTo": [
+   "Date"
+  ],
+  "kms:ViaService": [
+   "String"
+  ],
+  "kms:WrappingAlgorithm": [
+   "String"
+  ],
+  "kms:WrappingKeySpec": [
+   "String"
+  ]
+ }
+}

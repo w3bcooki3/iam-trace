@@ -1,0 +1,62 @@
+{
+ "prefix": "execute-api",
+ "name": "ExecuteAPI",
+ "actions": {
+  "InvalidateCache": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "execute-api-general"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "Invoke": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "execute-api-domain",
+    "execute-api-general"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ManageConnections": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "execute-api-general"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "execute-api-domain": [
+   "arn:${Partition}:execute-api:${Region}:${Account}:/domainnames/${DomainName}+${DomainIdentifier}"
+  ],
+  "execute-api-general": [
+   "arn:${Partition}:execute-api:${Region}:${Account}:${ApiId}/${Stage}/${Method}/${ApiSpecificResourcePath}"
+  ]
+ },
+ "condition_keys": {
+  "execute-api:viaDomainArn": [
+   "ARN"
+  ]
+ }
+}

@@ -1,0 +1,1070 @@
+{
+ "prefix": "geo",
+ "name": "Location",
+ "actions": {
+  "AssociateTrackerConsumer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDeleteDevicePositionHistory": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [
+    "geo:DeviceIds"
+   ],
+   "data_plane": false
+  },
+  "BatchDeleteGeofence": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [
+    "geo:GeofenceIds"
+   ],
+   "data_plane": false
+  },
+  "BatchEvaluateGeofences": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetDevicePosition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [
+    "geo:DeviceIds"
+   ],
+   "data_plane": false
+  },
+  "BatchPutGeofence": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [
+    "geo:GeofenceIds"
+   ],
+   "data_plane": false
+  },
+  "BatchUpdateDevicePosition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [
+    "geo:DeviceIds"
+   ],
+   "data_plane": false
+  },
+  "CalculateRoute": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "route-calculator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CalculateRouteMatrix": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "route-calculator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateGeofenceCollection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-key"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateMap": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePlaceIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRouteCalculator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "route-calculator"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTracker": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteGeofenceCollection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-key"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMap": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePlaceIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRouteCalculator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "route-calculator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTracker": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeGeofenceCollection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeKey": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "api-key"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeMap": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribePlaceIndex": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRouteCalculator": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "route-calculator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTracker": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateTrackerConsumer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ForecastGeofenceEvents": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDevicePosition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [
+    "geo:DeviceIds"
+   ],
+   "data_plane": false
+  },
+  "GetDevicePositionHistory": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [
+    "geo:DeviceIds"
+   ],
+   "data_plane": false
+  },
+  "GetGeofence": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [
+    "geo:GeofenceIds"
+   ],
+   "data_plane": false
+  },
+  "GetJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMapGlyphs": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMapSprites": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMapStyleDescriptor": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMapTile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPlace": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDevicePositions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGeofenceCollections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGeofences": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListKeys": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "api-key"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMaps": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPlaceIndexes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRouteCalculators": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "route-calculator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "api-key",
+    "geofence-collection",
+    "job",
+    "map",
+    "place-index",
+    "route-calculator",
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrackerConsumers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrackers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutGeofence": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [
+    "geo:GeofenceIds"
+   ],
+   "data_plane": false
+  },
+  "SearchPlaceIndexForPosition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SearchPlaceIndexForSuggestions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SearchPlaceIndexForText": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-key",
+    "geofence-collection",
+    "job",
+    "map",
+    "place-index",
+    "route-calculator",
+    "tracker"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-key",
+    "geofence-collection",
+    "job",
+    "map",
+    "place-index",
+    "route-calculator",
+    "tracker"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateGeofenceCollection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "geofence-collection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "api-key"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMap": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "map"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePlaceIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "place-index"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRouteCalculator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "route-calculator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTracker": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "VerifyDevicePosition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tracker"
+   ],
+   "condition_keys": [
+    "geo:DeviceIds"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "api-key": [
+   "arn:${Partition}:geo:${Region}:${Account}:api-key/${KeyName}"
+  ],
+  "geofence-collection": [
+   "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}"
+  ],
+  "job": [
+   "arn:${Partition}:geo:${Region}:${Account}:job/${JobId}"
+  ],
+  "map": [
+   "arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"
+  ],
+  "place-index": [
+   "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}"
+  ],
+  "route-calculator": [
+   "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}"
+  ],
+  "tracker": [
+   "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "geo:DeviceIds": [
+   "ArrayOfString"
+  ],
+  "geo:GeofenceIds": [
+   "ArrayOfString"
+  ]
+ }
+}

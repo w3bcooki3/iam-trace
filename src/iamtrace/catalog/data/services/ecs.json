@@ -1,0 +1,1754 @@
+{
+ "prefix": "ecs",
+ "name": "Elastic Container Service",
+ "actions": {
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AssociateGatewayWithCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ContinueServiceDeployment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service",
+    "service-deployment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:instance-metadata-tags-propagation",
+    "ecs:propagate-tags"
+   ],
+   "data_plane": false
+  },
+  "CreateCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:capacity-provider",
+    "ecs:fargate-ephemeral-storage-kms-key"
+   ],
+   "data_plane": false
+  },
+  "CreateDaemon": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "daemon"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:capacity-provider",
+    "ecs:daemon-task-definition",
+    "ecs:enable-ecs-managed-tags",
+    "ecs:enable-execute-command",
+    "ecs:propagate-tags",
+    "ecs:task-cpu",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "CreateExpressGatewayService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:enable-ecs-managed-tags",
+    "ecs:propagate-tags",
+    "ecs:subnet",
+    "ecs:task-cpu",
+    "ecs:task-definition",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "CreateGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:enable-ecs-managed-tags",
+    "ecs:propagate-tags"
+   ],
+   "data_plane": false
+  },
+  "CreateService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:auto-assign-public-ip",
+    "ecs:capacity-provider",
+    "ecs:enable-ebs-volumes",
+    "ecs:enable-ecs-managed-tags",
+    "ecs:enable-execute-command",
+    "ecs:enable-service-connect",
+    "ecs:enable-vpc-lattice",
+    "ecs:namespace",
+    "ecs:propagate-tags",
+    "ecs:subnet",
+    "ecs:task-cpu",
+    "ecs:task-definition",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "CreateTaskSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-set"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:capacity-provider",
+    "ecs:cluster",
+    "ecs:service",
+    "ecs:task-definition"
+   ],
+   "data_plane": false
+  },
+  "DeleteAccountSetting": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ecs:account-setting"
+   ],
+   "data_plane": false
+  },
+  "DeleteAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "container-instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "DeleteCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDaemon": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "daemon"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDaemonTaskDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "daemon-task-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteExpressGatewayService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "DeleteTaskDefinitions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-definition"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteTaskSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster",
+    "ecs:service"
+   ],
+   "data_plane": false
+  },
+  "DeregisterContainerInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeregisterTaskDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeCapacityProviders": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribeClusters": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeContainerInstances": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "container-instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "DescribeDaemon": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "daemon"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDaemonDeployments": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "daemon",
+    "daemon-deployment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDaemonRevisions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "daemon",
+    "daemon-revision"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDaemonTaskDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "daemon-task-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeExpressGatewayService": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeGateway": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeGatewayResources": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeGatewayRoute": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway",
+    "gateway-route"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeServiceDeployments": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "service",
+    "service-deployment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeServiceRevisions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "service",
+    "service-revision"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeServices": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "DescribeTaskDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTaskSets": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "task-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster",
+    "ecs:service"
+   ],
+   "data_plane": false
+  },
+  "DescribeTasks": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "task"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "DisassociateGatewayFromCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DiscoverPollEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ExecuteCommand": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "task"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster",
+    "ecs:container-name",
+    "ecs:task"
+   ],
+   "data_plane": false
+  },
+  "GetTaskProtection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "task"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "ListAccountSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAttributes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListClusters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListContainerInstances": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDaemonDeployments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "daemon"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDaemonTaskDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDaemons": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "ListGatewayClusterAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGatewayRoutes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "gateway",
+    "gateway-route",
+    "service"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGateways": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListServiceDeployments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListServices": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "ListServicesByNamespace": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ecs:namespace"
+   ],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "capacity-provider",
+    "cluster",
+    "container-instance",
+    "service",
+    "task",
+    "task-definition",
+    "task-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListTaskDefinitionFamilies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTaskDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTasks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "container-instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "Poll": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "container-instance"
+   ],
+   "condition_keys": [
+    "ecs:cluster"
+   ],
+   "data_plane": null
+  },
+  "PutAccountSetting": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ecs:account-setting"
+   ],
+   "data_plane": false
+  },
+  "PutAccountSettingDefault": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ecs:account-setting"
+   ],
+   "data_plane": false
+  },
+  "PutAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "container-instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "PutClusterCapacityProviders": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [
+    "ecs:capacity-provider"
+   ],
+   "data_plane": false
+  },
+  "PutSystemLogEvents": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "container-instance"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RegisterContainerInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "RegisterDaemonTaskDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "daemon-task-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:privileged",
+    "ecs:task-cpu",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "RegisterTaskDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:compute-compatibility",
+    "ecs:privileged",
+    "ecs:task-cpu",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "RunTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:capacity-provider",
+    "ecs:cluster",
+    "ecs:enable-ebs-volumes",
+    "ecs:enable-execute-command",
+    "ecs:task-cpu",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "StartTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:cluster",
+    "ecs:container-instances",
+    "ecs:enable-ebs-volumes",
+    "ecs:enable-execute-command",
+    "ecs:task-cpu",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "StartTelemetrySession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "container-instance"
+   ],
+   "condition_keys": [
+    "ecs:cluster"
+   ],
+   "data_plane": null
+  },
+  "StopServiceDeployment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service",
+    "service-deployment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "SubmitAttachmentStateChanges": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SubmitContainerStateChange": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SubmitTaskStateChange": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider",
+    "cluster",
+    "container-instance",
+    "daemon",
+    "daemon-task-definition",
+    "gateway",
+    "service",
+    "task",
+    "task-definition",
+    "task-set"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "ecs:CreateAction"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider",
+    "cluster",
+    "container-instance",
+    "daemon",
+    "daemon-task-definition",
+    "gateway",
+    "service",
+    "task",
+    "task-definition",
+    "task-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:instance-metadata-tags-propagation",
+    "ecs:propagate-tags"
+   ],
+   "data_plane": false
+  },
+  "UpdateCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [
+    "ecs:fargate-ephemeral-storage-kms-key"
+   ],
+   "data_plane": false
+  },
+  "UpdateClusterSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateContainerAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "container-instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "UpdateContainerInstancesState": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "container-instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "UpdateDaemon": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "daemon"
+   ],
+   "condition_keys": [
+    "ecs:capacity-provider",
+    "ecs:daemon-task-definition",
+    "ecs:enable-ecs-managed-tags",
+    "ecs:enable-execute-command",
+    "ecs:propagate-tags",
+    "ecs:task-cpu",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "UpdateExpressGatewayService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "ecs:enable-ecs-managed-tags",
+    "ecs:propagate-tags",
+    "ecs:subnet",
+    "ecs:task-cpu",
+    "ecs:task-definition",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "UpdateGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [
+    "ecs:enable-ecs-managed-tags",
+    "ecs:propagate-tags"
+   ],
+   "data_plane": false
+  },
+  "UpdateService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "ecs:auto-assign-public-ip",
+    "ecs:capacity-provider",
+    "ecs:enable-ebs-volumes",
+    "ecs:enable-ecs-managed-tags",
+    "ecs:enable-execute-command",
+    "ecs:enable-service-connect",
+    "ecs:enable-vpc-lattice",
+    "ecs:namespace",
+    "ecs:propagate-tags",
+    "ecs:subnet",
+    "ecs:task-cpu",
+    "ecs:task-definition",
+    "ecs:task-memory"
+   ],
+   "data_plane": false
+  },
+  "UpdateServicePrimaryTaskSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "UpdateTaskProtection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster"
+   ],
+   "data_plane": false
+  },
+  "UpdateTaskSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-set"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "ecs:cluster",
+    "ecs:service"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "capacity-provider": [
+   "arn:${Partition}:ecs:${Region}:${Account}:capacity-provider/${CapacityProviderName}"
+  ],
+  "cluster": [
+   "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}"
+  ],
+  "container-instance": [
+   "arn:${Partition}:ecs:${Region}:${Account}:container-instance/${ClusterName}/${ContainerInstanceId}"
+  ],
+  "daemon": [
+   "arn:${Partition}:ecs:${Region}:${Account}:daemon/${ClusterName}/${DaemonName}"
+  ],
+  "daemon-deployment": [
+   "arn:${Partition}:ecs:${Region}:${Account}:daemon-deployment/${ClusterName}/${DaemonName}/${DaemonDeploymentId}"
+  ],
+  "daemon-revision": [
+   "arn:${Partition}:ecs:${Region}:${Account}:daemon-revision/${ClusterName}/${DaemonName}/${DaemonRevisionId}"
+  ],
+  "daemon-task-definition": [
+   "arn:${Partition}:ecs:${Region}:${Account}:daemon-task-definition/${DaemonTaskDefinitionFamilyName}:${DaemonTaskDefinitionRevisionNumber}"
+  ],
+  "gateway": [
+   "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}"
+  ],
+  "gateway-route": [
+   "arn:${Partition}:ecs:${Region}:${Account}:gateway-route/${GatewayName}/${GatewayId}/${RouteId}"
+  ],
+  "service": [
+   "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}"
+  ],
+  "service-deployment": [
+   "arn:${Partition}:ecs:${Region}:${Account}:service-deployment/${ClusterName}/${ServiceName}/${ServiceDeploymentId}"
+  ],
+  "service-revision": [
+   "arn:${Partition}:ecs:${Region}:${Account}:service-revision/${ClusterName}/${ServiceName}/${ServiceRevisionId}"
+  ],
+  "task": [
+   "arn:${Partition}:ecs:${Region}:${Account}:task/${ClusterName}/${TaskId}"
+  ],
+  "task-definition": [
+   "arn:${Partition}:ecs:${Region}:${Account}:task-definition/${TaskDefinitionFamilyName}:${TaskDefinitionRevisionNumber}"
+  ],
+  "task-set": [
+   "arn:${Partition}:ecs:${Region}:${Account}:task-set/${ClusterName}/${ServiceName}/${TaskSetId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "ecs:CreateAction": [
+   "String"
+  ],
+  "ecs:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "ecs:account-setting": [
+   "String"
+  ],
+  "ecs:auto-assign-public-ip": [
+   "Bool"
+  ],
+  "ecs:capacity-provider": [
+   "ArrayOfARN"
+  ],
+  "ecs:cluster": [
+   "ARN"
+  ],
+  "ecs:compute-compatibility": [
+   "ArrayOfString"
+  ],
+  "ecs:container-instances": [
+   "ARN"
+  ],
+  "ecs:container-name": [
+   "String"
+  ],
+  "ecs:daemon": [
+   "ARN"
+  ],
+  "ecs:daemon-task-definition": [
+   "ARN"
+  ],
+  "ecs:enable-ebs-volumes": [
+   "String"
+  ],
+  "ecs:enable-ecs-managed-tags": [
+   "Bool"
+  ],
+  "ecs:enable-execute-command": [
+   "String"
+  ],
+  "ecs:enable-service-connect": [
+   "String"
+  ],
+  "ecs:enable-vpc-lattice": [
+   "String"
+  ],
+  "ecs:fargate-ephemeral-storage-kms-key": [
+   "String"
+  ],
+  "ecs:gateway": [
+   "ARN"
+  ],
+  "ecs:instance-metadata-tags-propagation": [
+   "Bool"
+  ],
+  "ecs:namespace": [
+   "ARN"
+  ],
+  "ecs:privileged": [
+   "String"
+  ],
+  "ecs:propagate-tags": [
+   "String"
+  ],
+  "ecs:service": [
+   "ARN"
+  ],
+  "ecs:subnet": [
+   "ArrayOfString"
+  ],
+  "ecs:task": [
+   "ARN"
+  ],
+  "ecs:task-cpu": [
+   "Numeric"
+  ],
+  "ecs:task-definition": [
+   "ARN"
+  ],
+  "ecs:task-memory": [
+   "Numeric"
+  ]
+ }
+}

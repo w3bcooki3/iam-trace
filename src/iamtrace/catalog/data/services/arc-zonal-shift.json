@@ -1,0 +1,290 @@
+{
+ "prefix": "arc-zonal-shift",
+ "name": "ARC Zonal Shift",
+ "actions": {
+  "CancelPracticeRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CancelZonalShift": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreatePracticeRunConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeletePracticeRunConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetAutoshiftObserverNotificationStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetManagedResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListAutoshifts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListManagedResources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListZonalShifts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartPracticeRun": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "StartZonalShift": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdateAutoshiftObserverNotificationStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePracticeRunConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdateZonalAutoshiftConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdateZonalShift": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ALB",
+    "NLB"
+   ],
+   "condition_keys": [
+    "arc-zonal-shift:ResourceIdentifier",
+    "aws:ResourceTag/${TagKey}",
+    "elasticloadbalancing:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "ALB": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}"
+  ],
+  "NLB": [
+   "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/net/${LoadBalancerName}/${LoadBalancerId}"
+  ]
+ },
+ "condition_keys": {
+  "arc-zonal-shift:ResourceIdentifier": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "elasticloadbalancing:ResourceTag/${TagKey}": [
+   "String"
+  ]
+ }
+}

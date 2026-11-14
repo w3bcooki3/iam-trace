@@ -1,0 +1,7775 @@
+{
+ "prefix": "sagemaker",
+ "name": "SageMaker",
+ "actions": {
+  "AccessModelPackage": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-package"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AddAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "action",
+    "artifact",
+    "context",
+    "experiment",
+    "experiment-trial-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AddTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "action",
+    "ai-benchmark-job",
+    "ai-recommendation-job",
+    "ai-workload-config",
+    "algorithm",
+    "app",
+    "app-image-config",
+    "artifact",
+    "automl-job",
+    "cluster",
+    "cluster-scheduler-config",
+    "code-repository",
+    "compilation-job",
+    "compute-quota",
+    "context",
+    "data-quality-job-definition",
+    "device",
+    "device-fleet",
+    "domain",
+    "edge-deployment-plan",
+    "edge-packaging-job",
+    "endpoint",
+    "endpoint-config",
+    "experiment",
+    "experiment-trial",
+    "experiment-trial-component",
+    "feature-group",
+    "flow-definition",
+    "hub",
+    "hub-content",
+    "human-task-ui",
+    "hyper-parameter-tuning-job",
+    "image",
+    "inference-component",
+    "inference-recommendations-job",
+    "job",
+    "labeling-job",
+    "mlflow-app",
+    "mlflow-tracking-server",
+    "model",
+    "model-bias-job-definition",
+    "model-card",
+    "model-explainability-job-definition",
+    "model-package",
+    "model-package-group",
+    "model-quality-job-definition",
+    "monitoring-schedule",
+    "notebook-instance",
+    "notebook-instance-lifecycle-config",
+    "optimization-job",
+    "partner-app",
+    "pipeline",
+    "processing-job",
+    "project",
+    "reserved-capacity",
+    "space",
+    "studio-lifecycle-config",
+    "training-job",
+    "training-plan",
+    "transform-job",
+    "user-profile",
+    "workteam"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:TaggingAction"
+   ],
+   "data_plane": false
+  },
+  "AssociateTrialComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment-trial",
+    "experiment-trial-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AttachClusterNodeNetworkInterface": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AttachClusterNodeVolume": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchAddClusterNodes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDeleteClusterNodes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDescribeModelPackage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-package"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetMetrics": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "experiment-trial-component",
+    "training-job"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "BatchGetRecord": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "BatchPutMetrics": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment-trial-component",
+    "training-job"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "BatchRebootClusterNodes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchReplaceClusterNodes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchWriteRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CallMlflowAppApi": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-app"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CallPartnerAppApi": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "partner-app"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CallWithBearerToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "sagemaker:BearerTokenType"
+   ],
+   "data_plane": true
+  },
+  "CompleteRollout": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreateAIBenchmarkJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-benchmark-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAIRecommendationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-recommendation-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAIWorkloadConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-workload-config"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "action"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAlgorithm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "algorithm"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "app"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:ImageArns",
+    "sagemaker:ImageVersionArns",
+    "sagemaker:InstanceTypes",
+    "sagemaker:OwnerUserProfileArn",
+    "sagemaker:SpaceSharingType",
+    "sagemaker:StudioLifecycleConfigArns"
+   ],
+   "data_plane": false
+  },
+  "CreateAppImageConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "app-image-config"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateArtifact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "artifact"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAutoMLJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automl-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateAutoMLJobV2": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automl-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "reserved-capacity",
+    "training-plan"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateClusterSchedulerConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-scheduler-config"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCodeRepository": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-repository"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCompilationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compilation-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateComputeQuota": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "compute-quota"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateContext": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "context"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDataQualityJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-quality-job-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateDeviceFleet": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device-fleet"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:AppNetworkAccessType",
+    "sagemaker:AuthMode",
+    "sagemaker:DomainSharingOutputKmsKeyArn",
+    "sagemaker:ImageArns",
+    "sagemaker:ImageVersionArns",
+    "sagemaker:InstanceTypes",
+    "sagemaker:StudioLifecycleConfigArns",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateEdgeDeploymentPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "edge-deployment-plan"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateEdgeDeploymentStage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "edge-deployment-plan"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateEdgePackagingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "edge-packaging-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint",
+    "endpoint-config"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateEndpointConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint-config"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:AcceleratorTypes",
+    "sagemaker:InstanceTypes",
+    "sagemaker:ModelArn",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:ServerlessMaxConcurrency",
+    "sagemaker:ServerlessMemorySize",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateExperiment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFeatureGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:FeatureGroupDisableGlueTableCreation",
+    "sagemaker:FeatureGroupEnableOnlineStore",
+    "sagemaker:FeatureGroupOfflineStoreConfig",
+    "sagemaker:FeatureGroupOfflineStoreKmsKeyArn",
+    "sagemaker:FeatureGroupOfflineStoreS3Uri",
+    "sagemaker:FeatureGroupOnlineStoreKmsKeyArn"
+   ],
+   "data_plane": false
+  },
+  "CreateFlowDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:WorkteamArn",
+    "sagemaker:WorkteamType"
+   ],
+   "data_plane": false
+  },
+  "CreateHub": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateHubContentPresignedUrls": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateHubContentReference": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateHumanTaskUi": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "human-task-ui"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateHyperParameterTuningJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hyper-parameter-tuning-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:FileSystemAccessMode",
+    "sagemaker:FileSystemDirectoryPath",
+    "sagemaker:FileSystemId",
+    "sagemaker:FileSystemType",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "image"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateImageVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "image"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateInferenceComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint",
+    "inference-component"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:ModelArn"
+   ],
+   "data_plane": false
+  },
+  "CreateInferenceExperiment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-experiment"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateInferenceRecommendationsJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-recommendations-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateLabelingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "labeling-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:WorkteamArn",
+    "sagemaker:WorkteamType"
+   ],
+   "data_plane": false
+  },
+  "CreateLineageGroupPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateMlflowApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-app"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateMlflowTrackingServer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-tracking-server"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:DirectGatedModelAccess",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateModelBiasJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-bias-job-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateModelCard": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-card"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateModelCardExportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-card"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateModelExplainabilityJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-explainability-job-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateModelPackage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-package"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:CustomerMetadataProperties/${MetadataKey}",
+    "sagemaker:ModelApprovalStatus",
+    "sagemaker:ModelLifeCycle:Stage",
+    "sagemaker:ModelLifeCycle:StageStatus"
+   ],
+   "data_plane": false
+  },
+  "CreateModelPackageGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-package-group"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateModelQualityJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-quality-job-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateMonitoringSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "monitoring-schedule"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateNotebookInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:AcceleratorTypes",
+    "sagemaker:DirectInternetAccess",
+    "sagemaker:InstanceTypes",
+    "sagemaker:MinimumInstanceMetadataServiceVersion",
+    "sagemaker:NotebookInstanceLifecycleConfigArns",
+    "sagemaker:RootAccess",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateNotebookInstanceLifecycleConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance-lifecycle-config"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateOptimizationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "optimization-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePartnerApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "partner-app"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePartnerAppPresignedUrl": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "partner-app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreatePipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePresignedDomainUrl": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreatePresignedMlflowAppUrl": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreatePresignedMlflowTrackingServerUrl": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-tracking-server"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreatePresignedNotebookInstanceUrl": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateProcessingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "processing-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateReservedCapacity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "reserved-capacity"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateSharedModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "shared-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:ImageArns",
+    "sagemaker:ImageVersionArns",
+    "sagemaker:InstanceTypes",
+    "sagemaker:OwnerUserProfileArn",
+    "sagemaker:RemoteAccess",
+    "sagemaker:SpaceSharingType",
+    "sagemaker:StudioLifecycleConfigArns"
+   ],
+   "data_plane": false
+  },
+  "CreateStudioLifecycleConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio-lifecycle-config"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTrainingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "reserved-capacity",
+    "training-job",
+    "training-plan"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:DirectGatedModelAccess",
+    "sagemaker:EnableRemoteDebug",
+    "sagemaker:FileSystemAccessMode",
+    "sagemaker:FileSystemDirectoryPath",
+    "sagemaker:FileSystemId",
+    "sagemaker:FileSystemType",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:KeepAlivePeriod",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateTrainingPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-plan"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTrainingSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "CreateTransformJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "transform-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:ModelArn",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn"
+   ],
+   "data_plane": false
+  },
+  "CreateTrial": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment",
+    "experiment-trial"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTrialComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment-trial-component"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateUserProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:DomainSharingOutputKmsKeyArn",
+    "sagemaker:ImageArns",
+    "sagemaker:ImageVersionArns",
+    "sagemaker:InstanceTypes",
+    "sagemaker:StudioLifecycleConfigArns",
+    "sagemaker:VpcSecurityGroupIds"
+   ],
+   "data_plane": false
+  },
+  "CreateWorkforce": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workforce"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateWorkteam": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workteam"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteAIBenchmarkJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-benchmark-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAIRecommendationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-recommendation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAIWorkloadConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-workload-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "action"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAlgorithm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "algorithm"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "app"
+   ],
+   "condition_keys": [
+    "sagemaker:OwnerUserProfileArn",
+    "sagemaker:SpaceSharingType"
+   ],
+   "data_plane": false
+  },
+  "DeleteAppImageConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "app-image-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteArtifact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "artifact"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "action",
+    "artifact",
+    "context",
+    "experiment",
+    "experiment-trial-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteClusterSchedulerConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-scheduler-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCodeRepository": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-repository"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCompilationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compilation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteComputeQuota": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-quota"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteContext": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "context"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDataQualityJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-quality-job-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDeviceFleet": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device-fleet"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEdgeDeploymentPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "edge-deployment-plan"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteEdgeDeploymentStage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "edge-deployment-plan"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEndpointConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteExperiment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFeatureGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFlowDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHub": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHubContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHubContentReference": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHumanLoop": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "human-loop"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHumanTaskUi": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "human-task-ui"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHyperParameterTuningJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hyper-parameter-tuning-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "image"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteImageVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "image-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteInferenceComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteInferenceExperiment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteLineageGroupPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteMlflowApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMlflowTrackingServer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-tracking-server"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModelBiasJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-bias-job-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModelCard": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-card"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModelExplainabilityJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-explainability-job-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModelPackage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-package"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModelPackageGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-package-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModelPackageGroupPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-package-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModelQualityJobDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-quality-job-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMonitoringSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "monitoring-schedule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteNotebookInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteNotebookInstanceLifecycleConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance-lifecycle-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteOptimizationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "optimization-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePartnerApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "partner-app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProcessingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "processing-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "sagemaker:OwnerUserProfileArn",
+    "sagemaker:SpaceSharingType"
+   ],
+   "data_plane": false
+  },
+  "DeleteStudioLifecycleConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio-lifecycle-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "action",
+    "ai-benchmark-job",
+    "ai-recommendation-job",
+    "ai-workload-config",
+    "algorithm",
+    "app",
+    "app-image-config",
+    "artifact",
+    "automl-job",
+    "cluster",
+    "cluster-scheduler-config",
+    "code-repository",
+    "compilation-job",
+    "compute-quota",
+    "context",
+    "data-quality-job-definition",
+    "device",
+    "device-fleet",
+    "domain",
+    "edge-deployment-plan",
+    "edge-packaging-job",
+    "endpoint",
+    "endpoint-config",
+    "experiment",
+    "experiment-trial",
+    "experiment-trial-component",
+    "feature-group",
+    "flow-definition",
+    "hub",
+    "hub-content",
+    "human-task-ui",
+    "hyper-parameter-tuning-job",
+    "image",
+    "inference-component",
+    "inference-recommendations-job",
+    "job",
+    "labeling-job",
+    "mlflow-app",
+    "mlflow-tracking-server",
+    "model",
+    "model-bias-job-definition",
+    "model-card",
+    "model-explainability-job-definition",
+    "model-package",
+    "model-package-group",
+    "model-quality-job-definition",
+    "monitoring-schedule",
+    "notebook-instance",
+    "notebook-instance-lifecycle-config",
+    "optimization-job",
+    "partner-app",
+    "pipeline",
+    "processing-job",
+    "project",
+    "reserved-capacity",
+    "space",
+    "studio-lifecycle-config",
+    "training-job",
+    "training-plan",
+    "transform-job",
+    "user-profile",
+    "workteam"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteTrainingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTrainingSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTrial": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment-trial"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTrialComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment-trial-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteUserProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteWorkforce": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workforce"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteWorkteam": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workteam"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeployHubModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeregisterDevices": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeAIBenchmarkJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ai-benchmark-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAIRecommendationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ai-recommendation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAIWorkloadConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ai-workload-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAction": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "action"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAlgorithm": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "algorithm"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeApp": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAppImageConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "app-image-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeArtifact": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "artifact"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAutoMLJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automl-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAutoMLJobV2": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automl-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeCluster": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeClusterEvent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeClusterInference": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeClusterNode": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeClusterSchedulerConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster-scheduler-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeCodeRepository": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-repository"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeCompilationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "compilation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeComputeQuota": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "compute-quota"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeContext": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "context"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDataQualityJobDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-quality-job-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDevice": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "device"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeDeviceFleet": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "device-fleet"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeDomain": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEdgeDeploymentPlan": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "edge-deployment-plan"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeEdgePackagingJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "edge-packaging-job"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEndpointConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpoint-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeExperiment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFeatureGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFeatureMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeFlowDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeHub": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hub"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeHubContent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeHumanLoop": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "human-loop"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeHumanTaskUi": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "human-task-ui"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeHyperParameterTuningJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hyper-parameter-tuning-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeImage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "image"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeImageVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "image-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeInferenceComponent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "inference-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeInferenceExperiment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "inference-experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeInferenceRecommendationsJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "inference-recommendations-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeJobSchemaVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLabelingJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "labeling-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLineageGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeMlflowApp": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mlflow-app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeMlflowTrackingServer": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mlflow-tracking-server"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeModelBiasJobDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-bias-job-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeModelCard": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-card"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeModelCardExportJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-card-export-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeModelExplainabilityJobDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-explainability-job-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeModelPackage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-package"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeModelPackageGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-package-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeModelQualityJobDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-quality-job-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeMonitoringSchedule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "monitoring-schedule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeNotebookInstance": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "notebook-instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeNotebookInstanceLifecycleConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "notebook-instance-lifecycle-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeOptimizationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "optimization-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribePartnerApp": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "partner-app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribePipeline": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "sagemaker:PipelineVersionId"
+   ],
+   "data_plane": false
+  },
+  "DescribePipelineDefinitionForExecution": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribePipelineExecution": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeProcessingJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "processing-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeProject": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeReservedCapacity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "reserved-capacity"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeSharedModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "shared-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeSpace": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeStudioLifecycleConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio-lifecycle-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeSubscribedWorkteam": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workteam"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrainingJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "training-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrainingPlan": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "training-plan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrainingPlanExtensionHistory": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "training-plan"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrainingSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTransformJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "transform-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrial": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "experiment-trial"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTrialComponent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "experiment-trial-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeUserProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "user-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeWorkforce": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workforce"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeWorkteam": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workteam"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetachClusterNodeVolume": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisableSagemakerServicecatalogPortfolio": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateTrialComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment-trial",
+    "experiment-trial-component",
+    "processing-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EnableSagemakerServicecatalogPortfolio": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ExecuteSamplingOperation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ExecuteTrainingOperation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ExtendTrainingPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDeployments": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "device"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetDeviceFleetReport": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "device-fleet"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetDeviceRegistration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "device"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetLineageGroupPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetModelPackageGroupPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-package-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRecord": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetSagemakerServicecatalogPortfolioStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSamplingOperationResult": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetScalingConfigurationRecommendation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "inference-recommendations-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSearchSuggestions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTrainingOperationResult": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ImportHubContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "InvokeEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpoint",
+    "inference-component"
+   ],
+   "condition_keys": [
+    "sagemaker:TargetModel"
+   ],
+   "data_plane": true
+  },
+  "InvokeEndpointAsync": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeEndpointWithResponseStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpoint",
+    "inference-component"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAIBenchmarkJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAIRecommendationJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAIWorkloadConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListActions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAlgorithms": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAliases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "image",
+    "image-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAppImageConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListApps": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListArtifacts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutoMLJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCandidatesForAutoMLJob": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListClusterEvents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListClusterNodes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListClusterSchedulerConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListClusters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCodeRepositories": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCompilationJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListComputeQuotas": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListContexts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataQualityJobDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDeviceFleets": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListDevices": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListDomains": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEdgeDeploymentPlans": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListEdgePackagingJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListEndpointConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListExperiments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFeatureGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlowDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHubContentVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHubContents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hub"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHubs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHumanLoops": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHumanTaskUis": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHyperParameterTuningJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListImageVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "image"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListImages": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListInferenceComponents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListInferenceExperiments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListInferenceRecommendationsJobSteps": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListInferenceRecommendationsJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListJobSchemaVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListLabelingJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListLabelingJobsForWorkteam": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workteam"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListLineageGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMlflowApps": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMlflowTrackingServers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelBiasJobDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelCardExportJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-card"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelCardVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-card"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelCards": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelExplainabilityJobDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelMetadata": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelPackageGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelPackages": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-package"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelQualityJobDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModels": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMonitoringAlertHistory": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMonitoringAlerts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMonitoringExecutions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMonitoringSchedules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListNotebookInstanceLifecycleConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListNotebookInstances": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListOptimizationJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPartnerApps": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPipelineExecutionSteps": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPipelineExecutions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPipelineParametersForExecution": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPipelineVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPipelines": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProcessingJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProjects": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListResourceCatalogs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSharedModelEvents": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListSharedModelVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "shared-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListSharedModels": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListSpaces": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListStageDevices": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListStudioLifecycleConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSubscribedWorkteams": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTags": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "action",
+    "ai-benchmark-job",
+    "ai-recommendation-job",
+    "ai-workload-config",
+    "algorithm",
+    "app",
+    "app-image-config",
+    "artifact",
+    "automl-job",
+    "cluster",
+    "cluster-scheduler-config",
+    "code-repository",
+    "compilation-job",
+    "compute-quota",
+    "context",
+    "data-quality-job-definition",
+    "device",
+    "device-fleet",
+    "domain",
+    "edge-deployment-plan",
+    "edge-packaging-job",
+    "endpoint",
+    "endpoint-config",
+    "experiment",
+    "experiment-trial",
+    "experiment-trial-component",
+    "feature-group",
+    "flow-definition",
+    "hub",
+    "hub-content",
+    "human-task-ui",
+    "hyper-parameter-tuning-job",
+    "image",
+    "inference-component",
+    "inference-recommendations-job",
+    "job",
+    "labeling-job",
+    "mlflow-app",
+    "mlflow-tracking-server",
+    "model",
+    "model-bias-job-definition",
+    "model-card",
+    "model-explainability-job-definition",
+    "model-package",
+    "model-package-group",
+    "model-quality-job-definition",
+    "monitoring-schedule",
+    "notebook-instance",
+    "notebook-instance-lifecycle-config",
+    "optimization-job",
+    "partner-app",
+    "pipeline",
+    "pipeline-execution",
+    "processing-job",
+    "project",
+    "reserved-capacity",
+    "space",
+    "studio-lifecycle-config",
+    "training-job",
+    "training-plan",
+    "transform-job",
+    "user-profile",
+    "workteam"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrainingJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrainingJobsForHyperParameterTuningJob": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hyper-parameter-tuning-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrainingPlans": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrainingSessions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTransformJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrialComponents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrials": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListUltraServersByReservedCapacity": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "reserved-capacity"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListUserProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWorkforces": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWorkteams": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutLineageGroupPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutModelPackageGroupPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-package-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [
+    "sagemaker:IsUpdateRecord",
+    "sagemaker:UpdatableFeatures"
+   ],
+   "data_plane": true
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "QueryLineage": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RegisterDevices": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "RenderUiTemplate": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RetryPipelineExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "Sample": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SampleTrainingSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SampleTrainingSessionWithResponseStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SampleWithResponseStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "Search": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "sagemaker:SearchVisibilityCondition/${FilterKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchTrainingPlanOfferings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SendHeartbeat": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SendPipelineExecutionStepFailure": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SendPipelineExecutionStepSuccess": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SendSharedModelEvent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "shared-model-event"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartClusterHealthCheck": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartEdgeDeploymentStage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "edge-deployment-plan"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartHumanLoop": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartInferenceExperiment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartMlflowTrackingServer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-tracking-server"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartMonitoringSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "monitoring-schedule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartNotebookInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartPipelineExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "sagemaker:PipelineVersionId"
+   ],
+   "data_plane": false
+  },
+  "StartSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopAIBenchmarkJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-benchmark-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopAIRecommendationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-recommendation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopAutoMLJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automl-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopCompilationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compilation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopEdgeDeploymentStage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "edge-deployment-plan"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StopEdgePackagingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "edge-packaging-job"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StopHumanLoop": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "human-loop"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopHyperParameterTuningJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hyper-parameter-tuning-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopInferenceExperiment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopInferenceRecommendationsJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-recommendations-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopLabelingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "labeling-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopMlflowTrackingServer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-tracking-server"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopMonitoringSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "monitoring-schedule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopNotebookInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopOptimizationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "optimization-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopPipelineExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopProcessingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "processing-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTrainingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTrainingSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTransformJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "transform-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TrainHubModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "action"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAppImageConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "app-image-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateArtifact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "artifact"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "reserved-capacity",
+    "training-plan"
+   ],
+   "condition_keys": [
+    "sagemaker:InstanceTypes",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "UpdateClusterInference": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateClusterSchedulerConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-scheduler-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateClusterSoftware": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCodeRepository": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-repository"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateComputeQuota": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "compute-quota"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateContext": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "context"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDeviceFleet": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device-fleet"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateDevices": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "device"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "sagemaker:AppNetworkAccessType",
+    "sagemaker:DomainSharingOutputKmsKeyArn",
+    "sagemaker:ImageArns",
+    "sagemaker:ImageVersionArns",
+    "sagemaker:InstanceTypes",
+    "sagemaker:StudioLifecycleConfigArns",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "UpdateEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint",
+    "endpoint-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateEndpointWeightsAndCapacities": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateExperiment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFeatureGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFeatureMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "feature-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateHub": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateHubContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateHubContentReference": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hub",
+    "hub-content"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "image"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateImageVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "image-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateInferenceComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateInferenceComponentRuntimeConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateInferenceExperiment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMlflowApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMlflowTrackingServer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "mlflow-tracking-server"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateModelCard": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-card"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateModelPackage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-package"
+   ],
+   "condition_keys": [
+    "sagemaker:CustomerMetadataProperties/${MetadataKey}",
+    "sagemaker:CustomerMetadataPropertiesToRemove",
+    "sagemaker:ModelApprovalStatus",
+    "sagemaker:ModelLifeCycle:Stage",
+    "sagemaker:ModelLifeCycle:StageStatus"
+   ],
+   "data_plane": false
+  },
+  "UpdateMonitoringAlert": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "monitoring-schedule",
+    "monitoring-schedule-alert"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMonitoringSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "monitoring-schedule"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InterContainerTrafficEncryption",
+    "sagemaker:MaxRuntimeInSeconds",
+    "sagemaker:NetworkIsolation",
+    "sagemaker:OutputKmsKeyArn",
+    "sagemaker:VolumeKmsKeyArn",
+    "sagemaker:VpcSecurityGroupIds",
+    "sagemaker:VpcSubnets"
+   ],
+   "data_plane": false
+  },
+  "UpdateNotebookInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance"
+   ],
+   "condition_keys": [
+    "sagemaker:AcceleratorTypes",
+    "sagemaker:InstanceTypes",
+    "sagemaker:MinimumInstanceMetadataServiceVersion",
+    "sagemaker:NotebookInstanceLifecycleConfigArns",
+    "sagemaker:RootAccess"
+   ],
+   "data_plane": false
+  },
+  "UpdateNotebookInstanceLifecycleConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notebook-instance-lifecycle-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePartnerApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "partner-app"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePipelineExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePipelineVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "sagemaker:PipelineVersionId"
+   ],
+   "data_plane": false
+  },
+  "UpdateProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateReward": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "UpdateSharedModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "shared-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "sagemaker:ImageArns",
+    "sagemaker:ImageVersionArns",
+    "sagemaker:InstanceTypes",
+    "sagemaker:OwnerUserProfileArn",
+    "sagemaker:RemoteAccess",
+    "sagemaker:SpaceSharingType",
+    "sagemaker:StudioLifecycleConfigArns"
+   ],
+   "data_plane": false
+  },
+  "UpdateTrainingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "training-job"
+   ],
+   "condition_keys": [
+    "sagemaker:EnableRemoteDebug",
+    "sagemaker:InstanceTypes",
+    "sagemaker:KeepAlivePeriod"
+   ],
+   "data_plane": false
+  },
+  "UpdateTrial": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment-trial"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTrialComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "experiment-trial-component"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateUserProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user-profile"
+   ],
+   "condition_keys": [
+    "sagemaker:DomainSharingOutputKmsKeyArn",
+    "sagemaker:ImageArns",
+    "sagemaker:ImageVersionArns",
+    "sagemaker:InstanceTypes",
+    "sagemaker:InstanceTypes",
+    "sagemaker:StudioLifecycleConfigArns",
+    "sagemaker:VpcSecurityGroupIds"
+   ],
+   "data_plane": false
+  },
+  "UpdateWorkforce": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workforce"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateWorkteam": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workteam"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "action": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:action/${ActionName}"
+  ],
+  "ai-benchmark-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:ai-benchmark-job/${AIBenchmarkJobName}"
+  ],
+  "ai-recommendation-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:ai-recommendation-job/${AIRecommendationJobName}"
+  ],
+  "ai-workload-config": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:ai-workload-config/${AIWorkloadConfigName}"
+  ],
+  "algorithm": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:algorithm/${AlgorithmName}"
+  ],
+  "app": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:app/${DomainId}/${UserProfileName}/${AppType}/${AppName}"
+  ],
+  "app-image-config": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:app-image-config/${AppImageConfigName}"
+  ],
+  "artifact": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:artifact/${HashOfArtifactSource}"
+  ],
+  "automl-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:automl-job/${AutoMLJobJobName}"
+  ],
+  "cluster": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}"
+  ],
+  "cluster-scheduler-config": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:cluster-scheduler-config/${ClusterSchedulerConfigId}"
+  ],
+  "code-repository": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:code-repository/${CodeRepositoryName}"
+  ],
+  "compilation-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:compilation-job/${CompilationJobName}"
+  ],
+  "compute-quota": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:compute-quota/${ComputeQuotaId}"
+  ],
+  "context": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:context/${ContextName}"
+  ],
+  "data-quality-job-definition": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:data-quality-job-definition/${DataQualityJobDefinitionName}"
+  ],
+  "device": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}/device/${DeviceName}"
+  ],
+  "device-fleet": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}"
+  ],
+  "domain": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:domain/${DomainId}"
+  ],
+  "edge-deployment-plan": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:edge-deployment/${EdgeDeploymentPlanName}"
+  ],
+  "edge-packaging-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:edge-packaging-job/${EdgePackagingJobName}"
+  ],
+  "endpoint": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint/${EndpointName}"
+  ],
+  "endpoint-config": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint-config/${EndpointConfigName}"
+  ],
+  "experiment": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:experiment/${ExperimentName}"
+  ],
+  "experiment-trial": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial/${TrialName}"
+  ],
+  "experiment-trial-component": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}"
+  ],
+  "feature-group": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}"
+  ],
+  "flow-definition": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:flow-definition/${FlowDefinitionName}"
+  ],
+  "hub": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}"
+  ],
+  "hub-content": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}"
+  ],
+  "human-loop": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:human-loop/${HumanLoopName}"
+  ],
+  "human-task-ui": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:human-task-ui/${HumanTaskUiName}"
+  ],
+  "hyper-parameter-tuning-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:hyper-parameter-tuning-job/${HyperParameterTuningJobName}"
+  ],
+  "image": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:image/${ImageName}"
+  ],
+  "image-version": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:image-version/${ImageName}/${Version}"
+  ],
+  "inference-component": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:inference-component/${InferenceComponentName}"
+  ],
+  "inference-experiment": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:inference-experiment/${InferenceExperimentName}"
+  ],
+  "inference-recommendations-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:inference-recommendations-job/${InferenceRecommendationsJobName}"
+  ],
+  "job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}"
+  ],
+  "labeling-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:labeling-job/${LabelingJobName}"
+  ],
+  "lineage-group": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:lineage-group/${LineageGroupName}"
+  ],
+  "mlflow-app": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-app/${MLflowAppId}"
+  ],
+  "mlflow-tracking-server": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-tracking-server/${MlflowTrackingServerName}"
+  ],
+  "model": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:model/${ModelName}"
+  ],
+  "model-bias-job-definition": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:model-bias-job-definition/${ModelBiasJobDefinitionName}"
+  ],
+  "model-card": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}"
+  ],
+  "model-card-export-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}/export-job/${ExportJobName}"
+  ],
+  "model-explainability-job-definition": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:model-explainability-job-definition/${ModelExplainabilityJobDefinitionName}"
+  ],
+  "model-package": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:model-package/${ModelPackageName}"
+  ],
+  "model-package-group": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:model-package-group/${ModelPackageGroupName}"
+  ],
+  "model-quality-job-definition": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:model-quality-job-definition/${ModelQualityJobDefinitionName}"
+  ],
+  "monitoring-schedule": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}"
+  ],
+  "monitoring-schedule-alert": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}/alert/${MonitoringScheduleAlertName}"
+  ],
+  "notebook-instance": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance/${NotebookInstanceName}"
+  ],
+  "notebook-instance-lifecycle-config": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance-lifecycle-config/${NotebookInstanceLifecycleConfigName}"
+  ],
+  "optimization-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:optimization-job/${OptimizationJobName}"
+  ],
+  "partner-app": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:partner-app/${AppId}"
+  ],
+  "pipeline": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}"
+  ],
+  "pipeline-execution": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}"
+  ],
+  "processing-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:processing-job/${ProcessingJobName}"
+  ],
+  "project": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:project/${ProjectName}"
+  ],
+  "reserved-capacity": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:reserved-capacity/${RandomString}"
+  ],
+  "sagemaker-catalog": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:sagemaker-catalog/${ResourceCatalogName}"
+  ],
+  "shared-model": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:shared-model/${SharedModelId}"
+  ],
+  "shared-model-event": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:shared-model-event/${EventId}"
+  ],
+  "space": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:space/${DomainId}/${SpaceName}"
+  ],
+  "studio-lifecycle-config": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:studio-lifecycle-config/${StudioLifecycleConfigName}"
+  ],
+  "training-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:training-job/${TrainingJobName}"
+  ],
+  "training-plan": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:training-plan/${TrainingPlanName}"
+  ],
+  "training-session": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}"
+  ],
+  "transform-job": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:transform-job/${TransformJobName}"
+  ],
+  "user-profile": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:user-profile/${DomainId}/${UserProfileName}"
+  ],
+  "workforce": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:workforce/${WorkforceName}"
+  ],
+  "workteam": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:workteam/${WorkteamName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "sagemaker:AcceleratorTypes": [
+   "ArrayOfString"
+  ],
+  "sagemaker:AppNetworkAccessType": [
+   "String"
+  ],
+  "sagemaker:AuthMode": [
+   "String"
+  ],
+  "sagemaker:BearerTokenType": [
+   "String"
+  ],
+  "sagemaker:CurrentCustomerMetadataProperties/${MetadataKey}": [
+   "String"
+  ],
+  "sagemaker:CurrentModelLifeCycleStage": [
+   "String"
+  ],
+  "sagemaker:CurrentModelLifeCycleStageStatus": [
+   "String"
+  ],
+  "sagemaker:CustomerMetadataProperties/${MetadataKey}": [
+   "String"
+  ],
+  "sagemaker:CustomerMetadataPropertiesToRemove": [
+   "ArrayOfString"
+  ],
+  "sagemaker:DirectGatedModelAccess": [
+   "String"
+  ],
+  "sagemaker:DirectInternetAccess": [
+   "String"
+  ],
+  "sagemaker:DomainId": [
+   "String"
+  ],
+  "sagemaker:DomainSharingOutputKmsKey": [
+   "ARN"
+  ],
+  "sagemaker:DomainSharingOutputKmsKeyArn": [
+   "ARN"
+  ],
+  "sagemaker:EnableRemoteDebug": [
+   "Bool"
+  ],
+  "sagemaker:FeatureGroupDisableGlueTableCreation": [
+   "Bool"
+  ],
+  "sagemaker:FeatureGroupEnableOnlineStore": [
+   "Bool"
+  ],
+  "sagemaker:FeatureGroupOfflineStoreConfig": [
+   "Bool"
+  ],
+  "sagemaker:FeatureGroupOfflineStoreKmsKey": [
+   "ARN"
+  ],
+  "sagemaker:FeatureGroupOfflineStoreKmsKeyArn": [
+   "ARN"
+  ],
+  "sagemaker:FeatureGroupOfflineStoreS3Uri": [
+   "String"
+  ],
+  "sagemaker:FeatureGroupOnlineStoreKmsKey": [
+   "ARN"
+  ],
+  "sagemaker:FeatureGroupOnlineStoreKmsKeyArn": [
+   "ARN"
+  ],
+  "sagemaker:FileSystemAccessMode": [
+   "String"
+  ],
+  "sagemaker:FileSystemDirectoryPath": [
+   "String"
+  ],
+  "sagemaker:FileSystemId": [
+   "String"
+  ],
+  "sagemaker:FileSystemType": [
+   "String"
+  ],
+  "sagemaker:HomeEfsFileSystemKmsKey": [
+   "ARN"
+  ],
+  "sagemaker:ImageArns": [
+   "ArrayOfARN"
+  ],
+  "sagemaker:ImageVersionArns": [
+   "ArrayOfARN"
+  ],
+  "sagemaker:InstanceTypes": [
+   "ArrayOfString"
+  ],
+  "sagemaker:InterContainerTrafficEncryption": [
+   "Bool"
+  ],
+  "sagemaker:IsUpdateRecord": [
+   "Bool"
+  ],
+  "sagemaker:KeepAlivePeriod": [
+   "Numeric"
+  ],
+  "sagemaker:MaxRuntimeInSeconds": [
+   "Numeric"
+  ],
+  "sagemaker:MinimumInstanceMetadataServiceVersion": [
+   "String"
+  ],
+  "sagemaker:ModelApprovalStatus": [
+   "String"
+  ],
+  "sagemaker:ModelArn": [
+   "ARN"
+  ],
+  "sagemaker:ModelLifeCycle:Stage": [
+   "String"
+  ],
+  "sagemaker:ModelLifeCycle:StageStatus": [
+   "String"
+  ],
+  "sagemaker:NetworkIsolation": [
+   "Bool"
+  ],
+  "sagemaker:NotebookInstanceLifecycleConfigArns": [
+   "ArrayOfARN"
+  ],
+  "sagemaker:OutputKmsKey": [
+   "ARN"
+  ],
+  "sagemaker:OutputKmsKeyArn": [
+   "ARN"
+  ],
+  "sagemaker:OwnerUserProfileArn": [
+   "ARN"
+  ],
+  "sagemaker:PipelineVersionId": [
+   "String"
+  ],
+  "sagemaker:RemoteAccess": [
+   "String"
+  ],
+  "sagemaker:ResourceTag/": [
+   "String"
+  ],
+  "sagemaker:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "sagemaker:RootAccess": [
+   "String"
+  ],
+  "sagemaker:SearchVisibilityCondition/${FilterKey}": [
+   "String"
+  ],
+  "sagemaker:ServerlessMaxConcurrency": [
+   "Numeric"
+  ],
+  "sagemaker:ServerlessMemorySize": [
+   "Numeric"
+  ],
+  "sagemaker:SpaceSharingType": [
+   "String"
+  ],
+  "sagemaker:StudioLifecycleConfigArns": [
+   "ArrayOfARN"
+  ],
+  "sagemaker:TaggingAction": [
+   "String"
+  ],
+  "sagemaker:TargetModel": [
+   "String"
+  ],
+  "sagemaker:UpdatableFeatures": [
+   "ArrayOfString"
+  ],
+  "sagemaker:UserProfileName": [
+   "String"
+  ],
+  "sagemaker:VolumeKmsKey": [
+   "ARN"
+  ],
+  "sagemaker:VolumeKmsKeyArn": [
+   "ARN"
+  ],
+  "sagemaker:VpcSecurityGroupIds": [
+   "ArrayOfString"
+  ],
+  "sagemaker:VpcSubnets": [
+   "ArrayOfString"
+  ],
+  "sagemaker:WorkteamArn": [
+   "ARN"
+  ],
+  "sagemaker:WorkteamType": [
+   "String"
+  ]
+ }
+}

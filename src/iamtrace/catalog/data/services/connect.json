@@ -1,0 +1,7309 @@
+{
+ "prefix": "connect",
+ "name": "Connect",
+ "actions": {
+  "ActivateEvaluationForm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AdminGetEmergencyAccessToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AssociateAnalyticsDataSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateApprovedOrigin": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateBot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateContactWithUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:PreferredUserArn"
+   ],
+   "data_plane": false
+  },
+  "AssociateCustomerProfilesDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AssociateDefaultVocabulary": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateEmailAddressAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "email-address"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow",
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateInstanceStorageConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:StorageResourceType"
+   ],
+   "data_plane": false
+  },
+  "AssociateLambdaFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateLexBot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociatePhoneNumberContactFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow",
+    "phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateQueueEmailAddresses": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateQueueQuickConnects": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue",
+    "quick-connect"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateRoutingProfileQueues": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue",
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateSecurityKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateSecurityProfiles": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-agent",
+    "instance",
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateTrafficDistributionGroupUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "traffic-distribution-group",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "AssociateUserProficiencies": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "AssociateWorkspace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routing-profile",
+    "user",
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "BatchAssociateAnalyticsDataSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "BatchCreateDataTableValue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:ExpressionValue",
+    "connect:InstanceId",
+    "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "BatchDeleteDataTableValue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "BatchDescribeDataTableValue": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "BatchDisassociateAnalyticsDataSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "BatchGetAttachedFileMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attached-file"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "BatchGetFlowAssociation": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "BatchPutContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "queue"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "BatchUpdateDataTableValue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:ExpressionValue",
+    "connect:InstanceId",
+    "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "ClaimPhoneNumber": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "traffic-distribution-group",
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CompleteAttachedFileUpload": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attached-file"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateAgentStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-status"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateAttachedFile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attached-file"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateAuthenticationProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "authentication-profile"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": null
+  },
+  "CreateContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:ContactInitiationMethod",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateContactFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateContactFlowModule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateContactFlowModuleAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateContactFlowModuleVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateContactFlowVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateDataTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateDataTableAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateEmailAddress": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateEvaluationForm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateExtractionDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "extraction-definition"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateHoursOfOperation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hours-of-operation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateHoursOfOperationOverride": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hours-of-operation",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateIntegrationAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "integration-association"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateMetric": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "metric"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateNotification": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateParticipant": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreatePersistentContactAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreatePredefinedAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreatePrompt": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "prompt"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreatePushNotificationRegistration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow",
+    "hours-of-operation",
+    "phone-number",
+    "queue",
+    "quick-connect"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateQuickConnect": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow",
+    "queue",
+    "quick-connect",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateRoutingProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue",
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateSecurityProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "contact-flow-module",
+    "hierarchy-group",
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateTaskTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-template"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTrafficDistributionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "traffic-distribution-group"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateUseCase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "integration-association",
+    "use-case"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hierarchy-group",
+    "routing-profile",
+    "security-profile",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateUserHierarchyGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hierarchy-group"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateView": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-view"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateViewVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-view"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateVocabulary": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "vocabulary"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateWorkspace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "CreateWorkspacePage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "aws-managed-view",
+    "customer-managed-view",
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeactivateEvaluationForm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteAttachedFile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attached-file"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteContactEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-evaluation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteContactFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteContactFlowModule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteContactFlowModuleAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteContactFlowModuleVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteContactFlowVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteDataTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteDataTableAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteEmailAddress": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "email-address"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteEvaluationForm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteExtractionDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "extraction-definition"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteHoursOfOperation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hours-of-operation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteHoursOfOperationOverride": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hours-of-operation",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteIntegrationAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "integration-association"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteMetric": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "metric"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteNotification": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notification"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeletePredefinedAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeletePrompt": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "prompt"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeletePushNotificationRegistration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteQuickConnect": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "quick-connect"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteRoutingProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteSecurityProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteTaskTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteTrafficDistributionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "traffic-distribution-group"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteUseCase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "use-case"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteUserHierarchyGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hierarchy-group"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteView": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-view"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteViewVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-view-version"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteVocabulary": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "vocabulary"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteWorkspace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteWorkspaceMedia": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DeleteWorkspacePage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeAgentStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent-status"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeAttachedFilesConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeAuthenticationProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "authentication-profile"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeContact": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "DescribeContactEvaluation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-evaluation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeContactFlow": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeContactFlowModule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeContactFlowModuleAlias": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeDataTable": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeDataTableAttribute": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeEmailAddress": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "email-address"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeEvaluationForm": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeExtractionDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "extraction-definition"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeForecastingPlanningSchedulingIntegration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": null
+  },
+  "DescribeHoursOfOperation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hours-of-operation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeHoursOfOperationOverride": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hours-of-operation",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeInstance": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeInstanceAttribute": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:AttributeType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeInstanceStorageConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:StorageResourceType"
+   ],
+   "data_plane": false
+  },
+  "DescribeMetric": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "metric",
+    "qualified-metric"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeNotification": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "notification"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribePhoneNumber": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribePredefinedAttribute": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribePrompt": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "prompt"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeQueue": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeQuickConnect": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "quick-connect"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeRoutingProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeRule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeSecurityProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeTrafficDistributionGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "traffic-distribution-group"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribeUser": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeUserHierarchyGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hierarchy-group"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeUserHierarchyStructure": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeView": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "aws-managed-view",
+    "customer-managed-view",
+    "qualified-aws-managed-view",
+    "qualified-customer-managed-view"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeVocabulary": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "vocabulary"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DescribeWorkspace": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateAnalyticsDataSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateApprovedOrigin": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateBot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateCustomerProfilesDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DisassociateEmailAddressAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "email-address"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateInstanceStorageConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:StorageResourceType"
+   ],
+   "data_plane": false
+  },
+  "DisassociateLambdaFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateLexBot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociatePhoneNumberContactFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateQueueEmailAddresses": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateQueueQuickConnects": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue",
+    "quick-connect"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateRoutingProfileQueues": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateSecurityKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateSecurityProfiles": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ai-agent",
+    "instance",
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateTrafficDistributionGroupUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "traffic-distribution-group",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateUserProficiencies": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DisassociateWorkspace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "DismissUserContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "EvaluateDataTableValues": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "GetAttachedFile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "attached-file"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetContactAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "GetContactMetrics": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetCrossRegionRouting": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetCurrentMetricData": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queue",
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetCurrentUserData": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hierarchy-group",
+    "queue",
+    "routing-profile",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetEffectiveHoursOfOperations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hours-of-operation",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetEvaluationFormValidation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetFederationToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetFlowAssociation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetMetricData": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetMetricDataV2": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hierarchy-group",
+    "queue",
+    "routing-profile",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetPromptFile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "prompt"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetTaskTemplate": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "task-template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "GetTrafficDistribution": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "traffic-distribution-group"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ImportPhoneNumber": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "ImportWorkspaceMedia": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListAgentStatuses": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-agent-status"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAnalyticsDataAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListAnalyticsDataLakeDataSets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListApprovedOrigins": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListAssociatedContacts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListAttachedFilesConfigurations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListAuthenticationProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListBots": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListContactEvaluations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListContactFlowModuleAliases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListContactFlowModuleVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListContactFlowModules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListContactFlowVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListContactFlows": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-contact-flow"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListContactReferences": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "ListDataTableAttributes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListDataTablePrimaryValues": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "ListDataTableValues": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "ListDataTables": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListDefaultVocabularies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListEntitySecurityProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ai-agent",
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListEvaluationFormAIVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListEvaluationFormVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListEvaluationForms": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListExtractionDefinitions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListFlowAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListHoursOfOperationOverrides": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hours-of-operation",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListHoursOfOperations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListInstanceAttributes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListInstanceStorageConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListInstances": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIntegrationAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListLambdaFunctions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListLexBots": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListMetrics": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListNotifications": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListPhoneNumbers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-legacy-phone-number"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPhoneNumbersV2": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPredefinedAttributes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListPrompts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListQueueEmailAddresses": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListQueueQuickConnects": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListQueues": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-queue"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListQuickConnects": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-quick-connect"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRealtimeContactAnalysisSegments": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListRealtimeContactAnalysisSegmentsV2": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:ListRealtimeContactAnalysisSegmentsByOutputType",
+    "connect:ListRealtimeContactAnalysisSegmentsBySegmentType"
+   ],
+   "data_plane": false
+  },
+  "ListRoutingProfileManualAssignmentQueues": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListRoutingProfileQueues": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListRoutingProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListRules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListSecurityKeys": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListSecurityProfileAIAgents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListSecurityProfileApplications": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListSecurityProfileFlowModules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance",
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListSecurityProfilePermissions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListSecurityProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent-status",
+    "contact-evaluation",
+    "contact-flow",
+    "contact-flow-module",
+    "evaluation-form",
+    "extraction-definition",
+    "hierarchy-group",
+    "hours-of-operation",
+    "integration-association",
+    "metric",
+    "phone-number",
+    "prompt",
+    "queue",
+    "quick-connect",
+    "routing-profile",
+    "rule",
+    "security-profile",
+    "traffic-distribution-group",
+    "use-case",
+    "user",
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListTaskTemplates": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrafficDistributionGroupUsers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "traffic-distribution-group"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListTrafficDistributionGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "traffic-distribution-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListUseCases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListUserHierarchyGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListUserNotifications": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListUserProficiencies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListUsers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListViewVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "aws-managed-view",
+    "customer-managed-view"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListViews": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListWorkspaceMedia": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListWorkspacePages": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ListWorkspaces": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "MonitorContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:MonitorCapabilities"
+   ],
+   "data_plane": false
+  },
+  "PauseContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "contact-flow",
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "PutUserStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-status",
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ReleasePhoneNumber": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ReplicateInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ResumeContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "contact-flow",
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "ResumeContactRecording": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "SearchAgentStatuses": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchAvailablePhoneNumbers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SearchContactEvaluations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchContactFlowModules": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchContactFlows": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:FlowType",
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchContacts": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:Channel",
+    "connect:InstanceId",
+    "connect:PreferredUserArn",
+    "connect:SearchContactsByContactAnalysis",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchDataTables": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchEmailAddresses": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchEvaluationForms": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchHoursOfOperationOverrides": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hours-of-operation",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchHoursOfOperations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchMetrics": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchNotifications": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchPredefinedAttributes": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "SearchPrompts": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchQueues": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchQuickConnects": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchResourceTags": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "SearchRoutingProfiles": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchRules": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchSecurityProfiles": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchUserHierarchyGroups": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchUsers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchViews": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SearchVocabularies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "vocabulary"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "SearchWorkspaceAssociations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "SearchWorkspaces": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:SearchTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SendChatIntegrationEvent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SendIntegrationEvent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SendOutboundChatMessage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "phone-number"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:Subtype"
+   ],
+   "data_plane": null
+  },
+  "SendOutboundEmail": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "SendOutboundWebNotification": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartAttachedFileUpload": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "attached-file"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "StartChatContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartContactConversationalAnalyticsJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartContactEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "contact-evaluation",
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartContactMediaProcessing": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartContactRecording": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "StartContactStreaming": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "StartEmailContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartEvaluationFormValidation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartForecastingPlanningSchedulingIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": null
+  },
+  "StartOutboundChatContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "contact",
+    "contact-flow",
+    "instance",
+    "phone-number"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:Subtype"
+   ],
+   "data_plane": false
+  },
+  "StartOutboundEmailContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartOutboundVoiceContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartScreenSharing": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "StartTaskContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "contact-flow",
+    "quick-connect",
+    "task-template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:AssignmentType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StartWebRTCContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StopContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "StopContactMediaProcessing": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "StopContactRecording": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "StopContactStreaming": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "StopForecastingPlanningSchedulingIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": null
+  },
+  "SubmitContactEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-evaluation"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "SuspendContactRecording": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "TagContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-status",
+    "contact-evaluation",
+    "contact-flow",
+    "contact-flow-module",
+    "customer-managed-view",
+    "email-address",
+    "evaluation-form",
+    "extraction-definition",
+    "hierarchy-group",
+    "hours-of-operation",
+    "instance",
+    "integration-association",
+    "metric",
+    "phone-number",
+    "prompt",
+    "queue",
+    "quick-connect",
+    "routing-profile",
+    "rule",
+    "security-profile",
+    "task-template",
+    "traffic-distribution-group",
+    "use-case",
+    "user",
+    "vocabulary",
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "TransferContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "contact-flow",
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "UntagContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:TagKeys",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-status",
+    "contact-evaluation",
+    "contact-flow",
+    "contact-flow-module",
+    "customer-managed-view",
+    "email-address",
+    "evaluation-form",
+    "extraction-definition",
+    "hierarchy-group",
+    "hours-of-operation",
+    "instance",
+    "integration-association",
+    "metric",
+    "phone-number",
+    "prompt",
+    "queue",
+    "quick-connect",
+    "routing-profile",
+    "rule",
+    "security-profile",
+    "task-template",
+    "traffic-distribution-group",
+    "use-case",
+    "user",
+    "vocabulary",
+    "wildcard-phone-number"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAgentStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-status"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateAttachedFilesConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateAuthenticationProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "authentication-profile"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-evaluation"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactFlowContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactFlowMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactFlowModuleAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactFlowModuleContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactFlowModuleMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow-module"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactFlowName": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:FlowType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactRoutingData": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "UpdateContactSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "UpdateCrossRegionRouting": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateDataTableAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateDataTableMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateDataTablePrimaryValues": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId",
+    "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "UpdateEmailAddressMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "email-address"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateEvaluationForm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluation-form"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateExtractionDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "extraction-definition"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateHoursOfOperation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hours-of-operation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateHoursOfOperationOverride": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hours-of-operation",
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateInstanceAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:AttributeType",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateInstanceStorageConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId",
+    "connect:StorageResourceType"
+   ],
+   "data_plane": false
+  },
+  "UpdateMetricContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "metric",
+    "qualified-metric"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateMetricMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "metric",
+    "qualified-metric"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateNotificationContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "notification"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateOutboundEmailContactMessage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:Channel",
+    "connect:ContactAssociationId",
+    "connect:InstanceId",
+    "connect:UserArn"
+   ],
+   "data_plane": false
+  },
+  "UpdateParticipantAuthentication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateParticipantRoleConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact",
+    "instance"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdatePhoneNumber": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "phone-number",
+    "traffic-distribution-group"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdatePhoneNumberMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "phone-number"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdatePredefinedAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdatePrompt": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "prompt"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateQueueHoursOfOperation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hours-of-operation",
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateQueueMaxContacts": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateQueueName": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateQueueOutboundCallerConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow",
+    "phone-number",
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateQueueOutboundEmailConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateQueueStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateQuickConnectConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "contact-flow",
+    "queue",
+    "quick-connect",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateQuickConnectName": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "quick-connect"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateRoutingProfileAgentAvailabilityTimer": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateRoutingProfileConcurrency": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateRoutingProfileDefaultOutboundQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue",
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateRoutingProfileName": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateRoutingProfileQueues": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routing-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "rule"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateSecurityProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "contact-flow-module",
+    "hierarchy-group",
+    "security-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateTaskTemplate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "task-template"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateTrafficDistribution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "traffic-distribution-group"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserHierarchy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hierarchy-group",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserHierarchyGroupName": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hierarchy-group"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserHierarchyStructure": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserIdentityInfo": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserNotificationStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserPhoneConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserProficiencies": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "instance",
+    "user"
+   ],
+   "condition_keys": [
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserRoutingProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routing-profile",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateUserSecurityProfiles": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "security-profile",
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateViewContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-view"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateViewMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-view"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateWorkspaceMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateWorkspacePage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "aws-managed-view",
+    "customer-managed-view",
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateWorkspaceTheme": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
+  "UpdateWorkspaceVisibility": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "agent-status": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-state/${AgentStatusId}"
+  ],
+  "ai-agent": [
+   "arn:${Partition}:wisdom:${Region}:${Account}:ai-agent/${AssistantId}/${AIAgentId}:${Version}"
+  ],
+  "application": [
+   "arn:${Partition}:app-integrations:${Region}:${Account}:application/${ApplicationId}"
+  ],
+  "attached-file": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/file/${FileId}"
+  ],
+  "authentication-profile": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/authentication-profile/${AuthenticationProfileId}"
+  ],
+  "aws-managed-view": [
+   "arn:${Partition}:connect:${Region}:aws:view/${ViewId}"
+  ],
+  "contact": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact/${ContactId}"
+  ],
+  "contact-evaluation": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-evaluation/${EvaluationId}"
+  ],
+  "contact-flow": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/${ContactFlowId}"
+  ],
+  "contact-flow-module": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/flow-module/${ContactFlowModuleId}"
+  ],
+  "customer-managed-view": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}"
+  ],
+  "customer-managed-view-version": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}:${ViewVersion}"
+  ],
+  "data-table": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/data-table/${DataTableId}"
+  ],
+  "email-address": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/email-address/${EmailAddressId}"
+  ],
+  "evaluation-form": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/evaluation-form/${FormId}"
+  ],
+  "extraction-definition": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/extraction-definition/${ExtractionDefinitionId}"
+  ],
+  "hierarchy-group": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-group/${HierarchyGroupId}"
+  ],
+  "hours-of-operation": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/operating-hours/${HoursOfOperationId}"
+  ],
+  "instance": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}"
+  ],
+  "integration-association": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/integration-association/${IntegrationAssociationId}"
+  ],
+  "legacy-phone-number": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/phone-number/${PhoneNumberId}"
+  ],
+  "metric": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}"
+  ],
+  "notification": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/notification/${NotificationId}"
+  ],
+  "phone-number": [
+   "arn:${Partition}:connect:${Region}:${Account}:phone-number/${PhoneNumberId}"
+  ],
+  "prompt": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/prompt/${PromptId}"
+  ],
+  "qualified-aws-managed-view": [
+   "arn:${Partition}:connect:${Region}:aws:view/${ViewId}:${ViewQualifier}"
+  ],
+  "qualified-customer-managed-view": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}:${ViewQualifier}"
+  ],
+  "qualified-metric": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/metric/${MetricId}:${MetricQualifier}"
+  ],
+  "queue": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/${QueueId}"
+  ],
+  "quick-connect": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/${QuickConnectId}"
+  ],
+  "routing-profile": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/routing-profile/${RoutingProfileId}"
+  ],
+  "rule": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/rule/${RuleId}"
+  ],
+  "security-profile": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/security-profile/${SecurityProfileId}"
+  ],
+  "task-template": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/task-template/${TaskTemplateId}"
+  ],
+  "traffic-distribution-group": [
+   "arn:${Partition}:connect:${Region}:${Account}:traffic-distribution-group/${TrafficDistributionGroupId}"
+  ],
+  "use-case": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/use-case/${UseCaseId}"
+  ],
+  "user": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent/${UserId}"
+  ],
+  "vocabulary": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/vocabulary/${VocabularyId}"
+  ],
+  "wildcard-agent-status": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/agent-state/*"
+  ],
+  "wildcard-contact-flow": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/contact-flow/*"
+  ],
+  "wildcard-legacy-phone-number": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/phone-number/*"
+  ],
+  "wildcard-phone-number": [
+   "arn:${Partition}:connect:${Region}:${Account}:phone-number/*"
+  ],
+  "wildcard-queue": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/queue/*"
+  ],
+  "wildcard-quick-connect": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/transfer-destination/*"
+  ],
+  "workspace": [
+   "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/workspace/${WorkspaceId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "connect:AssignmentType": [
+   "String"
+  ],
+  "connect:AttributeType": [
+   "String"
+  ],
+  "connect:Channel": [
+   "String"
+  ],
+  "connect:ContactAssociationId": [
+   "String"
+  ],
+  "connect:ContactInitiationMethod": [
+   "String"
+  ],
+  "connect:ExpressionValue": [
+   "String"
+  ],
+  "connect:FlowType": [
+   "ArrayOfString"
+  ],
+  "connect:InstanceId": [
+   "String"
+  ],
+  "connect:ListRealtimeContactAnalysisSegmentsByOutputType": [
+   "String"
+  ],
+  "connect:ListRealtimeContactAnalysisSegmentsBySegmentType": [
+   "ArrayOfString"
+  ],
+  "connect:MonitorCapabilities": [
+   "ArrayOfString"
+  ],
+  "connect:PreferredUserArn": [
+   "ARN"
+  ],
+  "connect:PrimaryAttribute/${PrimaryAttribute}": [
+   "String"
+  ],
+  "connect:SearchContactsByContactAnalysis": [
+   "ArrayOfString"
+  ],
+  "connect:SearchTag/${TagKey}": [
+   "String"
+  ],
+  "connect:StorageResourceType": [
+   "String"
+  ],
+  "connect:Subtype": [
+   "String"
+  ],
+  "connect:UserArn": [
+   "ARN"
+  ]
+ }
+}

@@ -1,0 +1,4271 @@
+{
+ "prefix": "bedrock-agentcore",
+ "name": "Bedrock-Agentcore",
+ "actions": {
+  "AddDatasetExamples": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory",
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AuthorizeAction": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway",
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "BatchCreateMemoryRecords": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:namespace"
+   ],
+   "data_plane": true
+  },
+  "BatchDeleteMemoryRecords": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:namespace"
+   ],
+   "data_plane": true
+  },
+  "BatchPutGatewayRateLimits": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchUpdateMemoryRecords": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:namespace",
+    "bedrock-agentcore:sourceNamespace"
+   ],
+   "data_plane": true
+  },
+  "CompleteResourceTokenAuth": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "oauth2credentialprovider",
+    "token-vault",
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:InboundJwtClaim/aud",
+    "bedrock-agentcore:InboundJwtClaim/client_id",
+    "bedrock-agentcore:InboundJwtClaim/iss",
+    "bedrock-agentcore:InboundJwtClaim/scope",
+    "bedrock-agentcore:InboundJwtClaim/sub",
+    "bedrock-agentcore:userid"
+   ],
+   "data_plane": true
+  },
+  "ConnectBrowserAutomationStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ConnectBrowserLiveViewStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateABTest": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreateAgentRuntime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "bedrock-agentcore:RuntimeAuthorizerType",
+    "bedrock-agentcore:securityGroups",
+    "bedrock-agentcore:subnets"
+   ],
+   "data_plane": false
+  },
+  "CreateAgentRuntimeEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateApiKeyCredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateBrowser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "bedrock-agentcore:securityGroups",
+    "bedrock-agentcore:subnets"
+   ],
+   "data_plane": false
+  },
+  "CreateBrowserProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCodeInterpreter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "bedrock-agentcore:securityGroups",
+    "bedrock-agentcore:subnets"
+   ],
+   "data_plane": false
+  },
+  "CreateConfigurationBundle": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateConsentPortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "consent-portal"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDataset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDatasetVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateEvaluator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateEvent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:actorId",
+    "bedrock-agentcore:namespaceVariable/${VariableName}",
+    "bedrock-agentcore:sessionId"
+   ],
+   "data_plane": true
+  },
+  "CreateGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateGatewayRateLimit": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateGatewayRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateGatewayTarget": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateHarness": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateHarnessEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "harness"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateMemory": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "bedrock-agentcore:KmsKeyArn"
+   ],
+   "data_plane": false
+  },
+  "CreateOauth2CredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "oauth2credentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateOnlineEvaluationConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePaymentConnector": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreatePaymentCredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "paymentcredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePaymentInstrument": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreatePaymentManager": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "bedrock-agentcore:DiscoveryUrl"
+   ],
+   "data_plane": false
+  },
+  "CreatePaymentSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreatePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreatePolicyEngine": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateRegistryRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateWorkloadIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteABTest": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ab-test"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeleteAgentRuntime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAgentRuntimeEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteApiKeyCredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBatchEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "batch-evaluate"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeleteBrowser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "browser-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBrowserProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "browser-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCapacityProviderSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeleteCodeInterpreter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-interpreter-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteConfigurationBundle": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-bundle"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteConsentPortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "consent-portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDataset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDatasetExamples": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEvaluator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEvent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:actorId",
+    "bedrock-agentcore:sessionId"
+   ],
+   "data_plane": true
+  },
+  "DeleteGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGatewayRateLimit": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGatewayRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGatewayTarget": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHarness": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "harness"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHarnessEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "harness",
+    "harness-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMemory": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMemoryRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:namespace"
+   ],
+   "data_plane": true
+  },
+  "DeleteOauth2CredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "oauth2credentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteOnlineEvaluationConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "online-evaluation-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePaymentConnector": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePaymentCredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "paymentcredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePaymentInstrument": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeletePaymentManager": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePaymentSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeletePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "policy",
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePolicyEngine": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRecommendation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "recommendation"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeleteRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRegistryRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway",
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteWorkloadIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "Evaluate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluator"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GatewayAssociateWebACL": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GatewayDisassociateWebACL": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GatewayGetWebACLForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GatewayListResourcesForWebACL": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetABTest": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ab-test"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetAgentCard": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetAgentRuntime": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgentRuntimeEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetApiKeyCredentialProvider": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBatchEvaluation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "batch-evaluate"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetBrowser": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "browser-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBrowserProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "browser-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBrowserSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "browser",
+    "browser-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetCapacityProvider": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCodeInterpreter": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-interpreter-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCodeInterpreterSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-interpreter",
+    "code-interpreter-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetConfigurationBundle": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configuration-bundle"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConfigurationBundleVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configuration-bundle"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConsentPortal": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "consent-portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataset": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetEvaluator": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "evaluator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetEvent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:actorId",
+    "bedrock-agentcore:sessionId"
+   ],
+   "data_plane": true
+  },
+  "GetGateway": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetGatewayRateLimit": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetGatewayRule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetGatewayTarget": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHarness": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "harness"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHarnessEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "harness",
+    "harness-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMemory": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMemoryRecord": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:namespace"
+   ],
+   "data_plane": true
+  },
+  "GetOauth2CredentialProvider": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "oauth2credentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetOnlineEvaluationConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "online-evaluation-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPaymentConnector": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPaymentCredentialProvider": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "paymentcredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPaymentInstrument": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetPaymentInstrumentBalance": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetPaymentManager": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPaymentSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy",
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPolicyEngine": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPolicyEngineSummary": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPolicyGeneration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine",
+    "policy-generation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPolicyGenerationSummary": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine",
+    "policy-generation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPolicySummary": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy",
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRecommendation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "recommendation"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetRegistry": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRegistryRecord": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourceApiKey": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "token-vault",
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourceOauth2Token": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "oauth2credentialprovider",
+    "token-vault",
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePaymentToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "paymentcredentialprovider",
+    "token-vault",
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway",
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTokenVault": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWorkloadAccessToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWorkloadAccessTokenForJWT": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:InboundJwtClaim/aud",
+    "bedrock-agentcore:InboundJwtClaim/client_id",
+    "bedrock-agentcore:InboundJwtClaim/iss",
+    "bedrock-agentcore:InboundJwtClaim/scope",
+    "bedrock-agentcore:InboundJwtClaim/sub"
+   ],
+   "data_plane": false
+  },
+  "GetWorkloadAccessTokenForUserId": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:userid"
+   ],
+   "data_plane": false
+  },
+  "GetWorkloadIdentity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "IngestData": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:actorId",
+    "bedrock-agentcore:namespaceVariable/${VariableName}",
+    "bedrock-agentcore:sessionId"
+   ],
+   "data_plane": true
+  },
+  "InvokeAgentRuntime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeAgentRuntimeCommand": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeAgentRuntimeCommandShell": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeAgentRuntimeForUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeAgentRuntimeWithWebSocketStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeAgentRuntimeWithWebSocketStreamForUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeCodeInterpreter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-interpreter",
+    "code-interpreter-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeGateway": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:InboundJwtClaim/aud",
+    "bedrock-agentcore:InboundJwtClaim/client_id",
+    "bedrock-agentcore:InboundJwtClaim/iss",
+    "bedrock-agentcore:InboundJwtClaim/scope",
+    "bedrock-agentcore:InboundJwtClaim/sub"
+   ],
+   "data_plane": null
+  },
+  "InvokeHarness": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "harness",
+    "harness-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeRegistryMcp": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeWebAnswer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "web-answer"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeWebSearch": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "web-search"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListABTests": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListActors": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListAgentRuntimeEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentRuntimeVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentRuntimeVersionsByCapacityProvider": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentRuntimes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListApiKeyCredentialProviders": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBatchEvaluations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListBrowserProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBrowserSessions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListBrowsers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCapacityProviders": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCodeInterpreterSessions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code-interpreter",
+    "code-interpreter-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListCodeInterpreters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConfigurationBundleVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "configuration-bundle"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConfigurationBundles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListConsentPortals": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDatasetExamples": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDatasetVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDatasets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEvaluators": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEvents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:actorId",
+    "bedrock-agentcore:sessionId"
+   ],
+   "data_plane": true
+  },
+  "ListGatewayRateLimits": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGatewayRules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGatewayTargets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGateways": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHarnessEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHarnessVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHarnesses": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMemories": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMemoryExtractionJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListMemoryRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:namespace",
+    "bedrock-agentcore:namespacePath",
+    "bedrock-agentcore:strategyId"
+   ],
+   "data_plane": true
+  },
+  "ListOauth2CredentialProviders": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "oauth2credentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListOnlineEvaluationConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPaymentConnectors": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPaymentCredentialProviders": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "paymentcredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPaymentInstruments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListPaymentManagers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPaymentSessions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPolicyEngineSummaries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPolicyEngines": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPolicyGenerationAssets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine",
+    "policy-generation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPolicyGenerationSummaries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPolicyGenerations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPolicySummaries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRecommendations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListRegistries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRegistryRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSessions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:actorId"
+   ],
+   "data_plane": true
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "browser-custom",
+    "browser-profile",
+    "capacity-provider",
+    "code-interpreter-custom",
+    "evaluator",
+    "gateway",
+    "harness",
+    "memory",
+    "oauth2credentialprovider",
+    "online-evaluation-config",
+    "payment-manager",
+    "paymentcredentialprovider",
+    "policy-engine",
+    "runtime",
+    "runtime-endpoint",
+    "token-vault",
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWorkloadIdentities": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ManageAdminPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ManageResourceScopedPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiallyAuthorizeActions": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway",
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PassCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ProcessPayment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway",
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutSystemLogEvents": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:runtimeSessionId"
+   ],
+   "data_plane": null
+  },
+  "ResetTokenVaultKeyMaterial": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RetrieveMemoryRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:namespace",
+    "bedrock-agentcore:namespacePath",
+    "bedrock-agentcore:strategyId"
+   ],
+   "data_plane": true
+  },
+  "SaveBrowserSessionProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "browser",
+    "browser-custom",
+    "browser-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SearchRegistryRecords": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SetTokenVaultCMK": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartBatchEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StartBrowserSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "browser",
+    "browser-custom",
+    "browser-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StartCodeInterpreterSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-interpreter",
+    "code-interpreter-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StartMemoryExtractionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:actorId",
+    "bedrock-agentcore:sessionId",
+    "bedrock-agentcore:strategyId"
+   ],
+   "data_plane": true
+  },
+  "StartPolicyGeneration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartRecommendation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StopBatchEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "batch-evaluate"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StopBrowserSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "browser",
+    "browser-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StopCodeInterpreterSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code-interpreter",
+    "code-interpreter-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StopRuntimeSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SubmitRegistryRecordForApproval": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SynchronizeGatewayTargets": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "browser-custom",
+    "browser-profile",
+    "capacity-provider",
+    "code-interpreter-custom",
+    "evaluator",
+    "gateway",
+    "harness",
+    "memory",
+    "oauth2credentialprovider",
+    "online-evaluation-config",
+    "payment-manager",
+    "paymentcredentialprovider",
+    "policy-engine",
+    "runtime",
+    "runtime-endpoint",
+    "token-vault",
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "browser-custom",
+    "browser-profile",
+    "capacity-provider",
+    "code-interpreter-custom",
+    "evaluator",
+    "gateway",
+    "harness",
+    "memory",
+    "oauth2credentialprovider",
+    "online-evaluation-config",
+    "payment-manager",
+    "paymentcredentialprovider",
+    "policy-engine",
+    "runtime",
+    "runtime-endpoint",
+    "token-vault",
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateABTest": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ab-test"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "UpdateAgentRuntime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:RuntimeAuthorizerType",
+    "bedrock-agentcore:securityGroups",
+    "bedrock-agentcore:subnets"
+   ],
+   "data_plane": false
+  },
+  "UpdateAgentRuntimeEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime",
+    "runtime-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateApiKeyCredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "apikeycredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateBrowserStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "browser",
+    "browser-custom"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "UpdateCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacity-provider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateConfigurationBundle": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "configuration-bundle"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateConsentPortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "consent-portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDataset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDatasetExamples": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateEvaluator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluator"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGatewayRateLimit": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGatewayRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGatewayTarget": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateHarness": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "harness"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateHarnessEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "harness",
+    "harness-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMemory": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMemoryRecordExpirySpecification": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "memory"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "UpdateOauth2CredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "oauth2credentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateOnlineEvaluationConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "online-evaluation-config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePaymentConnector": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePaymentCredentialProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "paymentcredentialprovider",
+    "token-vault"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePaymentManager": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "payment-manager"
+   ],
+   "condition_keys": [
+    "bedrock-agentcore:DiscoveryUrl"
+   ],
+   "data_plane": false
+  },
+  "UpdatePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "policy",
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePolicyEngine": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "policy-engine"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRegistry": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRegistryRecord": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRegistryRecordStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateWorkloadIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "workload-identity",
+    "workload-identity-directory"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "ab-test": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:ab-test/${ABTestId}"
+  ],
+  "apikeycredentialprovider": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}"
+  ],
+  "batch-evaluate": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:batch-evaluate/${BatchEvaluationId}"
+  ],
+  "browser": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:aws:browser/${BrowserId}"
+  ],
+  "browser-custom": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}"
+  ],
+  "browser-profile": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-profile/${BrowserProfileId}"
+  ],
+  "capacity-provider": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}"
+  ],
+  "code-interpreter": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:aws:code-interpreter/${CodeInterpreterId}"
+  ],
+  "code-interpreter-custom": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}"
+  ],
+  "configuration-bundle": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}"
+  ],
+  "consent-portal": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}"
+  ],
+  "dataset": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}"
+  ],
+  "evaluator": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:evaluator/${EvaluatorId}"
+  ],
+  "gateway": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}"
+  ],
+  "harness": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}"
+  ],
+  "harness-endpoint": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}/harness-endpoint/${Name}"
+  ],
+  "memory": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}"
+  ],
+  "oauth2credentialprovider": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}"
+  ],
+  "online-evaluation-config": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:online-evaluation-config/${OnlineEvaluationConfigId}"
+  ],
+  "payment-manager": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}"
+  ],
+  "paymentcredentialprovider": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}"
+  ],
+  "policy": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}"
+  ],
+  "policy-engine": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}"
+  ],
+  "policy-generation": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy-generation/${PolicyGenerationId}"
+  ],
+  "recommendation": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:recommendation/${RecommendationId}"
+  ],
+  "registry": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}"
+  ],
+  "registry-record": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}"
+  ],
+  "runtime": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}"
+  ],
+  "runtime-endpoint": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}"
+  ],
+  "token-vault": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}"
+  ],
+  "web-answer": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:aws:tool/web-answer.v1"
+  ],
+  "web-search": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:tool/web-search.v1"
+  ],
+  "workload-identity": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}"
+  ],
+  "workload-identity-directory": [
+   "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:AllowedQueryParameters": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:AllowedRequestHeaders": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:AllowedResponseHeaders": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:CredentialProviderScope": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:CredentialProviderType": [
+   "String"
+  ],
+  "bedrock-agentcore:DiscoveryUrl": [
+   "String"
+  ],
+  "bedrock-agentcore:GatewayAuthorizerType": [
+   "String"
+  ],
+  "bedrock-agentcore:HttpTargetConfigurationType": [
+   "String"
+  ],
+  "bedrock-agentcore:InboundJwtClaim/aud": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:InboundJwtClaim/client_id": [
+   "String"
+  ],
+  "bedrock-agentcore:InboundJwtClaim/iss": [
+   "String"
+  ],
+  "bedrock-agentcore:InboundJwtClaim/scope": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:InboundJwtClaim/sub": [
+   "String"
+  ],
+  "bedrock-agentcore:InferenceTargetConfigurationType": [
+   "String"
+  ],
+  "bedrock-agentcore:KmsKeyArn": [
+   "String"
+  ],
+  "bedrock-agentcore:McpTargetConfigurationType": [
+   "String"
+  ],
+  "bedrock-agentcore:PolicyEngineArn": [
+   "String"
+  ],
+  "bedrock-agentcore:PolicyEngineMode": [
+   "String"
+  ],
+  "bedrock-agentcore:PrivateEndpointType": [
+   "String"
+  ],
+  "bedrock-agentcore:ProtocolType": [
+   "String"
+  ],
+  "bedrock-agentcore:ResourceConfigurationIdentifier": [
+   "String"
+  ],
+  "bedrock-agentcore:RuntimeAuthorizerType": [
+   "String"
+  ],
+  "bedrock-agentcore:actorId": [
+   "String"
+  ],
+  "bedrock-agentcore:namespace": [
+   "String"
+  ],
+  "bedrock-agentcore:namespacePath": [
+   "String"
+  ],
+  "bedrock-agentcore:namespaceVariable/${VariableName}": [
+   "String"
+  ],
+  "bedrock-agentcore:runtimeSessionId": [
+   "String"
+  ],
+  "bedrock-agentcore:securityGroups": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:sessionId": [
+   "String"
+  ],
+  "bedrock-agentcore:sourceNamespace": [
+   "String"
+  ],
+  "bedrock-agentcore:strategyId": [
+   "String"
+  ],
+  "bedrock-agentcore:subnets": [
+   "ArrayOfString"
+  ],
+  "bedrock-agentcore:userid": [
+   "String"
+  ]
+ }
+}

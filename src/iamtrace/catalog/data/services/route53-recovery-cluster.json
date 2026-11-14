@@ -1,0 +1,78 @@
+{
+ "prefix": "route53-recovery-cluster",
+ "name": "Route 53 Recovery Cluster",
+ "actions": {
+  "GetRoutingControlState": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "routingcontrol"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRoutingControls": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRoutingControlState": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routingcontrol"
+   ],
+   "condition_keys": [
+    "route53-recovery-cluster:AllowSafetyRulesOverrides"
+   ],
+   "data_plane": false
+  },
+  "UpdateRoutingControlStates": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "routingcontrol"
+   ],
+   "condition_keys": [
+    "route53-recovery-cluster:AllowSafetyRulesOverrides"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "routingcontrol": [
+   "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/routingcontrol/${RoutingControlId}"
+  ]
+ },
+ "condition_keys": {
+  "route53-recovery-cluster:AllowSafetyRulesOverrides": [
+   "Bool"
+  ]
+ }
+}

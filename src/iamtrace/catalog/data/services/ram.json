@@ -1,0 +1,720 @@
+{
+ "prefix": "ram",
+ "name": "Resource Access Manager",
+ "actions": {
+  "AcceptResourceShareInvitation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "resource-share-invitation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateResourceShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "resource-share"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes",
+    "ram:RequestedPrincipals",
+    "ram:RequestedResourceArns",
+    "ram:RequestedResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "AssociateResourceSharePermission": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission",
+    "permission",
+    "resource-share"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "CreatePermission": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "CreatePermissionVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "CreateResourceShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission",
+    "permission",
+    "resource-share"
+   ],
+   "condition_keys": [
+    "aws:TagKeys",
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes",
+    "ram:RequestedPrincipals",
+    "ram:RequestedResourceArns",
+    "ram:RequestedResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "DeleteCustomerManagedPermissionPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": null
+  },
+  "DeletePermission": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "DeletePermissionVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "DeleteResourceShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "resource-share"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateResourceShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "resource-share"
+   ],
+   "condition_keys": [
+    "ram:RequestedPrincipals",
+    "ram:RequestedResourceArns",
+    "ram:RequestedResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "DisassociateResourceSharePermission": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission",
+    "permission",
+    "resource-share"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "EnableSharingWithAwsOrganization": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCustomerManagedPermissionPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": null
+  },
+  "GetPermission": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "customer-managed-permission",
+    "permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "GetResourcePolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourceShareAssociations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourceShareInvitations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourceShares": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPendingInvitationResources": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "resource-share-invitation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPermissionAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "ListPermissionVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "customer-managed-permission",
+    "permission"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPermissions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPrincipals": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListReplacePermissionAssociationsWork": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListResourceSharePermissions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "resource-share"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListResourceTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListResources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSourceAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PromotePermissionCreatedFromPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "PromoteResourceShareCreatedFromPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "resource-share"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutCustomerManagedPermissionPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": null
+  },
+  "RejectResourceShareInvitation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "resource-share-invitation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ReplacePermissionAssociations": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission",
+    "permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "SetDefaultPermissionVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission",
+    "resource-share"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission",
+    "resource-share"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdatePermission": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customer-managed-permission"
+   ],
+   "condition_keys": [
+    "ram:RequestedPermissionArns",
+    "ram:RequestedPermissionResourceTypes"
+   ],
+   "data_plane": false
+  },
+  "UpdateResourceShare": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "resource-share"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "customer-managed-permission": [
+   "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}"
+  ],
+  "permission": [
+   "arn:${Partition}:ram::aws:permission/${ResourcePath}"
+  ],
+  "resource-share": [
+   "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}"
+  ],
+  "resource-share-invitation": [
+   "arn:${Partition}:ram:${Region}:${Account}:resource-share-invitation/${ResourcePath}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "ram:AllowsExternalPrincipals": [
+   "Bool"
+  ],
+  "ram:PermissionArn": [
+   "ARN"
+  ],
+  "ram:PermissionResourceType": [
+   "String"
+  ],
+  "ram:PermissionTemplateParameter/${ParameterName}": [
+   "ArrayOfString"
+  ],
+  "ram:Principal": [
+   "String"
+  ],
+  "ram:RequestedAllowsExternalPrincipals": [
+   "Bool"
+  ],
+  "ram:RequestedPermissionArns": [
+   "ArrayOfARN"
+  ],
+  "ram:RequestedPermissionResourceTypes": [
+   "ArrayOfString"
+  ],
+  "ram:RequestedPrincipals": [
+   "ArrayOfString"
+  ],
+  "ram:RequestedResourceArns": [
+   "ArrayOfARN"
+  ],
+  "ram:RequestedResourceType": [
+   "String"
+  ],
+  "ram:RequestedResourceTypes": [
+   "ArrayOfString"
+  ],
+  "ram:ResourceArn": [
+   "ARN"
+  ],
+  "ram:ResourceShareName": [
+   "String"
+  ],
+  "ram:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "ram:RetainSharingOnAccountLeaveOrganization": [
+   "Bool"
+  ],
+  "ram:ShareOwnerAccountId": [
+   "String"
+  ]
+ }
+}

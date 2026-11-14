@@ -1,0 +1,768 @@
+{
+ "prefix": "observabilityadmin",
+ "name": "CloudWatch Observability Admin",
+ "actions": {
+  "CreateCentralizationRuleForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "organization-centralization-rule"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "observabilityadmin:CentralizationBackupRegion",
+    "observabilityadmin:CentralizationDestinationAccount",
+    "observabilityadmin:CentralizationDestinationRegion",
+    "observabilityadmin:CentralizationRuleName",
+    "observabilityadmin:CentralizationSourceId",
+    "observabilityadmin:CentralizationSourceRegions"
+   ],
+   "data_plane": false
+  },
+  "CreateDatasetIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset-integration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateS3TableIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "s3tableintegration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTelemetryPipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "telemetry-pipeline"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "observabilityadmin:SourceType"
+   ],
+   "data_plane": false
+  },
+  "CreateTelemetryRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "telemetry-rule"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "observabilityadmin:TargetRegions"
+   ],
+   "data_plane": false
+  },
+  "CreateTelemetryRuleForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "organization-telemetry-rule"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "observabilityadmin:TargetRegions"
+   ],
+   "data_plane": false
+  },
+  "DeleteCentralizationRuleForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "organization-centralization-rule"
+   ],
+   "condition_keys": [
+    "observabilityadmin:CentralizationRuleName"
+   ],
+   "data_plane": false
+  },
+  "DeleteDatasetIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset-integration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteS3TableIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "s3tableintegration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTelemetryPipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "telemetry-pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTelemetryRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "telemetry-rule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTelemetryRuleForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "organization-telemetry-rule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCentralizationRuleForOrganization": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "organization-centralization-rule"
+   ],
+   "condition_keys": [
+    "observabilityadmin:CentralizationRuleName"
+   ],
+   "data_plane": false
+  },
+  "GetDatasetIntegration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataset-integration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetS3TableIntegration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "s3tableintegration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTelemetryEnrichmentStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTelemetryEvaluationStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTelemetryEvaluationStatusForOrganization": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTelemetryPipeline": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "telemetry-pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTelemetryRule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "telemetry-rule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTelemetryRuleForOrganization": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "organization-telemetry-rule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCentralizationRulesForOrganization": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDatasetIntegrations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListResourceTelemetry": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "observabilityadmin:TargetRegions"
+   ],
+   "data_plane": false
+  },
+  "ListResourceTelemetryForOrganization": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "observabilityadmin:TargetRegions"
+   ],
+   "data_plane": false
+  },
+  "ListS3TableIntegrations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataset-integration",
+    "organization-centralization-rule",
+    "organization-telemetry-rule",
+    "s3tableintegration",
+    "telemetry-pipeline",
+    "telemetry-rule"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTelemetryPipelines": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTelemetryRules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTelemetryRulesForOrganization": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartTelemetryEnrichment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartTelemetryEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "observabilityadmin:TargetRegions"
+   ],
+   "data_plane": false
+  },
+  "StartTelemetryEvaluationForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "observabilityadmin:TargetRegions"
+   ],
+   "data_plane": false
+  },
+  "StopTelemetryEnrichment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTelemetryEvaluation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTelemetryEvaluationForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset-integration",
+    "organization-centralization-rule",
+    "organization-telemetry-rule",
+    "s3tableintegration",
+    "telemetry-pipeline",
+    "telemetry-rule"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "TestTelemetryPipeline": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset-integration",
+    "organization-centralization-rule",
+    "organization-telemetry-rule",
+    "s3tableintegration",
+    "telemetry-pipeline",
+    "telemetry-rule"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateCentralizationRuleForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "organization-centralization-rule"
+   ],
+   "condition_keys": [
+    "observabilityadmin:CentralizationBackupRegion",
+    "observabilityadmin:CentralizationDestinationAccount",
+    "observabilityadmin:CentralizationDestinationRegion",
+    "observabilityadmin:CentralizationRuleName",
+    "observabilityadmin:CentralizationSourceId",
+    "observabilityadmin:CentralizationSourceRegions"
+   ],
+   "data_plane": false
+  },
+  "UpdateDatasetIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataset-integration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTelemetryPipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "telemetry-pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTelemetryRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "telemetry-rule"
+   ],
+   "condition_keys": [
+    "observabilityadmin:TargetRegions"
+   ],
+   "data_plane": false
+  },
+  "UpdateTelemetryRuleForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "organization-telemetry-rule"
+   ],
+   "condition_keys": [
+    "observabilityadmin:TargetRegions"
+   ],
+   "data_plane": false
+  },
+  "ValidateTelemetryPipelineConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "dataset-integration": [
+   "arn:${Partition}:observabilityadmin:${Region}:${Account}:dataset-integration/${DatasetIntegrationIdentifier}"
+  ],
+  "organization-centralization-rule": [
+   "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-centralization-rule/${CentralizationRuleName}"
+  ],
+  "organization-telemetry-rule": [
+   "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-telemetry-rule/${TelemetryRuleName}"
+  ],
+  "s3tableintegration": [
+   "arn:${Partition}:observabilityadmin:${Region}:${Account}:s3tableintegration/${S3TableIntegrationIdentifier}"
+  ],
+  "telemetry-pipeline": [
+   "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-pipeline/${TelemetryPipelineIdentifier}"
+  ],
+  "telemetry-rule": [
+   "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-rule/${TelemetryRuleName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "observabilityadmin:CentralizationBackupRegion": [
+   "String"
+  ],
+  "observabilityadmin:CentralizationDestinationAccount": [
+   "String"
+  ],
+  "observabilityadmin:CentralizationDestinationRegion": [
+   "String"
+  ],
+  "observabilityadmin:CentralizationRuleName": [
+   "String"
+  ],
+  "observabilityadmin:CentralizationSourceId": [
+   "ArrayOfString"
+  ],
+  "observabilityadmin:CentralizationSourceRegions": [
+   "ArrayOfString"
+  ],
+  "observabilityadmin:SourceType": [
+   "String"
+  ],
+  "observabilityadmin:TargetRegions": [
+   "String"
+  ]
+ }
+}

@@ -1,0 +1,4359 @@
+{
+ "prefix": "bedrock",
+ "name": "Bedrock",
+ "actions": {
+  "AgenticRetrieveStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ApplyGuardrail": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "guardrail",
+    "guardrail-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "AssociateAgentCollaborator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateAgentKnowledgeBase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent",
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateThirdPartyKnowledgeBase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "bedrock:ThirdPartyKnowledgeBaseCredentialsSecretArn"
+   ],
+   "data_plane": false
+  },
+  "BatchDeleteAdvancedPromptOptimizationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "advanced-prompt-optimization-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDeleteEvaluationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CallWithBearerToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "bedrock:BearerTokenType"
+   ],
+   "data_plane": true
+  },
+  "CancelAutomatedReasoningPolicyBuildWorkflow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelInvoke": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CheckIngestedDocumentAcl": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CopyBlueprintStage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CountTokens": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "foundation-model"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreateAdvancedPromptOptimizationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application-inference-profile",
+    "foundation-model",
+    "inference-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAgentActionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAgentAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAutomatedReasoningPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAutomatedReasoningPolicyTestCase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateAutomatedReasoningPolicyVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateBlueprintVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateCustomModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateCustomModelDeployment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDataAutomationLibrary": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDataAutomationProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "data-automation-library"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDataSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateDataSourceToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateEvaluationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "default-prompt-router",
+    "foundation-model",
+    "prompt-router"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFlowAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateFlowVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateFoundationModelAgreement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateGuardrail": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version",
+    "guardrail-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateGuardrailVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "guardrail"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateInferenceProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application-inference-profile",
+    "foundation-model",
+    "inference-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateInvocation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreateKnowledgeBase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateMarketplaceModelEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateModelCopyJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateModelCustomizationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "foundation-model"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateModelEvaluationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "foundation-model"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateModelImportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateModelInvocationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "foundation-model",
+    "model-invocation-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePrompt": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePromptRouter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application-inference-profile",
+    "foundation-model",
+    "inference-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePromptVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "prompt"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateProvisionedModelThroughput": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "foundation-model"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRetrievalInstruction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRetrievalInstructionVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "retrieval-instruction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": true
+  },
+  "DeleteAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAgentActionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAgentAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAgentMemory": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeleteAgentVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAutomatedReasoningPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAutomatedReasoningPolicyBuildWorkflow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAutomatedReasoningPolicyTestCase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCustomModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCustomModelDeployment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model-deployment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDataAutomationLibrary": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-automation-library"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDataAutomationProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-automation-project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDataSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEnforcedGuardrailConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFlowAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFlowVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFoundationModelAgreement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGuardrail": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "guardrail"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteImportedModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "imported-model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteInferenceProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application-inference-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteInvoke": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteKnowledgeBase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteKnowledgeBaseDocuments": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMarketplaceModelAgreement": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteMarketplaceModelEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bedrock-marketplace-model-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteModelInvocationLoggingConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePrompt": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "prompt",
+    "prompt-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePromptRouter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "prompt-router"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProvisionedModelThroughput": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "provisioned-model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "guardrail",
+    "guardrail-profile",
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRetrievalInstruction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "retrieval-instruction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DeregisterMarketplaceModelEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bedrock-marketplace-model-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DetectGeneratedContent": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "foundation-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DisassociateAgentCollaborator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateAgentKnowledgeBase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent",
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EndSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ExportAutomatedReasoningPolicyVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GenerateQuery": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetAccountDataRetention": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAdvancedPromptOptimizationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "advanced-prompt-optimization-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgentActionGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgentAlias": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgentCollaborator": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgentKnowledgeBase": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent",
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgentMemory": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetAgentVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAsyncInvoke": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "async-invoke"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetAutomatedReasoningPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutomatedReasoningPolicyAnnotations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutomatedReasoningPolicyBuildWorkflow": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutomatedReasoningPolicyBuildWorkflowResultAssets": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutomatedReasoningPolicyNextScenario": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutomatedReasoningPolicyTestCase": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAutomatedReasoningPolicyTestResult": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBlueprint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBlueprintOptimizationStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint-optimization-invocation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetBlueprintRecommendation": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCustomModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "custom-model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCustomModelDeployment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "custom-model-deployment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataAutomationLibrary": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-library"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataAutomationLibraryEntity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-library"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataAutomationLibraryIngestionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-library",
+    "data-automation-library-ingestion-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataAutomationProject": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataAutomationStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-invocation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetDataSource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDataSourceAuthorizationUrl": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetDocumentContent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetEvaluationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "evaluation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetExecutionFlowSnapshot": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow",
+    "flow-alias",
+    "flow-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFlow": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFlowAlias": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFlowExecution": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow",
+    "flow-alias",
+    "flow-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFlowVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFoundationModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "foundation-model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFoundationModelAvailability": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetGuardrail": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "guardrail"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetImportedModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "imported-model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetInferenceProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application-inference-profile",
+    "inference-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetIngestedDocumentAcl": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetIngestionJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetInvocationStep": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetInvoke": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetKnowledgeBase": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetKnowledgeBaseDocuments": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMarketplaceModelEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bedrock-marketplace-model-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetModelCopyJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-copy-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetModelCustomizationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-customization-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetModelEvaluationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-evaluation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetModelImportJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-import-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetModelInvocationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "model-invocation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetModelInvocationLoggingConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPrompt": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "prompt",
+    "prompt-version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPromptRouter": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "default-prompt-router",
+    "prompt-router"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetProvisionedModelThroughput": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "provisioned-model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "custom-model",
+    "guardrail",
+    "guardrail-profile",
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRetrievalInstruction": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "retrieval-instruction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetUseCaseForModelAccess": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "IngestKnowledgeBaseDocuments": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "InvokeAgent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeAutomatedReasoningPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeBlueprintOptimizationAsync": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "data-automation-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "InvokeBlueprintRecommendationAsync": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-automation-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeBuilder": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeDataAutomation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "data-automation-profile",
+    "data-automation-project"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeDataAutomationAsync": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "data-automation-profile",
+    "data-automation-project"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": true
+  },
+  "InvokeDataAutomationLibraryIngestionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-automation-library"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "InvokeFlow": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeGuardrailChecks": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "InvokeInlineAgent": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "bedrock:InlineAgentName"
+   ],
+   "data_plane": true
+  },
+  "InvokeModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application-inference-profile",
+    "async-invoke",
+    "bedrock-marketplace-model-endpoint",
+    "custom-model-deployment",
+    "default-prompt-router",
+    "foundation-model",
+    "imported-model",
+    "inference-profile",
+    "project",
+    "prompt-router",
+    "provisioned-model",
+    "system-tool"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "bedrock:GuardrailIdentifier",
+    "bedrock:InferenceProfileArn",
+    "bedrock:ModelArn",
+    "bedrock:ProjectArn",
+    "bedrock:PromptRouterArn",
+    "bedrock:ServiceTier"
+   ],
+   "data_plane": true
+  },
+  "InvokeModelWithResponseStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application-inference-profile",
+    "bedrock-marketplace-model-endpoint",
+    "custom-model-deployment",
+    "default-prompt-router",
+    "foundation-model",
+    "imported-model",
+    "inference-profile",
+    "prompt-router",
+    "provisioned-model",
+    "system-tool"
+   ],
+   "condition_keys": [
+    "bedrock:GuardrailIdentifier",
+    "bedrock:InferenceProfileArn",
+    "bedrock:PromptRouterArn",
+    "bedrock:ServiceTier"
+   ],
+   "data_plane": null
+  },
+  "InvokeTool": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "system-tool"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListAdvancedPromptOptimizationJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentActionGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentAliases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentCollaborators": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentKnowledgeBases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAsyncInvokes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutomatedReasoningPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutomatedReasoningPolicyBuildWorkflows": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutomatedReasoningPolicyTestCases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAutomatedReasoningPolicyTestResults": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBlueprints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCustomModelDeployments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCustomModels": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataAutomationLibraries": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataAutomationLibraryEntities": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-library"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataAutomationLibraryIngestionJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "data-automation-library"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataAutomationProjects": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint",
+    "data-automation-project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDataSources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEnforcedGuardrailsConfiguration": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEvaluationJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlowAliases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlowExecutionEvents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow",
+    "flow-alias",
+    "flow-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlowExecutions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow",
+    "flow-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlowVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFlows": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFoundationModelAgreementOffers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFoundationModels": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGuardrails": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "guardrail"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListImportedModels": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListInferenceProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIngestionJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListInvocationSteps": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListInvocations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListKnowledgeBaseDocuments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListKnowledgeBases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMarketplaceModelEndpoints": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelCopyJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelCustomizationJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelEvaluationJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListModelImportJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListModelInvocationJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPromptRouters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPrompts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "prompt"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProvisionedModelThroughputs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRetrievalInstructionVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "retrieval-instruction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRetrievalInstructions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSessions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "advanced-prompt-optimization-job",
+    "agent",
+    "agent-alias",
+    "application-inference-profile",
+    "async-invoke",
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version",
+    "blueprint",
+    "blueprint-optimization-invocation",
+    "custom-model",
+    "custom-model-deployment",
+    "data-automation-invocation-job",
+    "data-automation-library",
+    "data-automation-library-ingestion-job",
+    "data-automation-project",
+    "evaluation-job",
+    "flow",
+    "flow-alias",
+    "guardrail",
+    "imported-model",
+    "knowledge-base",
+    "model-copy-job",
+    "model-customization-job",
+    "model-evaluation-job",
+    "model-import-job",
+    "model-invocation-job",
+    "prompt",
+    "prompt-router",
+    "prompt-version",
+    "provisioned-model",
+    "retrieval-instruction",
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "OptimizePrompt": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "PrepareAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PrepareFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutAccountDataRetention": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "bedrock:DataRetentionMode"
+   ],
+   "data_plane": false
+  },
+  "PutEnforcedGuardrailConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutFoundationModelEntitlement": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutInvocationStep": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "PutModelInvocationLoggingConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "guardrail",
+    "guardrail-profile",
+    "knowledge-base"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "PutUseCaseForModelAccess": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RegisterMarketplaceModelEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bedrock-marketplace-model-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RenderPrompt": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "prompt",
+    "prompt-version"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "Rerank": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "Retrieve": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "RetrieveAndGenerate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StartAutomatedReasoningPolicyBuildWorkflow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartAutomatedReasoningPolicyTestWorkflow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartFlowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow",
+    "flow-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StartIngestionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopAdvancedPromptOptimizationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "advanced-prompt-optimization-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopEvaluationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "evaluation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopFlowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow",
+    "flow-alias",
+    "flow-execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopIngestionJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopModelCustomizationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-customization-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopModelInvocationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "model-invocation-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "advanced-prompt-optimization-job",
+    "agent",
+    "agent-alias",
+    "application-inference-profile",
+    "async-invoke",
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version",
+    "blueprint",
+    "blueprint-optimization-invocation",
+    "custom-model",
+    "custom-model-deployment",
+    "data-automation-invocation-job",
+    "data-automation-library",
+    "data-automation-library-ingestion-job",
+    "data-automation-project",
+    "evaluation-job",
+    "flow",
+    "flow-alias",
+    "guardrail",
+    "imported-model",
+    "knowledge-base",
+    "model-copy-job",
+    "model-customization-job",
+    "model-evaluation-job",
+    "model-import-job",
+    "model-invocation-job",
+    "prompt",
+    "prompt-router",
+    "prompt-version",
+    "provisioned-model",
+    "retrieval-instruction",
+    "session"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "advanced-prompt-optimization-job",
+    "agent",
+    "agent-alias",
+    "application-inference-profile",
+    "async-invoke",
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version",
+    "blueprint",
+    "blueprint-optimization-invocation",
+    "custom-model",
+    "custom-model-deployment",
+    "data-automation-invocation-job",
+    "data-automation-library",
+    "data-automation-library-ingestion-job",
+    "data-automation-project",
+    "evaluation-job",
+    "flow",
+    "flow-alias",
+    "guardrail",
+    "imported-model",
+    "knowledge-base",
+    "model-copy-job",
+    "model-customization-job",
+    "model-evaluation-job",
+    "model-import-job",
+    "model-invocation-job",
+    "prompt",
+    "prompt-router",
+    "prompt-version",
+    "provisioned-model",
+    "retrieval-instruction",
+    "session"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAgentActionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAgentAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAgentCollaborator": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAgentKnowledgeBase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent",
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAutomatedReasoningPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAutomatedReasoningPolicyAnnotations": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateAutomatedReasoningPolicyTestCase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCustomModelDeployment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "custom-model-deployment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDataAutomationLibrary": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "data-automation-library"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDataAutomationProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "data-automation-project",
+    "data-automation-project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDataSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFlow": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFlowAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "flow-alias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGuardrail": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "automated-reasoning-policy",
+    "automated-reasoning-policy-version",
+    "guardrail",
+    "guardrail-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateKnowledgeBase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledge-base"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMarketplaceModelEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bedrock-marketplace-model-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePrompt": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "prompt"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateProvisionedModelThroughput": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custom-model",
+    "foundation-model",
+    "provisioned-model"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRetrievalInstruction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "retrieval-instruction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ValidateFlowDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "advanced-prompt-optimization-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}"
+  ],
+  "agent": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:agent/${AgentId}"
+  ],
+  "agent-alias": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}"
+  ],
+  "application-inference-profile": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}"
+  ],
+  "async-invoke": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}"
+  ],
+  "automated-reasoning-policy": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}"
+  ],
+  "automated-reasoning-policy-version": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}"
+  ],
+  "bedrock-marketplace-model-endpoint": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access"
+  ],
+  "blueprint": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}"
+  ],
+  "blueprint-optimization-invocation": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:blueprint-optimization-invocation/${ResourceId}"
+  ],
+  "custom-model": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}"
+  ],
+  "custom-model-deployment": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}"
+  ],
+  "data-automation-invocation-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-invocation/${JobId}"
+  ],
+  "data-automation-library": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}"
+  ],
+  "data-automation-library-ingestion-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library-ingestion-job/${IngestionJobId}"
+  ],
+  "data-automation-profile": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-profile/${ProfileId}"
+  ],
+  "data-automation-project": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}"
+  ],
+  "default-prompt-router": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}"
+  ],
+  "evaluation-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}"
+  ],
+  "flow": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}"
+  ],
+  "flow-alias": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}"
+  ],
+  "flow-execution": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}"
+  ],
+  "foundation-model": [
+   "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}"
+  ],
+  "guardrail": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}"
+  ],
+  "guardrail-profile": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:guardrail-profile/${ResourceId}"
+  ],
+  "imported-model": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}"
+  ],
+  "inference-profile": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}"
+  ],
+  "knowledge-base": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}"
+  ],
+  "model-copy-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:model-copy-job/${ResourceId}"
+  ],
+  "model-customization-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:model-customization-job/${ResourceId}"
+  ],
+  "model-evaluation-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:model-evaluation-job/${ResourceId}"
+  ],
+  "model-import-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:model-import-job/${ResourceId}"
+  ],
+  "model-invocation-job": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}"
+  ],
+  "project": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:project/${ResourceId}"
+  ],
+  "prompt": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}"
+  ],
+  "prompt-router": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}"
+  ],
+  "prompt-version": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}:${PromptVersion}"
+  ],
+  "provisioned-model": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}"
+  ],
+  "retrieval-instruction": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:retrieval-instruction/${RetrievalInstructionId}"
+  ],
+  "session": [
+   "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}"
+  ],
+  "system-tool": [
+   "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "bedrock:BearerTokenType": [
+   "String"
+  ],
+  "bedrock:DataRetentionMode": [
+   "String"
+  ],
+  "bedrock:GuardrailIdentifier": [
+   "ARN"
+  ],
+  "bedrock:InferenceProfileArn": [
+   "ARN"
+  ],
+  "bedrock:InlineAgentName": [
+   "String"
+  ],
+  "bedrock:ModelArn": [
+   "ARN"
+  ],
+  "bedrock:ProjectArn": [
+   "ARN"
+  ],
+  "bedrock:PromptRouterArn": [
+   "ARN"
+  ],
+  "bedrock:ServiceTier": [
+   "String"
+  ],
+  "bedrock:ThirdPartyKnowledgeBaseCredentialsSecretArn": [
+   "ARN"
+  ]
+ }
+}

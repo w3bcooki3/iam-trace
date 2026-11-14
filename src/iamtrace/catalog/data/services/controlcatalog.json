@@ -1,0 +1,103 @@
+{
+ "prefix": "controlcatalog",
+ "name": "Control Catalog",
+ "actions": {
+  "GetControl": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "control"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCommonControls": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListControlMappings": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListControls": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "control"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDomains": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListObjectives": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "common-control": [
+   "arn:${Partition}:controlcatalog:::common-control/${CommonControlId}"
+  ],
+  "control": [
+   "arn:${Partition}:controlcatalog:::control/${ControlId}"
+  ],
+  "domain": [
+   "arn:${Partition}:controlcatalog:::domain/${DomainId}"
+  ],
+  "objective": [
+   "arn:${Partition}:controlcatalog:::objective/${ObjectiveId}"
+  ]
+ },
+ "condition_keys": {}
+}

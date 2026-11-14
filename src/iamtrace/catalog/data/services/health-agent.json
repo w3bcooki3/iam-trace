@@ -1,0 +1,781 @@
+{
+ "prefix": "health-agent",
+ "name": "Connect Health",
+ "actions": {
+  "ActivateSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Subscription"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchRefillPatientPharmacyPrescriptions": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CancelAppointment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Agent",
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Agent",
+    "Domain",
+    "Session"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Subscription"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeactivateSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Subscription"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Agent",
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetAgent": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Agent",
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCareTeamProvider": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetDomain": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDomainAnalytics": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetIntegration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetMedicalScribeListeningSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Subscription"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetPatient": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetPatientInsightsJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "PatientInsightsJob"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetPractitioner": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetSessionContext": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Session"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetSubscription": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Subscription"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "InvokeAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Session"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAgents": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAppointmentSlots": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListDomains": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIntegrations": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListPatientAppointments": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListPatientInsuranceCoverages": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListPatientMedications": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListPatientPharmacyPrescriptions": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListProviders": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListSessionRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListSubscriptions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "MatchPatient": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PublishAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Agent",
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RescheduleAppointment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ResetPassword": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ScheduleAppointment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartMedicalScribeListeningSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Subscription"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StartPatientInsightsJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "PatientInsightsJob"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SubmitMedicationRenewal": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAgent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Agent",
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Integration"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "Session"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "Agent": [
+   "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/agent/${AgentId}"
+  ],
+  "Domain": [
+   "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}"
+  ],
+  "Integration": [
+   "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/integration/${IntegrationId}"
+  ],
+  "PatientInsightsJob": [
+   "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/patient-insights-job/${JobId}"
+  ],
+  "Session": [
+   "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/session/${SessionId}"
+  ],
+  "Subscription": [
+   "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/subscription/${SubscriptionId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

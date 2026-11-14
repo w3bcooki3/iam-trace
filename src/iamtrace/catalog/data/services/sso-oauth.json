@@ -1,0 +1,55 @@
+{
+ "prefix": "sso-oauth",
+ "name": "OIDC service",
+ "actions": {
+  "CreateTokenWithIAM": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Application"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "IntrospectTokenWithIAM": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RevokeTokenWithIAM": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "Application": [
+   "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}"
+  ]
+ },
+ "condition_keys": {}
+}

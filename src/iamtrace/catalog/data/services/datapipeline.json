@@ -1,0 +1,386 @@
+{
+ "prefix": "datapipeline",
+ "name": "Data Pipeline",
+ "actions": {
+  "ActivatePipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}",
+    "datapipeline:workerGroup"
+   ],
+   "data_plane": false
+  },
+  "AddTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreatePipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeactivatePipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}",
+    "datapipeline:workerGroup"
+   ],
+   "data_plane": false
+  },
+  "DeletePipeline": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribeObjects": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribePipelines": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "EvaluateExpression": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetAccountLimits": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetPipelineDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}",
+    "datapipeline:workerGroup"
+   ],
+   "data_plane": false
+  },
+  "ListPipelines": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PollForTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "datapipeline:workerGroup"
+   ],
+   "data_plane": false
+  },
+  "PutAccountLimits": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutPipelineDefinition": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}",
+    "datapipeline:workerGroup"
+   ],
+   "data_plane": false
+  },
+  "QueryObjects": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RemoveTags": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ReportTaskProgress": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ReportTaskRunnerHeartbeat": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SetStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SetTaskStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ValidatePipelineDefinition": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pipeline"
+   ],
+   "condition_keys": [
+    "datapipeline:PipelineCreator",
+    "datapipeline:Tag/${TagKey}",
+    "datapipeline:workerGroup"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "pipeline": [
+   "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "datapipeline:PipelineCreator": [
+   "ArrayOfString"
+  ],
+  "datapipeline:Tag/${TagKey}": [
+   "String"
+  ],
+  "datapipeline:workerGroup": [
+   "ArrayOfString"
+  ]
+ }
+}

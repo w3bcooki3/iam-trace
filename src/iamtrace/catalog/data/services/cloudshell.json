@@ -1,0 +1,176 @@
+{
+ "prefix": "cloudshell",
+ "name": "CloudShell",
+ "actions": {
+  "ApproveCommand": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cloudshell:SecurityGroupIds",
+    "cloudshell:SubnetIds",
+    "cloudshell:VpcIds"
+   ],
+   "data_plane": null
+  },
+  "CreateSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeEnvironments": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetEnvironmentStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetFileDownloadUrls": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetFileUploadUrls": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutCredentials": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StopEnvironment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Environment"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "Environment": [
+   "arn:${Partition}:cloudshell:${Region}:${Account}:environment/${EnvironmentId}"
+  ]
+ },
+ "condition_keys": {
+  "cloudshell:SecurityGroupIds": [
+   "ArrayOfString"
+  ],
+  "cloudshell:SubnetIds": [
+   "ArrayOfString"
+  ],
+  "cloudshell:VpcIds": [
+   "ArrayOfString"
+  ]
+ }
+}

@@ -1,0 +1,1279 @@
+{
+ "prefix": "apigateway",
+ "name": "API Gateway",
+ "actions": {
+  "AddCertificateToDomain": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "DomainName",
+    "DomainNames"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateAccessAssociation": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PrivateDomainName"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreatePortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Portal"
+   ],
+   "condition_keys": [
+    "apigateway:Request/CognitoUserPoolArn",
+    "apigateway:Request/PortalDisplayName",
+    "apigateway:Request/PortalDomainName",
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreatePortalProduct": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PortalProduct"
+   ],
+   "condition_keys": [
+    "apigateway:Request/PortalProductDisplayName",
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateProductPage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProductPage"
+   ],
+   "condition_keys": [
+    "apigateway:Request/ProductPageTitle"
+   ],
+   "data_plane": false
+  },
+  "CreateProductRestEndpointPage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProductRestEndpointPage"
+   ],
+   "condition_keys": [
+    "apigateway:Request/Method",
+    "apigateway:Request/ProductRestEndpointPageEndpointPrefix",
+    "apigateway:Request/RestApiId",
+    "apigateway:Request/Stage"
+   ],
+   "data_plane": false
+  },
+  "CreateRoutingRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "RoutingRule"
+   ],
+   "condition_keys": [
+    "apigateway:Request/ConditionBasePaths",
+    "apigateway:Request/Priority",
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DELETE": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "AccessLogSettings",
+    "Api",
+    "ApiKey",
+    "ApiMapping",
+    "Authorizer",
+    "AuthorizersCache",
+    "BasePathMapping",
+    "ClientCertificate",
+    "Cors",
+    "Deployment",
+    "DocumentationPart",
+    "DocumentationVersion",
+    "DomainName",
+    "DomainNameAccessAssociation",
+    "GatewayResponse",
+    "Integration",
+    "IntegrationResponse",
+    "Method",
+    "MethodResponse",
+    "Model",
+    "PrivateBasePathMapping",
+    "PrivateDomainName",
+    "RequestValidator",
+    "Resource",
+    "RestApi",
+    "Route",
+    "RouteRequestParameter",
+    "RouteResponse",
+    "RouteSettings",
+    "Stage",
+    "Tags",
+    "Template",
+    "UsagePlan",
+    "UsagePlanKey",
+    "VpcLink"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeletePortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePortalProduct": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PortalProduct"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePortalProductSharingPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PortalProduct"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProductPage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProductPage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProductRestEndpointPage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PortalProduct",
+    "ProductRestEndpointPage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRoutingRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "RoutingRule"
+   ],
+   "condition_keys": [
+    "apigateway:Resource/ConditionBasePaths",
+    "apigateway:Resource/Priority",
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DisablePortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GET": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "AccessLogSettings",
+    "Account",
+    "Api",
+    "ApiKey",
+    "ApiKeys",
+    "ApiMapping",
+    "ApiMappings",
+    "Apis",
+    "Authorizer",
+    "Authorizers",
+    "AuthorizersCache",
+    "BasePathMapping",
+    "BasePathMappings",
+    "ClientCertificate",
+    "ClientCertificates",
+    "Cors",
+    "Deployment",
+    "Deployments",
+    "DocumentationPart",
+    "DocumentationParts",
+    "DocumentationVersion",
+    "DocumentationVersions",
+    "DomainName",
+    "DomainNameAccessAssociations",
+    "DomainNames",
+    "ExportedAPI",
+    "GatewayResponse",
+    "GatewayResponses",
+    "Integration",
+    "IntegrationResponse",
+    "IntegrationResponses",
+    "Integrations",
+    "Method",
+    "MethodResponse",
+    "Model",
+    "ModelTemplate",
+    "Models",
+    "PrivateBasePathMapping",
+    "PrivateBasePathMappings",
+    "PrivateDomainName",
+    "RequestValidator",
+    "RequestValidators",
+    "Resource",
+    "Resources",
+    "RestApi",
+    "RestApis",
+    "Route",
+    "RouteRequestParameter",
+    "RouteResponse",
+    "RouteResponses",
+    "RouteSettings",
+    "Routes",
+    "Sdk",
+    "Stage",
+    "Stages",
+    "Tags",
+    "UsagePlan",
+    "UsagePlanKey",
+    "UsagePlanKeys",
+    "UsagePlans",
+    "VpcLink",
+    "VpcLinks"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPortal": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPortalProduct": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "PortalProduct"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPortalProductSharingPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "PortalProduct"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetProductPage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "PortalProduct",
+    "ProductPage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetProductRestEndpointPage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "PortalProduct",
+    "ProductRestEndpointPage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRoutingRule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "RoutingRule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListPortalProducts": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "PortalProduct"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPortals": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProductPages": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "PortalProduct",
+    "ProductPage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProductRestEndpointPages": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "PortalProduct",
+    "ProductRestEndpointPage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRoutingRules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "RoutingRule"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "PATCH": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Account",
+    "Api",
+    "ApiKey",
+    "ApiMapping",
+    "Authorizer",
+    "BasePathMapping",
+    "ClientCertificate",
+    "Deployment",
+    "DocumentationPart",
+    "DocumentationVersion",
+    "DomainName",
+    "GatewayResponse",
+    "Integration",
+    "IntegrationResponse",
+    "Method",
+    "MethodResponse",
+    "Model",
+    "PrivateBasePathMapping",
+    "PrivateDomainName",
+    "RequestValidator",
+    "Resource",
+    "RestApi",
+    "Route",
+    "RouteRequestParameter",
+    "RouteResponse",
+    "Stage",
+    "Template",
+    "UsagePlan",
+    "UsagePlanKey",
+    "VpcLink"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "POST": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ApiKeys",
+    "ApiMappings",
+    "Apis",
+    "Authorizers",
+    "BasePathMappings",
+    "ClientCertificates",
+    "Deployments",
+    "DocumentationParts",
+    "DocumentationVersions",
+    "DomainNameAccessAssociations",
+    "DomainNames",
+    "GatewayResponses",
+    "IntegrationResponse",
+    "IntegrationResponses",
+    "Integrations",
+    "MethodResponse",
+    "Models",
+    "PrivateBasePathMappings",
+    "RequestValidators",
+    "Resources",
+    "RestApis",
+    "RouteResponses",
+    "Routes",
+    "Stages",
+    "UsagePlanKeys",
+    "UsagePlans",
+    "VpcLinks"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "PUT": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Api",
+    "Apis",
+    "DocumentationPart",
+    "GatewayResponse",
+    "IntegrationResponse",
+    "MethodResponse",
+    "RestApi",
+    "Tags"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "PreviewPortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PublishPortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Portal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutPortalProductSharingPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PortalProduct"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RejectAccessAssociation": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PrivateDomainName"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveCertificateFromDomain": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "DomainName",
+    "DomainNames"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SetWebACL": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Stage",
+    "Stages"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateDomainNameManagementPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PrivateDomainName"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDomainNamePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "DomainNames",
+    "PrivateDomainName"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePortal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Portal"
+   ],
+   "condition_keys": [
+    "apigateway:Request/CognitoUserPoolArn",
+    "apigateway:Request/PortalDisplayName",
+    "apigateway:Request/PortalDomainName",
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdatePortalProduct": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "PortalProduct"
+   ],
+   "condition_keys": [
+    "apigateway:Request/PortalProductDisplayName",
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateProductPage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProductPage"
+   ],
+   "condition_keys": [
+    "apigateway:Request/ProductPageTitle"
+   ],
+   "data_plane": false
+  },
+  "UpdateProductRestEndpointPage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ProductRestEndpointPage"
+   ],
+   "condition_keys": [
+    "apigateway:Request/ProductRestEndpointPageEndpointPrefix"
+   ],
+   "data_plane": false
+  },
+  "UpdateRestApiPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "RestApi",
+    "RestApis"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRoutingRule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "RoutingRule"
+   ],
+   "condition_keys": [
+    "apigateway:Request/ConditionBasePaths",
+    "apigateway:Request/Priority",
+    "apigateway:Resource/ConditionBasePaths",
+    "apigateway:Resource/Priority",
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "AccessLogSettings": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/stages/${StageName}/accesslogsettings"
+  ],
+  "Account": [
+   "arn:${Partition}:apigateway:${Region}::/account"
+  ],
+  "Api": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}"
+  ],
+  "ApiKey": [
+   "arn:${Partition}:apigateway:${Region}::/apikeys/${ApiKeyId}"
+  ],
+  "ApiKeys": [
+   "arn:${Partition}:apigateway:${Region}::/apikeys"
+  ],
+  "ApiMapping": [
+   "arn:${Partition}:apigateway:${Region}::/domainnames/${DomainName}/apimappings/${ApiMappingId}"
+  ],
+  "ApiMappings": [
+   "arn:${Partition}:apigateway:${Region}::/domainnames/${DomainName}/apimappings"
+  ],
+  "Apis": [
+   "arn:${Partition}:apigateway:${Region}::/apis"
+  ],
+  "Authorizer": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/authorizers/${AuthorizerId}",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/authorizers/${AuthorizerId}"
+  ],
+  "Authorizers": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/authorizers",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/authorizers"
+  ],
+  "AuthorizersCache": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/stages/${StageName}/cache/authorizers"
+  ],
+  "BasePathMapping": [
+   "arn:${Partition}:apigateway:${Region}::/domainnames/${DomainName}/basepathmappings/${BasePath}"
+  ],
+  "BasePathMappings": [
+   "arn:${Partition}:apigateway:${Region}::/domainnames/${DomainName}/basepathmappings"
+  ],
+  "ClientCertificate": [
+   "arn:${Partition}:apigateway:${Region}::/clientcertificates/${ClientCertificateId}"
+  ],
+  "ClientCertificates": [
+   "arn:${Partition}:apigateway:${Region}::/clientcertificates"
+  ],
+  "Cors": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/cors"
+  ],
+  "Deployment": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/deployments/${DeploymentId}",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/deployments/${DeploymentId}"
+  ],
+  "Deployments": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/deployments",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/deployments"
+  ],
+  "DocumentationPart": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/documentation/parts/${DocumentationPartId}"
+  ],
+  "DocumentationParts": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/documentation/parts"
+  ],
+  "DocumentationVersion": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/documentation/versions/${DocumentationVersionId}"
+  ],
+  "DocumentationVersions": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/documentation/versions"
+  ],
+  "DomainName": [
+   "arn:${Partition}:apigateway:${Region}::/domainnames/${DomainName}"
+  ],
+  "DomainNameAccessAssociation": [
+   "arn:${Partition}:apigateway:${Region}:${Account}:/domainnameaccessassociations/domainname/${DomainName}/${SourceType}/${SourceId}"
+  ],
+  "DomainNameAccessAssociations": [
+   "arn:${Partition}:apigateway:${Region}:${Account}:/domainnameaccessassociations"
+  ],
+  "DomainNames": [
+   "arn:${Partition}:apigateway:${Region}::/domainnames"
+  ],
+  "ExportedAPI": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/exports/${Specification}"
+  ],
+  "GatewayResponse": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/gatewayresponses/${ResponseType}"
+  ],
+  "GatewayResponses": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/gatewayresponses"
+  ],
+  "Integration": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/integrations/${IntegrationId}",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/resources/${ResourceId}/methods/${HttpMethodType}/integration"
+  ],
+  "IntegrationResponse": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/integrations/${IntegrationId}/integrationresponses/${IntegrationResponseId}",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/resources/${ResourceId}/methods/${HttpMethodType}/integration/responses/${StatusCode}"
+  ],
+  "IntegrationResponses": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/integrations/${IntegrationId}/integrationresponses"
+  ],
+  "Integrations": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/integrations"
+  ],
+  "Method": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/resources/${ResourceId}/methods/${HttpMethodType}"
+  ],
+  "MethodResponse": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/resources/${ResourceId}/methods/${HttpMethodType}/responses/${StatusCode}"
+  ],
+  "Model": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/models/${ModelId}",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/models/${ModelName}"
+  ],
+  "ModelTemplate": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/models/${ModelId}/template"
+  ],
+  "Models": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/models",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/models"
+  ],
+  "Portal": [
+   "arn:${Partition}:apigateway:${Region}:${Account}:/portals/${PortalId}"
+  ],
+  "PortalProduct": [
+   "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}"
+  ],
+  "PrivateBasePathMapping": [
+   "arn:${Partition}:apigateway:${Region}::/domainnames/${DomainName}+${DomainIdentifier}/basepathmappings/${BasePath}"
+  ],
+  "PrivateBasePathMappings": [
+   "arn:${Partition}:apigateway:${Region}::/domainnames/${DomainName}+${DomainIdentifier}/basepathmappings"
+  ],
+  "PrivateDomainName": [
+   "arn:${Partition}:apigateway:${Region}:${Account}:/domainnames/${DomainName}+${DomainIdentifier}"
+  ],
+  "ProductPage": [
+   "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}/productpages/${ProductPageId}"
+  ],
+  "ProductRestEndpointPage": [
+   "arn:${Partition}:apigateway:${Region}:${Account}:/portalproducts/${PortalProductId}/productrestendpointpages/${ProductRestEndpointPageId}"
+  ],
+  "RequestValidator": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/requestvalidators/${RequestValidatorId}"
+  ],
+  "RequestValidators": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/requestvalidators"
+  ],
+  "Resource": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/resources/${ResourceId}"
+  ],
+  "Resources": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/resources"
+  ],
+  "RestApi": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}"
+  ],
+  "RestApis": [
+   "arn:${Partition}:apigateway:${Region}::/restapis"
+  ],
+  "Route": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/routes/${RouteId}"
+  ],
+  "RouteRequestParameter": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/routes/${RouteId}/requestparameters/${RequestParameterKey}"
+  ],
+  "RouteResponse": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/routes/${RouteId}/routeresponses/${RouteResponseId}"
+  ],
+  "RouteResponses": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/routes/${RouteId}/routeresponses"
+  ],
+  "RouteSettings": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/stages/${StageName}/routesettings/${RouteKey}"
+  ],
+  "Routes": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/routes"
+  ],
+  "RoutingRule": [
+   "arn:${Partition}:apigateway:${Region}:${Account}:/domainnames/${DomainName}/routingrules/${RoutingRuleId}"
+  ],
+  "Sdk": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/stages/${StageName}/sdks/${SdkType}"
+  ],
+  "Stage": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/stages/${StageName}",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/stages/${StageName}"
+  ],
+  "Stages": [
+   "arn:${Partition}:apigateway:${Region}::/apis/${ApiId}/stages",
+   "arn:${Partition}:apigateway:${Region}::/restapis/${RestApiId}/stages"
+  ],
+  "Tags": [
+   "arn:${Partition}:apigateway:${Region}::/tags/${UrlEncodedResourceARN}"
+  ],
+  "Template": [
+   "arn:${Partition}:apigateway:${Region}::/restapis/models/${ModelName}/template"
+  ],
+  "UsagePlan": [
+   "arn:${Partition}:apigateway:${Region}::/usageplans/${UsagePlanId}"
+  ],
+  "UsagePlanKey": [
+   "arn:${Partition}:apigateway:${Region}::/usageplans/${UsagePlanId}/keys/${Id}"
+  ],
+  "UsagePlanKeys": [
+   "arn:${Partition}:apigateway:${Region}::/usageplans/${UsagePlanId}/keys"
+  ],
+  "UsagePlans": [
+   "arn:${Partition}:apigateway:${Region}::/usageplans"
+  ],
+  "VpcLink": [
+   "arn:${Partition}:apigateway:${Region}::/vpclinks/${VpcLinkId}"
+  ],
+  "VpcLinks": [
+   "arn:${Partition}:apigateway:${Region}::/vpclinks"
+  ]
+ },
+ "condition_keys": {
+  "apigateway:Request/AccessAssociationSource": [
+   "String"
+  ],
+  "apigateway:Request/AccessLoggingDestination": [
+   "String"
+  ],
+  "apigateway:Request/AccessLoggingFormat": [
+   "String"
+  ],
+  "apigateway:Request/ApiKeyRequired": [
+   "ArrayOfBool"
+  ],
+  "apigateway:Request/ApiName": [
+   "String"
+  ],
+  "apigateway:Request/AuthorizerType": [
+   "ArrayOfString"
+  ],
+  "apigateway:Request/AuthorizerUri": [
+   "ArrayOfString"
+  ],
+  "apigateway:Request/CognitoUserPoolArn": [
+   "ARN"
+  ],
+  "apigateway:Request/ConditionBasePaths": [
+   "ArrayOfString"
+  ],
+  "apigateway:Request/DisableExecuteApiEndpoint": [
+   "Bool"
+  ],
+  "apigateway:Request/DomainNameArn": [
+   "ARN"
+  ],
+  "apigateway:Request/EndpointType": [
+   "ArrayOfString"
+  ],
+  "apigateway:Request/Method": [
+   "String"
+  ],
+  "apigateway:Request/MtlsTrustStoreUri": [
+   "String"
+  ],
+  "apigateway:Request/MtlsTrustStoreVersion": [
+   "String"
+  ],
+  "apigateway:Request/PortalDisplayName": [
+   "String"
+  ],
+  "apigateway:Request/PortalDomainName": [
+   "String"
+  ],
+  "apigateway:Request/PortalProductDisplayName": [
+   "String"
+  ],
+  "apigateway:Request/Priority": [
+   "Numeric"
+  ],
+  "apigateway:Request/ProductPageTitle": [
+   "String"
+  ],
+  "apigateway:Request/ProductRestEndpointPageEndpointPrefix": [
+   "String"
+  ],
+  "apigateway:Request/RestApiId": [
+   "String"
+  ],
+  "apigateway:Request/RouteAuthorizationType": [
+   "ArrayOfString"
+  ],
+  "apigateway:Request/RoutingMode": [
+   "String"
+  ],
+  "apigateway:Request/SecurityPolicy": [
+   "ArrayOfString"
+  ],
+  "apigateway:Request/Stage": [
+   "String"
+  ],
+  "apigateway:Request/StageName": [
+   "String"
+  ],
+  "apigateway:Resource/AccessLoggingDestination": [
+   "String"
+  ],
+  "apigateway:Resource/AccessLoggingFormat": [
+   "String"
+  ],
+  "apigateway:Resource/ApiKeyRequired": [
+   "ArrayOfBool"
+  ],
+  "apigateway:Resource/ApiName": [
+   "String"
+  ],
+  "apigateway:Resource/AuthorizerType": [
+   "ArrayOfString"
+  ],
+  "apigateway:Resource/AuthorizerUri": [
+   "ArrayOfString"
+  ],
+  "apigateway:Resource/CognitoUserPoolArn": [
+   "ARN"
+  ],
+  "apigateway:Resource/ConditionBasePaths": [
+   "ArrayOfString"
+  ],
+  "apigateway:Resource/DisableExecuteApiEndpoint": [
+   "Bool"
+  ],
+  "apigateway:Resource/EndpointType": [
+   "ArrayOfString"
+  ],
+  "apigateway:Resource/Method": [
+   "String"
+  ],
+  "apigateway:Resource/MtlsTrustStoreUri": [
+   "String"
+  ],
+  "apigateway:Resource/MtlsTrustStoreVersion": [
+   "String"
+  ],
+  "apigateway:Resource/PortalDisplayName": [
+   "String"
+  ],
+  "apigateway:Resource/PortalDomainName": [
+   "String"
+  ],
+  "apigateway:Resource/PortalProductDisplayName": [
+   "String"
+  ],
+  "apigateway:Resource/PortalPublishStatus": [
+   "String"
+  ],
+  "apigateway:Resource/Priority": [
+   "Numeric"
+  ],
+  "apigateway:Resource/ProductPageTitle": [
+   "String"
+  ],
+  "apigateway:Resource/ProductRestEndpointPageEndpointPrefix": [
+   "String"
+  ],
+  "apigateway:Resource/RestApiId": [
+   "String"
+  ],
+  "apigateway:Resource/RouteAuthorizationType": [
+   "ArrayOfString"
+  ],
+  "apigateway:Resource/RoutingMode": [
+   "String"
+  ],
+  "apigateway:Resource/SecurityPolicy": [
+   "ArrayOfString"
+  ],
+  "apigateway:Resource/Stage": [
+   "String"
+  ],
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

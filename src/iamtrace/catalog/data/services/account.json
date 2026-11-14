@@ -1,0 +1,359 @@
+{
+ "prefix": "account",
+ "name": "Account",
+ "actions": {
+  "AcceptPrimaryEmailUpdate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accountInOrganization"
+   ],
+   "condition_keys": [
+    "account:EmailTargetDomain"
+   ],
+   "data_plane": false
+  },
+  "CloseAccount": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteAlternateContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [
+    "account:AlternateContactTypes"
+   ],
+   "data_plane": false
+  },
+  "DisableRegion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [
+    "account:TargetRegion"
+   ],
+   "data_plane": false
+  },
+  "EnableRegion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [
+    "account:TargetRegion"
+   ],
+   "data_plane": false
+  },
+  "GetAccountInformation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAlternateContact": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [
+    "account:AlternateContactTypes"
+   ],
+   "data_plane": false
+  },
+  "GetContactInformation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetGovCloudAccountInformation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPrimaryEmail": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPrimaryEmailUpdateStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRegionOptStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [
+    "account:TargetRegion"
+   ],
+   "data_plane": false
+  },
+  "ListRegions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutAccountName": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutAlternateContact": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [
+    "account:AlternateContactTypes"
+   ],
+   "data_plane": false
+  },
+  "PutContactInformation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ReopenAccount": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SendPhoneNumberVerification": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartPrimaryEmailUpdate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accountInOrganization"
+   ],
+   "condition_keys": [
+    "account:EmailTargetDomain"
+   ],
+   "data_plane": false
+  },
+  "VerifyPhoneNumber": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "account",
+    "accountInOrganization"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "account": [
+   "arn:${Partition}:account::${Account}:account"
+  ],
+  "accountInOrganization": [
+   "arn:${Partition}:account::${ManagementAccountId}:account/o-${OrganizationId}/${MemberAccountId}"
+  ]
+ },
+ "condition_keys": {
+  "account:AccountResourceOrgPaths": [
+   "ArrayOfString"
+  ],
+  "account:AccountResourceOrgTags/${TagKey}": [
+   "String"
+  ],
+  "account:AlternateContactTypes": [
+   "ArrayOfString"
+  ],
+  "account:EmailTargetDomain": [
+   "String"
+  ],
+  "account:TargetRegion": [
+   "String"
+  ]
+ }
+}

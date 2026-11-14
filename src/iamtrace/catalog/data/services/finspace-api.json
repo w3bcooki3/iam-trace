@@ -1,0 +1,26 @@
+{
+ "prefix": "finspace-api",
+ "name": "FinSpace API",
+ "actions": {
+  "GetProgrammaticAccessCredentials": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "credential"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "credential": [
+   "arn:${Partition}:finspace-api:${Region}:${Account}:/credentials/programmatic"
+  ]
+ },
+ "condition_keys": {}
+}

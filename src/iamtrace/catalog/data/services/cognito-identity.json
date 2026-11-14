@@ -1,0 +1,435 @@
+{
+ "prefix": "cognito-identity",
+ "name": "Cognito Identity",
+ "actions": {
+  "CreateIdentityPool": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteIdentities": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cognito-identity:IdentityPoolArn"
+   ],
+   "data_plane": false
+  },
+  "DeleteIdentityPool": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeIdentity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cognito-identity:IdentityPoolArn"
+   ],
+   "data_plane": false
+  },
+  "DescribeIdentityPool": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCredentialsForIdentity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cognito-identity-auth:AccountId",
+    "cognito-identity-auth:IdentityPoolArn",
+    "cognito-identity-unauth:AccountId",
+    "cognito-identity-unauth:IdentityPoolArn"
+   ],
+   "data_plane": true
+  },
+  "GetId": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cognito-identity-auth:AccountId",
+    "cognito-identity-auth:IdentityPoolArn",
+    "cognito-identity-unauth:AccountId",
+    "cognito-identity-unauth:IdentityPoolArn"
+   ],
+   "data_plane": true
+  },
+  "GetIdentityPoolAnalytics": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetIdentityPoolDailyAnalytics": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetIdentityPoolRoles": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetIdentityProviderDailyAnalytics": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetOpenIdToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cognito-identity-auth:AccountId",
+    "cognito-identity-auth:IdentityPoolArn",
+    "cognito-identity-unauth:AccountId",
+    "cognito-identity-unauth:IdentityPoolArn"
+   ],
+   "data_plane": true
+  },
+  "GetOpenIdTokenForDeveloperIdentity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetPrincipalTagAttributeMap": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIdentities": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIdentityPools": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "LookupDeveloperIdentity": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "MergeDeveloperIdentities": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SetIdentityPoolRoles": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SetPrincipalTagAttributeMap": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UnlinkDeveloperIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UnlinkIdentity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cognito-identity-auth:AccountId",
+    "cognito-identity-auth:IdentityPoolArn"
+   ],
+   "data_plane": true
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateIdentityPool": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "identitypool"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "identitypool": [
+   "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "cognito-identity-auth:AccountId": [
+   "String"
+  ],
+  "cognito-identity-auth:IdentityPoolArn": [
+   "ARN"
+  ],
+  "cognito-identity-unauth:AccountId": [
+   "String"
+  ],
+  "cognito-identity-unauth:IdentityPoolArn": [
+   "ARN"
+  ],
+  "cognito-identity:IdentityPoolArn": [
+   "ARN"
+  ]
+ }
+}

@@ -1,0 +1,37 @@
+{
+ "prefix": "cloudtrail-data",
+ "name": "CloudTrail-Data",
+ "actions": {
+  "PutAuditEvents": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "channel"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  }
+ },
+ "resources": {
+  "channel": [
+   "arn:${Partition}:cloudtrail:${Region}:${Account}:channel/${ChannelId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

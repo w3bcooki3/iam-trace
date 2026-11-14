@@ -1,0 +1,54 @@
+{
+ "prefix": "mapcredits",
+ "name": "MapCredits",
+ "actions": {
+  "ListAssociatedPrograms": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agreement"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListQuarterCredits": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agreement"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListQuarterSpend": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agreement"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "agreement": [
+   "arn:${Partition}:mapcredits:::${Agreement}/${AgreementId}"
+  ]
+ },
+ "condition_keys": {}
+}

@@ -1,0 +1,1475 @@
+{
+ "prefix": "aidevops",
+ "name": "DevOps Agent",
+ "actions": {
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AssociateService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:ServiceType"
+   ],
+   "data_plane": false
+  },
+  "CreateAccessToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateAgentSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAsset": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateAssetFile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateBacklogTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "CreateChat": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateKnowledgeItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateOneTimeLoginSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreatePrivateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "private-connection"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTrigger": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteAgentSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteAsset": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteAssetFile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteKnowledgeItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeletePrivateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "private-connection"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteTrigger": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeregisterService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribePrivateConnection": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "private-connection"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribeServices": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeSupportLevel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DisableOperatorApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace",
+    "associations"
+   ],
+   "condition_keys": [
+    "aidevops:ServiceType"
+   ],
+   "data_plane": false
+  },
+  "DiscoverTopology": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "EnableOperatorApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EndChatForCase": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetAccessToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetAccountUsage": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetAgentSpace": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": true
+  },
+  "GetAsset": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "GetAssetContent": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "GetAssetFile": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "GetAssociation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace",
+    "associations"
+   ],
+   "condition_keys": [
+    "aidevops:ServiceType"
+   ],
+   "data_plane": true
+  },
+  "GetBacklogTask": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "GetCatalogCapability": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetChat": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetKnowledgeGraph": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "GetKnowledgeItem": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetOperatorApp": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetPlan": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetRecommendation": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetService": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": true
+  },
+  "GetTrigger": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InitiateChatForCase": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAccessTokens": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAgentSpaceMetrics": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAgentSpaces": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAssetChanges": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "ListAssetFiles": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "ListAssetTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAssetVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAssets": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "ListAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBacklogTasks": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "ListCatalogCapabilities": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCatalogCapabilityFiles": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCatalogCapabilityTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListChats": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListExecutions": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "ListGoals": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListJournalRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "ListKnowledgeItemVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListKnowledgeItems": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListPendingMessages": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListPrivateConnections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRecommendations": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListServices": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace",
+    "private-connection",
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListTriggers": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListWebhooks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace",
+    "associations"
+   ],
+   "condition_keys": [
+    "aidevops:ServiceType"
+   ],
+   "data_plane": false
+  },
+  "RegisterService": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "service"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "RevokeAccessToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RotateAccessToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SearchAssets": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "SearchServiceAccessibleResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SendMessage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "StopPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace",
+    "private-connection",
+    "service"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace",
+    "private-connection",
+    "service"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAgentSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdateApprovalAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:ApprovalTarget"
+   ],
+   "data_plane": null
+  },
+  "UpdateAsset": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateAssetFile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateAssociation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace",
+    "associations"
+   ],
+   "condition_keys": [
+    "aidevops:ServiceType"
+   ],
+   "data_plane": false
+  },
+  "UpdateBacklogTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [
+    "aidevops:SourceAgentSpaceArn",
+    "aidevops:TargetAgentSpaceArn"
+   ],
+   "data_plane": null
+  },
+  "UpdateChat": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateGoal": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateKnowledgeItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateOperatorAppIdpConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePrivateConnectionCertificate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "private-connection"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdateRecommendation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateTrigger": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ValidateAwsAssociations": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "agentspace": [
+   "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}"
+  ],
+  "asset": [
+   "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/asset/${AssetId}"
+  ],
+  "associations": [
+   "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}"
+  ],
+  "private-connection": [
+   "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}"
+  ],
+  "service": [
+   "arn:${Partition}:aidevops:${Region}:${Account}:service/${ServiceId}"
+  ],
+  "trigger": [
+   "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/trigger/${TriggerId}"
+  ]
+ },
+ "condition_keys": {
+  "aidevops:ApprovalTarget": [
+   "String"
+  ],
+  "aidevops:ServiceType": [
+   "String"
+  ],
+  "aidevops:SourceAgentSpaceArn": [
+   "ARN"
+  ],
+  "aidevops:TargetAgentSpaceArn": [
+   "ARN"
+  ],
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ]
+ }
+}

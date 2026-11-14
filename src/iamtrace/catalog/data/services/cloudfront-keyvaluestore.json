@@ -1,0 +1,102 @@
+{
+ "prefix": "cloudfront-keyvaluestore",
+ "name": "CloudFront KeyValueStore",
+ "actions": {
+  "DeleteKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key-value-store"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DescribeKeyValueStore": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key-value-store"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetKey": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key-value-store"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListKeys": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "key-value-store"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "PutKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key-value-store"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "UpdateKeys": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "key-value-store"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  }
+ },
+ "resources": {
+  "key-value-store": [
+   "arn:${Partition}:cloudfront::${Account}:key-value-store/${ResourceId}"
+  ]
+ },
+ "condition_keys": {}
+}

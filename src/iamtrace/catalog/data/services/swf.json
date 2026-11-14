@@ -1,0 +1,903 @@
+{
+ "prefix": "swf",
+ "name": "SWF",
+ "actions": {
+  "CancelTimer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CancelWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CompleteWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ContinueAsNewWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CountClosedWorkflowExecutions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:tagFilter.tag",
+    "swf:typeFilter.name",
+    "swf:typeFilter.version"
+   ],
+   "data_plane": true
+  },
+  "CountOpenWorkflowExecutions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:tagFilter.tag",
+    "swf:typeFilter.name",
+    "swf:typeFilter.version"
+   ],
+   "data_plane": true
+  },
+  "CountPendingActivityTasks": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:taskList.name"
+   ],
+   "data_plane": true
+  },
+  "CountPendingDecisionTasks": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:taskList.name"
+   ],
+   "data_plane": true
+  },
+  "DeleteActivityType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:activityType.name",
+    "swf:activityType.version"
+   ],
+   "data_plane": false
+  },
+  "DeleteWorkflowType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:workflowType.name",
+    "swf:workflowType.version"
+   ],
+   "data_plane": false
+  },
+  "DeprecateActivityType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:activityType.name",
+    "swf:activityType.version"
+   ],
+   "data_plane": false
+  },
+  "DeprecateDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeprecateWorkflowType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:workflowType.name",
+    "swf:workflowType.version"
+   ],
+   "data_plane": false
+  },
+  "DescribeActivityType": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:activityType.name",
+    "swf:activityType.version"
+   ],
+   "data_plane": false
+  },
+  "DescribeDomain": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeWorkflowExecution": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "DescribeWorkflowType": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:workflowType.name",
+    "swf:workflowType.version"
+   ],
+   "data_plane": false
+  },
+  "FailWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetWorkflowExecutionHistory": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListActivityTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListClosedWorkflowExecutions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:tagFilter.tag",
+    "swf:typeFilter.name",
+    "swf:typeFilter.version"
+   ],
+   "data_plane": true
+  },
+  "ListDomains": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListOpenWorkflowExecutions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:tagFilter.tag",
+    "swf:typeFilter.name",
+    "swf:typeFilter.version"
+   ],
+   "data_plane": true
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWorkflowTypes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PollForActivityTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:taskList.name"
+   ],
+   "data_plane": true
+  },
+  "PollForDecisionTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:taskList.name"
+   ],
+   "data_plane": true
+  },
+  "RecordActivityTaskHeartbeat": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "RecordMarker": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RegisterActivityType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:defaultTaskList.name",
+    "swf:name",
+    "swf:version"
+   ],
+   "data_plane": false
+  },
+  "RegisterDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "RegisterWorkflowType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:defaultTaskList.name",
+    "swf:name",
+    "swf:version"
+   ],
+   "data_plane": false
+  },
+  "RequestCancelActivityTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RequestCancelExternalWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RequestCancelWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "RespondActivityTaskCanceled": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "RespondActivityTaskCompleted": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:activityType.name",
+    "swf:activityType.version",
+    "swf:tagList.member.0",
+    "swf:tagList.member.1",
+    "swf:tagList.member.2",
+    "swf:tagList.member.3",
+    "swf:tagList.member.4",
+    "swf:taskList.name",
+    "swf:workflowType.name",
+    "swf:workflowType.version"
+   ],
+   "data_plane": true
+  },
+  "RespondActivityTaskFailed": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "RespondDecisionTaskCompleted": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ScheduleActivityTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SignalExternalWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SignalWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StartChildWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartTimer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:tagList.member.0",
+    "swf:tagList.member.1",
+    "swf:tagList.member.2",
+    "swf:tagList.member.3",
+    "swf:tagList.member.4",
+    "swf:taskList.name",
+    "swf:workflowType.name",
+    "swf:workflowType.version"
+   ],
+   "data_plane": true
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "TerminateWorkflowExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "UndeprecateActivityType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:activityType.name",
+    "swf:activityType.version"
+   ],
+   "data_plane": false
+  },
+  "UndeprecateDomain": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UndeprecateWorkflowType": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "swf:workflowType.name",
+    "swf:workflowType.version"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "domain"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "domain": [
+   "arn:${Partition}:swf::${Account}:/domain/${DomainName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "swf:activityType.name": [
+   "String"
+  ],
+  "swf:activityType.version": [
+   "String"
+  ],
+  "swf:defaultTaskList.name": [
+   "String"
+  ],
+  "swf:name": [
+   "String"
+  ],
+  "swf:tagFilter.tag": [
+   "String"
+  ],
+  "swf:tagList.member.0": [
+   "String"
+  ],
+  "swf:tagList.member.1": [
+   "String"
+  ],
+  "swf:tagList.member.2": [
+   "String"
+  ],
+  "swf:tagList.member.3": [
+   "String"
+  ],
+  "swf:tagList.member.4": [
+   "String"
+  ],
+  "swf:taskList.name": [
+   "String"
+  ],
+  "swf:typeFilter.name": [
+   "String"
+  ],
+  "swf:typeFilter.version": [
+   "String"
+  ],
+  "swf:version": [
+   "String"
+  ],
+  "swf:workflowType.name": [
+   "String"
+  ],
+  "swf:workflowType.version": [
+   "String"
+  ]
+ }
+}

@@ -1,0 +1,222 @@
+{
+ "prefix": "redshift-data",
+ "name": "Redshift Data API",
+ "actions": {
+  "BatchExecuteStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "workgroup"
+   ],
+   "condition_keys": [
+    "redshift-data:glue-catalog-arn",
+    "redshift-data:session-owner-iam-userid"
+   ],
+   "data_plane": false
+  },
+  "CancelStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "redshift-data:statement-owner-iam-userid"
+   ],
+   "data_plane": false
+  },
+  "DescribeStatement": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "redshift-data:statement-owner-iam-userid"
+   ],
+   "data_plane": false
+  },
+  "DescribeTable": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ExecuteStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "workgroup"
+   ],
+   "condition_keys": [
+    "redshift-data:glue-catalog-arn",
+    "redshift-data:session-owner-iam-userid"
+   ],
+   "data_plane": false
+  },
+  "GetStagingBucketLocation": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "managed-workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStatementResult": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "redshift-data:statement-owner-iam-userid"
+   ],
+   "data_plane": false
+  },
+  "ListDatabases": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSchemas": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSessions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "redshift-data:session-owner-iam-userid"
+   ],
+   "data_plane": false
+  },
+  "ListStatements": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "redshift-data:statement-owner-iam-userid"
+   ],
+   "data_plane": false
+  },
+  "ListTables": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "workgroup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "cluster": [
+   "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}"
+  ],
+  "managed-workgroup": [
+   "arn:${Partition}:redshift-serverless:${Region}:${Account}:managed-workgroup/${ManagedWorkgroupId}"
+  ],
+  "workgroup": [
+   "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "redshift-data:glue-catalog-arn": [
+   "ARN"
+  ],
+  "redshift-data:session-owner-iam-userid": [
+   "String"
+  ],
+  "redshift-data:statement-owner-iam-userid": [
+   "String"
+  ]
+ }
+}

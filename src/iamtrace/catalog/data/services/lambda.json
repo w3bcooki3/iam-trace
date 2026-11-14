@@ -1,0 +1,2200 @@
+{
+ "prefix": "lambda",
+ "name": "Lambda",
+ "actions": {
+  "AddLayerVersionPermission": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "layerVersion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AddPermission": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:FunctionUrlAuthType",
+    "lambda:Principal"
+   ],
+   "data_plane": false
+  },
+  "CheckpointDurableExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ConnectMicrovm": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacityProvider"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "lambda:SecurityGroupIds",
+    "lambda:SubnetIds"
+   ],
+   "data_plane": false
+  },
+  "CreateCodeSigningConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateEventSourceMapping": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "lambda:FunctionArn"
+   ],
+   "data_plane": false
+  },
+  "CreateFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "lambda:CodeSigningConfigArn",
+    "lambda:Layer",
+    "lambda:SecurityGroupIds",
+    "lambda:SubnetIds",
+    "lambda:VpcIds"
+   ],
+   "data_plane": false
+  },
+  "CreateFunctionUrlConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:FunctionArn",
+    "lambda:FunctionUrlAuthType"
+   ],
+   "data_plane": false
+  },
+  "CreateMicrovmAuthToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreateMicrovmImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateMicrovmShellAuthToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "CreateNetworkConnector": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "networkConnector"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "lambda:SecurityGroupIds",
+    "lambda:SubnetIds"
+   ],
+   "data_plane": false
+  },
+  "CreateWebFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "webFunction"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "lambda:Request/WebFunctionAuthType"
+   ],
+   "data_plane": false
+  },
+  "CreateWebFunctionEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "webFunction"
+   ],
+   "condition_keys": [
+    "lambda:Request/WebFunctionAuthType"
+   ],
+   "data_plane": false
+  },
+  "CreateWebFunctionRevision": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "webFunction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacityProvider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCodeSigningConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code signing config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEventSourceMapping": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "eventSourceMapping"
+   ],
+   "condition_keys": [
+    "lambda:FunctionArn"
+   ],
+   "data_plane": false
+  },
+  "DeleteFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFunctionCodeSigningConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFunctionConcurrency": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFunctionEventInvokeConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteFunctionUrlConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:FunctionArn",
+    "lambda:FunctionUrlAuthType"
+   ],
+   "data_plane": false
+  },
+  "DeleteLayerVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "layerVersion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMicrovmImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteMicrovmImageVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteNetworkConnector": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "networkConnector"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProvisionedConcurrencyConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function alias",
+    "function version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function",
+    "webFunction"
+   ],
+   "condition_keys": [
+    "lambda:Principal"
+   ],
+   "data_plane": false
+  },
+  "DeleteWebFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "webFunction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteWebFunctionEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "webFunctionEndpoint"
+   ],
+   "condition_keys": [
+    "lambda:Resource/WebFunctionAuthType"
+   ],
+   "data_plane": false
+  },
+  "DeleteWebFunctionRevision": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "webFunctionRevision"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisableReplication": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "EnableReplication": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetAccountSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAlias": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCapacityProvider": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "capacityProvider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCodeSigningConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code signing config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDurableExecution": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDurableExecutionHistory": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDurableExecutionState": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetEventSourceMapping": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "eventSourceMapping"
+   ],
+   "condition_keys": [
+    "lambda:FunctionArn"
+   ],
+   "data_plane": false
+  },
+  "GetFunction": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFunctionCodeSigningConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFunctionConcurrency": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFunctionConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFunctionEventInvokeConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFunctionRecursionConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFunctionScalingConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetFunctionUrlConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:FunctionArn",
+    "lambda:FunctionUrlAuthType"
+   ],
+   "data_plane": false
+  },
+  "GetLayerVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "layerVersion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetLayerVersionPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "layerVersion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMicrovm": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMicrovmImage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMicrovmImageBuild": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetMicrovmImageVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetNetworkConnector": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "networkConnector"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetProvisionedConcurrencyConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function alias",
+    "function version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function",
+    "webFunction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRuntimeManagementConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWebAccountSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWebFunction": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "webFunction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetWebFunctionEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "webFunctionEndpoint"
+   ],
+   "condition_keys": [
+    "lambda:Resource/WebFunctionAuthType"
+   ],
+   "data_plane": false
+  },
+  "GetWebFunctionRevision": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "webFunctionRevision"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "InvokeAsync": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeFunction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:EventSourceToken",
+    "lambda:InvokedViaFunctionUrl"
+   ],
+   "data_plane": true
+  },
+  "InvokeFunctionUrl": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:EventSourceToken",
+    "lambda:FunctionArn",
+    "lambda:FunctionUrlAuthType"
+   ],
+   "data_plane": null
+  },
+  "InvokeWebFunctionEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "webFunctionEndpoint"
+   ],
+   "condition_keys": [
+    "lambda:Resource/WebFunctionAuthType"
+   ],
+   "data_plane": null
+  },
+  "ListAliases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCapacityProviders": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCodeSigningConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDurableExecutionsByFunction": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListEventSourceMappings": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFunctionEventInvokeConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFunctionUrlConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:FunctionUrlAuthType"
+   ],
+   "data_plane": false
+  },
+  "ListFunctionVersionsByCapacityProvider": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "capacityProvider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFunctions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListFunctionsByCodeSigningConfig": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "code signing config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListLayerVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListLayers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListManagedMicrovmImageVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListManagedMicrovmImages": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMicrovmImageBuilds": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMicrovmImageVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMicrovmImages": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListMicrovms": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListNetworkConnectorVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "networkConnector"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListNetworkConnectors": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProvisionedConcurrencyConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTags": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "capacityProvider",
+    "code signing config",
+    "eventSourceMapping",
+    "function",
+    "microvmImage",
+    "networkConnector",
+    "webFunction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListVersionsByFunction": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWebFunctionEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "webFunction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWebFunctionRevisions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "webFunction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListWebFunctions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PassCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacityProvider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PassNetworkConnector": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "PublishLayerVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "layer"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PublishVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutFunctionCodeSigningConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code signing config",
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:CodeSigningConfigArn"
+   ],
+   "data_plane": false
+  },
+  "PutFunctionConcurrency": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutFunctionEventInvokeConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutFunctionRecursionConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutFunctionScalingConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutProvisionedConcurrencyConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function alias",
+    "function version"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function",
+    "webFunction"
+   ],
+   "condition_keys": [
+    "lambda:Principal"
+   ],
+   "data_plane": false
+  },
+  "PutRuntimeManagementConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveLayerVersionPermission": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "layerVersion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemovePermission": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:FunctionUrlAuthType",
+    "lambda:Principal"
+   ],
+   "data_plane": false
+  },
+  "ResumeMicrovm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "RunMicrovm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SendDurableExecutionCallbackFailure": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SendDurableExecutionCallbackHeartbeat": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SendDurableExecutionCallbackSuccess": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StopDurableExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SuspendMicrovm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacityProvider",
+    "code signing config",
+    "eventSourceMapping",
+    "function",
+    "microvmImage",
+    "networkConnector",
+    "webFunction"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "TerminateMicrovm": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacityProvider",
+    "code signing config",
+    "eventSourceMapping",
+    "function",
+    "microvmImage",
+    "networkConnector",
+    "webFunction"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCapacityProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "capacityProvider"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCodeSigningConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code signing config"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateEventSourceMapping": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "eventSourceMapping"
+   ],
+   "condition_keys": [
+    "lambda:FunctionArn"
+   ],
+   "data_plane": false
+  },
+  "UpdateFunctionCode": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFunctionCodeSigningConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "code signing config",
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateFunctionConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:Layer",
+    "lambda:SecurityGroupIds",
+    "lambda:SubnetIds",
+    "lambda:VpcIds"
+   ],
+   "data_plane": false
+  },
+  "UpdateFunctionEventInvokeConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateFunctionUrlConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "function"
+   ],
+   "condition_keys": [
+    "lambda:FunctionArn",
+    "lambda:FunctionUrlAuthType"
+   ],
+   "data_plane": false
+  },
+  "UpdateMicrovmImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateMicrovmImageVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "microvmImage"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateNetworkConnector": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "networkConnector"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateWebFunctionEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "webFunctionEndpoint"
+   ],
+   "condition_keys": [
+    "lambda:Request/WebFunctionAuthType",
+    "lambda:Resource/WebFunctionAuthType"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "capacityProvider": [
+   "arn:${Partition}:lambda:${Region}:${Account}:capacity-provider:${CapacityProviderName}"
+  ],
+  "code signing config": [
+   "arn:${Partition}:lambda:${Region}:${Account}:code-signing-config:${CodeSigningConfigId}"
+  ],
+  "durable execution": [
+   "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}/durable-execution/${ExecutionName}/${ExecutionId}"
+  ],
+  "eventSourceMapping": [
+   "arn:${Partition}:lambda:${Region}:${Account}:event-source-mapping:${UUID}"
+  ],
+  "function": [
+   "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}"
+  ],
+  "function alias": [
+   "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Alias}"
+  ],
+  "function version": [
+   "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}:${Version}"
+  ],
+  "layer": [
+   "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}"
+  ],
+  "layerVersion": [
+   "arn:${Partition}:lambda:${Region}:${Account}:layer:${LayerName}:${LayerVersion}"
+  ],
+  "microvmImage": [
+   "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}"
+  ],
+  "networkConnector": [
+   "arn:${Partition}:lambda:${Region}:${Account}:network-connector:${NetworkConnectorId}"
+  ],
+  "webFunction": [
+   "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}"
+  ],
+  "webFunctionEndpoint": [
+   "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}/endpoint/${EndpointName}"
+  ],
+  "webFunctionRevision": [
+   "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}/revision/${RevisionId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "lambda:CodeSigningConfigArn": [
+   "ARN"
+  ],
+  "lambda:EventSourceToken": [
+   "String"
+  ],
+  "lambda:FunctionArn": [
+   "ARN"
+  ],
+  "lambda:FunctionUrlAuthType": [
+   "String"
+  ],
+  "lambda:InvokedViaFunctionUrl": [
+   "Bool"
+  ],
+  "lambda:Layer": [
+   "ArrayOfString"
+  ],
+  "lambda:Principal": [
+   "String"
+  ],
+  "lambda:Request/WebFunctionAuthType": [
+   "String"
+  ],
+  "lambda:Resource/WebFunctionAuthType": [
+   "String"
+  ],
+  "lambda:SecurityGroupIds": [
+   "ArrayOfString"
+  ],
+  "lambda:SourceFunctionArn": [
+   "ARN"
+  ],
+  "lambda:SubnetIds": [
+   "ArrayOfString"
+  ],
+  "lambda:VpcIds": [
+   "String"
+  ]
+ }
+}

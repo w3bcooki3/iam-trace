@@ -1,0 +1,290 @@
+{
+ "prefix": "signin",
+ "name": "Signin",
+ "actions": {
+  "Authenticate": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "console"
+   ],
+   "condition_keys": [
+    "signin:PrincipalArn"
+   ],
+   "data_plane": null
+  },
+  "AuthorizeOAuth2Access": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "console",
+    "oauth2-public-client-localhost",
+    "oauth2-public-client-remote",
+    "oauth2-resource-service-principal"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateAccount": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "console"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateBearerToken": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "oauth2-resource-service-principal"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateOAuth2PublicClient": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "oauth2-public-client-registration"
+   ],
+   "condition_keys": [
+    "signin:OAuthRedirectUri"
+   ],
+   "data_plane": null
+  },
+  "CreateOAuth2Token": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "console",
+    "oauth2-public-client-localhost",
+    "oauth2-public-client-remote",
+    "oauth2-resource-service-principal"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTrustedIdentityPropagationApplicationForConsole": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteConsoleAuthorizationConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourcePermissionStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetConsoleAuthorizationConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "IntrospectOAuth2Token": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "oauth2-public-client-localhost",
+    "oauth2-public-client-remote",
+    "oauth2-resource-service-principal"
+   ],
+   "condition_keys": [
+    "signin:OAuthClientId",
+    "signin:OAuthTokenType"
+   ],
+   "data_plane": null
+  },
+  "ListResourcePermissionStatements": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrustedIdentityPropagationApplicationsForConsole": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutConsoleAuthorizationConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutResourcePermissionStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RevokeOAuth2Token": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "oauth2-public-client-localhost",
+    "oauth2-public-client-remote",
+    "oauth2-resource-service-principal"
+   ],
+   "condition_keys": [
+    "signin:OAuthTokenType"
+   ],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "console": [
+   "arn:${Partition}:signin:::console/${ConsoleName}"
+  ],
+  "oauth2-public-client-localhost": [
+   "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/localhost"
+  ],
+  "oauth2-public-client-registration": [
+   "arn:${Partition}:signin:${Region}::external-client/dcr/*"
+  ],
+  "oauth2-public-client-remote": [
+   "arn:${Partition}:signin:${Region}:${Account}:oauth2/public-client/remote"
+  ],
+  "oauth2-resource-service-principal": [
+   "arn:${Partition}:signin:${Region}:${Account}:service-principal/${ServicePrincipalName}"
+  ]
+ },
+ "condition_keys": {
+  "signin:OAuthClientAuthentication": [
+   "String"
+  ],
+  "signin:OAuthClientId": [
+   "String"
+  ],
+  "signin:OAuthGrantType": [
+   "String"
+  ],
+  "signin:OAuthRedirectUri": [
+   "String"
+  ],
+  "signin:OAuthTokenType": [
+   "String"
+  ],
+  "signin:PrincipalArn": [
+   "ARN"
+  ]
+ }
+}

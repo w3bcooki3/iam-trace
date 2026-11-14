@@ -1,0 +1,1092 @@
+{
+ "prefix": "route53",
+ "name": "Route 53",
+ "actions": {
+  "ActivateKeySigningKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateVPCWithHostedZone": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [
+    "route53:VPCs"
+   ],
+   "data_plane": false
+  },
+  "ChangeCidrCollection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cidrcollection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ChangeResourceRecordSets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [
+    "route53:ChangeResourceRecordSetsActions",
+    "route53:ChangeResourceRecordSetsNormalizedRecordNames",
+    "route53:ChangeResourceRecordSetsRecordTypes"
+   ],
+   "data_plane": false
+  },
+  "ChangeTagsForResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "healthcheck",
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateCidrCollection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateHealthCheck": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateHostedZone": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "route53:VPCs"
+   ],
+   "data_plane": false
+  },
+  "CreateKeySigningKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateQueryLoggingConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateReusableDelegationSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTrafficPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTrafficPolicyInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone",
+    "trafficpolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTrafficPolicyVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trafficpolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateVPCAssociationAuthorization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [
+    "route53:VPCs"
+   ],
+   "data_plane": false
+  },
+  "DeactivateKeySigningKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCidrCollection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cidrcollection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHealthCheck": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "healthcheck"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteHostedZone": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteKeySigningKey": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteQueryLoggingConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queryloggingconfig"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteReusableDelegationSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "delegationset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTrafficPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trafficpolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTrafficPolicyInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trafficpolicyinstance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteVPCAssociationAuthorization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [
+    "route53:VPCs"
+   ],
+   "data_plane": false
+  },
+  "DisableHostedZoneDNSSEC": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateVPCFromHostedZone": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [
+    "route53:VPCs"
+   ],
+   "data_plane": false
+  },
+  "EnableHostedZoneDNSSEC": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAccountLimit": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetChange": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "change"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetCheckerIpRanges": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDNSSEC": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetGeoLocation": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHealthCheck": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "healthcheck"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHealthCheckCount": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHealthCheckLastFailureReason": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "healthcheck"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHealthCheckStatus": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "healthcheck"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHostedZone": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHostedZoneCount": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHostedZoneLimit": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetQueryLoggingConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queryloggingconfig"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetReusableDelegationSet": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "delegationset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetReusableDelegationSetLimit": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "delegationset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTrafficPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "trafficpolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTrafficPolicyInstance": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "trafficpolicyinstance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTrafficPolicyInstanceCount": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCidrBlocks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cidrcollection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCidrCollections": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListCidrLocations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cidrcollection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGeoLocations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHealthChecks": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHostedZones": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHostedZonesByName": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHostedZonesByVPC": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "route53:VPCs"
+   ],
+   "data_plane": false
+  },
+  "ListQueryLoggingConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListResourceRecordSets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListReusableDelegationSets": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "healthcheck",
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResources": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "healthcheck",
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrafficPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrafficPolicyInstances": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrafficPolicyInstancesByHostedZone": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrafficPolicyInstancesByPolicy": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "trafficpolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTrafficPolicyVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "trafficpolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListVPCAssociationAuthorizations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TestDNSAnswer": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateHealthCheck": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "healthcheck"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateHostedZoneComment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateHostedZoneFeatures": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTrafficPolicyComment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trafficpolicy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTrafficPolicyInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "trafficpolicyinstance"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "change": [
+   "arn:${Partition}:route53:::change/${Id}"
+  ],
+  "cidrcollection": [
+   "arn:${Partition}:route53:::cidrcollection/${Id}"
+  ],
+  "delegationset": [
+   "arn:${Partition}:route53:::delegationset/${Id}"
+  ],
+  "healthcheck": [
+   "arn:${Partition}:route53:::healthcheck/${Id}"
+  ],
+  "hostedzone": [
+   "arn:${Partition}:route53:::hostedzone/${Id}"
+  ],
+  "queryloggingconfig": [
+   "arn:${Partition}:route53:::queryloggingconfig/${Id}"
+  ],
+  "trafficpolicy": [
+   "arn:${Partition}:route53:::trafficpolicy/${Id}"
+  ],
+  "trafficpolicyinstance": [
+   "arn:${Partition}:route53:::trafficpolicyinstance/${Id}"
+  ],
+  "vpc": [
+   "arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"
+  ]
+ },
+ "condition_keys": {
+  "route53:ChangeResourceRecordSetsActions": [
+   "ArrayOfString"
+  ],
+  "route53:ChangeResourceRecordSetsNormalizedRecordNames": [
+   "ArrayOfString"
+  ],
+  "route53:ChangeResourceRecordSetsRecordTypes": [
+   "ArrayOfString"
+  ],
+  "route53:VPCs": [
+   "String"
+  ]
+ }
+}

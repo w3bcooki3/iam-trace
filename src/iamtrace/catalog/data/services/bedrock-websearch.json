@@ -1,0 +1,52 @@
+{
+ "prefix": "bedrock-websearch",
+ "name": "Bedrock Web Search",
+ "actions": {
+  "ExternalWebAccess": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeFetch": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tool"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeSearch": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "tool"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "tool": [
+   "arn:${Partition}:bedrock-websearch:${Region}:aws:tool/${ToolName}"
+  ]
+ },
+ "condition_keys": {}
+}

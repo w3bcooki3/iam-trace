@@ -1,0 +1,718 @@
+{
+ "prefix": "qapps",
+ "name": "Q Apps",
+ "actions": {
+  "AssociateLibraryItemReview": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": true
+  },
+  "AssociateQAppWithUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": true
+  },
+  "BatchCreateCategory": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchDeleteCategory": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchUpdateCategory": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CopyQApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": null
+  },
+  "CreateLibraryItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": false
+  },
+  "CreateLibraryItemReview": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": null
+  },
+  "CreateQApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": true
+  },
+  "CreateSubscriptionToken": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteLibraryItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": false
+  },
+  "DeleteQApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": true
+  },
+  "DescribeQAppPermissions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": false
+  },
+  "DisassociateLibraryItemReview": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": true
+  },
+  "DisassociateQAppFromUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": true
+  },
+  "ExportQAppSessionData": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetLibraryItem": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": false
+  },
+  "GetQApp": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": true
+  },
+  "GetQAppSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "qapp-session"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:SessionIsShared",
+    "qapps:UserIsAppOwner",
+    "qapps:UserIsSessionModerator"
+   ],
+   "data_plane": true
+  },
+  "GetQAppSessionMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "qapp-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ImportDocument": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp",
+    "qapp-session"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:SessionIsShared",
+    "qapps:UserIsAppOwner",
+    "qapps:UserIsSessionModerator"
+   ],
+   "data_plane": true
+  },
+  "ListCategories": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListLibraryItems": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListQAppSessionData": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "qapp-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListQApps": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "qapp",
+    "qapp-session"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PredictProblemStatementFromConversation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PredictQApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PredictQAppFromProblemStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartQAppSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": true
+  },
+  "StopQAppSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp-session"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:SessionIsShared",
+    "qapps:UserIsAppOwner",
+    "qapps:UserIsSessionModerator"
+   ],
+   "data_plane": true
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp",
+    "qapp-session"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp",
+    "qapp-session"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateLibraryItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": false
+  },
+  "UpdateLibraryItemMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished"
+   ],
+   "data_plane": false
+  },
+  "UpdateQApp": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": true
+  },
+  "UpdateQAppPermissions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "application",
+    "qapp"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:UserIsAppOwner"
+   ],
+   "data_plane": false
+  },
+  "UpdateQAppSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp-session"
+   ],
+   "condition_keys": [
+    "qapps:AppIsPublished",
+    "qapps:SessionIsShared",
+    "qapps:UserIsAppOwner",
+    "qapps:UserIsSessionModerator"
+   ],
+   "data_plane": true
+  },
+  "UpdateQAppSessionMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "qapp-session"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  }
+ },
+ "resources": {
+  "application": [
+   "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}"
+  ],
+  "qapp": [
+   "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}"
+  ],
+  "qapp-session": [
+   "arn:${Partition}:qapps:${Region}:${Account}:application/${ApplicationId}/qapp/${AppId}/session/${SessionId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "qapps:AppIsPublished": [
+   "String"
+  ],
+  "qapps:SessionIsShared": [
+   "String"
+  ],
+  "qapps:UserIsAppOwner": [
+   "String"
+  ],
+  "qapps:UserIsSessionModerator": [
+   "String"
+  ]
+ }
+}

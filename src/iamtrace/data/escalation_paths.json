@@ -1,0 +1,1354 @@
+{
+ "license": "Apache-2.0",
+ "paths": [
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Bollina Bhagavan",
+    "link": "https://blog.appsecco.com/getting-shell-and-data-access-in-aws-app-runner-3632e844bc77",
+    "organization": "Appsecco"
+   },
+   "id": "apprunner-001",
+   "name": "iam:PassRole + apprunner:CreateService",
+   "pathfinding_url": "https://pathfinding.cloud/paths/apprunner-001",
+   "permissions": [
+    "iam:PassRole",
+    "apprunner:CreateService"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "apprunner-002",
+   "name": "apprunner:UpdateService",
+   "pathfinding_url": "https://pathfinding.cloud/paths/apprunner-002",
+   "permissions": [
+    "apprunner:UpdateService"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "batch-001",
+   "name": "iam:PassRole + batch:RegisterJobDefinition + batch:SubmitJob",
+   "pathfinding_url": "https://pathfinding.cloud/paths/batch-001",
+   "permissions": [
+    "iam:PassRole",
+    "batch:RegisterJobDefinition",
+    "batch:SubmitJob"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Zander Mackie",
+    "organization": "Datadog"
+   },
+   "id": "batch-002",
+   "name": "batch:SubmitJob",
+   "pathfinding_url": "https://pathfinding.cloud/paths/batch-002",
+   "permissions": [
+    "batch:SubmitJob"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "batch-003",
+   "name": "iam:PassRole + batch:CreateComputeEnvironment + batch:CreateJobQueue + batch:RegisterJobDefinition + batch:SubmitJob",
+   "pathfinding_url": "https://pathfinding.cloud/paths/batch-003",
+   "permissions": [
+    "iam:PassRole",
+    "batch:CreateComputeEnvironment",
+    "batch:CreateJobQueue",
+    "batch:RegisterJobDefinition",
+    "batch:SubmitJob"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Nigel Sood",
+    "link": "https://sonraisecurity.com/blog/aws-agentcore-privilege-escalation-bedrock-scp-fix/",
+    "organization": "Sonrai Security"
+   },
+   "id": "bedrock-001",
+   "name": "iam:PassRole + bedrock-agentcore:CreateCodeInterpreter + bedrock-agentcore:StartCodeInterpreterSession + bedrock-agentcore:InvokeCodeInterpreter",
+   "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-001",
+   "permissions": [
+    "iam:PassRole",
+    "bedrock-agentcore:CreateCodeInterpreter",
+    "bedrock-agentcore:StartCodeInterpreterSession",
+    "bedrock-agentcore:InvokeCodeInterpreter"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Nigel Sood",
+    "link": "https://sonraisecurity.com/blog/sandboxed-to-compromised-new-research-exposes-credential-exfiltration-paths-in-aws-code-interpreters/",
+    "organization": "Sonrai Security"
+   },
+   "id": "bedrock-002",
+   "name": "bedrock-agentcore:StartCodeInterpreterSession + bedrock-agentcore:InvokeCodeInterpreter",
+   "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-002",
+   "permissions": [
+    "bedrock-agentcore:StartCodeInterpreterSession",
+    "bedrock-agentcore:InvokeCodeInterpreter"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Sergio Garcia",
+    "link": "https://www.beyondtrust.com/blog/entry/aws-agentcore-privilege-escalation",
+    "organization": "BeyondTrust Phantom Labs"
+   },
+   "id": "bedrock-003",
+   "name": "iam:PassRole + bedrock-agentcore:CreateAgentRuntime + bedrock-agentcore:CreateAgentRuntimeEndpoint + bedrock-agentcore:CreateWorkloadIdentity + bedrock-agentcore:InvokeAgentRuntimeCommand",
+   "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-003",
+   "permissions": [
+    "iam:PassRole",
+    "bedrock-agentcore:CreateAgentRuntime",
+    "bedrock-agentcore:CreateAgentRuntimeEndpoint",
+    "bedrock-agentcore:CreateWorkloadIdentity",
+    "bedrock-agentcore:InvokeAgentRuntimeCommand"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Sergio Garcia",
+    "link": "https://www.beyondtrust.com/blog/entry/aws-agentcore-privilege-escalation",
+    "organization": "BeyondTrust Phantom Labs"
+   },
+   "id": "bedrock-004",
+   "name": "bedrock-agentcore:InvokeAgentRuntimeCommand",
+   "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-004",
+   "permissions": [
+    "bedrock-agentcore:InvokeAgentRuntimeCommand"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Sergio Garcia",
+    "link": "https://www.beyondtrust.com/blog/entry/aws-agentcore-privilege-escalation",
+    "organization": "BeyondTrust Phantom Labs"
+   },
+   "id": "bedrock-005",
+   "name": "iam:PassRole + bedrock-agentcore:CreateHarness + bedrock-agentcore:CreateAgentRuntime + bedrock-agentcore:CreateAgentRuntimeEndpoint + bedrock-agentcore:CreateWorkloadIdentity + bedrock-agentcore:GetAgentRuntime + bedrock-agentcore:GetHarness + bedrock-agentcore:InvokeAgentRuntimeCommand",
+   "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-005",
+   "permissions": [
+    "iam:PassRole",
+    "bedrock-agentcore:CreateHarness",
+    "bedrock-agentcore:CreateAgentRuntime",
+    "bedrock-agentcore:CreateAgentRuntimeEndpoint",
+    "bedrock-agentcore:CreateWorkloadIdentity",
+    "bedrock-agentcore:GetAgentRuntime",
+    "bedrock-agentcore:GetHarness",
+    "bedrock-agentcore:InvokeAgentRuntimeCommand"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Sergio Garcia",
+    "link": "https://www.beyondtrust.com/blog/entry/aws-agentcore-privilege-escalation",
+    "organization": "BeyondTrust Phantom Labs"
+   },
+   "id": "bedrock-006",
+   "name": "iam:PassRole + bedrock-agentcore:CreateBrowser + bedrock-agentcore:StartBrowserSession + bedrock-agentcore:ConnectBrowserAutomationStream",
+   "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-006",
+   "permissions": [
+    "iam:PassRole",
+    "bedrock-agentcore:CreateBrowser",
+    "bedrock-agentcore:StartBrowserSession",
+    "bedrock-agentcore:ConnectBrowserAutomationStream"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Sergio Garcia",
+    "link": "https://www.beyondtrust.com/blog/entry/aws-agentcore-privilege-escalation",
+    "organization": "BeyondTrust Phantom Labs"
+   },
+   "id": "bedrock-007",
+   "name": "bedrock-agentcore:StartBrowserSession + bedrock-agentcore:ConnectBrowserAutomationStream",
+   "pathfinding_url": "https://pathfinding.cloud/paths/bedrock-007",
+   "permissions": [
+    "bedrock-agentcore:StartBrowserSession",
+    "bedrock-agentcore:ConnectBrowserAutomationStream"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "braket-001",
+   "name": "iam:PassRole + braket:CreateJob",
+   "pathfinding_url": "https://pathfinding.cloud/paths/braket-001",
+   "permissions": [
+    "iam:PassRole",
+    "braket:CreateJob"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "cloudformation-001",
+   "name": "iam:PassRole + cloudformation:CreateStack",
+   "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-001",
+   "permissions": [
+    "iam:PassRole",
+    "cloudformation:CreateStack"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper/blob/master/principalmapper/graphing/cloudformation_edges.py#L85-L113",
+    "organization": "NCC Group"
+   },
+   "id": "cloudformation-002",
+   "name": "cloudformation:UpdateStack",
+   "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-002",
+   "permissions": [
+    "cloudformation:UpdateStack"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "cloudformation-003",
+   "name": "iam:PassRole + cloudformation:CreateStackSet + cloudformation:CreateStackInstances",
+   "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-003",
+   "permissions": [
+    "iam:PassRole",
+    "cloudformation:CreateStackSet",
+    "cloudformation:CreateStackInstances"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Hacktricks.cloud"
+   },
+   "id": "cloudformation-004",
+   "name": "iam:PassRole + cloudformation:UpdateStackSet",
+   "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-004",
+   "permissions": [
+    "iam:PassRole",
+    "cloudformation:UpdateStackSet"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper/blob/91d2e60102bdadf346d77b60d90ddaa4a678f037/principalmapper/graphing/cloudformation_edges.py#L189",
+    "organization": "NCC Group"
+   },
+   "id": "cloudformation-005",
+   "name": "cloudformation:CreateChangeSet + cloudformation:ExecuteChangeSet",
+   "pathfinding_url": "https://pathfinding.cloud/paths/cloudformation-005",
+   "permissions": [
+    "cloudformation:CreateChangeSet",
+    "cloudformation:ExecuteChangeSet"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper",
+    "organization": "NCC Group"
+   },
+   "id": "codebuild-001",
+   "name": "iam:PassRole + codebuild:CreateProject + codebuild:StartBuild",
+   "pathfinding_url": "https://pathfinding.cloud/paths/codebuild-001",
+   "permissions": [
+    "iam:PassRole",
+    "codebuild:CreateProject",
+    "codebuild:StartBuild"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper",
+    "organization": "NCC Group"
+   },
+   "id": "codebuild-002",
+   "name": "codebuild:StartBuild",
+   "pathfinding_url": "https://pathfinding.cloud/paths/codebuild-002",
+   "permissions": [
+    "codebuild:StartBuild"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper",
+    "organization": "NCC Group"
+   },
+   "id": "codebuild-003",
+   "name": "codebuild:StartBuildBatch",
+   "pathfinding_url": "https://pathfinding.cloud/paths/codebuild-003",
+   "permissions": [
+    "codebuild:StartBuildBatch"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper",
+    "organization": "NCC Group"
+   },
+   "id": "codebuild-004",
+   "name": "iam:PassRole + codebuild:CreateProject + codebuild:StartBuildBatch",
+   "pathfinding_url": "https://pathfinding.cloud/paths/codebuild-004",
+   "permissions": [
+    "iam:PassRole",
+    "codebuild:CreateProject",
+    "codebuild:StartBuildBatch"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "codedeploy-001",
+   "name": "codedeploy:CreateDeployment",
+   "pathfinding_url": "https://pathfinding.cloud/paths/codedeploy-001",
+   "permissions": [
+    "codedeploy:CreateDeployment"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "cognitoidentity-001",
+   "name": "iam:PassRole + cognito-identity:SetIdentityPoolRoles",
+   "pathfinding_url": "https://pathfinding.cloud/paths/cognitoidentity-001",
+   "permissions": [
+    "iam:PassRole",
+    "cognito-identity:SetIdentityPoolRoles"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "datapipeline-001",
+   "name": "iam:PassRole + datapipeline:CreatePipeline + datapipeline:PutPipelineDefinition + datapipeline:ActivatePipeline",
+   "pathfinding_url": "https://pathfinding.cloud/paths/datapipeline-001",
+   "permissions": [
+    "iam:PassRole",
+    "datapipeline:CreatePipeline",
+    "datapipeline:PutPipelineDefinition",
+    "datapipeline:ActivatePipeline"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "link": "https://bishopfox.com/blog/aws-iam-privilege-escalation-playground",
+    "organization": "Bishop Fox"
+   },
+   "id": "ec2instanceconnect-003",
+   "name": "ec2-instance-connect:SendSSHPublicKey",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ec2instanceconnect-003",
+   "permissions": [
+    "ec2-instance-connect:SendSSHPublicKey"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "ec2-001",
+   "name": "iam:PassRole + ec2:RunInstances",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ec2-001",
+   "permissions": [
+    "iam:PassRole",
+    "ec2:RunInstances"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Daniel Grzelak",
+    "link": "https://github.com/dagrz/aws_pwn/blob/master/elevation/bouncy_bouncy_cloudy_cloud.py"
+   },
+   "id": "ec2-002",
+   "name": "ec2:ModifyInstanceAttribute + ec2:StopInstances + ec2:StartInstances",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ec2-002",
+   "permissions": [
+    "ec2:ModifyInstanceAttribute",
+    "ec2:StopInstances",
+    "ec2:StartInstances"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-privesc/index.html#ec2requestspotinstancesiampassrole"
+   },
+   "id": "ec2-003",
+   "name": "iam:PassRole + ec2:RequestSpotInstances",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ec2-003",
+   "permissions": [
+    "iam:PassRole",
+    "ec2:RequestSpotInstances"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-privesc/index.html#ec2createlaunchtemplateversionec2createlaunchtemplateec2modifylaunchtemplate"
+   },
+   "id": "ec2-004",
+   "name": "ec2:CreateLaunchTemplateVersion + ec2:ModifyLaunchTemplate",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ec2-004",
+   "permissions": [
+    "ec2:CreateLaunchTemplateVersion",
+    "ec2:ModifyLaunchTemplate"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "ec2-005",
+   "name": "ec2:CreateLaunchTemplateVersion + ec2:ModifyLaunchTemplate",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ec2-005",
+   "permissions": [
+    "ec2:CreateLaunchTemplateVersion",
+    "ec2:ModifyLaunchTemplate"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "ecs-001",
+   "name": "iam:PassRole + ecs:CreateCluster + ecs:RegisterTaskDefinition + ecs:CreateService",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-001",
+   "permissions": [
+    "iam:PassRole",
+    "ecs:CreateCluster",
+    "ecs:RegisterTaskDefinition",
+    "ecs:CreateService"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "ecs-002",
+   "name": "iam:PassRole + ecs:CreateCluster + ecs:RegisterTaskDefinition + ecs:RunTask",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-002",
+   "permissions": [
+    "iam:PassRole",
+    "ecs:CreateCluster",
+    "ecs:RegisterTaskDefinition",
+    "ecs:RunTask"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecs-privesc/"
+   },
+   "id": "ecs-003",
+   "name": "iam:PassRole + ecs:RegisterTaskDefinition + ecs:CreateService",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-003",
+   "permissions": [
+    "iam:PassRole",
+    "ecs:RegisterTaskDefinition",
+    "ecs:CreateService"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Nick Spagnola",
+    "link": "https://rhinosecuritylabs.com/aws/weaponizing-ecs-task-definitions-steal-credentials-running-containers/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "ecs-004",
+   "name": "iam:PassRole + ecs:RegisterTaskDefinition + ecs:RunTask",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-004",
+   "permissions": [
+    "iam:PassRole",
+    "ecs:RegisterTaskDefinition",
+    "ecs:RunTask"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecs-privesc/"
+   },
+   "id": "ecs-005",
+   "name": "iam:PassRole + ecs:RegisterTaskDefinition + ecs:StartTask",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-005",
+   "permissions": [
+    "iam:PassRole",
+    "ecs:RegisterTaskDefinition",
+    "ecs:StartTask"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ecs-privesc/index.html#ecsexecutecommand-ecsdescribetasksecsruntaskecsstarttaskecsupdateserviceecscreateservice"
+   },
+   "id": "ecs-006",
+   "name": "ecs:ExecuteCommand + ecs:DescribeTasks",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-006",
+   "permissions": [
+    "ecs:ExecuteCommand",
+    "ecs:DescribeTasks"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Tom Taylor-MacLean and Mohit Gupta",
+    "link": "https://labs.reversec.com/posts/2025/08/another-ecs-privilege-escalation-path",
+    "organization": "Reversec"
+   },
+   "id": "ecs-007",
+   "name": "iam:PassRole + ecs:StartTask + ecs:RegisterContainerInstance",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-007",
+   "permissions": [
+    "iam:PassRole",
+    "ecs:StartTask",
+    "ecs:RegisterContainerInstance"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Tom Taylor-MacLean and Mohit Gupta",
+    "link": "https://labs.reversec.com/posts/2025/08/another-ecs-privilege-escalation-path",
+    "organization": "Reversec"
+   },
+   "id": "ecs-008",
+   "name": "iam:PassRole + ecs:RunTask",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-008",
+   "permissions": [
+    "iam:PassRole",
+    "ecs:RunTask"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {},
+   "id": "ecs-009",
+   "name": "iam:PassRole + ecs:StartTask",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ecs-009",
+   "permissions": [
+    "iam:PassRole",
+    "ecs:StartTask"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "emr-001",
+   "name": "iam:PassRole + elasticmapreduce:RunJobFlow",
+   "pathfinding_url": "https://pathfinding.cloud/paths/emr-001",
+   "permissions": [
+    "iam:PassRole",
+    "elasticmapreduce:RunJobFlow"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "emrserverless-001",
+   "name": "iam:PassRole + emr-serverless:CreateApplication + emr-serverless:StartJobRun",
+   "pathfinding_url": "https://pathfinding.cloud/paths/emrserverless-001",
+   "permissions": [
+    "iam:PassRole",
+    "emr-serverless:CreateApplication",
+    "emr-serverless:StartJobRun"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "gamelift-001",
+   "name": "iam:PassRole + gamelift:CreateBuild + gamelift:CreateFleet",
+   "pathfinding_url": "https://pathfinding.cloud/paths/gamelift-001",
+   "permissions": [
+    "iam:PassRole",
+    "gamelift:CreateBuild",
+    "gamelift:CreateFleet"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "glue-001",
+   "name": "iam:PassRole + glue:CreateDevEndpoint",
+   "pathfinding_url": "https://pathfinding.cloud/paths/glue-001",
+   "permissions": [
+    "iam:PassRole",
+    "glue:CreateDevEndpoint"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "glue-002",
+   "name": "glue:UpdateDevEndpoint",
+   "pathfinding_url": "https://pathfinding.cloud/paths/glue-002",
+   "permissions": [
+    "glue:UpdateDevEndpoint"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-glue-privesc/"
+   },
+   "id": "glue-003",
+   "name": "iam:PassRole + glue:CreateJob + glue:StartJobRun",
+   "pathfinding_url": "https://pathfinding.cloud/paths/glue-003",
+   "permissions": [
+    "iam:PassRole",
+    "glue:CreateJob",
+    "glue:StartJobRun"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-glue-privesc/"
+   },
+   "id": "glue-004",
+   "name": "iam:PassRole + glue:CreateJob + glue:CreateTrigger",
+   "pathfinding_url": "https://pathfinding.cloud/paths/glue-004",
+   "permissions": [
+    "iam:PassRole",
+    "glue:CreateJob",
+    "glue:CreateTrigger"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-glue-privesc/"
+   },
+   "id": "glue-005",
+   "name": "iam:PassRole + glue:UpdateJob + glue:StartJobRun",
+   "pathfinding_url": "https://pathfinding.cloud/paths/glue-005",
+   "permissions": [
+    "iam:PassRole",
+    "glue:UpdateJob",
+    "glue:StartJobRun"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-glue-privesc/"
+   },
+   "id": "glue-006",
+   "name": "iam:PassRole + glue:UpdateJob + glue:CreateTrigger",
+   "pathfinding_url": "https://pathfinding.cloud/paths/glue-006",
+   "permissions": [
+    "iam:PassRole",
+    "glue:UpdateJob",
+    "glue:CreateTrigger"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "glue-007",
+   "name": "iam:PassRole + glue:CreateSession + glue:RunStatement",
+   "pathfinding_url": "https://pathfinding.cloud/paths/glue-007",
+   "permissions": [
+    "iam:PassRole",
+    "glue:CreateSession",
+    "glue:RunStatement"
+   ]
+  },
+  {
+   "category": "self-escalation",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-001",
+   "name": "iam:CreatePolicyVersion",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-001",
+   "permissions": [
+    "iam:CreatePolicyVersion"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-002",
+   "name": "iam:CreateAccessKey",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-002",
+   "permissions": [
+    "iam:CreateAccessKey"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "iam-003",
+   "name": "iam:CreateAccessKey + iam:DeleteAccessKey",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-003",
+   "permissions": [
+    "iam:CreateAccessKey",
+    "iam:DeleteAccessKey"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-004",
+   "name": "iam:CreateLoginProfile",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-004",
+   "permissions": [
+    "iam:CreateLoginProfile"
+   ]
+  },
+  {
+   "category": "self-escalation",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-005",
+   "name": "iam:PutRolePolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-005",
+   "permissions": [
+    "iam:PutRolePolicy"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-006",
+   "name": "iam:UpdateLoginProfile",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-006",
+   "permissions": [
+    "iam:UpdateLoginProfile"
+   ]
+  },
+  {
+   "category": "self-escalation",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-007",
+   "name": "iam:PutUserPolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-007",
+   "permissions": [
+    "iam:PutUserPolicy"
+   ]
+  },
+  {
+   "category": "self-escalation",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-008",
+   "name": "iam:AttachUserPolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-008",
+   "permissions": [
+    "iam:AttachUserPolicy"
+   ]
+  },
+  {
+   "category": "self-escalation",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-009",
+   "name": "iam:AttachRolePolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-009",
+   "permissions": [
+    "iam:AttachRolePolicy"
+   ]
+  },
+  {
+   "category": "self-escalation",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-010",
+   "name": "iam:AttachGroupPolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-010",
+   "permissions": [
+    "iam:AttachGroupPolicy"
+   ]
+  },
+  {
+   "category": "self-escalation",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-011",
+   "name": "iam:PutGroupPolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-011",
+   "permissions": [
+    "iam:PutGroupPolicy"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-012",
+   "name": "iam:UpdateAssumeRolePolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-012",
+   "permissions": [
+    "iam:UpdateAssumeRolePolicy"
+   ]
+  },
+  {
+   "category": "self-escalation",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-013",
+   "name": "iam:AddUserToGroup",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-013",
+   "permissions": [
+    "iam:AddUserToGroup"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-014",
+   "name": "iam:AttachRolePolicy + sts:AssumeRole",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-014",
+   "permissions": [
+    "iam:AttachRolePolicy",
+    "sts:AssumeRole"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-015",
+   "name": "iam:AttachUserPolicy + iam:CreateAccessKey",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-015",
+   "permissions": [
+    "iam:AttachUserPolicy",
+    "iam:CreateAccessKey"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-016",
+   "name": "iam:CreatePolicyVersion + sts:AssumeRole",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-016",
+   "permissions": [
+    "iam:CreatePolicyVersion",
+    "sts:AssumeRole"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-017",
+   "name": "iam:PutRolePolicy + sts:AssumeRole",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-017",
+   "permissions": [
+    "iam:PutRolePolicy",
+    "sts:AssumeRole"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-018",
+   "name": "iam:PutUserPolicy + iam:CreateAccessKey",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-018",
+   "permissions": [
+    "iam:PutUserPolicy",
+    "iam:CreateAccessKey"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-019",
+   "name": "iam:AttachRolePolicy + iam:UpdateAssumeRolePolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-019",
+   "permissions": [
+    "iam:AttachRolePolicy",
+    "iam:UpdateAssumeRolePolicy"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-020",
+   "name": "iam:CreatePolicyVersion + iam:UpdateAssumeRolePolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-020",
+   "permissions": [
+    "iam:CreatePolicyVersion",
+    "iam:UpdateAssumeRolePolicy"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "iam-021",
+   "name": "iam:PutRolePolicy + iam:UpdateAssumeRolePolicy",
+   "pathfinding_url": "https://pathfinding.cloud/paths/iam-021",
+   "permissions": [
+    "iam:PutRolePolicy",
+    "iam:UpdateAssumeRolePolicy"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Zander Mackie",
+    "organization": "Datadog"
+   },
+   "id": "imagebuilder-001",
+   "name": "iam:PassRole + imagebuilder:CreateComponent + imagebuilder:CreateImageRecipe + imagebuilder:CreateInfrastructureConfiguration + imagebuilder:CreateImage",
+   "pathfinding_url": "https://pathfinding.cloud/paths/imagebuilder-001",
+   "permissions": [
+    "iam:PassRole",
+    "imagebuilder:CreateComponent",
+    "imagebuilder:CreateImageRecipe",
+    "imagebuilder:CreateInfrastructureConfiguration",
+    "imagebuilder:CreateImage"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "kinesisanalytics-001",
+   "name": "iam:PassRole + kinesisanalytics:CreateApplication + kinesisanalytics:StartApplication",
+   "pathfinding_url": "https://pathfinding.cloud/paths/kinesisanalytics-001",
+   "permissions": [
+    "iam:PassRole",
+    "kinesisanalytics:CreateApplication",
+    "kinesisanalytics:StartApplication"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "lambda-001",
+   "name": "iam:PassRole + lambda:CreateFunction + lambda:InvokeFunction",
+   "pathfinding_url": "https://pathfinding.cloud/paths/lambda-001",
+   "permissions": [
+    "iam:PassRole",
+    "lambda:CreateFunction",
+    "lambda:InvokeFunction"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "lambda-002",
+   "name": "iam:PassRole + lambda:CreateFunction + lambda:CreateEventSourceMapping",
+   "pathfinding_url": "https://pathfinding.cloud/paths/lambda-002",
+   "permissions": [
+    "iam:PassRole",
+    "lambda:CreateFunction",
+    "lambda:CreateEventSourceMapping"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "lambda-003",
+   "name": "lambda:UpdateFunctionCode",
+   "pathfinding_url": "https://pathfinding.cloud/paths/lambda-003",
+   "permissions": [
+    "lambda:UpdateFunctionCode"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {},
+   "id": "lambda-004",
+   "name": "lambda:UpdateFunctionCode + lambda:InvokeFunction",
+   "pathfinding_url": "https://pathfinding.cloud/paths/lambda-004",
+   "permissions": [
+    "lambda:UpdateFunctionCode",
+    "lambda:InvokeFunction"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {},
+   "id": "lambda-005",
+   "name": "lambda:UpdateFunctionCode + lambda:AddPermission",
+   "pathfinding_url": "https://pathfinding.cloud/paths/lambda-005",
+   "permissions": [
+    "lambda:UpdateFunctionCode",
+    "lambda:AddPermission"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "lambda-006",
+   "name": "iam:PassRole + lambda:CreateFunction + lambda:AddPermission",
+   "pathfinding_url": "https://pathfinding.cloud/paths/lambda-006",
+   "permissions": [
+    "iam:PassRole",
+    "lambda:CreateFunction",
+    "lambda:AddPermission"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Seth Art",
+    "organization": "Datadog"
+   },
+   "id": "omics-001",
+   "name": "iam:PassRole + omics:CreateWorkflow + omics:StartRun",
+   "pathfinding_url": "https://pathfinding.cloud/paths/omics-001",
+   "permissions": [
+    "iam:PassRole",
+    "omics:CreateWorkflow",
+    "omics:StartRun"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "sagemaker-001",
+   "name": "iam:PassRole + sagemaker:CreateNotebookInstance",
+   "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-001",
+   "permissions": [
+    "iam:PassRole",
+    "sagemaker:CreateNotebookInstance"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper/blob/master/principalmapper/graphing/sagemaker_edges.py",
+    "organization": "NCC Group"
+   },
+   "id": "sagemaker-002",
+   "name": "iam:PassRole + sagemaker:CreateTrainingJob",
+   "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-002",
+   "permissions": [
+    "iam:PassRole",
+    "sagemaker:CreateTrainingJob"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper/blob/master/principalmapper/graphing/sagemaker_edges.py",
+    "organization": "NCC Group"
+   },
+   "id": "sagemaker-003",
+   "name": "iam:PassRole + sagemaker:CreateProcessingJob",
+   "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-003",
+   "permissions": [
+    "iam:PassRole",
+    "sagemaker:CreateProcessingJob"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "sagemaker-004",
+   "name": "sagemaker:CreatePresignedNotebookInstanceUrl",
+   "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-004",
+   "permissions": [
+    "sagemaker:CreatePresignedNotebookInstanceUrl"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Daniel Grzelak",
+    "link": "https://www.plerion.com/blog/privilege-escalation-with-sagemaker-and-execution-roles",
+    "organization": "Plerion"
+   },
+   "id": "sagemaker-005",
+   "name": "sagemaker:CreateNotebookInstanceLifecycleConfig + sagemaker:StopNotebookInstance + sagemaker:UpdateNotebookInstance + sagemaker:StartNotebookInstance",
+   "pathfinding_url": "https://pathfinding.cloud/paths/sagemaker-005",
+   "permissions": [
+    "sagemaker:CreateNotebookInstanceLifecycleConfig",
+    "sagemaker:StopNotebookInstance",
+    "sagemaker:UpdateNotebookInstance",
+    "sagemaker:StartNotebookInstance"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Zander Mackie",
+    "organization": "Datadog"
+   },
+   "id": "scheduler-001",
+   "name": "iam:PassRole + scheduler:CreateSchedule",
+   "pathfinding_url": "https://pathfinding.cloud/paths/scheduler-001",
+   "permissions": [
+    "iam:PassRole",
+    "scheduler:CreateSchedule"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper/blob/master/principalmapper/graphing/ssm_edges.py",
+    "organization": "NCC Group"
+   },
+   "id": "ssm-001",
+   "name": "ssm:StartSession",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ssm-001",
+   "permissions": [
+    "ssm:StartSession"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Erik Steringer",
+    "link": "https://github.com/nccgroup/PMapper/blob/master/principalmapper/graphing/ssm_edges.py",
+    "organization": "NCC Group"
+   },
+   "id": "ssm-002",
+   "name": "ssm:SendCommand",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ssm-002",
+   "permissions": [
+    "ssm:SendCommand"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Rodrigo Montoro",
+    "link": "https://www.youtube.com/watch?v=rnizpZbKyKo",
+    "organization": "Cloud Village at DEF CON"
+   },
+   "id": "ssm-003",
+   "name": "iam:PassRole + ssm:CreateDocument + ssm:StartAutomationExecution",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ssm-003",
+   "permissions": [
+    "iam:PassRole",
+    "ssm:CreateDocument",
+    "ssm:StartAutomationExecution"
+   ]
+  },
+  {
+   "category": "new-passrole",
+   "first_documented": {
+    "author": "Zander Mackie",
+    "organization": "Datadog"
+   },
+   "id": "stepfunctions-001",
+   "name": "iam:PassRole + states:CreateStateMachine + states:StartExecution",
+   "pathfinding_url": "https://pathfinding.cloud/paths/stepfunctions-001",
+   "permissions": [
+    "iam:PassRole",
+    "states:CreateStateMachine",
+    "states:StartExecution"
+   ]
+  },
+  {
+   "category": "existing-passrole",
+   "first_documented": {
+    "author": "Zander Mackie",
+    "organization": "Datadog"
+   },
+   "id": "stepfunctions-002",
+   "name": "states:UpdateStateMachine + states:StartExecution",
+   "pathfinding_url": "https://pathfinding.cloud/paths/stepfunctions-002",
+   "permissions": [
+    "states:UpdateStateMachine",
+    "states:StartExecution"
+   ]
+  },
+  {
+   "category": "principal-access",
+   "first_documented": {
+    "author": "Spencer Gietzen",
+    "link": "https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/",
+    "organization": "Rhino Security Labs"
+   },
+   "id": "sts-001",
+   "name": "sts:AssumeRole",
+   "pathfinding_url": "https://pathfinding.cloud/paths/sts-001",
+   "permissions": [
+    "sts:AssumeRole"
+   ]
+  }
+ ],
+ "source": "https://github.com/DataDog/pathfinding.cloud"
+}

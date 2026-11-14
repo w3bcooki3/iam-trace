@@ -1,0 +1,44 @@
+{
+ "prefix": "application-signals-mcp",
+ "name": "Application Signals MCP",
+ "actions": {
+  "CallReadOnlyTool": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mcp-server"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeMcp": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "mcp-server"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "mcp-server": [
+   "arn:${Partition}:application-signals-mcp:${Region}:${Account}:mcp-server/*"
+  ]
+ },
+ "condition_keys": {
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ]
+ }
+}

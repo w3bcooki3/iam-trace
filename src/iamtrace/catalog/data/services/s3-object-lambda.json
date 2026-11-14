@@ -1,0 +1,500 @@
+{
+ "prefix": "s3-object-lambda",
+ "name": "S3 Object Lambda",
+ "actions": {
+  "AbortMultipartUpload": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "DeleteObject": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "DeleteObjectTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "DeleteObjectVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge",
+    "s3-object-lambda:versionid"
+   ],
+   "data_plane": null
+  },
+  "DeleteObjectVersionTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge",
+    "s3-object-lambda:versionid"
+   ],
+   "data_plane": null
+  },
+  "GetObject": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "GetObjectAcl": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "GetObjectLegalHold": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "GetObjectRetention": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "GetObjectTagging": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "GetObjectVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge",
+    "s3-object-lambda:versionid"
+   ],
+   "data_plane": null
+  },
+  "GetObjectVersionAcl": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge",
+    "s3-object-lambda:versionid"
+   ],
+   "data_plane": null
+  },
+  "GetObjectVersionTagging": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge",
+    "s3-object-lambda:versionid"
+   ],
+   "data_plane": null
+  },
+  "ListBucket": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "ListBucketMultipartUploads": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "ListBucketVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "ListMultipartUploadParts": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "PutObject": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "PutObjectAcl": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "PutObjectLegalHold": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "PutObjectRetention": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "PutObjectTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "PutObjectVersionAcl": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge",
+    "s3-object-lambda:versionid"
+   ],
+   "data_plane": null
+  },
+  "PutObjectVersionTagging": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge",
+    "s3-object-lambda:versionid"
+   ],
+   "data_plane": null
+  },
+  "RestoreObject": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  },
+  "WriteGetObjectResponse": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "objectlambdaaccesspoint"
+   ],
+   "condition_keys": [
+    "s3-object-lambda:TlsVersion",
+    "s3-object-lambda:authType",
+    "s3-object-lambda:signatureAge"
+   ],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "objectlambdaaccesspoint": [
+   "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}"
+  ]
+ },
+ "condition_keys": {
+  "s3-object-lambda:TlsVersion": [
+   "Numeric"
+  ],
+  "s3-object-lambda:authType": [
+   "String"
+  ],
+  "s3-object-lambda:signatureAge": [
+   "Numeric"
+  ],
+  "s3-object-lambda:versionid": [
+   "String"
+  ]
+ }
+}

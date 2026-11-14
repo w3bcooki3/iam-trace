@@ -1,0 +1,3103 @@
+{
+ "prefix": "rds",
+ "name": "RDS",
+ "actions": {
+  "AddRoleToDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AddRoleToDBInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AddSourceIdentifierToSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "es"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AddTagsToResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "auto-backup",
+    "cev",
+    "cluster",
+    "cluster-auto-backup",
+    "cluster-endpoint",
+    "cluster-pg",
+    "cluster-snapshot",
+    "db",
+    "db-capacity-reservation",
+    "deployment",
+    "es",
+    "global-cluster",
+    "integration",
+    "og",
+    "pg",
+    "proxy",
+    "proxy-endpoint",
+    "ri",
+    "secgrp",
+    "shardgrp",
+    "snapshot",
+    "snapshot-tenant-database",
+    "subgrp",
+    "target-group",
+    "tenant-database"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:TagsFromRequest",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ApplyPendingMaintenanceAction": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AuthorizeDBSecurityGroupIngress": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "secgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BacktrackDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelDBCapacityReservation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db-capacity-reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelExportTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CopyCustomDBEngineVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cev"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CopyDBClusterParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-pg"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CopyDBClusterSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-snapshot"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CopyDBParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pg"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CopyDBSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:CopyOptionGroup",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CopyOptionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "og"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateBlueGreenDeployment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-pg",
+    "db",
+    "deployment",
+    "pg"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:DatabaseClass",
+    "rds:DatabaseEngine",
+    "rds:DatabaseName",
+    "rds:MultiAz",
+    "rds:Piops",
+    "rds:StorageEncrypted",
+    "rds:StorageSize",
+    "rds:Vpc",
+    "rds:cluster-pg-tag/${TagKey}",
+    "rds:cluster-tag/${TagKey}",
+    "rds:db-tag/${TagKey}",
+    "rds:pg-tag/${TagKey}",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateCustomDBEngineVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cev"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBCapacityReservation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db-capacity-reservation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-pg",
+    "db",
+    "global-cluster",
+    "og",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:DatabaseClass",
+    "rds:DatabaseEngine",
+    "rds:DatabaseName",
+    "rds:ManageMasterUserPassword",
+    "rds:Piops",
+    "rds:StorageEncrypted",
+    "rds:StorageSize",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBClusterEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-endpoint"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:EndpointType",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBClusterParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-pg"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBClusterSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-snapshot"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "db",
+    "db-capacity-reservation",
+    "og",
+    "pg",
+    "secgrp",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:BackupTarget",
+    "rds:ManageMasterUserPassword",
+    "rds:PubliclyAccessible",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBInstanceReadReplica": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "db",
+    "db-capacity-reservation",
+    "og",
+    "pg",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:PubliclyAccessible",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pg"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBProxy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDBProxyEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "proxy",
+    "proxy-endpoint"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateDBSecurityGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "secgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBShardGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "shardgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:PubliclyAccessible",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "snapshot"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:BackupTarget",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateDBSubnetGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateEventSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "es"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateGlobalCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "global-cluster"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "db",
+    "integration"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateOptionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "og"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CreateTenantDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "tenant-database"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:ManageMasterUserPassword",
+    "rds:TenantDatabaseName",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "CrossRegionCommunication": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-snapshot",
+    "db",
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteBlueGreenDeployment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "deployment"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteCustomDBEngineVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cev"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBClusterAutomatedBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-auto-backup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBClusterEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBClusterParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBClusterSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBInstanceAutomatedBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "auto-backup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBProxy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "proxy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBProxyEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "proxy-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBSecurityGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "secgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBShardGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "shardgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDBSubnetGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "subgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteEventSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "es"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGlobalCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "integration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteOptionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "og"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTenantDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "tenant-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeregisterDBProxyTargets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "db",
+    "proxy",
+    "target-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAccountAttributes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeBlueGreenDeployments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "deployment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeCertificates": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBCapacityReservations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db-capacity-reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBClusterAutomatedBackups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-auto-backup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBClusterBacktracks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBClusterEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBClusterParameterGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster-pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBClusterParameters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster-pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBClusterSnapshotAttributes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster-snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBClusterSnapshots": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBClusters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBEngineVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBInstanceAutomatedBackups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "auto-backup",
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBInstances": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBLogFiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBMajorEngineVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBParameterGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBParameters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBProxies": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "proxy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBProxyEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "proxy",
+    "proxy-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBProxyTargetGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "proxy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBProxyTargets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "proxy",
+    "target-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBRecommendations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBSecurityGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "secgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBShardGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "shardgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBSnapshotAttributes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBSnapshotTenantDatabases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db",
+    "snapshot",
+    "snapshot-tenant-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBSnapshots": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db",
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeDBSubnetGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "subgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEngineDefaultClusterParameters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEngineDefaultParameters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEventCategories": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEventSubscriptions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "es"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEvents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeExportTasks": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-snapshot",
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeGlobalClusters": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeIntegrations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "integration"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DescribeOptionGroupOptions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeOptionGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "og"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeOrderableDBInstanceOptions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribePendingMaintenanceActions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeRecommendationGroups": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeRecommendations": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeReservedDBInstances": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ri"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeReservedDBInstancesOfferings": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeSourceRegions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTenantDatabases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db",
+    "tenant-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeValidDBInstanceModifications": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisableHttpEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DownloadCompleteDBLogFile": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DownloadDBLogFilePortion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EnableHttpEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "FailoverDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "FailoverGlobalCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "global-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "auto-backup",
+    "cev",
+    "cluster",
+    "cluster-auto-backup",
+    "cluster-endpoint",
+    "cluster-pg",
+    "cluster-snapshot",
+    "db",
+    "db-capacity-reservation",
+    "es",
+    "global-cluster",
+    "integration",
+    "og",
+    "pg",
+    "proxy",
+    "proxy-endpoint",
+    "ri",
+    "secgrp",
+    "shardgrp",
+    "snapshot",
+    "snapshot-tenant-database",
+    "subgrp",
+    "target-group",
+    "tenant-database"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyActivityStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyCertificates": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyCurrentDBClusterCapacity": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyCustomDBEngineVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cev"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBCapacityReservation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db-capacity-reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-pg",
+    "og",
+    "pg"
+   ],
+   "condition_keys": [
+    "rds:DatabaseClass",
+    "rds:ManageMasterUserPassword",
+    "rds:Piops",
+    "rds:StorageSize"
+   ],
+   "data_plane": false
+  },
+  "ModifyDBClusterEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBClusterParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBClusterSnapshotAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "db-capacity-reservation",
+    "og",
+    "pg",
+    "secgrp",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "rds:ManageMasterUserPassword"
+   ],
+   "data_plane": false
+  },
+  "ModifyDBParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBProxy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "proxy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBProxyEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "proxy-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBProxyTargetGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "target-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBRecommendation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBShardGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "shardgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "og",
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBSnapshotAttribute": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyDBSubnetGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "subgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyEventSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "es"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyGlobalCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyIntegration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "integration"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyOptionGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "og"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ModifyRecommendation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ModifyTenantDatabase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "tenant-database"
+   ],
+   "condition_keys": [
+    "rds:ManageMasterUserPassword",
+    "rds:TenantDatabaseName"
+   ],
+   "data_plane": false
+  },
+  "PromoteReadReplica": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PromoteReadReplicaDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PurchaseReservedDBInstancesOffering": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ri"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RebootDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RebootDBInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RebootDBShardGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "shardgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RegisterDBProxyTargets": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "target-group"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveFromGlobalCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "global-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveRoleFromDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveRoleFromDBInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveSourceIdentifierFromSubscription": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "es"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RemoveTagsFromResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "auto-backup",
+    "cev",
+    "cluster",
+    "cluster-auto-backup",
+    "cluster-endpoint",
+    "cluster-pg",
+    "cluster-snapshot",
+    "db",
+    "db-capacity-reservation",
+    "deployment",
+    "es",
+    "global-cluster",
+    "integration",
+    "og",
+    "pg",
+    "proxy",
+    "proxy-endpoint",
+    "ri",
+    "secgrp",
+    "shardgrp",
+    "snapshot",
+    "snapshot-tenant-database",
+    "subgrp",
+    "target-group",
+    "tenant-database"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ResetDBClusterParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ResetDBParameterGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "pg"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreDBClusterFromS3": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-pg",
+    "og",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:DatabaseEngine",
+    "rds:DatabaseName",
+    "rds:ManageMasterUserPassword",
+    "rds:StorageEncrypted",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RestoreDBClusterFromSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-pg",
+    "cluster-snapshot",
+    "og",
+    "snapshot",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:DatabaseClass",
+    "rds:Piops",
+    "rds:StorageSize",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RestoreDBClusterToPointInTime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-auto-backup",
+    "cluster-pg",
+    "og",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:DatabaseClass",
+    "rds:Piops",
+    "rds:StorageSize",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RestoreDBInstanceFromDBSnapshot": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-snapshot",
+    "db",
+    "db-capacity-reservation",
+    "og",
+    "pg",
+    "snapshot",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:BackupTarget",
+    "rds:ManageMasterUserPassword",
+    "rds:PubliclyAccessible",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RestoreDBInstanceFromS3": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "db-capacity-reservation",
+    "og",
+    "pg",
+    "secgrp",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:ManageMasterUserPassword",
+    "rds:PubliclyAccessible",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RestoreDBInstanceToPointInTime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "auto-backup",
+    "db",
+    "db-capacity-reservation",
+    "og",
+    "pg",
+    "subgrp"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:BackupTarget",
+    "rds:ManageMasterUserPassword",
+    "rds:PubliclyAccessible",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "RevokeDBSecurityGroupIngress": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "secgrp"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartActivityStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDBInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "db-capacity-reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDBInstanceAutomatedBackupsReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "auto-backup",
+    "db"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "rds:req-tag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "StartExportTask": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "cluster-snapshot",
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopActivityStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopDBCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopDBInstance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db",
+    "snapshot"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopDBInstanceAutomatedBackupsReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SwitchoverBlueGreenDeployment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "deployment"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SwitchoverGlobalCluster": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "global-cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SwitchoverReadReplica": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "db"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "auto-backup": [
+   "arn:${Partition}:rds:${Region}:${Account}:auto-backup:${DbInstanceAutomatedBackupId}"
+  ],
+  "cev": [
+   "arn:${Partition}:rds:${Region}:${Account}:cev:${Engine}/${EngineVersion}/${CustomDbEngineVersionId}"
+  ],
+  "cluster": [
+   "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}"
+  ],
+  "cluster-auto-backup": [
+   "arn:${Partition}:rds:${Region}:${Account}:cluster-auto-backup:${DbClusterAutomatedBackupId}"
+  ],
+  "cluster-endpoint": [
+   "arn:${Partition}:rds:${Region}:${Account}:cluster-endpoint:${DbClusterEndpoint}"
+  ],
+  "cluster-pg": [
+   "arn:${Partition}:rds:${Region}:${Account}:cluster-pg:${ClusterParameterGroupName}"
+  ],
+  "cluster-snapshot": [
+   "arn:${Partition}:rds:${Region}:${Account}:cluster-snapshot:${ClusterSnapshotName}"
+  ],
+  "db": [
+   "arn:${Partition}:rds:${Region}:${Account}:db:${DbInstanceName}"
+  ],
+  "db-capacity-reservation": [
+   "arn:${Partition}:rds:${Region}:${Account}:db-capacity-reservation:${DBCapacityReservationIdentifier}"
+  ],
+  "deployment": [
+   "arn:${Partition}:rds:${Region}:${Account}:deployment:${BlueGreenDeploymentIdentifier}"
+  ],
+  "es": [
+   "arn:${Partition}:rds:${Region}:${Account}:es:${SubscriptionName}"
+  ],
+  "global-cluster": [
+   "arn:${Partition}:rds::${Account}:global-cluster:${GlobalCluster}"
+  ],
+  "integration": [
+   "arn:${Partition}:rds:${Region}:${Account}:integration:${IntegrationIdentifier}"
+  ],
+  "og": [
+   "arn:${Partition}:rds:${Region}:${Account}:og:${OptionGroupName}"
+  ],
+  "pg": [
+   "arn:${Partition}:rds:${Region}:${Account}:pg:${ParameterGroupName}"
+  ],
+  "proxy": [
+   "arn:${Partition}:rds:${Region}:${Account}:db-proxy:${DbProxyId}"
+  ],
+  "proxy-endpoint": [
+   "arn:${Partition}:rds:${Region}:${Account}:db-proxy-endpoint:${DbProxyEndpointId}"
+  ],
+  "ri": [
+   "arn:${Partition}:rds:${Region}:${Account}:ri:${ReservedDbInstanceName}"
+  ],
+  "secgrp": [
+   "arn:${Partition}:rds:${Region}:${Account}:secgrp:${SecurityGroupName}"
+  ],
+  "shardgrp": [
+   "arn:${Partition}:rds:${Region}:${Account}:shard-group:${DbShardGroupResourceId}"
+  ],
+  "snapshot": [
+   "arn:${Partition}:rds:${Region}:${Account}:snapshot:${SnapshotName}"
+  ],
+  "snapshot-tenant-database": [
+   "arn:${Partition}:rds:${Region}:${Account}:snapshot-tenant-database:${SnapshotName}:${TenantResourceId}"
+  ],
+  "subgrp": [
+   "arn:${Partition}:rds:${Region}:${Account}:subgrp:${SubnetGroupName}"
+  ],
+  "target-group": [
+   "arn:${Partition}:rds:${Region}:${Account}:target-group:${TargetGroupId}"
+  ],
+  "tenant-database": [
+   "arn:${Partition}:rds:${Region}:${Account}:tenant-database:${TenantResourceId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "rds:BackupTarget": [
+   "String"
+  ],
+  "rds:CopyOptionGroup": [
+   "Bool"
+  ],
+  "rds:DatabaseClass": [
+   "String"
+  ],
+  "rds:DatabaseEngine": [
+   "String"
+  ],
+  "rds:DatabaseName": [
+   "String"
+  ],
+  "rds:EndpointType": [
+   "String"
+  ],
+  "rds:ManageMasterUserPassword": [
+   "Bool"
+  ],
+  "rds:MultiAz": [
+   "Bool"
+  ],
+  "rds:Piops": [
+   "Numeric"
+  ],
+  "rds:PubliclyAccessible": [
+   "Bool"
+  ],
+  "rds:StorageEncrypted": [
+   "Bool"
+  ],
+  "rds:StorageSize": [
+   "Numeric"
+  ],
+  "rds:TagsFromRequest": [
+   "Bool"
+  ],
+  "rds:TenantDatabaseName": [
+   "String"
+  ],
+  "rds:Vpc": [
+   "Bool"
+  ],
+  "rds:cluster-pg-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:cluster-snapshot-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:cluster-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:db-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:es-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:og-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:pg-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:req-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:ri-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:secgrp-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:snapshot-tag/${TagKey}": [
+   "String"
+  ],
+  "rds:subgrp-tag/${TagKey}": [
+   "String"
+  ]
+ }
+}

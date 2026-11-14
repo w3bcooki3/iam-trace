@@ -1,0 +1,1413 @@
+{
+ "prefix": "dynamodb",
+ "name": "DynamoDB",
+ "actions": {
+  "AssociateTableReplica": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "BatchGetItem": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnConsumedCapacity",
+    "dynamodb:Select"
+   ],
+   "data_plane": true
+  },
+  "BatchWriteItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnConsumedCapacity"
+   ],
+   "data_plane": true
+  },
+  "BulkPutItems": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CancelBulkOperation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bulk-operation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ConditionCheckItem": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnConsumedCapacity",
+    "dynamodb:ReturnValues"
+   ],
+   "data_plane": true
+  },
+  "CreateBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateGlobalTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-table",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateGlobalTableWitness": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateTableReplica": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGlobalTableWitness": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:EnclosingOperation",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnConsumedCapacity",
+    "dynamodb:ReturnValues"
+   ],
+   "data_plane": true
+  },
+  "DeleteResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "stream",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTableReplica": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeBackup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "backup"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeBulkOperation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bulk-operation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeContinuousBackups": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeContributorInsights": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "index",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeEndpoints": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeExport": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "export"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeGlobalTable": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeGlobalTableSettings": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeImport": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "import"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeKinesisStreamingDestination": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeLimits": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeReservedCapacity": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeReservedCapacityOfferings": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "stream"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTable": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTableReplicaAutoScaling": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTimeToLive": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisableKinesisStreamingDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisassociateTableReplica": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "EnableKinesisStreamingDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ExportTableToPointInTime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAbacStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetItem": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:EnclosingOperation",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnConsumedCapacity",
+    "dynamodb:Select"
+   ],
+   "data_plane": true
+  },
+  "GetRecords": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "stream"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetResourcePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "stream",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetShardIterator": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "stream"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ImportTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "InjectError": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "dynamodb:FisActionId",
+    "dynamodb:FisTargetArns"
+   ],
+   "data_plane": null
+  },
+  "ListBackups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListBulkOperations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListContributorInsights": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListExports": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListGlobalTables": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListImports": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListStreams": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTables": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsOfResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "stream",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PartiQLDelete": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:EnclosingOperation",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnValues"
+   ],
+   "data_plane": true
+  },
+  "PartiQLInsert": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:EnclosingOperation",
+    "dynamodb:LeadingKeys"
+   ],
+   "data_plane": true
+  },
+  "PartiQLSelect": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "index",
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:EnclosingOperation",
+    "dynamodb:FullTableScan",
+    "dynamodb:LeadingKeys",
+    "dynamodb:Select"
+   ],
+   "data_plane": true
+  },
+  "PartiQLUpdate": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:EnclosingOperation",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnValues"
+   ],
+   "data_plane": true
+  },
+  "PurchaseReservedCapacityOfferings": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:EnclosingOperation",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnConsumedCapacity",
+    "dynamodb:ReturnValues"
+   ],
+   "data_plane": true
+  },
+  "PutResourcePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "stream",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "Query": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "index",
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnConsumedCapacity",
+    "dynamodb:ReturnValues",
+    "dynamodb:Select"
+   ],
+   "data_plane": true
+  },
+  "ReadDataForReplication": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "ReplicateSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreTableFromAwsBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "RestoreTableFromBackup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "backup",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "RestoreTableToPointInTime": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "Scan": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "index",
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:ReturnConsumedCapacity",
+    "dynamodb:ReturnValues",
+    "dynamodb:Select"
+   ],
+   "data_plane": true
+  },
+  "SearchVectors": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "index",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartAwsBackupJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartBulkOperation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bulk-operation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "stream",
+    "table"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "stream",
+    "table"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateAbacStatus": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateContinuousBackups": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateContributorInsights": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "index",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGlobalTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-table",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGlobalTableSettings": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-table",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateGlobalTableVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-table",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateItem": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "dynamodb:Attributes",
+    "dynamodb:EnclosingOperation",
+    "dynamodb:LeadingKeys",
+    "dynamodb:ReturnConsumedCapacity",
+    "dynamodb:ReturnValues"
+   ],
+   "data_plane": true
+  },
+  "UpdateKinesisStreamingDestination": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTableReplicaAutoScaling": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateTimeToLive": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "WriteDataForReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  }
+ },
+ "resources": {
+  "backup": [
+   "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/backup/${BackupName}"
+  ],
+  "bulk-operation": [
+   "arn:${Partition}:dynamodb:${Region}:${Account}:bulk-operation/${BulkOperationId}"
+  ],
+  "export": [
+   "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/export/${ExportName}"
+  ],
+  "global-table": [
+   "arn:${Partition}:dynamodb::${Account}:global-table/${GlobalTableName}"
+  ],
+  "import": [
+   "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/import/${ImportName}"
+  ],
+  "index": [
+   "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/index/${IndexName}"
+  ],
+  "stream": [
+   "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}"
+  ],
+  "table": [
+   "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "dynamodb:Attributes": [
+   "ArrayOfString"
+  ],
+  "dynamodb:EnclosingOperation": [
+   "String"
+  ],
+  "dynamodb:FirstPartitionKeyValues": [
+   "ArrayOfString"
+  ],
+  "dynamodb:FisActionId": [
+   "String"
+  ],
+  "dynamodb:FisTargetArns": [
+   "ArrayOfARN"
+  ],
+  "dynamodb:FourthPartitionKeyValues": [
+   "ArrayOfString"
+  ],
+  "dynamodb:FullTableScan": [
+   "Bool"
+  ],
+  "dynamodb:LeadingKeys": [
+   "ArrayOfString"
+  ],
+  "dynamodb:ReturnConsumedCapacity": [
+   "String"
+  ],
+  "dynamodb:ReturnValues": [
+   "String"
+  ],
+  "dynamodb:SecondPartitionKeyValues": [
+   "ArrayOfString"
+  ],
+  "dynamodb:Select": [
+   "String"
+  ],
+  "dynamodb:ThirdPartitionKeyValues": [
+   "ArrayOfString"
+  ]
+ }
+}

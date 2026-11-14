@@ -1,0 +1,352 @@
+{
+ "prefix": "ds-data",
+ "name": "Directory Service Data",
+ "actions": {
+  "AddGroupMember": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:MemberName",
+    "ds-data:MemberRealm",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "CreateGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "CreateUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "DeleteGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "DeleteUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "DescribeGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "DescribeUser": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "DisableUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "ListGroupMembers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:MemberRealm",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "ListGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Realm"
+   ],
+   "data_plane": false
+  },
+  "ListGroupsForMember": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:MemberRealm",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "ListUsers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Realm"
+   ],
+   "data_plane": false
+  },
+  "RemoveGroupMember": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:MemberName",
+    "ds-data:MemberRealm",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "SearchGroups": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Realm"
+   ],
+   "data_plane": false
+  },
+  "SearchUsers": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Realm"
+   ],
+   "data_plane": false
+  },
+  "UpdateGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  },
+  "UpdateUser": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "directory"
+   ],
+   "condition_keys": [
+    "ds-data:Identifier",
+    "ds-data:Realm",
+    "ds-data:SAMAccountName"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "directory": [
+   "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "ds-data:Identifier": [
+   "String"
+  ],
+  "ds-data:MemberName": [
+   "String"
+  ],
+  "ds-data:MemberRealm": [
+   "String"
+  ],
+  "ds-data:Realm": [
+   "String"
+  ],
+  "ds-data:SAMAccountName": [
+   "String"
+  ]
+ }
+}

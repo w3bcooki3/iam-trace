@@ -1,0 +1,682 @@
+{
+ "prefix": "s3express",
+ "name": "S3 Express",
+ "actions": {
+  "CreateAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:LocationName",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "CreateBucket": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3express:LocationName",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "CreateSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:AllAccessRestrictedToLocalZoneGroup",
+    "s3express:Permissions",
+    "s3express:ResourceAccount",
+    "s3express:SessionMode",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureAge",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256",
+    "s3express:x-amz-server-side-encryption",
+    "s3express:x-amz-server-side-encryption-aws-kms-key-id"
+   ],
+   "data_plane": null
+  },
+  "DeleteAccessPoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "DeleteAccessPointPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "DeleteAccessPointScope": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "DeleteBucket": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "DeleteBucketPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetAccessPoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetAccessPointPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetAccessPointScope": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetBucketPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetEncryptionConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetInventoryConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetLifecycleConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "GetMetricsConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "ListAccessPointsForDirectoryBuckets": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "ListAllMyDirectoryBuckets": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutAccessPointPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutAccessPointScope": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint"
+   ],
+   "condition_keys": [
+    "s3express:AccessPointNetworkOrigin",
+    "s3express:DataAccessPointAccount",
+    "s3express:DataAccessPointArn",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutBucketPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutEncryptionConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutInventoryConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:InventoryAccessibleOptionalFields",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutLifecycleConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "PutMetricsConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "bucket"
+   ],
+   "condition_keys": [
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "accesspoint",
+    "bucket"
+   ],
+   "condition_keys": [
+    "aws:TagKeys",
+    "s3express:ResourceAccount",
+    "s3express:TlsVersion",
+    "s3express:authType",
+    "s3express:signatureversion",
+    "s3express:x-amz-content-sha256"
+   ],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "accesspoint": [
+   "arn:${Partition}:s3express:${Region}:${Account}:accesspoint/${AccessPointName}"
+  ],
+  "bucket": [
+   "arn:${Partition}:s3express:${Region}:${Account}:bucket/${BucketName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "s3express:AccessPointNetworkOrigin": [
+   "String"
+  ],
+  "s3express:AccessPointTag/${TagKey}": [
+   "String"
+  ],
+  "s3express:AllAccessRestrictedToLocalZoneGroup": [
+   "String"
+  ],
+  "s3express:BucketTag/${TagKey}": [
+   "String"
+  ],
+  "s3express:DataAccessPointAccount": [
+   "String"
+  ],
+  "s3express:DataAccessPointArn": [
+   "ARN"
+  ],
+  "s3express:InventoryAccessibleOptionalFields": [
+   "ArrayOfString"
+  ],
+  "s3express:LocationName": [
+   "String"
+  ],
+  "s3express:Permissions": [
+   "ArrayOfString"
+  ],
+  "s3express:ResourceAccount": [
+   "String"
+  ],
+  "s3express:SessionMode": [
+   "String"
+  ],
+  "s3express:TlsVersion": [
+   "Numeric"
+  ],
+  "s3express:authType": [
+   "String"
+  ],
+  "s3express:signatureAge": [
+   "Numeric"
+  ],
+  "s3express:signatureversion": [
+   "String"
+  ],
+  "s3express:x-amz-content-sha256": [
+   "String"
+  ],
+  "s3express:x-amz-server-side-encryption": [
+   "String"
+  ],
+  "s3express:x-amz-server-side-encryption-aws-kms-key-id": [
+   "ARN"
+  ]
+ }
+}

@@ -1,0 +1,828 @@
+{
+ "prefix": "nimble",
+ "name": "Nimble Studio",
+ "actions": {
+  "AcceptEulas": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "eula"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateLaunchProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateStreamingImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateStreamingSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateStreamingSessionStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "streaming-session"
+   ],
+   "condition_keys": [
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "CreateStudio": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateStudioComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "DeleteLaunchProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteLaunchProfileMember": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteStreamingImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "streaming-image"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteStreamingSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "streaming-session"
+   ],
+   "condition_keys": [
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "DeleteStudio": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteStudioComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio-component"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteStudioMember": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetEula": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "eula"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetFeatureMap": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetLaunchProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetLaunchProfileDetails": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetLaunchProfileInitialization": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetLaunchProfileMember": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStreamingImage": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "streaming-image"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStreamingSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "streaming-session"
+   ],
+   "condition_keys": [
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "GetStreamingSessionBackup": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "streaming-session-backup"
+   ],
+   "condition_keys": [
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "GetStreamingSessionStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "streaming-session"
+   ],
+   "condition_keys": [
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "GetStudio": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStudioComponent": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio-component"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetStudioMember": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListEulaAcceptances": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "eula-acceptance"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListEulas": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "eula"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListLaunchProfileMembers": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListLaunchProfiles": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [
+    "nimble:principalId",
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "ListStreamingImages": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListStreamingSessionBackups": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "ListStreamingSessions": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [
+    "nimble:createdBy",
+    "nimble:ownedBy",
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "ListStudioComponents": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListStudioMembers": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListStudios": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "launch-profile",
+    "streaming-image",
+    "streaming-session",
+    "streaming-session-backup",
+    "studio",
+    "studio-component"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutLaunchProfileMembers": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutStudioLogEvents": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutStudioMembers": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StartStreamingSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "streaming-session",
+    "streaming-session-backup"
+   ],
+   "condition_keys": [
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "StartStudioSSOConfigurationRepair": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StopStreamingSession": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "streaming-session"
+   ],
+   "condition_keys": [
+    "nimble:requesterPrincipalId"
+   ],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launch-profile",
+    "streaming-image",
+    "streaming-session",
+    "streaming-session-backup",
+    "studio",
+    "studio-component"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launch-profile",
+    "streaming-image",
+    "streaming-session",
+    "streaming-session-backup",
+    "studio",
+    "studio-component"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "UpdateLaunchProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateLaunchProfileMember": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "launch-profile"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateStreamingImage": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "streaming-image"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateStudio": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateStudioComponent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "studio-component"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "eula": [
+   "arn:${Partition}:nimble:${Region}:${Account}:eula/${EulaId}"
+  ],
+  "eula-acceptance": [
+   "arn:${Partition}:nimble:${Region}:${Account}:eula-acceptance/${EulaAcceptanceId}"
+  ],
+  "launch-profile": [
+   "arn:${Partition}:nimble:${Region}:${Account}:launch-profile/${LaunchProfileId}"
+  ],
+  "streaming-image": [
+   "arn:${Partition}:nimble:${Region}:${Account}:streaming-image/${StreamingImageId}"
+  ],
+  "streaming-session": [
+   "arn:${Partition}:nimble:${Region}:${Account}:streaming-session/${StreamingSessionId}"
+  ],
+  "streaming-session-backup": [
+   "arn:${Partition}:nimble:${Region}:${Account}:streaming-session-backup/${StreamingSessionBackupId}"
+  ],
+  "studio": [
+   "arn:${Partition}:nimble:${Region}:${Account}:studio/${StudioId}"
+  ],
+  "studio-component": [
+   "arn:${Partition}:nimble:${Region}:${Account}:studio-component/${StudioComponentId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "nimble:createdBy": [
+   "String"
+  ],
+  "nimble:ownedBy": [
+   "String"
+  ],
+  "nimble:principalId": [
+   "String"
+  ],
+  "nimble:requesterPrincipalId": [
+   "String"
+  ],
+  "nimble:studioId": [
+   "ARN"
+  ]
+ }
+}

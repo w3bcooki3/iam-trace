@@ -1,0 +1,643 @@
+{
+ "prefix": "bedrock-mantle",
+ "name": "Bedrock Mantle",
+ "actions": {
+  "ArchiveProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AssociateCustomizedModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customized-model",
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:CustomizedModelArn",
+    "bedrock-mantle:ProjectArn"
+   ],
+   "data_plane": null
+  },
+  "CallWithBearerToken": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "bedrock-mantle:BearerTokenType"
+   ],
+   "data_plane": null
+  },
+  "CancelFineTuningJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:FineTuningJob"
+   ],
+   "data_plane": null
+  },
+  "CancelInference": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CountTokens": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:Model"
+   ],
+   "data_plane": null
+  },
+  "CreateCustomizedModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customized-model"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateFile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateFineTuningJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:Files",
+    "bedrock-mantle:Model"
+   ],
+   "data_plane": null
+  },
+  "CreateInference": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:Model",
+    "bedrock-mantle:ServiceTier"
+   ],
+   "data_plane": null
+  },
+  "CreateProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "bedrock-mantle:DataRetentionMode"
+   ],
+   "data_plane": null
+  },
+  "CreateReservation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project",
+    "reservation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
+    "bedrock-mantle:ProjectArn",
+    "bedrock-mantle:ReservationArn"
+   ],
+   "data_plane": null
+  },
+  "DeleteCustomizedModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customized-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteFile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:Files"
+   ],
+   "data_plane": null
+  },
+  "DeleteInference": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteReservation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project",
+    "reservation"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:ProjectArn",
+    "bedrock-mantle:ReservationArn"
+   ],
+   "data_plane": null
+  },
+  "DisassociateCustomizedModel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customized-model",
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:CustomizedModelArn",
+    "bedrock-mantle:ProjectArn"
+   ],
+   "data_plane": null
+  },
+  "GetAccountDataRetention": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetCustomizedModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "customized-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetFile": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:Files"
+   ],
+   "data_plane": null
+  },
+  "GetFineTuningJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:FineTuningJob"
+   ],
+   "data_plane": null
+  },
+  "GetInference": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetModel": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetProject": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetReservation": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCustomizedModelAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "customized-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListCustomizedModels": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "customized-model"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListFiles": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListFineTuningJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListModels": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListProjects": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListReservations": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "customized-model",
+    "project",
+    "reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PutAccountDataRetention": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "bedrock-mantle:DataRetentionMode"
+   ],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customized-model",
+    "project",
+    "reservation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "customized-model",
+    "project",
+    "reservation"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "UpdateProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:DataRetentionMode"
+   ],
+   "data_plane": null
+  },
+  "UpdateReservation": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project",
+    "reservation"
+   ],
+   "condition_keys": [
+    "bedrock-mantle:ProjectArn",
+    "bedrock-mantle:ReservationArn"
+   ],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "customized-model": [
+   "arn:${Partition}:bedrock-mantle:${Region}:${Account}:customized-model/${ResourceId}"
+  ],
+  "project": [
+   "arn:${Partition}:bedrock-mantle:${Region}:${Account}:project/${ResourceId}"
+  ],
+  "reservation": [
+   "arn:${Partition}:bedrock-mantle:${Region}:${Account}:reservation/${ResourceId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "bedrock-mantle:BearerTokenType": [
+   "String"
+  ],
+  "bedrock-mantle:CustomizedModelArn": [
+   "String"
+  ],
+  "bedrock-mantle:DataRetentionMode": [
+   "String"
+  ],
+  "bedrock-mantle:Files": [
+   "ArrayOfString"
+  ],
+  "bedrock-mantle:FineTuningJob": [
+   "String"
+  ],
+  "bedrock-mantle:Model": [
+   "String"
+  ],
+  "bedrock-mantle:ProjectArn": [
+   "String"
+  ],
+  "bedrock-mantle:ReservationArn": [
+   "String"
+  ],
+  "bedrock-mantle:ServiceTier": [
+   "String"
+  ]
+ }
+}

@@ -1,0 +1,78 @@
+{
+ "prefix": "ssmmessages",
+ "name": "SSM Messages",
+ "actions": {
+  "CreateControlChannel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ec2:SourceInstanceARN",
+    "ssm:SourceInstanceARN"
+   ],
+   "data_plane": null
+  },
+  "CreateDataChannel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "OpenControlChannel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "OpenDataChannel": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "session"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "session": [
+   "arn:${Partition}:ssm:${Region}:${Account}:session/${SessionId}"
+  ]
+ },
+ "condition_keys": {
+  "ec2:SourceInstanceARN": [
+   "ARN"
+  ],
+  "ssm:SourceInstanceARN": [
+   "ARN"
+  ],
+  "ssm:resourceTag/aws:ssmmessages:session-id": [
+   "String"
+  ],
+  "ssm:resourceTag/aws:ssmmessages:target-id": [
+   "String"
+  ]
+ }
+}

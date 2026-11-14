@@ -1,0 +1,478 @@
+{
+ "prefix": "medical-imaging",
+ "name": "HealthImaging",
+ "actions": {
+  "CopyImageSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateDatastore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "DeleteDatastore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteImageSet": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDICOMBulkdata": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [
+    "medical-imaging:SeriesInstanceUID",
+    "medical-imaging:StudyInstanceUID"
+   ],
+   "data_plane": null
+  },
+  "GetDICOMImportJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetDICOMInstance": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [
+    "medical-imaging:SeriesInstanceUID",
+    "medical-imaging:StudyInstanceUID"
+   ],
+   "data_plane": null
+  },
+  "GetDICOMInstanceFrames": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [
+    "medical-imaging:SeriesInstanceUID",
+    "medical-imaging:StudyInstanceUID"
+   ],
+   "data_plane": null
+  },
+  "GetDICOMInstanceMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [
+    "medical-imaging:SeriesInstanceUID",
+    "medical-imaging:StudyInstanceUID"
+   ],
+   "data_plane": null
+  },
+  "GetDICOMSeriesMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [
+    "medical-imaging:SeriesInstanceUID",
+    "medical-imaging:StudyInstanceUID"
+   ],
+   "data_plane": null
+  },
+  "GetDatastore": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetImageFrame": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetImageSet": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetImageSetMetadata": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDICOMImportJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListDatastores": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListImageSetVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "SearchDICOMInstances": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [
+    "medical-imaging:SeriesInstanceUID",
+    "medical-imaging:StudyInstanceUID"
+   ],
+   "data_plane": null
+  },
+  "SearchDICOMSeries": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [
+    "medical-imaging:StudyInstanceUID"
+   ],
+   "data_plane": null
+  },
+  "SearchDICOMStudies": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SearchImageSets": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StartDICOMImportJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StoreDICOM": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StoreDICOMStudy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore"
+   ],
+   "condition_keys": [
+    "medical-imaging:StudyInstanceUID"
+   ],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "UpdateImageSetMetadata": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "datastore",
+    "imageset"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "datastore": [
+   "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}"
+  ],
+  "imageset": [
+   "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}/imageset/${ImageSetId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "medical-imaging:SeriesInstanceUID": [
+   "String"
+  ],
+  "medical-imaging:StudyInstanceUID": [
+   "String"
+  ]
+ }
+}

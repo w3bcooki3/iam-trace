@@ -1,0 +1,549 @@
+{
+ "prefix": "qldb",
+ "name": "QLDB",
+ "actions": {
+  "CancelJournalKinesisStream": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "stream"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateLedger": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "DeleteLedger": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeJournalKinesisStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "stream"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeJournalS3Export": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeLedger": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ExecuteStatement": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ExportJournalToS3": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetBlock": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetDigest": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetRevision": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InsertSampleData": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListJournalKinesisStreamsForLedger": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "stream"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListJournalS3Exports": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListJournalS3ExportsForLedger": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListLedgers": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "ledger",
+    "stream",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiQLCreateIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiQLCreateTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "PartiQLDelete": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiQLDropIndex": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "qldb:Purge"
+   ],
+   "data_plane": null
+  },
+  "PartiQLDropTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [
+    "qldb:Purge"
+   ],
+   "data_plane": null
+  },
+  "PartiQLHistoryFunction": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiQLInsert": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiQLRedact": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiQLSelect": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "catalog",
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiQLUndropTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "PartiQLUpdate": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "table"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SendCommand": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ShowCatalog": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "StreamJournalToKinesis": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "stream"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "ledger",
+    "stream",
+    "table"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "catalog",
+    "ledger",
+    "stream",
+    "table"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "UpdateLedger": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateLedgerPermissionsMode": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ledger"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "catalog": [
+   "arn:${Partition}:qldb:${Region}:${Account}:ledger/${LedgerName}/information_schema/user_tables"
+  ],
+  "ledger": [
+   "arn:${Partition}:qldb:${Region}:${Account}:ledger/${LedgerName}"
+  ],
+  "stream": [
+   "arn:${Partition}:qldb:${Region}:${Account}:stream/${LedgerName}/${StreamId}"
+  ],
+  "table": [
+   "arn:${Partition}:qldb:${Region}:${Account}:ledger/${LedgerName}/table/${TableId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "qldb:Purge": [
+   "String"
+  ]
+ }
+}

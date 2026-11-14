@@ -1,0 +1,1101 @@
+{
+ "prefix": "s3tables",
+ "name": "S3 Tables",
+ "actions": {
+  "CompleteTableMigration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3tables:TableBucketTag/${TagKey}",
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "CreateNamespace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3tables:KMSKeyArn",
+    "s3tables:SSEAlgorithm",
+    "s3tables:TableBucketTag/${TagKey}",
+    "s3tables:namespace"
+   ],
+   "data_plane": false
+  },
+  "CreateTableBucket": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3tables:KMSKeyArn",
+    "s3tables:SSEAlgorithm",
+    "s3tables:TableBucketTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteNamespace": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "s3tables:namespace"
+   ],
+   "data_plane": false
+  },
+  "DeleteTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "DeleteTableBucket": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTableBucketEncryption": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTableBucketMetricsConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTableBucketPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTableBucketReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteTablePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "DeleteTableReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetNamespace": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "s3tables:namespace"
+   ],
+   "data_plane": false
+  },
+  "GetTable": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableBucket": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableBucketEncryption": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableBucketLogging": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableBucketMaintenanceConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableBucketMetricsConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableBucketPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableBucketReplication": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableBucketStorageClass": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetTableData": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": null
+  },
+  "GetTableEncryption": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableMaintenanceConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableMaintenanceJobStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableMetadataLocation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableMigration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3tables:TableBucketTag/${TagKey}",
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTablePolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableRecordExpirationConfiguration": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableRecordExpirationJobStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableReplication": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableReplicationStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "GetTableStorageClass": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "ListNamespaces": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTableBuckets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTableMigrations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table",
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3tables:TableBucketTag/${TagKey}",
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "ListTables": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "s3tables:namespace"
+   ],
+   "data_plane": false
+  },
+  "ListTagsForResource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Table",
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3tables:TableBucketTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "PutTableBucketEncryption": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "s3tables:KMSKeyArn",
+    "s3tables:SSEAlgorithm"
+   ],
+   "data_plane": false
+  },
+  "PutTableBucketLogging": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutTableBucketMaintenanceConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutTableBucketMetricsConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutTableBucketPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutTableBucketReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutTableBucketStorageClass": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "s3tables:StorageClass"
+   ],
+   "data_plane": false
+  },
+  "PutTableData": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": null
+  },
+  "PutTableEncryption": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:KMSKeyArn",
+    "s3tables:SSEAlgorithm",
+    "s3tables:namespace"
+   ],
+   "data_plane": false
+  },
+  "PutTableMaintenanceConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "PutTablePolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "PutTableRecordExpirationConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "PutTableReplication": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "PutTableStorageClass": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:StorageClass",
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "RenameTable": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "StartTableMigration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3tables:TableBucketTag/${TagKey}",
+    "s3tables:namespace"
+   ],
+   "data_plane": false
+  },
+  "SyncTableMigration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3tables:TableBucketTag/${TagKey}",
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table",
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3tables:TableBucketTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table",
+    "TableBucket"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys",
+    "s3tables:TableBucketTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdateTableMetadataLocation": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  },
+  "UpdateTableMigration": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Table"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3tables:TableBucketTag/${TagKey}",
+    "s3tables:namespace",
+    "s3tables:tableName"
+   ],
+   "data_plane": false
+  }
+ },
+ "resources": {
+  "Table": [
+   "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}"
+  ],
+  "TableBucket": [
+   "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "s3tables:KMSKeyArn": [
+   "ARN"
+  ],
+  "s3tables:SSEAlgorithm": [
+   "String"
+  ],
+  "s3tables:StorageClass": [
+   "String"
+  ],
+  "s3tables:TableBucketTag/${TagKey}": [
+   "String"
+  ],
+  "s3tables:namespace": [
+   "String"
+  ],
+  "s3tables:tableName": [
+   "String"
+  ]
+ }
+}
