@@ -102,7 +102,13 @@ export function buildReport(m, { version, fixes, plan = null, generated = new Da
         <p>Breaks ${c.breaks.map((b) => `<span class="mono">${esc(b.technique)}</span> ${esc(short(b.from))} to ${esc(b.to === "admin" ? "admin" : short(b.to))}`).join("; ")}.</p>
         ${c.granted_by.length ? `<p>Instead of a Deny, you can narrow: ${c.granted_by.map((g) => `${esc(policyLabel(g.policy))}, ${esc(g.statement)}`).join("; ")}.</p>` : ""}</div>`).join("");
     const pols = Object.entries(plan.policies).map(([who, doc]) => `<h3>Inline policy for ${esc(short(who))}</h3><pre>${esc(JSON.stringify(doc, null, 2))}</pre>`).join("");
-    return head + cards + pols;
+    const nar = plan.narrowed;
+    const narrowed = nar && nar.edits.length ? `<h3>Instead: narrow the Allow statements${nar.verified ? " (verified)" : nar.complete ? " (not verified)" : " (partial)"}</h3>
+      <p class="meta">Edit the statements that grant the permissions instead of adding Deny statements.</p>
+      ${nar.edits.map((e) => `<p><b>${esc(policyLabel(e.policy))}</b>, affects ${e.affects.map((a) => esc(short(a))).join(", ") || "nobody"}${e.also_removes.length ? `. Also no longer allows ${e.also_removes.map(esc).join("; ")}` : ""}.</p>${e.delete ? "<p>Delete this policy: it grants nothing else.</p>" : `<pre>${esc(JSON.stringify(e.document, null, 2))}</pre>`}`).join("")}
+      ${nar.problems.map((x) => `<p class="small">${esc(x)}</p>`).join("")}` : "";
+    const scp = plan.scp ? `<h3>Or: one SCP${plan.scp.verified ? " (verified)" : ""}</h3><pre>${esc(JSON.stringify(plan.scp.policy, null, 2))}</pre>${plan.scp.notes.map((x) => `<p class="small">${esc(x)}</p>`).join("")}` : "";
+    return head + cards + pols + narrowed + scp;
   })() : null;
   const entries = (m.entry && m.entry.entries) || [];
   const entryHtml = entries.length ? `<h2>Entry points</h2>

@@ -271,6 +271,8 @@ def test_cli_fix_writes_policies(tmp_path: Path, capsys: pytest.CaptureFixture[s
     assert out.startswith("Verified")
     files = list(tmp_path.glob("*.iam-trace-fix.json"))
     assert [f.name for f in files] == ["role-ops.iam-trace-fix.json"]
+    assert (tmp_path / "role-ops-inline-deploy.narrowed.json").exists()
+    assert json.loads((tmp_path / "iam-trace-fix.scp.json").read_text())["Statement"][0]["Effect"] == "Deny"
     assert json.loads(files[0].read_text())["Statement"][0]["Effect"] == "Deny"
 
 

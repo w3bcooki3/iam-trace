@@ -152,6 +152,72 @@ COLLECTORS: dict[str, Callable[[Runner, str, str, str], list[tuple[str, str | No
 }
 
 
+# --- data: buckets and keys, with their resource policies ---------------------------------------
+
+
+def _missing(e: CollectError, *codes: str) -> bool:
+    """An AWS error that means "there is none", such as NoSuchBucketPolicy."""
+    return any(c in str(e) for c in codes)
+
+
+def _buckets(run: Runner, account: str, partition: str) -> list[dict[str, Any]]:
+    """Every bucket with its policy, default KMS key and Block Public Access (bucket and account)."""
+    try:
+        acct_pab = run(["s3control", "get-public-access-block", "--account-id", account]).get(
+            "PublicAccessBlockConfiguration", {}
+        )
+    except CollectError as e:
+        if not _missing(e, "NoSuchPublicAccessBlockConfiguration"):
+            raise
+        acct_pab = {}
+    out = []
+    for b in run(["s3api", "list-buckets"]).get("Buckets", []):
+        name = b["Name"]
+        item: dict[str, Any] = {"Arn": f"arn:{partition}:s3:::{name}"}
+        try:
+            item["Policy"] = run(["s3api", "get-bucket-policy", "--bucket", name])["Policy"]
+        except CollectError as e:
+            if not _missing(e, "NoSuchBucketPolicy"):
+                raise
+        try:
+            rules = run(["s3api", "get-bucket-encryption", "--bucket", name])["ServerSideEncryptionConfiguration"][
+                "Rules"
+            ]
+            for rule in rules:
+                default = rule.get("ApplyServerSideEncryptionByDefault", {})
+                if default.get("SSEAlgorithm", "").startswith("aws:kms") and default.get("KMSMasterKeyID"):
+                    item["KmsKey"] = default["KMSMasterKeyID"]
+        except CollectError as e:
+            if not _missing(e, "ServerSideEncryptionConfigurationNotFoundError"):
+                raise
+        try:
+            pab = run(["s3api", "get-public-access-block", "--bucket", name]).get("PublicAccessBlockConfiguration", {})
+        except CollectError as e:
+            if not _missing(e, "NoSuchPublicAccessBlockConfiguration"):
+                raise
+            pab = {}
+        merged = {k: bool(pab.get(k)) or bool(acct_pab.get(k)) for k in set(pab) | set(acct_pab)}
+        if merged:
+            item["PublicAccessBlock"] = merged
+        out.append(item)
+    return out
+
+
+def _keys(run: Runner, region: str) -> list[dict[str, Any]]:
+    """Customer managed KMS keys in a region, with their key policy."""
+    out = []
+    for k in run(["kms", "list-keys", "--region", region]).get("Keys", []):
+        meta = run(["kms", "describe-key", "--key-id", k["KeyId"], "--region", region])["KeyMetadata"]
+        if meta.get("KeyManager") != "CUSTOMER" or meta.get("KeyState") == "PendingDeletion":
+            continue
+        pol = run(["kms", "get-key-policy", "--key-id", k["KeyId"], "--policy-name", "default", "--region", region])
+        out.append({"Arn": meta["Arn"], "Policy": pol["Policy"]})
+    return out
+
+
+DATA_KINDS = ("s3-bucket", "kms-key")
+
+
 def collect(
     run: Runner,
     regions: list[str] | None = None,
@@ -168,15 +234,38 @@ def collect(
     for r in regions:
         if not _REGION.match(r):
             raise CollectError(f"not a region name: {r!r}")
-    wanted = kinds or list(COLLECTORS)
+    wanted = kinds or [*COLLECTORS, *DATA_KINDS]
     for k in wanted:
-        if k not in COLLECTORS:
-            raise CollectError(f"unknown kind {k!r}; choose from {', '.join(COLLECTORS)}")
+        if k not in COLLECTORS and k not in DATA_KINDS:
+            raise CollectError(f"unknown kind {k!r}; choose from {', '.join([*COLLECTORS, *DATA_KINDS])}")
 
-    resources: list[dict[str, str]] = []
+    resources: list[dict[str, Any]] = []
     errors: list[dict[str, str]] = []
     collected = []
-    for kind in wanted:
+    if "s3-bucket" in wanted:
+        try:
+            buckets = _buckets(run, account, partition)
+            resources += buckets
+            collected.append("s3-bucket")
+            log(f"s3-bucket: {len(buckets)}")
+        except (CollectError, KeyError, TypeError, ValueError) as e:
+            errors.append({"kind": "s3-bucket", "region": "global", "error": str(e)[:300]})
+            log(f"s3-bucket: {e}")
+    if "kms-key" in wanted:
+        ok = True
+        for region in regions:
+            try:
+                keys = _keys(run, region)
+            except (CollectError, KeyError, TypeError, ValueError) as e:
+                ok = False
+                errors.append({"kind": "kms-key", "region": region, "error": str(e)[:300]})
+                log(f"kms-key in {region}: {e}")
+                continue
+            resources += keys
+            log(f"kms-key in {region}: {len(keys)}")
+        if ok:
+            collected.append("kms-key")
+    for kind in [k for k in wanted if k in COLLECTORS]:
         ok = True
         for region in regions:
             try:

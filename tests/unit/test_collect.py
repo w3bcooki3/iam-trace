@@ -6,7 +6,7 @@ from typing import Any
 
 import pytest
 
-from iamtrace.collect import COLLECTORS, CollectError, collect
+from iamtrace.collect import COLLECTORS, DATA_KINDS, CollectError, collect
 from iamtrace.inventory import KINDS, kind_of
 
 ACCT = "111122223333"
@@ -85,13 +85,53 @@ class FakeAws:
                     for n in names
                 ]
             }
+        data = self.data_answer(service, op, args, r)
+        if data is not None:
+            return data
         if (service, op) in answers:
             return answers[(service, op)]
         raise AssertionError(f"unexpected call {args}")
 
+    def data_answer(self, service: str, op: str, args: list[str], region: str) -> Any:
+        """Two buckets (one with a policy, KMS encryption and Block Public Access) and one key."""
+        missing = {
+            "get-bucket-policy": "NoSuchBucketPolicy",
+            "get-bucket-encryption": "ServerSideEncryptionConfigurationNotFoundError",
+            "get-public-access-block": "NoSuchPublicAccessBlockConfiguration",
+        }
+        bucket = args[args.index("--bucket") + 1] if "--bucket" in args else ""
+        if (service, op) == ("s3control", "get-public-access-block"):
+            raise CollectError("An error occurred (NoSuchPublicAccessBlockConfiguration)")
+        if (service, op) == ("s3api", "list-buckets"):
+            return {"Buckets": [{"Name": "reports"}, {"Name": "logs"}]}
+        if service == "s3api" and bucket == "logs":
+            raise CollectError(f"An error occurred ({missing[op]})")
+        if (service, op) == ("s3api", "get-bucket-policy"):
+            return {"Policy": '{"Version":"2012-10-17","Statement":[]}'}
+        if (service, op) == ("s3api", "get-bucket-encryption"):
+            key = f"arn:aws:kms:us-east-1:{ACCT}:key/k1"
+            return {
+                "ServerSideEncryptionConfiguration": {
+                    "Rules": [
+                        {"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "aws:kms", "KMSMasterKeyID": key}}
+                    ]
+                }
+            }
+        if (service, op) == ("s3api", "get-public-access-block"):
+            return {"PublicAccessBlockConfiguration": {"BlockPublicPolicy": True, "RestrictPublicBuckets": True}}
+        if (service, op) == ("kms", "list-keys"):
+            return {"Keys": [{"KeyId": "k1"}, {"KeyId": "aws1"}] if region == "us-east-1" else []}
+        if (service, op) == ("kms", "describe-key"):
+            key_id = args[args.index("--key-id") + 1]
+            manager = "CUSTOMER" if key_id == "k1" else "AWS"
+            return {"KeyMetadata": {"Arn": f"arn:aws:kms:{region}:{ACCT}:key/{key_id}", "KeyManager": manager}}
+        if (service, op) == ("kms", "get-key-policy"):
+            return {"Policy": '{"Version":"2012-10-17","Statement":[]}'}
+        return None
+
 
 def test_collector_for_every_kind() -> None:
-    assert set(COLLECTORS) == set(KINDS)
+    assert set(COLLECTORS) | set(DATA_KINDS) == set(KINDS)
 
 
 def test_collects_every_region_and_kind() -> None:
@@ -99,7 +139,7 @@ def test_collects_every_region_and_kind() -> None:
     inv = collect(aws)
     assert inv["Account"] == ACCT
     assert inv["Regions"] == ["eu-west-1", "us-east-1"]
-    assert inv["Collected"] == list(COLLECTORS)
+    assert inv["Collected"] == [*DATA_KINDS, *COLLECTORS]
     assert inv["Errors"] == []
     arns = [r["Arn"] for r in inv["Resources"]]
     assert all(kind_of(a) for a in arns), [a for a in arns if not kind_of(a)]
@@ -168,3 +208,23 @@ def test_cli_without_aws_cli(monkeypatch: pytest.MonkeyPatch, capsys: pytest.Cap
     monkeypatch.setattr(collect_mod.shutil, "which", lambda _: None)
     assert cli.main(["inventory", "collect", "--regions", "us-east-1"]) == 2
     assert "AWS CLI" in capsys.readouterr().err
+
+
+def test_collects_buckets_and_keys_with_their_policies() -> None:
+    from iamtrace.escalate import Environment
+    from iamtrace.inventory import load_inventory
+
+    inv = collect(FakeAws(), regions=["us-east-1"], kinds=["s3-bucket", "kms-key"])
+    assert inv["Collected"] == ["s3-bucket", "kms-key"]
+    by_arn = {r["Arn"]: r for r in inv["Resources"]}
+    reports = by_arn["arn:aws:s3:::reports"]
+    assert reports["KmsKey"].endswith("key/k1")
+    assert reports["PublicAccessBlock"]["RestrictPublicBuckets"] is True
+    assert "Policy" in reports
+    assert set(by_arn["arn:aws:s3:::logs"]) == {"Arn"}  # no policy, no encryption, no block: all "missing"
+    assert [a for a in by_arn if ":kms:" in a] == [f"arn:aws:kms:us-east-1:{ACCT}:key/k1"]  # AWS managed skipped
+    env = Environment.from_auth_details(
+        {"UserDetailList": [], "GroupDetailList": [], "RoleDetailList": [], "Policies": []}
+    )
+    loaded = load_inventory(inv, env)
+    assert loaded.find("arn:aws:s3:::reports").kms_key.endswith("key/k1")  # type: ignore[union-attr]

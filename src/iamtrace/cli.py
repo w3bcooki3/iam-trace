@@ -19,6 +19,13 @@ from iamtrace.catalog import ACCESS_LEVELS, Catalog, CatalogMissing, user_cache_
 from iamtrace.catalog.refresh import refresh
 from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
 from iamtrace.collect import CollectError, aws_cli, collect
+from iamtrace.credentials import (
+    CredentialError,
+    CredentialReport,
+    collect_credential_report,
+    parse_credential_report,
+)
+from iamtrace.data import data_access, data_access_text, data_exposure, data_exposure_text
 from iamtrace.diff import diff_markdown, diff_policies, diff_sarif, diff_text
 from iamtrace.entry import entry_points, entry_points_text
 from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
@@ -30,6 +37,8 @@ from iamtrace.loader import load_any_policy, load_levels, load_policies, load_po
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import can_sarif, can_text, to_json
 from iamtrace.principals import Principal
+from iamtrace.terraform import TerraformError, review_markdown, review_text
+from iamtrace.terraform import review as terraform_review
 from iamtrace.whatif import what_if, what_if_text
 from iamtrace.whocan import who_can, who_can_text
 
@@ -438,9 +447,22 @@ def _load_account(path: str, inventory: str | None) -> Environment:
     return env
 
 
+def _load_credentials(path: str | None) -> CredentialReport | None:
+    if not path:
+        return None
+    try:
+        return parse_credential_report(Path(path).read_text(encoding="utf-8-sig"))
+    except OSError as e:
+        raise PolicyError(f"{path}: cannot read: {e}") from e
+    except CredentialError as e:
+        raise PolicyError(f"{path}: {e}") from e
+
+
 def cmd_entry_points(args: argparse.Namespace) -> int:
     env = _load_account(args.auth_details, args.inventory)
-    report = entry_points(env, scps=load_levels(args.scp, PolicyType.SCP))
+    report = entry_points(
+        env, scps=load_levels(args.scp, PolicyType.SCP), credentials=_load_credentials(args.credential_report)
+    )
     sys.stdout.write(entry_points_text(report) if args.format == "text" else to_json(report))
     order = ["low", "medium", "high", "critical"]
     if args.fail_on != "never":
@@ -462,6 +484,12 @@ def _add_entry_points(sub: argparse._SubParsersAction[argparse.ArgumentParser]) 
         "--auth-details", required=True, metavar="FILE", help="aws iam get-account-authorization-details output"
     )
     p.add_argument("--inventory", metavar="FILE", help="resource inventory, to confirm more escalation paths")
+    p.add_argument(
+        "--credential-report",
+        metavar="FILE",
+        help="IAM credential report (from `iam-trace credentials collect` or aws iam get-credential-report): "
+        "which users really have keys, passwords and MFA",
+    )
     p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
     p.add_argument(
         "--fail-on",
@@ -473,14 +501,129 @@ def _add_entry_points(sub: argparse._SubParsersAction[argparse.ArgumentParser]) 
     p.set_defaults(func=cmd_entry_points)
 
 
+# --- data -------------------------------------------------------------------------------
+
+
+def cmd_data(args: argparse.Namespace) -> int:
+    env = _load_account(args.auth_details, args.inventory)
+    scps = load_levels(args.scp, PolicyType.SCP)
+    if args.resource:
+        try:
+            r = data_access(env, args.resource, args.access, scps=scps)
+        except ValueError as e:
+            raise PolicyError(str(e)) from e
+        sys.stdout.write(data_access_text(r) if args.format == "text" else to_json(r))
+        bad = r["public"] or bool(r["outside"])
+        return 1 if args.fail_on != "never" and bad else 0
+    x = data_exposure(env, scps=scps)
+    sys.stdout.write(data_exposure_text(x) if args.format == "text" else to_json(x))
+    order = ["low", "medium", "high", "critical"]
+    if args.fail_on != "never" and any(
+        order.index(r["rating"].lower()) >= order.index(args.fail_on) for r in x["resources"]
+    ):
+        return 1
+    return 0
+
+
+def _add_data(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "data",
+        help="who can read, write or delete the data in S3 buckets and KMS keys, by any route",
+        description="Without --resource, rates every bucket and key in the inventory, worst first. With it, lists "
+        "who can read (write, delete) that resource: directly, through escalation, and from outside the account. "
+        "Reading an SSE-KMS bucket needs kms:Decrypt on its key too. Collect buckets and keys with "
+        "`iam-trace inventory collect`.",
+    )
+    p.add_argument(
+        "--auth-details", required=True, metavar="FILE", help="aws iam get-account-authorization-details output"
+    )
+    p.add_argument("--inventory", metavar="FILE", help="resource inventory with buckets and keys")
+    p.add_argument("--resource", metavar="ARN", help="one bucket (arn:aws:s3:::name) or KMS key ARN")
+    p.add_argument("--access", choices=["read", "write", "delete"], default="read")
+    p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
+    p.add_argument(
+        "--fail-on",
+        choices=["never", "low", "medium", "high", "critical"],
+        default="never",
+        help="exit 1 if a resource is rated at least this (with --resource: if it is public or shared outside)",
+    )
+    p.add_argument("--format", choices=["text", "json"], default="text")
+    p.set_defaults(func=cmd_data)
+
+
+# --- terraform --------------------------------------------------------------------------
+
+
+def cmd_terraform(args: argparse.Namespace) -> int:
+    try:
+        plan = json.loads(Path(args.plan).read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError, RecursionError) as e:
+        raise PolicyError(f"{args.plan}: cannot read: {e}") from e
+    export = None
+    if args.auth_details:
+        try:
+            export = json.loads(Path(args.auth_details).read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError, RecursionError) as e:
+            raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
+    try:
+        r = terraform_review(plan, Catalog.load(args.catalog), export=export)
+    except TerraformError as e:
+        raise PolicyError(f"{args.plan}: {e}") from e
+    if args.format == "text":
+        sys.stdout.write(review_text(r))
+    elif args.format == "markdown":
+        sys.stdout.write(review_markdown(r))
+    else:
+        sys.stdout.write(to_json(r))
+    s = r["summary"]
+    fail = {
+        "never": False,
+        "new-path": s["new_paths"] > 0 or s["new_admins"] > 0,
+        "new-entry-point": s["new_entry_points"] > 0,
+        "escalation": s["new_escalations"] > 0 or s["new_paths"] > 0,
+        "check-high": s["high_checks"] > 0,
+        "any": s["new_paths"] + s["new_admins"] + s["new_entry_points"] + s["new_escalations"] + s["new_checks"] > 0,
+    }[args.fail_on]
+    return 1 if fail else 0
+
+
+def _add_terraform(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "terraform",
+        help="review the IAM changes in a Terraform plan (terraform show -json)",
+        description="Extracts every IAM policy, trust policy, bucket policy and key policy the plan changes, and "
+        "reports new escalation techniques and risky patterns. With --auth-details, applies the plan to the "
+        "account export and reports new paths to admin, new admins and new entry points.",
+    )
+    p.add_argument("plan", metavar="PLAN_JSON", help="output of terraform show -json plan.out")
+    p.add_argument("--auth-details", metavar="FILE", help="the current account export, to see what the plan changes")
+    p.add_argument("--catalog", metavar="DIR", help="action catalog directory")
+    p.add_argument(
+        "--fail-on",
+        choices=["never", "new-path", "new-entry-point", "escalation", "check-high", "any"],
+        default="never",
+        help="exit 1 if the plan does this",
+    )
+    p.add_argument("--format", choices=["text", "json", "markdown"], default="text")
+    p.set_defaults(func=cmd_terraform)
+
+
 # --- fix --------------------------------------------------------------------------------
 
 
 def cmd_fix(args: argparse.Namespace) -> int:
     env = _load_account(args.auth_details, args.inventory)
     try:
+        try:
+            cat: Catalog | None = Catalog.load()
+        except CatalogMissing:
+            cat = None  # wildcards then cannot be listed out; such changes keep their Deny
         plan = fix_plan(
-            env, start=args.principal, scps=load_levels(args.scp, PolicyType.SCP), include_gated=args.include_gated
+            env,
+            start=args.principal,
+            scps=load_levels(args.scp, PolicyType.SCP),
+            include_gated=args.include_gated,
+            catalog=cat,
         )
     except ValueError as e:
         raise PolicyError(str(e)) from e
@@ -490,6 +633,17 @@ def cmd_fix(args: argparse.Namespace) -> int:
         for principal, policy in plan["policies"].items():
             name = principal.split(":", 5)[-1].replace("/", "-")
             (out / f"{name}.iam-trace-fix.json").write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8")
+        narrowed = plan.get("narrowed") or {}
+        for edit in narrowed.get("edits", []):
+            if edit.get("document") is None:
+                continue
+            name = edit["policy"].split(":", 5)[-1].replace("/", "-").replace(" ", "-")
+            text = json.dumps(edit["document"], indent=2) + "\n"
+            (out / f"{name}.narrowed.json").write_text(text, encoding="utf-8")
+        if plan.get("scp"):
+            (out / "iam-trace-fix.scp.json").write_text(
+                json.dumps(plan["scp"]["policy"], indent=2) + "\n", encoding="utf-8"
+            )
     sys.stdout.write(fix_plan_text(plan) if args.format == "text" else to_json(public(plan)))
     return 0 if plan["verified"] else 1
 
@@ -540,6 +694,33 @@ def cmd_inventory_collect(args: argparse.Namespace) -> int:
             file=sys.stderr,
         )
     return 0
+
+
+def cmd_credentials_collect(args: argparse.Namespace) -> int:
+    text = collect_credential_report(aws_cli(args.profile))
+    if args.out:
+        Path(args.out).write_text(text, encoding="utf-8")
+        report = parse_credential_report(text)
+        print(f"{len(report.users)} users in the credential report", file=sys.stderr)
+    else:
+        sys.stdout.write(text)
+    return 0
+
+
+def _add_credentials(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser("credentials", help="the IAM credential report, for entry-points --credential-report")
+    csub = p.add_subparsers(dest="credentials_command", required=True)
+    c = csub.add_parser(
+        "collect",
+        help="get a fresh credential report with the AWS CLI (read-only)",
+        description="Runs aws iam generate-credential-report until the report is ready, then "
+        "aws iam get-credential-report. Needs iam:GenerateCredentialReport and iam:GetCredentialReport "
+        "(both in the SecurityAudit managed policy). The report lists every user's password, MFA and access key "
+        "status and dates; it contains no secrets.",
+    )
+    c.add_argument("--out", metavar="FILE", help="write the report here (default: stdout)")
+    c.add_argument("--profile", metavar="NAME", help="AWS CLI profile")
+    c.set_defaults(func=cmd_credentials_collect)
 
 
 def _add_inventory(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
@@ -609,7 +790,10 @@ SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]]
     _add_escalate,
     _add_who_can,
     _add_entry_points,
+    _add_data,
+    _add_terraform,
     _add_fix,
+    _add_credentials,
     _add_inventory,
     _add_catalog,
 ]

@@ -197,14 +197,18 @@ def test_load_warns_about_unknown_kinds_and_profiles() -> None:
         {
             "Collected": ["lambda-function", "spaceship"],
             "Resources": [
-                {"Arn": "arn:aws:s3:::bucket", "Role": BILLING_ROLE},
+                {"Arn": "arn:aws:sqs:us-east-1:111122223333:queue", "Role": BILLING_ROLE},
                 {"Arn": INSTANCE, "Role": f"arn:aws:iam::{ACCT}:instance-profile/missing"},
             ],
         },
         env,
     )
     text = " ".join(inv.warnings)
-    assert "spaceship" in text and "arn:aws:s3:::bucket" in text and "instance-profile/missing" in text
+    assert (
+        "spaceship" in text
+        and "arn:aws:sqs:us-east-1:111122223333:queue" in text
+        and "instance-profile/missing" in text
+    )
     assert inv.collected == {"lambda-function"}
 
 

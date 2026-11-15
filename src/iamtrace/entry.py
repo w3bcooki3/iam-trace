@@ -28,6 +28,7 @@ import json
 import re
 from typing import Any
 
+from iamtrace.credentials import CredentialReport, describe_user
 from iamtrace.escalate import Environment, Node, analyze
 from iamtrace.evaluate import PolicySet, Request, evaluate
 from iamtrace.model import Policy, PolicyType
@@ -51,6 +52,8 @@ LEVELS: dict[str, tuple[int, str]] = {
     "broad": (70, "A large group"),
     "branch": (55, "Any branch or pull request"),
     "external": (50, "Another AWS account"),
+    "root": (100, "The root user's credentials"),
+    "user-stale": (60, "Stale IAM user credentials"),
     "user": (50, "IAM user credentials"),
     "external-id": (30, "Another AWS account, with ExternalId"),
     "org": (25, "The AWS organisation"),
@@ -207,7 +210,7 @@ def _github(role: Node, st: Any, caller: Principal, add: Any) -> None:
     if ok(PROBE_OWNER, "not-yours", f"repo:{PROBE_OWNER}/not-yours:ref:refs/heads/main"):
         add(
             "public",
-            "any GitHub repository: a workflow anyone writes can assume it",
+            "any GitHub repository (a workflow anyone writes)",
             st,
             fix_repo,
             "The trust policy does not limit the token's subject (sub) to your repositories.",
@@ -355,8 +358,13 @@ def entry_points(
     *,
     everyone: dict[str, Any] | None = None,
     scps: list[list[Policy]] | None = None,
+    credentials: CredentialReport | None = None,
 ) -> dict[str, Any]:
-    """Every principal someone outside the account could start as, worst first."""
+    """Every principal someone outside the account could start as, worst first.
+
+    With a credential report, users with no password and no active access key are left out (they
+    cannot be used from outside), stale or unused keys and passwords without MFA rank higher, and
+    root user access keys are reported. Without one, every user is listed."""
     if everyone is None:
         everyone = analyze(env, scps=scps)
     shortest: dict[str, dict[str, Any]] = {}
@@ -370,21 +378,16 @@ def entry_points(
             shortest[path["start"]] = path
     by_arn = {p["arn"]: p for p in everyone["principals"]}
     entries: list[dict[str, Any]] = []
+    warnings: list[str] = []
+    no_credentials = 0
     for arn in sorted(env.nodes):
         node = env.nodes[arn]
         if node.kind == "user":
-            exposures = [
-                {
-                    "level": "user",
-                    "who": "anyone holding its access keys or console password",
-                    "source": "user",
-                    "statement": "",
-                    "statement_label": "",
-                    "fix": "Prefer roles with short-lived credentials (for example IAM Identity Center); "
-                    "remove unused access keys and require MFA.",
-                    "detail": "The account export does not say whether the user has keys or a password.",
-                }
-            ]
+            creds = credentials.users.get(arn) if credentials else None
+            if credentials is not None and creds is not None and not creds.usable:
+                no_credentials += 1
+                continue
+            exposures = [_user_exposure(creds, credentials is not None)]
         else:
             exposures = trust_exposures(node)
         if not exposures:
@@ -405,11 +408,107 @@ def entry_points(
         }
         entry["why"] = _why(entry)
         entries.append(entry)
+    if credentials is not None:
+        if credentials.root is not None:
+            root = _root_entry(credentials.root, env)
+            if root is not None:
+                entries.append(root)
+        missing = sorted(set(credentials.users) - set(env.nodes))
+        if missing:
+            warnings.append(
+                f"{len(missing)} user{'s' if len(missing) != 1 else ''} in the credential report "
+                f"{'are' if len(missing) != 1 else 'is'} not in the account export: "
+                + ", ".join(_short(a) for a in missing[:10])
+                + (" and more" if len(missing) > 10 else "")
+                + ". Export and report may be from different times or accounts."
+            )
     entries.sort(key=lambda e: (-e["score"], e["principal"]))
     summary = {r.lower(): sum(1 for e in entries if e["rating"] == r) for r in ("Critical", "High", "Medium", "Low")}
     summary["external"] = sum(1 for e in entries if e["kind"] == "role")
     summary["users"] = sum(1 for e in entries if e["kind"] == "user")
-    return {"entries": entries, "summary": summary}
+    summary["no_credentials"] = no_credentials
+    return {
+        "entries": entries,
+        "summary": summary,
+        "warnings": warnings,
+        "credential_report": None
+        if credentials is None
+        else {"generated": credentials.generated, "users": len(credentials.users)},
+    }
+
+
+def _user_exposure(creds: Any, have_report: bool) -> dict[str, Any]:
+    if creds is None:
+        return {
+            "level": "user",
+            "who": "anyone holding its access keys or console password",
+            "source": "user",
+            "statement": "",
+            "statement_label": "",
+            "fix": "Prefer roles with short-lived credentials (for example IAM Identity Center); "
+            "remove unused access keys and require MFA.",
+            "detail": "The credential report does not list this user."
+            if have_report
+            else "The account export does not say whether the user has keys or a password. "
+            "Add a credential report to know.",
+        }
+    who, detail, fix = describe_user(creds)
+    stale = bool(creds.stale_keys()) or (creds.password and not creds.mfa)
+    return {
+        "level": "user-stale" if stale else "user",
+        "who": who,
+        "source": "user",
+        "statement": "",
+        "statement_label": "",
+        "fix": fix,
+        "detail": detail,
+    }
+
+
+def _root_entry(root: Any, env: Environment) -> dict[str, Any] | None:
+    """The root user is admin of everything; its access keys, or a password without MFA, are critical."""
+    problems = []
+    fixes = []
+    if root.active_keys:
+        ages = [k.age_days for k in root.active_keys if k.age_days is not None]
+        problems.append(
+            f"{len(root.active_keys)} active access key{'s' if len(root.active_keys) != 1 else ''}"
+            + (f", the oldest {max(ages)} days old" if ages else "")
+        )
+        fixes.append("Delete the root user's access keys; use IAM roles instead.")
+    if root.password and not root.mfa:
+        problems.append("a console password without MFA")
+        fixes.append("Turn on MFA for the root user.")
+    if not problems:
+        return None
+    account = next(iter(env.nodes.values())).account if env.nodes else ""
+    score = 100 if root.active_keys else 90
+    entry: dict[str, Any] = {
+        "principal": root.arn or f"arn:aws:iam::{account}:root",
+        "kind": "root",
+        "exposure": {
+            "level": "root",
+            "who": "anyone holding the root user's " + " and ".join(problems),
+            "source": "user",
+            "statement": "",
+            "statement_label": "",
+            "fix": " ".join(fixes),
+            "detail": "The root user can do anything in the account, and policies and SCPs do not limit it.",
+        },
+        "other_exposures": [],
+        "impact": {
+            "admin": True,
+            "admin_reason": "the root user",
+            "steps": None,
+            "path": None,
+            "confirmed": 0,
+            "possible": 0,
+        },
+        "score": score,
+        "rating": _rating(score),
+    }
+    entry["why"] = f"The root user has {' and '.join(problems)}, and it is the account's root: full control."
+    return entry
 
 
 def _short(arn: str) -> str:
@@ -425,6 +524,11 @@ def entry_points_text(report: dict[str, Any]) -> str:
         f"{len(entries)} entry point{'s' if len(entries) != 1 else ''}: {s['critical']} critical, {s['high']} high, "
         f"{s['medium']} medium, {s['low']} low. Worst first.",
     ]
+    if s.get("no_credentials"):
+        n = s["no_credentials"]
+        lines.append(f"{n} user{'s' if n != 1 else ''} with no password and no active access key left out.")
+    for w in report.get("warnings", []):
+        lines.append(f"Warning: {w}")
     for e in entries:
         lines.append("")
         lines.append(f"{e['rating']:<8} {e['score']:>3}  {_short(e['principal'])}")

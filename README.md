@@ -268,7 +268,7 @@ provider, an unauthenticated Cognito identity, a principal in an unrelated AWS a
 named account without `sts:ExternalId`? Each exposure is combined with the escalation analysis:
 
     Critical  87  role/github-deploy
-                  Reachable by any GitHub repository: a workflow anyone writes can assume it,
+                  Reachable by any GitHub repository (a workflow anyone writes),
                   and reaches admin in 2 steps.
                   Path: role/github-deploy -> [sts-001] role/ops -> [ec2-001] role/ec2-admin
                   Fix: Add a StringEquals condition on "token.actions.githubusercontent.com:sub" ...
@@ -276,6 +276,17 @@ named account without `sts:ExternalId`? Each exposure is combined with the escal
 A trust policy that checks the token's audience (`aud`) but not its subject (`sub`) is the
 common mistake this catches: every GitHub repository in the world gets the role. `check` reports
 the same finding as `open-federated-trust`.
+
+The account export doesn't say which users have access keys or a password, so by default every
+user is listed. Add the IAM credential report to know:
+
+    iam-trace credentials collect --out credentials.json      # read-only, uses your AWS CLI
+    iam-trace entry-points --auth-details auth.json --credential-report credentials.json
+
+Users with no password and no active key are then left out. Keys that are old or unused for more
+than 90 days, and passwords without MFA, rank higher, with the dates. Root user access keys, or
+a root password without MFA, are reported as critical. The report contains dates and flags, no
+secrets; the CSV and the JSON that `aws iam get-credential-report` prints both work.
 
 ### fix
 
@@ -296,11 +307,64 @@ whole analysis runs again; only a plan that leaves no path is reported as verifi
        Breaks: role/ops -> role/ec2-admin (ec2-001)
        Or narrow where it is granted: role/ops inline deploy Statement[0]
 
-Among equally small plans, the one that also fixes other principals wins. Each change names the
-Allow statement that grants the permission, if you would rather narrow it than add a Deny.
+Among equally small plans, the one that also fixes other principals wins.
+
+A verified plan comes in three forms, each verified the same way:
+
+- **Deny statements**, one inline policy per principal (above).
+- **Narrowed Allow statements**: the statements that grant the permission, rewritten. An action
+  denied everywhere is removed from the Action list (a short wildcard is listed out without
+  it); an action denied on specific resources gets its own statement on what remains (exact ARNs
+  removed, a wildcard replaced by the roles or users that exist today, `"*"` turned into
+  `NotResource`). Anything else the edit stops allowing is named, for example "iam:PassRole on
+  roles created later", and a managed or group policy says who else it affects.
+- **One SCP** with every Deny, limited to its principal with `aws:PrincipalArn`, to attach next
+  to `FullAWSAccess`.
+
+`--out-dir` writes all three.
 Paths that need MFA or a network location are left alone by default, since access like that is
 usually intended (break-glass admin with MFA); `--include-gated` cuts them too. Exit code 1
 means the plan could not be verified.
+
+### terraform
+
+    terraform plan -out plan.out && terraform show -json plan.out > plan.json
+    iam-trace terraform plan.json --auth-details auth.json [--format markdown] [--fail-on new-path]
+
+Reviews the IAM changes in a plan before it is applied: managed, inline and trust policies,
+attachments, group membership, bucket policies and key policies. Each changed document gets a
+semantic diff, the escalation techniques and risky patterns it introduces, and a note if
+Terraform will only know it at apply time. With the account export, the plan is applied to a copy
+of it (including policies created in the same plan and attached by reference) and both versions
+are analysed:
+
+    Account after the plan: 1 new path(s) to admin, 0 removed; 0 new admin-equivalent principal(s); 1 new or worse entry point(s).
+      NEW PATH role/release -> [sts-001] role/ops -> [ec2-001] role/ec2-admin
+      ENTRY Critical role/release: Reachable by any GitHub repository (a workflow anyone writes), and reaches admin in 2 steps.
+
+`--format markdown` writes a pull-request comment. `examples/terraform/plan.json` is the plan above.
+
+### data
+
+    iam-trace data --auth-details auth.json --inventory inventory.json [--resource arn:aws:s3:::name] [--access read]
+
+Who can read, write or delete the data in your S3 buckets and KMS keys: directly, by escalating,
+or from outside the account. Without `--resource`, every bucket and key in the inventory is rated,
+worst first:
+
+    Critical example-public-assets
+             read: 6 directly, 0 through escalation; write: 2 + 3; outside: *
+    High     example-reports
+             read: 2 directly, 3 through escalation; write: 2 + 3; outside: arn:aws:iam::444455556666:root
+             encrypted with arn:aws:kms:us-east-1:111122223333:key/0f1e...
+
+Every permission involved counts. Reading an object in an SSE-KMS bucket takes `s3:GetObject`
+(identity and bucket policy) and `kms:Decrypt` on its key (which the key policy has to allow), so
+a role with only the first is listed as able to fetch the objects but not read them. A public
+bucket policy is reported as public only if outsiders can also use the key and S3 Block Public
+Access doesn't stop it; both cases are explained. `inventory collect` records each bucket's
+policy, default encryption key and Block Public Access settings, and each customer managed key's
+key policy.
 
 ### Output formats and exit codes
 
@@ -309,7 +373,7 @@ Every command supports `--format text|json|sarif`; `diff` also supports `markdow
 | Exit code | Meaning |
 |---|---|
 | 0 | Success. For `can`, the request is allowed. |
-| 1 | For `can`, the request is denied. For `check`, `diff`, `escalate` and `entry-points`, a `--fail-on` condition matched. For `fix`, the plan could not be verified. |
+| 1 | For `can`, the request is denied. For `check`, `diff`, `escalate`, `entry-points`, `data` and `terraform`, a `--fail-on` condition matched. For `fix`, the plan could not be verified. |
 | 2 | A usage error, an unreadable file, or a policy AWS would reject. |
 
 ## GitHub Action
@@ -342,6 +406,22 @@ base version are not repeated.
 JSON files that aren't policy documents are ignored. For pull requests from forks, the token is
 read-only, so the review goes to the job summary only.
 
+With Terraform, give the action the plan in JSON, and the current account export if you have it
+(an artifact from a scheduled job, for example):
+
+```yaml
+      - run: terraform plan -out plan.out && terraform show -json plan.out > plan.json
+      - uses: w3bcooki3/iam-trace/action@main
+        with:
+          paths: "policies/**/*.json"
+          terraform-plan: plan.json
+          auth-details: auth-details.json   # optional
+          fail-on-terraform: "new-path"     # or never | new-entry-point | escalation | check-high | any
+```
+
+The same comment then says whether the plan opens a path to admin, which entry points it adds,
+and what each changed document now allows.
+
 ## Web app
 
 `web/` is a single-page app that runs the same engine in the browser with
@@ -358,6 +438,10 @@ read-only, so the review goes to the job summary only.
   step to see whether another route to admin remains.
 - **Who can**: every principal that can perform an action on a resource, directly or through
   escalation, drawn as an access graph.
+- **Data access**: every bucket and key in the inventory rated by who can read and write it,
+  public and shared ones first, with the routes.
+- **Terraform plan**: the IAM changes in a plan, and with an account loaded, the new paths to
+  admin and entry points it would create. Copy the result as a pull-request comment.
 - **Download report**: one HTML file with the verdict, paths, fixes and principals at risk. No
   scripts; prints to PDF.
 - **Findings**: every technique for every principal, searchable, with text, SARIF and JSON
@@ -487,9 +571,9 @@ The most important ones:
   be supplied; a key you don't supply is treated as missing. The escalation analysis fills in
   tags from the export and tries the values conditions name, but only for the keys listed in
   [docs/limitations.md](docs/limitations.md).
-- **Entry points:** the export doesn't say which users have access keys or a password, so every
-  user is listed; nor which identity providers exist, so a trust policy naming a provider that
-  was deleted is still reported.
+- **Entry points:** without a credential report every user is listed, since the export doesn't
+  say who has access keys or a password. The export doesn't list identity providers either, so a
+  trust policy naming a provider that was deleted is still reported.
 - **Catalog access levels:** access levels are derived from AWS's annotation flags, because the
   JSON reference has no access-level field.
 - **Diff conditions:** the diff compares conditions by equality.

@@ -59,40 +59,9 @@ def _outside(env: Environment, policy: Policy | None, action: str) -> list[dict[
     return out
 
 
-def who_can(
-    env: Environment,
-    action: str,
-    resource: str,
-    *,
-    scps: list[list[Policy]] | None = None,
-    resource_policy: Policy | None = None,
-    context: dict[str, Any] | None = None,
-    report: dict[str, Any] | None = None,
-) -> dict[str, Any]:
-    direct: dict[str, dict[str, Any]] = {}
-    for arn, node in env.nodes.items():
-        req = Request(
-            node.caller(), action, resource, resource_account=_account_of(resource, node.account), context=context or {}
-        )
-        ps = PolicySet(
-            identity=node.policies,
-            boundary=node.boundary,
-            scps=scps,
-            resource=[resource_policy] if resource_policy else [],
-        )
-        r = evaluate(req, ps)
-        if r.allowed:
-            grants = [
-                f"{m.policy_id} / {m.statement}"
-                for t in r.trace
-                if t.outcome in ("allow", "pass")
-                for m in t.matches
-                if m.effect == "Allow" and m.policy_type in ("identity", "resource")
-            ]
-            direct[arn] = {"principal": arn, "kind": node.kind, "granted_by": sorted(set(grants))}
-
-    # Confirmed escalation edges between principals in the export.
-    report = report or analyze(env, scps=scps)
+def escalation_routes(env: Environment, report: dict[str, Any], direct: set[str]) -> list[dict[str, Any]]:
+    """For every principal outside `direct`, the shortest confirmed escalation route to one inside
+    it: open steps first, then steps that need MFA, a network location or a time window."""
     # A step can need MFA, a network location or a time window ("requires", from the analysis).
     edges: dict[str, list[tuple[str, str, str, list[dict[str, str]]]]] = {}
     for p in report["principals"]:
@@ -152,6 +121,43 @@ def who_can(
             }
         )
     via.sort(key=lambda v: (not v["open"], len(v["steps"]), v["principal"]))
+    return via
+
+
+def who_can(
+    env: Environment,
+    action: str,
+    resource: str,
+    *,
+    scps: list[list[Policy]] | None = None,
+    resource_policy: Policy | None = None,
+    context: dict[str, Any] | None = None,
+    report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    direct: dict[str, dict[str, Any]] = {}
+    for arn, node in env.nodes.items():
+        req = Request(
+            node.caller(), action, resource, resource_account=_account_of(resource, node.account), context=context or {}
+        )
+        ps = PolicySet(
+            identity=node.policies,
+            boundary=node.boundary,
+            scps=scps,
+            resource=[resource_policy] if resource_policy else [],
+        )
+        r = evaluate(req, ps)
+        if r.allowed:
+            grants = [
+                f"{m.policy_id} / {m.statement}"
+                for t in r.trace
+                if t.outcome in ("allow", "pass")
+                for m in t.matches
+                if m.effect == "Allow" and m.policy_type in ("identity", "resource")
+            ]
+            direct[arn] = {"principal": arn, "kind": node.kind, "granted_by": sorted(set(grants))}
+
+    report = report or analyze(env, scps=scps)
+    via = escalation_routes(env, report, set(direct))
 
     outside = _outside(env, resource_policy, action)
     total = len(env.nodes)

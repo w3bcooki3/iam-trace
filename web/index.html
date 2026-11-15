@@ -56,12 +56,14 @@
     <button class="nav-item" data-go="overview"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Overview</button>
     <button class="nav-item" data-go="graph"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11l9.4-5M7.3 13l9.4 5"/></svg>Attack graph<span class="count" id="nav-paths" hidden></span></button>
     <button class="nav-item" data-go="whocan"><svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21 20c0-2.6-1.6-4.8-4-5.6"/></svg>Who can</button>
+    <button class="nav-item" data-go="data"><svg class="i" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></svg>Data access<span class="count" id="nav-data" hidden></span></button>
     <button class="nav-item" data-go="findings"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.4-3.4 8-8 9-4.6-1-8-4.6-8-9V7z"/><path d="M12 8v4M12 15.5v.5"/></svg>Findings<span class="count" id="nav-findings" hidden></span></button>
     <button class="nav-item" data-go="input"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>Data input</button>
     <h4>Tools</h4>
     <button class="nav-item" data-go="check"><svg class="i" viewBox="0 0 24 24"><path d="M9 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M3 4l3 3 4-5"/><path d="M9 12h7M9 16h5"/></svg>Policy check<span class="count" id="nav-check" hidden></span></button>
     <button class="nav-item" data-go="evaluate"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Evaluate a request</button>
     <button class="nav-item" data-go="diff"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M4 8h6M14 16h6M17 13v6"/></svg>Policy diff</button>
+    <button class="nav-item" data-go="terraform"><svg class="i" viewBox="0 0 24 24"><path d="M9 3.5l6 3.5v7l-6-3.5zM16 7.5l5-3v7l-5 3zM3 7.5l5 3v7l-5-3zM9 14.5l6 3.5v3l-6-3.5z"/></svg>Terraform plan</button>
     <h4>Help</h4>
     <button class="nav-item" data-go="docs"><svg class="i" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h6M8 11h6"/></svg>Documentation</button>
     <button class="nav-item" data-go="changelog"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Changelog</button>
@@ -76,7 +78,7 @@
     <!-- One sheet shows the result of Policy diff and Policy check over the whole work area. -->
     <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
       <header class="sheet-h">
-        <button class="btn" id="sheet-back"><svg class="i" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg>Back to editing</button>
+        <button class="btn" id="sheet-back"><svg class="i" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg><span id="sheet-back-label">Back to editing</span></button>
         <h2 id="sheet-title" tabindex="-1"></h2>
         <div class="sheet-actions" id="sheet-actions"></div>
       </header>
@@ -118,8 +120,9 @@
       <div class="source-tabs" role="tablist">
         <button class="src on" data-src="account" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 14h8"/></svg></span><div><b>Account export</b><span>Every user, group, role and policy in one AWS account</span></div></button>
         <button class="src" data-src="policy" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><div><b>Single policy</b><span>Check one identity policy on its own</span></div></button>
-        <button class="src" data-src="scp" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg></span><div><b>Organization SCPs</b><span>Optional guardrails applied to the account export</span></div></button>
-        <button class="src" data-src="inv" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="8" height="7" rx="1.5"/><path d="M15 16.5h4M17 14.5v4"/></svg></span><div><b>Resource inventory</b><span>Optional: existing functions, instances and the roles they run as</span></div></button>
+        <button class="src" data-src="scp" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg></span><div><b>Organization SCPs</b><span>Optional: guardrails from AWS Organizations</span></div></button>
+        <button class="src" data-src="inv" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="8" height="7" rx="1.5"/><path d="M15 16.5h4M17 14.5v4"/></svg></span><div><b>Resource inventory</b><span>Optional: existing resources and their roles</span></div></button>
+        <button class="src" data-src="cred" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg></span><div><b>Credential report</b><span>Optional: who has keys, passwords and MFA</span></div></button>
       </div>
       <div class="input-grid">
         <div>
@@ -131,7 +134,7 @@
           </div>
           <div class="file-row" id="file-row" hidden><span class="fi"><svg class="i" viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><div><b class="mono" id="file-name"></b><small id="file-meta"></small></div><span class="tag ok" id="file-tag">Loaded</span><button class="icon-btn" id="file-clear" title="Clear" aria-label="Clear"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
           <div class="editor">
-            <div class="editor-bar"><span class="fname" id="ed-name">auth-details.json</span><span>JSON</span><div class="right"><button class="link-like btn" id="ed-example">Load example</button><span id="ed-lines"></span></div></div>
+            <div class="editor-bar"><span class="fname" id="ed-name">auth-details.json</span><span id="ed-type">JSON</span><div class="right"><button class="link-like btn" id="ed-example">Load example</button><span id="ed-lines"></span></div></div>
             <div class="editor-body"><div class="gutter" id="gutter" aria-hidden="true"></div><textarea id="editor" spellcheck="false" aria-label="Input JSON" placeholder="Paste JSON here"></textarea></div>
           </div>
         </div>
@@ -148,6 +151,10 @@
             <div class="cmd" id="cmd">aws iam get-account-authorization-details --output json &gt; auth-details.json<button class="icon-btn copy" data-copy="aws iam get-account-authorization-details --output json > auth-details.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
             <p class="cmd-note">Read-only. Needs <span class="mono">iam:GetAccountAuthorizationDetails</span>, which the AWS managed policy SecurityAudit includes.</p>
           </div></div>
+          <div class="glass" id="get-credentials" hidden><div class="card-h"><h3>Get the credential report</h3></div><div class="card-b">
+            <div class="cmd">iam-trace credentials collect --out credentials.json<button class="icon-btn copy" data-copy="iam-trace credentials collect --out credentials.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
+            <p class="cmd-note">Read-only. Or with the AWS CLI alone: <span class="mono">aws iam generate-credential-report</span>, then <span class="mono">aws iam get-credential-report &gt; credentials.json</span>. SecurityAudit includes both permissions. The report lists dates and flags, no secrets.</p>
+          </div></div>
           <div class="glass" id="get-inventory" hidden><div class="card-h"><h3>Get the inventory</h3></div><div class="card-b">
             <div class="cmd">iam-trace inventory collect --out inventory.json<button class="icon-btn copy" data-copy="iam-trace inventory collect --out inventory.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
             <p class="cmd-note">Read-only list and describe calls through your AWS CLI, in every enabled region. ReadOnlyAccess or SecurityAudit is enough. Add <span class="mono">--regions us-east-1,eu-west-1</span> to limit it.</p>
@@ -158,6 +165,11 @@
     </div></section>
 
     <!-- ============================================================== who can -->
+    <section class="view" id="v-data"><div class="page">
+      <div class="page-head"><div><h1>Data access</h1><p>Who can read, write or delete the data in your S3 buckets and KMS keys: directly, by escalating, or from outside the account. Reading an encrypted bucket takes the key too.</p></div></div>
+      <div id="data-body"></div>
+    </div></section>
+
     <section class="view" id="v-whocan"><div class="page">
       <div class="page-head">
         <div><h1>Who can</h1><p>Every user and role in the account that can perform an action on a resource: directly, or by escalating to someone who can.</p></div>
@@ -234,6 +246,37 @@
     </div></section>
 
     <!-- ============================================================== diff -->
+    <section class="view" id="v-terraform"><div class="page workspace">
+      <div class="page-head">
+        <div><h1>Terraform plan</h1><p>Review the IAM changes in a plan before you apply it: new escalation techniques, risky patterns, and with an account loaded, new paths to admin and new entry points.</p></div>
+        <div class="actions"><button class="btn" id="tf-example">Load example</button><button class="btn primary" id="tf-run" disabled>Review plan</button></div>
+      </div>
+      <div class="pc-grid">
+        <div>
+          <div class="editor pc-editor">
+            <div class="editor-bar"><span class="fname">plan.json</span><span>terraform show -json plan.out</span></div>
+            <div class="editor-body"><div class="gutter" id="tfg" aria-hidden="true"></div><textarea id="tf-text" spellcheck="false" aria-label="Terraform plan JSON" placeholder="Paste the output of terraform show -json here"></textarea></div>
+          </div>
+        </div>
+        <div class="side-stack">
+          <div class="dropzone glass pc-drop" id="tf-drop">
+            <span class="dz-ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>
+            <div><b>Drop the plan here</b><span>The JSON from terraform show -json, not the binary plan file.</span></div>
+            <button class="btn" id="tf-choose">Choose file</button>
+            <input type="file" id="tf-file" class="hidden-input" accept=".json,application/json" tabindex="-1">
+          </div>
+          <div class="glass"><div class="card-h"><h3>Compare with the account</h3></div><div class="card-b">
+            <label class="toggle">Apply the plan to the loaded account export and report new paths to admin and new entry points<input type="checkbox" id="tf-account" checked><span class="switch"></span></label>
+            <p class="cmd-note" id="tf-account-note"></p>
+          </div></div>
+          <div class="glass"><div class="card-h"><h3>Get the plan</h3></div><div class="card-b">
+            <div class="cmd">terraform plan -out plan.out &amp;&amp; terraform show -json plan.out &gt; plan.json<button class="icon-btn copy" data-copy="terraform plan -out plan.out && terraform show -json plan.out > plan.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
+            <p class="cmd-note">The plan can contain secrets from your configuration. It is read in this tab and never leaves it.</p>
+          </div></div>
+        </div>
+      </div>
+    </div></section>
+
     <section class="view" id="v-diff"><div class="page workspace">
       <div class="page-head">
         <div><h1>Policy diff</h1><p>What a policy change grants and takes away. Reordering statements, renaming Sids and splitting statements are not changes.</p></div>
@@ -333,7 +376,8 @@
           <p>The most common finding is a GitHub Actions role whose trust policy checks the token's audience (<code class="c">aud</code>) but not its subject (<code class="c">sub</code>). Every GitHub repository in the world can then assume it. The fix is a condition on <code class="c">token.actions.githubusercontent.com:sub</code> naming your repository and branch.</p>
           <h3>Fix plan</h3>
           <p>The <strong>Fix plan</strong> card gives the fewest changes that remove every open path to admin, from the starting principal or from every principal. Each change is a Deny statement, scoped to the role, user or policy the step targets wherever possible, since denying a permission everywhere breaks more of what the principal legitimately does. iam-trace finds the cheapest set (a minimum hitting set over every route to admin), adds the statements to a copy of the account and runs the whole analysis again. Only a plan that leaves no path is marked <span class="tag ok">Verified</span>.</p>
-          <p>Each change says what the principal can no longer do and names the statement that grants the permission, if you would rather narrow that statement than add a Deny. <strong>Show on graph</strong> cuts the steps so you can see the result; <strong>Download policies</strong> saves them as JSON. Paths that need MFA or a network location are left alone unless you choose <em>Cut them too</em>: access like that is usually intended, such as break-glass admin with MFA.</p>
+          <p>Each change says what the principal can no longer do and names the statement that grants the permission, if you would rather narrow that statement than add a Deny. <strong>Show on graph</strong> cuts the steps so you can see the result; <strong>Download policies</strong> saves them as JSON.</p>
+          <p><strong>Apply as</strong> switches between three forms of the same fix, each verified separately: Deny statements; <strong>Narrow the Allow</strong>, which rewrites the statements that grant the permissions (removing an action, or limiting it to the resources that should keep it) and names anything else the edit stops allowing; and <strong>One SCP</strong> for AWS Organizations, limited to each principal with <code class="c">aws:PrincipalArn</code>. Paths that need MFA or a network location are left alone unless you choose <em>Cut them too</em>: access like that is usually intended, such as break-glass admin with MFA.</p>
           <h3>Example</h3>
           <p>In the sample account, the user <code class="c">dev</code> can assume the role <code class="c">ops</code> (technique sts-001). <code class="c">ops</code> can launch an EC2 instance with the <code class="c">ec2-admin</code> role attached and read its credentials (ec2-001). <code class="c">ec2-admin</code> has full access. So dev reaches admin in two steps:</p>
           <div class="codeblock"><div class="cb-h">result</div><pre>user/dev --[<span class="r">sts-001</span>]--> role/ops --[<span class="r">ec2-001</span>]--> role/ec2-admin
@@ -416,6 +460,12 @@
             <li><strong>Treat it as internal:</strong> it describes how your account is set up.</li>
           </ul>
           <div class="callout callout-warn"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg><div>The export does not include your organization's SCPs. If the account is in AWS Organizations, add them under <strong>Organization SCPs</strong> in Data input. SCPs can block a path, so results without them may overstate the risk.</div></div>
+          <h3>Buckets and keys</h3>
+          <p>The same inventory also records your S3 buckets (with their bucket policy, default encryption key and Block Public Access settings) and customer managed KMS keys (with their key policy). <a href="#data">Data access</a> then rates each one by who can read and write its data, directly, by escalating or from outside the account. Reading an encrypted bucket takes <code class="c">kms:Decrypt</code> on its key too, so a role that can fetch objects but can't decrypt them is listed separately.</p>
+          <h3>Optional: a credential report</h3>
+          <p>The account export doesn't say which users have access keys or a password, so Entry points lists every user. The IAM credential report says, with dates. Get it read-only:</p>
+          <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>iam-trace credentials collect --out credentials.json</pre></div>
+          <p>Load it under <strong>Credential report</strong> in Data input. Users with no password and no active key are left out of Entry points, old or unused keys and passwords without MFA rank higher, and root user access keys are reported as critical. The report holds dates and flags, no secrets.</p>
           <h3>Optional: a resource inventory</h3>
           <p>Some techniques take over something that already exists, such as editing an existing Lambda function's code to act as its role. The export doesn't list your functions or instances, so these are <strong>possible</strong> until you add a resource inventory:</p>
           <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>iam-trace inventory collect --out inventory.json</pre></div>
@@ -443,6 +493,9 @@ iam-trace check policy.json   <span class="m"># the action list is included; cat
             <tr><td><code class="c">iam-trace escalate</code></td><td>Attack paths for an account export (<code class="c">--auth-details</code>) or one policy (<code class="c">--policy</code>).</td></tr>
             <tr><td><code class="c">iam-trace fix</code></td><td>The fewest Deny statements that cut every path to admin, verified by analysing the changed account again. <code class="c">--out-dir</code> writes the policies.</td></tr>
             <tr><td><code class="c">iam-trace entry-points</code></td><td>Where an attack could start: IAM users and roles that someone outside the account can assume, ranked by what they reach.</td></tr>
+            <tr><td><code class="c">iam-trace terraform</code></td><td>Reviews the IAM changes in a Terraform plan; with an account export, the new paths to admin and entry points it would create.</td></tr>
+            <tr><td><code class="c">iam-trace data</code></td><td>Who can read, write or delete the data in S3 buckets and KMS keys, by any route; every bucket and key rated, or one in detail.</td></tr>
+            <tr><td><code class="c">iam-trace credentials collect</code></td><td>Fetches the IAM credential report (read-only), for <code class="c">entry-points --credential-report</code>.</td></tr>
             <tr><td><code class="c">iam-trace inventory collect</code></td><td>Lists existing functions, instances and similar resources with their roles (read-only), for <code class="c">escalate --inventory</code>.</td></tr>
             <tr><td><code class="c">iam-trace who-can</code></td><td>Every principal in an account export that can perform an action on a resource, directly or through escalation.</td></tr>
             <tr><td><code class="c">iam-trace check</code></td><td>Flags risky patterns in policy files or every policy in an account export, with a fix for each.</td></tr>
@@ -500,8 +553,12 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
             <tr><td><code class="c">fail-on-escalation</code></td><td>Fail if a changed policy allows a technique the old version did not.</td></tr>
             <tr><td><code class="c">fail-on-diff</code></td><td>Also fail on diff results: never, any, new-allow or highlighted (sensitive).</td></tr>
             <tr><td><code class="c">fail-on-check</code></td><td>Fail if the change introduces a Policy check finding at this severity or higher: never, high, medium or low. Problems already in the old version don't count.</td></tr>
+            <tr><td><code class="c">terraform-plan</code></td><td>A Terraform plan in JSON (<code class="c">terraform show -json plan.out</code>, from an earlier step). Its IAM changes are reviewed in the same comment.</td></tr>
+            <tr><td><code class="c">auth-details</code></td><td>The current account export. With a plan, the plan is applied to it and new paths to admin and new entry points are reported.</td></tr>
+            <tr><td><code class="c">fail-on-terraform</code></td><td>Fail when the plan does this: never, new-path (the default), new-entry-point, escalation, check-high or any.</td></tr>
             <tr><td><code class="c">comment</code></td><td>Post or update one review comment on the pull request.</td></tr>
           </tbody></table>
+          <p>The <a href="#terraform">Terraform plan</a> screen gives the same review in the browser; <strong>Copy as PR comment</strong> copies it as Markdown.</p>
         </section>
 
         <section class="dsec" id="d-formats">
@@ -634,7 +691,7 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
     </div></section>
   </main>
 </div>
-<div class="overlay" id="overlay" role="status" aria-live="polite"><div class="box"><span class="spinner"></span><span id="overlay-text">Working</span></div></div>
+<div class="overlay" id="overlay" role="status" aria-live="polite"><div class="box"><span class="spinner"></span><span id="overlay-text">Working</span><button class="btn" id="overlay-cancel" hidden>Cancel</button></div></div>
 <div class="cmdk" id="cmdk" hidden>
   <div class="cmdk-back" data-close></div>
   <div class="cmdk-box" role="dialog" aria-modal="true" aria-label="Search and commands">

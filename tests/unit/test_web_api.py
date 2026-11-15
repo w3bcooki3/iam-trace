@@ -211,7 +211,7 @@ def test_analyze_account_with_inventory() -> None:
     assert lambda_003(without)["confidence"] == "possible" and without["resources"] is None
     assert lambda_003(with_inv)["confidence"] == "confirmed"
     assert lambda_003(with_inv)["via"] == ["arn:aws:lambda:us-east-1:111122223333:function:nightly-report"]
-    assert with_inv["resources"] == {"ec2-instance": 1, "lambda-function": 2}
+    assert with_inv["resources"] == {"ec2-instance": 1, "kms-key": 1, "lambda-function": 2, "s3-bucket": 2}
     bad = json.loads(web_api.analyze_account(ACCOUNT, dev, "", False, "{oops"))
     assert "inventory" in bad["error"]
 
@@ -240,3 +240,41 @@ def test_fix_plan_query_without_a_previous_analysis() -> None:
 def test_fix_plan_query_reports_errors() -> None:
     out = json.loads(web_api.fix_plan_query("{}", "arn:aws:iam::1:user/x"))
     assert "error" in out
+
+
+def test_analyze_account_with_a_credential_report() -> None:
+    text = (Path(__file__).resolve().parents[2] / "examples/account/auth-details.json").read_text()
+    creds = (Path(__file__).resolve().parents[2] / "examples/account/credential-report.csv").read_text()
+    out = json.loads(web_api.analyze_account(text, "arn:aws:iam::111122223333:user/dev", "", False, "", creds))
+    ep = out["entry_points"]
+    assert ep["credential_report"]["users"] == 1
+    dev = next(e for e in ep["entries"] if e["principal"].endswith("user/dev"))
+    assert "access key" in dev["exposure"]["who"]
+    bad = json.loads(web_api.analyze_account(text, "arn:aws:iam::111122223333:user/dev", "", False, "", "x,y\n1,2"))
+    assert "credential report" in bad["error"]
+
+
+def test_data_exposure_and_query() -> None:
+    root = Path(__file__).resolve().parents[2] / "examples/account"
+    text = (root / "auth-details.json").read_text()
+    inv = (root / "inventory.json").read_text()
+    out = json.loads(web_api.analyze_account(text, "arn:aws:iam::111122223333:user/dev", "", False, inv))
+    rows = out["data"]["resources"]
+    assert rows[0]["resource"] == "arn:aws:s3:::example-public-assets" and rows[0]["rating"] == "Critical"
+    r = json.loads(web_api.data_query(text, "arn:aws:s3:::example-reports", "read", "", inv))
+    assert r["requires"] == ["s3:GetObject", "kms:Decrypt"]
+    assert [b["principal"] for b in r["blocked_by_key"]] == ["arn:aws:iam::111122223333:role/report-runner"]
+    bad = json.loads(web_api.data_query(text, "arn:aws:sqs:us-east-1:1:q", "read", "", inv))
+    assert "S3 buckets" in bad["error"]
+
+
+def test_terraform_query() -> None:
+    root = Path(__file__).resolve().parents[2] / "examples"
+    plan = (root / "terraform/plan.json").read_text()
+    export = (root / "account/auth-details.json").read_text()
+    out = json.loads(web_api.terraform_query(plan, export))
+    assert out["summary"]["new_paths"] == 1
+    assert out["markdown"].startswith("<!-- iam-trace-terraform -->")
+    alone = json.loads(web_api.terraform_query(plan, ""))
+    assert alone["account"] is None and alone["summary"]["documents"] == 3
+    assert "error" in json.loads(web_api.terraform_query("{}", ""))

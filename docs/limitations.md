@@ -126,8 +126,10 @@ These are covered only by hand-written tests that quote the AWS docs
 
 ## Entry points
 
-- The export does not say which IAM users have access keys or a console password, so every user
-  is listed as an entry point.
+- The export does not say which IAM users have access keys or a console password. Without a
+  credential report every user is listed as an entry point; with one, users with neither are left
+  out. The report is a snapshot: AWS regenerates it at most every four hours, and a key created
+  after it was generated is not in it.
 - The export does not list the account's OIDC and SAML providers, so a trust policy naming a
   provider that no longer exists is still reported.
 - For a role trusted by another account, the probe gives the caller allow-all identity policies:
@@ -135,10 +137,45 @@ These are covered only by hand-written tests that quote the AWS docs
 - Scores are a ranking aid, not a measurement: the exposure (anyone, a large group, another
   account, a leaked user key) times what the principal reaches.
 
+## Data access
+
+- Covers S3 buckets and KMS keys from the inventory. Object ACLs, access points, S3 Object
+  Ownership, VPC endpoint policies and KMS grants are not modelled.
+- Object access is checked on one probe object in the bucket. A bucket policy that treats key
+  prefixes differently (for example `reports/*` and `public/*`) is judged on that object only.
+- The bucket's default encryption key is assumed for every object. Objects uploaded with another
+  key, or with SSE-S3, are not tracked one by one.
+- Block Public Access is honoured through RestrictPublicBuckets (bucket or account setting).
+  ACL-based public access is not checked.
+- Outside principals are probed with allow-all identity policies, because their own account
+  decides those.
+
+## Terraform plans
+
+- Resources covered: aws_iam_policy, aws_iam_role (trust policy, inline_policy,
+  managed_policy_arns), aws_iam_role_policy, aws_iam_user_policy, aws_iam_group_policy, the
+  three policy attachment resources, aws_iam_user, aws_iam_group,
+  aws_iam_user_group_membership, aws_s3_bucket_policy and aws_kms_key. aws_iam_policy_attachment
+  (the exclusive one), aws_iam_group_membership and permission boundaries are not applied yet.
+- A value Terraform only knows at apply time is not guessed. A policy ARN or role name that
+  refers to a resource created in the same plan is resolved through the configuration's
+  references; other unknown values are reported and left out.
+- Bucket and key policies are reviewed as documents but not applied to an inventory, so the
+  account comparison covers IAM principals only.
+- The plan JSON can contain secrets from your configuration. iam-trace reads it locally and
+  prints only policy documents and resource addresses.
+
 ## Fix plans
 
-- A plan is made of Deny statements. Each one names the Allow statements that grant the
-  permission, so you can narrow those instead, but narrowing is not generated or checked.
+- Narrowed Allow statements are generated only when they stay readable: a wildcard action is
+  listed out if it covers at most 25 actions, and a wildcard resource if at most 30 resources of
+  that kind exist. Otherwise the change keeps its Deny. Listing resources means ones created later
+  are not covered; the plan says so.
+- The "also no longer allows" check probes the old and new documents with every action they
+  mention against every known role, user and policy. Resources the export does not describe
+  (buckets, functions) are probed with one placeholder each.
+- The SCP version is limited by aws:PrincipalArn. SCPs do not apply to the management account or
+  service-linked roles, and one SCP may hold at most 5,120 characters.
 - Only confirmed paths are cut. Possible techniques (resources not in the export) are counted in
   the plan but not covered by its check; a resource inventory confirms or rules them out.
 - Paths that need MFA, a network location or a time window are left alone unless
@@ -156,5 +193,6 @@ These are covered only by hand-written tests that quote the AWS docs
 - Recommended fixes name the permissions behind each step of a path. They do not check whether
   removing a permission would break something else that relies on it.
   A local build without `--pyodide` loads Pyodide from `cdn.jsdelivr.net` instead.
-- Large account exports run in the browser tab and can take several seconds; the CLI is faster.
+- Large account exports are analysed in a background worker in the browser tab. The page stays
+  usable, but an account with hundreds of roles and users can take a minute; the CLI is faster.
 - Diff is only available when the site was built with a catalog.

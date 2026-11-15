@@ -58,9 +58,13 @@ function toast(text) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove("on"), 2200);
 }
-function overlay(text) {
+// A "working" notice over the page. With `cancellable`, it offers Cancel, which stops the engine.
+// The engine runs in a worker, so the page itself never freezes while it waits.
+function overlay(text, cancellable = false) {
   $("overlay-text").textContent = text || "";
   $("overlay").classList.toggle("on", Boolean(text));
+  $("overlay-cancel").hidden = !cancellable;
+  if (text && cancellable) $("overlay-cancel").focus();
 }
 // Let the browser paint (for example the "working" overlay) before a long synchronous call.
 const nextFrame = () => new Promise((r) => requestAnimationFrame(() => setTimeout(r, 30)));
@@ -150,8 +154,8 @@ $("menu-btn").addEventListener("click", () => root.classList.toggle("nav-open"))
 // ------------------------------------------------------------------------------------- navigation
 
 const VIEWS = {
-  overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"], whocan: ["Attack paths", "Who can"],
-  input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"],
+  overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"], whocan: ["Attack paths", "Who can"], data: ["Attack paths", "Data access"],
+  input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"], terraform: ["Tools", "Terraform plan"],
   docs: ["Help", "Documentation"], changelog: ["Help", "Changelog"], settings: ["App", "Settings"],
 };
 let currentView = null;
@@ -167,6 +171,8 @@ function go(path) {
   closeSheet(false);
   if (view === "settings") renderSaved();
   if (view === "whocan") wcState();
+  if (view === "data") renderData();
+  if (view === "terraform") tfState();
   if (view === "docs") showDoc(sub[0], sub[1]);
   document.querySelectorAll(".nav-item[data-go]").forEach((n) => n.classList.toggle("on", n.dataset.go === view));
   $("crumb-group").textContent = VIEWS[view][0];
@@ -188,9 +194,10 @@ window.addEventListener("hashchange", () => go(location.hash.slice(1)));
 // Results of Policy diff and Policy check open over the whole work area, so the editors keep
 // all the space while you write and the result gets all of it while you read.
 let sheetReturn = null;
-function openSheet(title, body, actions = "") {
+function openSheet(title, body, actions = "", back = "Back to editing") {
   const sheet = $("sheet");
   $("sheet-title").textContent = title;
+  $("sheet-back-label").textContent = back;
   $("sheet-body").innerHTML = body;
   $("sheet-actions").innerHTML = actions;
   sheet.querySelector(".sheet-b").scrollTop = 0;
@@ -241,29 +248,24 @@ function engineStatus(state, text = "") {
   el.dataset.state = state;
   el.textContent = text;
 }
+// The engine runs in a background worker (engine.js), so the page stays responsive while it
+// works. call() sends one request and resolves with the parsed JSON the engine returns. Requests
+// are answered in order. cancelEngine() stops a long analysis by replacing the worker.
+let engine = null;
+let seq = 0;
+const pending = new Map();
 function call(fn, ...args) {
-  return JSON.parse(api[fn](...args));
+  if (!engine) return Promise.reject(new Error("the analysis engine is not ready"));
+  return new Promise((resolve, reject) => {
+    const id = ++seq;
+    pending.set(id, { resolve, reject });
+    engine.postMessage({ id, fn, args });
+  }).then((text) => JSON.parse(text));
 }
-async function fetchArchive(name) {
-  const resp = await fetch(name);
-  return resp.ok ? await resp.arrayBuffer() : null;
-}
-async function boot() {
-  const { loadPyodide } = await import(PYODIDE_URL + "pyodide.mjs");
-  const pyodide = await loadPyodide({ indexURL: PYODIDE_URL });
-  const pkg = await fetchArchive("iamtrace.zip");
-  if (!pkg) throw new Error("iamtrace.zip is missing from this site");
-  pyodide.FS.mkdirTree("/home/pyodide/lib");
-  pyodide.unpackArchive(pkg, "zip", { extractDir: "/home/pyodide/lib" });
-  const catalog = await fetchArchive("catalog.zip");
-  if (catalog) {
-    pyodide.FS.mkdirTree("/home/pyodide/catalog");
-    pyodide.unpackArchive(catalog, "zip", { extractDir: "/home/pyodide/catalog" });
-  }
-  pyodide.runPython("import sys; sys.path.insert(0, '/home/pyodide/lib')");
-  api = pyodide.pyimport("iamtrace.web_api");
-  engineVersion = String(pyodide.pyimport("iamtrace").__version__);
-  const summary = JSON.parse(api.catalog_summary());
+function onEngineReady(info) {
+  api = true;
+  engineVersion = info.version;
+  const summary = info.catalog;
   hasCatalog = Boolean(summary);
   engineStatus("ready");
   $("about-catalog").textContent = hasCatalog ? `${summary.actions.toLocaleString()} actions in ${summary.services} services` : "Not included in this build";
@@ -275,20 +277,49 @@ async function boot() {
   $("opt-blast").disabled = !hasCatalog;
   ready.splice(0).forEach((f) => f());
 }
-function whenReady(f) {
-  if (api) f();
-  else ready.push(f);
+function boot() {
+  return new Promise((resolve, reject) => {
+    const w = new Worker("engine.js", { type: "module" });
+    w.onmessage = (e) => {
+      const m = e.data || {};
+      if (m.ready) { engine = w; onEngineReady(m.ready); resolve(); return; }
+      if (m.failed) { reject(new Error(m.failed)); return; }
+      const p = pending.get(m.id);
+      if (!p) return;
+      pending.delete(m.id);
+      if ("error" in m) p.reject(new Error(m.error)); else p.resolve(m.result);
+    };
+    w.onerror = (e) => reject(new Error(e.message || "the engine worker failed"));
+    w.postMessage({ init: { pyodideUrl: PYODIDE_URL } });
+  });
 }
-boot().catch((e) => {
+function cancelEngine() {
+  if (!engine) return;
+  engine.terminate();
+  engine = null;
+  api = null;
+  for (const p of pending.values()) p.reject(new Error("cancelled"));
+  pending.clear();
+  engineStatus("loading", "Restarting the analysis engine");
+  boot().catch(engineFailed);
+}
+function engineFailed(e) {
   engineStatus("error", "The analysis engine could not start. Reload the page to try again.");
   overlay("");
   console.error(e);
   toast("The analysis engine could not start. Reload the page to try again.");
-});
+}
+function whenReady(f) {
+  if (api) f();
+  else ready.push(f);
+}
+boot().catch(engineFailed);
+
+$("overlay-cancel").addEventListener("click", () => { overlay(""); cancelEngine(); });
 
 // ------------------------------------------------------------------------------------- data input
 
-const input = { src: "account", account: "", policy: "", scp: "", inv: "", file: null, start: "", principals: [], example: false, accountValid: false };
+const input = { src: "account", account: "", policy: "", scp: "", inv: "", cred: "", file: null, start: "", principals: [], example: false, accountValid: false };
 let lastValid = null;
 
 function setEditor(text) {
@@ -315,6 +346,7 @@ const SRC_TEXT = {
   policy: ["Drop a policy file here", "One identity-based policy document. It is analysed as the only policy of a role.", "policy.json"],
   scp: ["Drop SCP files here", "One SCP document, or a JSON array of them. They apply to every principal in the account export.", "scps.json"],
   inv: ["Drop the resource inventory here", "From iam-trace inventory collect. It lets techniques that abuse existing functions and instances be confirmed or ruled out.", "inventory.json"],
+  cred: ["Drop the credential report here", "The CSV, or the JSON from aws iam get-credential-report. Entry points then know which users really have keys, passwords and MFA.", "credentials.csv"],
 };
 // Kinds the inventory can describe, as people say them (mirrors iamtrace.inventory.KINDS).
 const INV_KINDS = {
@@ -330,8 +362,11 @@ function setSource(src) {
   $("dz-sub").textContent = s;
   $("ed-name").textContent = src === "account" && input.file ? input.file.name : f;
   $("pick-card").hidden = src !== "account";
-  $("get-export").hidden = src === "inv";
+  $("get-export").hidden = src === "inv" || src === "cred";
   $("get-inventory").hidden = src !== "inv";
+  $("get-credentials").hidden = src !== "cred";
+  $("file-input").accept = src === "cred" ? ".csv,.json,text/csv,application/json" : ".json,application/json";
+  $("ed-type").textContent = src === "cred" ? "CSV or JSON" : "JSON";
   setEditor(input[src]);
   showFileRow();
   validate();
@@ -410,6 +445,10 @@ $("ed-example").addEventListener("click", async () => {
     const r = await fetch("examples/inventory.json");
     input.inv = r.ok ? await r.text() : "";
     if (!input.account.trim()) await loadExampleAccount();
+  } else if (input.src === "cred") {
+    const r = await fetch("examples/credential-report.csv");
+    input.cred = r.ok ? await r.text() : "";
+    if (!input.account.trim()) await loadExampleAccount();
   } else input.scp = JSON.stringify([{ Version: "2012-10-17", Statement: [{ Sid: "AllowAll", Effect: "Allow", Action: "*", Resource: "*" }] },
     { Version: "2012-10-17", Statement: [{ Sid: "DenyLeavingOrg", Effect: "Deny", Action: "organizations:LeaveOrganization", Resource: "*" }] }], null, 2);
   setSource(input.src);
@@ -442,6 +481,41 @@ function inventoryOf(data) {
   return { users: list("UserDetailList").length, groups: list("GroupDetailList").length, roles: list("RoleDetailList").length, policies: list("Policies").length, statements };
 }
 
+// The credential report is CSV, or the JSON aws iam get-credential-report prints with the CSV in
+// base64. A light check here; the engine parses it properly when the analysis runs.
+function credentialRows(text) {
+  let csv = text;
+  if (text.startsWith("{")) {
+    const data = JSON.parse(text);
+    if (!data || typeof data.Content !== "string") throw new Error("JSON without the Content field that get-credential-report prints");
+    csv = new TextDecoder().decode(Uint8Array.from(atob(data.Content), (c) => c.charCodeAt(0)));
+  }
+  const lines = csv.trim().split(/\r?\n/);
+  const head = lines[0].split(",");
+  for (const k of ["user", "arn", "password_enabled", "mfa_active", "access_key_1_active"]) {
+    if (!head.includes(k)) throw new Error("the header should start with user,arn,user_creation_time,password_enabled");
+  }
+  return lines.slice(1).filter(Boolean).map((l) => Object.fromEntries(l.split(",").map((v, i) => [head[i], v])));
+}
+function validateCredentials(text, box, set) {
+  let rows;
+  try { rows = credentialRows(text); } catch (e) {
+    set("crit", "Not a report");
+    box.innerHTML = `<div class="check bad">${IC.x}<div>This is not a credential report<small>${esc(sentence(e.message))}</small></div></div>`;
+    return;
+  }
+  const users = rows.filter((r) => r.user !== "<root_account>");
+  const root = rows.find((r) => r.user === "<root_account>");
+  const keyed = users.filter((r) => r.access_key_1_active === "true" || r.access_key_2_active === "true").length;
+  const noMfa = users.filter((r) => r.password_enabled === "true" && r.mfa_active !== "true").length;
+  const rootKeys = root && (root.access_key_1_active === "true" || root.access_key_2_active === "true");
+  set(rootKeys ? "crit" : "ok", "Ready");
+  box.innerHTML = `<div class="check ok">${IC.ok}<div>${plural(users.length, "user")}: ${keyed} with active access keys<small>Users with no password and no active key are left out of entry points.</small></div></div>
+    ${noMfa ? `<div class="check warn">${IC.warn}<div>${plural(noMfa, "user")} with a console password and no MFA</div></div>` : ""}
+    ${rootKeys ? `<div class="check bad">${IC.x}<div>The root user has access keys<small>Reported as a critical entry point.</small></div></div>` : ""}
+    <div class="check ok">${IC.info}<div>Used the next time you run an account analysis</div></div>`;
+  lastValid = { kind: "cred" };
+}
 function validate() {
   persist(input.src);
   const text = input[input.src].trim();
@@ -455,9 +529,15 @@ function validate() {
     const empty = {
       scp: "Optional. Leave empty if the account is not in AWS Organizations.",
       inv: "Optional. Without it, techniques that abuse existing functions, instances and similar resources are reported as possible.",
+      cred: "Optional. Without it, every IAM user is treated as a possible entry point, because the account export does not say who has keys or a password.",
     };
     box.innerHTML = `<p class="muted">${empty[input.src] || "Nothing loaded yet. Drop a file, paste JSON, or press Load example."}</p>`;
     if (input.src === "account") renderPicker([]);
+    updateRun();
+    return;
+  }
+  if (input.src === "cred") {
+    validateCredentials(text, box, set);
     updateRun();
     return;
   }
@@ -491,10 +571,11 @@ function validate() {
     if (!input.scp.trim()) checks.push(`<div class="check warn">${IC.warn}<div>No SCPs supplied<small>If the account is in AWS Organizations, add its SCPs for a stricter result.</small></div></div>`);
     else checks.push(`<div class="check ok">${IC.ok}<div>SCPs will be applied<small>From the Organization SCPs tab</small></div></div>`);
     if (input.inv.trim()) checks.push(`<div class="check ok">${IC.ok}<div>Resource inventory will be used<small>From the Resource inventory tab</small></div></div>`);
+    if (input.cred.trim()) checks.push(`<div class="check ok">${IC.ok}<div>Credential report will be used<small>From the Credential report tab, for entry points</small></div></div>`);
     box.innerHTML = checks.join("");
     lastValid = { kind: "account" };
-    whenReady(() => {
-      const out = JSON.parse(api.account_principals(input.account));
+    whenReady(async () => {
+      const out = await call("account_principals", input.account);
       if (out.error) {
         set("crit", "Problem");
         box.insertAdjacentHTML("beforeend", `<div class="err">${IC.x}<div>${esc(sentence(out.error))}</div></div>`);
@@ -588,15 +669,14 @@ $("run").addEventListener("click", runAnalysis);
 let lastRun = null; // { src, blast } of the last successful analysis, saved so a refresh re-runs it
 async function runAnalysis({ restoring = false, src = input.src } = {}) {
   if (!api) return;
-  overlay(restoring ? "Restoring your last analysis" : src === "policy" ? "Checking the policy" : "Analysing the account");
-  await nextFrame();
+  overlay(restoring ? "Restoring your last analysis" : src === "policy" ? "Checking the policy" : "Analysing the account", true);
   try {
     if (src === "policy") {
-      const out = call("escalate", input.policy);
+      const out = await call("escalate", input.policy);
       if (out.error) throw new Error(out.error);
       setModel(fromPolicy(out));
     } else {
-      const out = call("analyze_account", input.account, input.start, input.scp, $("opt-blast").checked, input.inv);
+      const out = await call("analyze_account", input.account, input.start, input.scp, $("opt-blast").checked, input.inv, input.cred);
       if (out.error) throw new Error(out.error);
       setModel(fromAccount(out));
     }
@@ -604,8 +684,12 @@ async function runAnalysis({ restoring = false, src = input.src } = {}) {
     persist("analysis");
     if (!restoring) go("overview");
   } catch (e) {
-    toast("The analysis failed");
-    $("validation").insertAdjacentHTML("beforeend", `<div class="err">${IC.x}<div>${esc(sentence(e.message))}</div></div>`);
+    if (e.message === "cancelled") {
+      toast("Analysis cancelled");
+    } else {
+      toast("The analysis failed");
+      $("validation").insertAdjacentHTML("beforeend", `<div class="err">${IC.x}<div>${esc(sentence(e.message))}</div></div>`);
+    }
   } finally {
     overlay("");
   }
@@ -631,7 +715,8 @@ function fromAccount(out) {
     text: out.text,
     sarif: out.sarif,
     entry: out.entry_points || { entries: [], summary: {} },
-    inputs: { account: input.account, scp: input.scp, inv: input.inv },
+    data: out.data || { resources: [], collected: [], notes: [] },
+    inputs: { account: input.account, scp: input.scp, inv: input.inv, cred: input.cred },
     fix: { scope: "start", plans: {}, state: "idle" },
   };
 }
@@ -850,6 +935,7 @@ function renderOverview() {
       <div class="posture-side"><div class="ps-item"><div class="l">Starting principal</div><div class="v mono">${who}</div></div><div class="ps-item"><div class="l">Reaches</div><div class="v">${reaches}</div></div>
         <div class="ps-item"><div class="l">Shortest path</div><div class="v">${startPaths.length ? plural(startPaths[0].steps.length, "step") : "None"}</div></div><div class="ps-item"><div class="l">SCPs applied</div><div class="v">${m.scps || "None"}</div></div></div></div>
     ${m.mode === "account" && m.entry.entries.length ? entryCard(m) : ""}
+    ${m.mode === "account" && m.data.resources.length ? dataCard(m) : ""}
     <div class="kpis">${kpis}</div>
     <div class="grid-2">
       <div class="glass"><div class="card-h"><h3>Attack graph</h3><span class="sub">Who the attacker can become</span><div class="right"><button class="btn" data-go="graph">Open full screen</button></div></div>
@@ -880,6 +966,7 @@ function renderOverview() {
     setCut(keys, true);
   }));
   el.querySelectorAll("[data-entry-start]").forEach((b) => b.addEventListener("click", () => analyseFrom(b.dataset.entryStart)));
+  el.querySelector("[data-goto-cred]")?.addEventListener("click", () => { go("input"); setSource("cred"); });
   $("ep-more")?.addEventListener("click", () => { m.entryAll = true; renderOverview(); $("entry-card")?.scrollIntoView({ block: "start" }); });
   if (m.mode === "account") {
     $("fp-scope").addEventListener("click", (e) => {
@@ -911,13 +998,20 @@ function entryCard(m) {
     const imp = e.impact;
     const reach = imp.admin ? "Is admin-equivalent" : imp.steps ? `Admin in ${plural(imp.steps, "step")}` : imp.confirmed ? `${plural(imp.confirmed, "technique")}, no path` : "No known technique";
     const current = e.principal === m.start;
+    const canStart = e.kind !== "root";
     return `<tr><td><div class="who" data-kind="${k}"><span class="wi">${ICON[k] || ICON.resource}</span><div><b>${esc(nameOf(e.principal))}</b><small>${esc(short(e.principal))}</small></div></div></td>
       <td data-label="Rating"><span class="sev ${RATING[e.rating]}"><i></i>${e.rating}</span></td>
       <td data-label="Who can get in" class="ep-who">${esc(sentence(e.exposure.who))}${e.exposure.fix ? `<small>${esc(e.exposure.fix)}</small>` : ""}</td>
       <td data-label="Reaches">${reach}</td>
-      <td class="ep-act">${current ? '<span class="t-faint">Current start</span>' : `<button class="btn" data-entry-start="${esc(e.principal)}">Analyse from here</button>`}</td></tr>`;
+      <td class="ep-act">${current ? '<span class="t-faint">Current start</span>' : canStart ? `<button class="btn" data-entry-start="${esc(e.principal)}">Analyse from here</button>` : '<span class="t-faint">Full control</span>'}</td></tr>`;
   }).join("");
+  const cr = m.entry.credential_report;
+  const credNote = cr
+    ? `<p class="ep-note">Users come from the credential report${cr.generated ? ` of ${esc(new Date(cr.generated).toLocaleDateString())}` : ""}.${s.no_credentials ? ` ${plural(s.no_credentials, "user")} with no password and no active access key ${s.no_credentials === 1 ? "is" : "are"} left out.` : ""}</p>`
+    : '<p class="ep-note">Every IAM user is listed, because the account export does not say who has keys or a password. <button class="linkish" data-goto-cred>Add a credential report</button> to know.</p>';
+  const warns = (m.entry.warnings || []).map((w) => `<p class="ep-note warn">${esc(w)}</p>`).join("");
   return `<div class="glass" id="entry-card"><div class="card-h"><h3>Entry points</h3><span class="sub">Where an attack could start, worst first: ${counts}</span></div>
+    ${credNote}${warns}
     <table class="mtable ep-table"><thead><tr><th>Principal</th><th>Rating</th><th>Who can get in</th><th>Reaches</th><th></th></tr></thead><tbody>${rows}</tbody></table>
     ${all.length > shown.length ? `<div class="more"><button class="btn" id="ep-more">Show all ${all.length} entry points</button></div>` : ""}</div>`;
 }
@@ -929,18 +1023,170 @@ async function analyseFrom(arn) {
   $("v-overview").scrollTop = 0;
 }
 
+// ------------------------------------------------------------------------------------- data access
+
+// Buckets and keys from the inventory, rated by who can reach their data (iamtrace.data). A row
+// opens the detail in the result sheet: who can read, write or delete it, and by which route.
+const DATA_RATING = { Critical: "c-crit", High: "c-high", Medium: "c-warn", Low: "c-ok" };
+const BUCKET_ICON = '<svg class="i" viewBox="0 0 24 24"><path d="M4 6l1.6 13a2 2 0 0 0 2 1.8h8.8a2 2 0 0 0 2-1.8L20 6"/><ellipse cx="12" cy="6" rx="8" ry="2.5"/></svg>';
+const KEY_ICON = '<svg class="i" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg>';
+function dataName(arn) {
+  if (arn.startsWith("arn:aws:s3:::")) return arn.slice(13);
+  const id = arn.split("/").pop();
+  return `key ${id.length > 13 ? id.slice(0, 8) + "…" + id.slice(-4) : id}`;
+}
+function accessCell(c) {
+  if (c.public) return '<span class="tag crit">Public</span>';
+  const counts = `<span>${c.direct} direct${c.admins ? ` <small>(${c.admins} admin)</small>` : ""}, ${c.via} by escalating</span>`;
+  const out = c.outside.length ? `<span class="tag high">${plural(c.outside.length, "outside account")}</span>` : "";
+  const key = c.blocked_by_key ? `<small class="t-faint dx-key">${c.blocked_by_key} blocked by the key</small>` : "";
+  return `<div class="dx-access">${counts}${out}${key}</div>`;
+}
+function dataEmpty() {
+  return `<div class="glass empty-card"><h3>No buckets or keys to check yet</h3>
+    <p>The account export says who has which permissions, but not which buckets and keys exist or what their own policies say. Collect them, read-only, and load the file under <b>Resource inventory</b> in Data input:</p>
+    <div class="cmd">iam-trace inventory collect --out inventory.json<button class="icon-btn copy" data-copy="iam-trace inventory collect --out inventory.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
+    <div class="row-actions"><button class="btn primary" id="dx-example">Try the example inventory</button><button class="btn" data-go="input">Open Data input</button></div></div>`;
+}
+function renderData() {
+  const body = $("data-body"), m = model;
+  if (!m || m.mode !== "account") {
+    body.innerHTML = `<div class="glass empty-card"><h3>Run an account analysis first</h3><p>Data access uses the account export, and a resource inventory with your buckets and keys.</p><div class="row-actions"><button class="btn primary" data-go="input">Open Data input</button></div></div>`;
+    return;
+  }
+  const rows = m.data.resources;
+  if (!rows.length) {
+    body.innerHTML = dataEmpty();
+    $("dx-example")?.addEventListener("click", async () => {
+      const r = await fetch("examples/inventory.json");
+      input.inv = r.ok ? await r.text() : "";
+      persist("inv");
+      await runAnalysis();
+      go("data");
+    });
+    return;
+  }
+  const counts = ["Critical", "High", "Medium", "Low"].map((r) => [r, rows.filter((x) => x.rating === r).length]).filter(([, n]) => n);
+  body.innerHTML = `<div class="glass"><div class="card-h"><h3>Buckets and keys</h3><span class="sub">${plural(rows.length, "resource")}, worst first: ${counts.map(([r, n]) => `${n} ${r.toLowerCase()}`).join(", ")}</span></div>
+    <table class="mtable dx-table"><thead><tr><th>Resource</th><th>Rating</th><th>Who can read</th><th>Who can write</th><th></th></tr></thead><tbody>${rows.map((r, i) => `<tr>
+      <td><div class="who" data-kind="resource"><span class="wi">${r.kind === "kms-key" ? KEY_ICON : BUCKET_ICON}</span><div><b>${esc(dataName(r.resource))}</b><small>${r.kind === "kms-key" ? "KMS key" : "S3 bucket"}${r.encrypted_with ? ", encrypted with a KMS key" : ""}${r.has_policy ? "" : ", no resource policy"}</small></div></div></td>
+      <td data-label="Rating"><span class="sev ${DATA_RATING[r.rating]}"><i></i>${r.rating}</span></td>
+      <td data-label="Who can read">${accessCell(r.read)}</td>
+      <td data-label="Who can write">${accessCell(r.write)}</td>
+      <td class="ep-act"><button class="btn" data-dx="${i}">Details</button></td></tr>`).join("")}</tbody></table></div>
+    ${(m.data.notes || []).map((n) => `<p class="ep-note">${esc(n)}</p>`).join("")}`;
+  body.querySelectorAll("[data-dx]").forEach((b) => b.addEventListener("click", () => openData(rows[Number(b.dataset.dx)].resource, "read")));
+}
+async function openData(arn, access) {
+  const m = model;
+  const r = await call("data_query", m.inputs.account, arn, access, m.inputs.scp, m.inputs.inv);
+  if (r.error) return toast(sentence(r.error));
+  const seg = `<div class="seg sm" role="group" aria-label="Access">${["read", "write", "delete"].map((a) => `<button data-dx-access="${a}" class="${a === access ? "on" : ""}" aria-pressed="${a === access}">${a[0].toUpperCase() + a.slice(1)}</button>`).join("")}</div>`;
+  const chain = (v) => `<div class="dx-chain"><span class="mono">${esc(short(v.principal))}</span>${v.steps.map((s) => `<span class="dx-tech" title="${esc(s.name)}">${esc(s.technique)}</span><span class="mono">${esc(short(s.to))}</span>`).join("")}${v.requires ? ` <span class="tag warn">Needs ${esc(gateShort(v.requires))}</span>` : ""}</div>`;
+  const sec = (title, items, empty = "") => items.length || empty ? `<section class="dx-sec"><h3>${title} <span class="t-faint">${items.length || ""}</span></h3>${items.length ? items.join("") : `<p class="muted">${empty}</p>`}</section>` : "";
+  const html = `<div class="dx-head">${seg}<p class="muted">Needs ${r.requires.map((a) => `<code class="c">${esc(a)}</code>`).join(" and ")}. ${plural(r.checked, "principal")} checked.</p></div>
+    ${r.public ? `<div class="callout callout-crit"><b>Public.</b> Principals in any AWS account can ${esc(access)} this.</div>` : ""}
+    ${r.notes.map((n) => `<div class="callout">${esc(n)}</div>`).join("")}
+    ${sec("Outside the account", r.outside.map((o) => `<div class="dx-row"><span class="mono">${esc(o.principal)}</span><small>${esc(sentence(o.what))} ${o.statement ? `(${esc(o.statement)})` : ""}</small></div>`))}
+    ${sec("By escalating", r.via.map(chain))}
+    ${sec("Directly", r.direct.map((d) => `<div class="dx-row"><span class="mono">${esc(short(d.principal))}</span><small>${esc(d.granted_by.map((g) => short(g.split(" / ")[0]) + ", " + (g.split(" / ")[1] || "")).join("; "))}</small></div>`), "Nobody in the export.")}
+    ${sec(access === "write" ? "Can upload objects but not encrypt them" : "Can fetch the objects but not decrypt them", r.blocked_by_key.map((d) => `<div class="dx-row"><span class="mono">${esc(short(d.principal))}</span><small>Not allowed ${esc(r.requires[1] || "")} on the bucket's KMS key, by its own policies or the key policy.</small></div>`))}`;
+  openSheet(`Who can ${access} ${dataName(arn)}`, html, "", "Back to Data access");
+  $("sheet-body").querySelectorAll("[data-dx-access]").forEach((b) => b.addEventListener("click", () => openData(arn, b.dataset.dxAccess)));
+}
+function dataCard(m) {
+  const rows = m.data.resources.slice(0, 3);
+  return `<div class="glass" id="data-card"><div class="card-h"><h3>Data exposure</h3><span class="sub">Buckets and keys from the inventory, worst first</span><div class="right"><button class="btn" data-go="data">Open Data access</button></div></div>
+    <table class="mtable dx-table"><tbody>${rows.map((r) => `<tr><td><b>${esc(dataName(r.resource))}</b><small class="t-faint"> ${r.kind === "kms-key" ? "KMS key" : "S3 bucket"}</small></td><td data-label="Rating"><span class="sev ${DATA_RATING[r.rating]}"><i></i>${r.rating}</span></td><td data-label="Who can read">${accessCell(r.read)}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+// ------------------------------------------------------------------------------------- terraform plan
+
+// The IAM changes in a Terraform plan (iamtrace.terraform). With an account loaded, the plan is
+// applied to a copy of it and the review says what the change does to the account.
+let tfText = "";
+try { tfText = sessionStorage.getItem("iamtrace.tf") || ""; } catch { /* storage may be unavailable */ }
+function tfState() {
+  $("tf-text").value = tfText;
+  $("tf-run").disabled = !tfText.trim();
+  const has = Boolean(input.account.trim());
+  $("tf-account").disabled = !has;
+  $("tf-account-note").textContent = has ? "Uses the account export from Data input." : "Load an account export in Data input to use this.";
+  $("tfg").textContent = Array.from({ length: Math.min(tfText.split("\n").length, 20000) }, (_, i) => i + 1).join("\n");
+}
+function setTf(text) {
+  tfText = text;
+  try { sessionStorage.setItem("iamtrace.tf", text.length < 4_000_000 ? text : ""); } catch { /* full or unavailable */ }
+  tfState();
+}
+$("tf-text").addEventListener("input", () => setTf($("tf-text").value));
+$("tf-text").addEventListener("scroll", () => { $("tfg").scrollTop = $("tf-text").scrollTop; });
+$("tf-choose").addEventListener("click", () => $("tf-file").click());
+$("tf-file").addEventListener("change", async (e) => { const f = e.target.files[0]; if (f) setTf(await f.text()); e.target.value = ""; });
+["dragenter", "dragover"].forEach((t) => $("tf-drop").addEventListener(t, (e) => { e.preventDefault(); $("tf-drop").classList.add("over"); }));
+["dragleave", "drop"].forEach((t) => $("tf-drop").addEventListener(t, () => $("tf-drop").classList.remove("over")));
+$("tf-drop").addEventListener("drop", async (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) setTf(await f.text()); });
+$("tf-example").addEventListener("click", async () => {
+  const r = await fetch("examples/terraform-plan.json");
+  if (r.ok) setTf(await r.text());
+  if (!input.account.trim()) { await loadExampleAccount(); persist("account"); tfState(); }
+});
+$("tf-run").addEventListener("click", async () => {
+  const useAccount = $("tf-account").checked && input.account.trim();
+  overlay("Reviewing the plan", true);
+  let r;
+  try { r = await call("terraform_query", tfText, useAccount ? input.account : ""); } catch (e) { r = { error: e.message }; } finally { overlay(""); }
+  if (r.error === "cancelled") return;
+  if (r.error) return toast(sentence(r.error));
+  openSheet("Terraform plan review", tfHtml(r), `<button class="btn" id="tf-copy-md">Copy as PR comment</button>`, "Back to the plan");
+  $("tf-copy-md").addEventListener("click", () => copy(r.markdown));
+});
+function tfChain(p) {
+  return `<div class="dx-chain"><span class="mono">${esc(short(p.start))}</span>${p.steps.map((s) => `<span class="dx-tech" title="${esc(s.name)}">${esc(s.technique)}</span><span class="mono">${esc(short(s.to))}</span>`).join("")}${p.open === false ? ` <span class="tag warn">Needs ${esc(gateShort(p.requires))}</span>` : ""}</div>`;
+}
+function tfHtml(r) {
+  const a = r.account, s = r.summary;
+  const sec = (title, items) => items.length ? `<section class="dx-sec"><h3>${title} <span class="t-faint">${items.length}</span></h3>${items.join("")}</section>` : "";
+  let head = "";
+  if (a) {
+    const bad = a.new_paths.length || a.new_admins.length;
+    head = `<div class="callout ${bad ? "callout-crit" : a.new_entry_points.length ? "callout-warn" : "callout-ok"}"><div><b>${bad ? "This plan opens a path to admin." : a.new_entry_points.length ? "No new path to admin, but a new or worse entry point." : "No new path to admin."}</b> ${plural(a.new_paths.length, "new path")}, ${plural(a.removed_paths.length, "removed path")}, ${plural(a.new_admins.length, "new admin-equivalent principal")}, ${plural(a.new_entry_points.length, "new or worse entry point")}.</div></div>`
+      + sec("New paths to admin", a.new_paths.map(tfChain))
+      + sec("New admin-equivalent principals", a.new_admins.map((x) => `<div class="dx-row"><span class="mono">${esc(short(x))}</span></div>`))
+      + sec("New or worse entry points", a.new_entry_points.map((e) => `<div class="dx-row"><span><span class="sev ${DATA_RATING[e.rating]}"><i></i>${e.rating}</span> <span class="mono">${esc(short(e.principal))}</span></span><small>${esc(e.why)}</small></div>`))
+      + sec("Paths this plan removes", a.removed_paths.map(tfChain));
+  } else {
+    head = `<div class="callout"><div>Reviewed the documents on their own. Load an account export in Data input to also see new paths to admin and new entry points.</div></div>`;
+  }
+  const docs = r.documents.map((d) => {
+    const changes = d.diff && !d.diff.unchanged
+      ? Object.entries(d.diff.changes).flatMap(([kind, entries]) => entries.map((e) => `<li><span class="dx-kind ${kind}">${esc(kind.replaceAll("_", " "))}</span> <code class="c">${esc(e.action)}</code> on <span class="mono">${esc(e.resources.map(short).join(", "))}</span>${e.highlight && kind === "newly_allowed" ? ' <span class="tag high">Sensitive</span>' : ""}</li>`)).slice(0, 40)
+      : [];
+    const findings = [
+      ...d.new_escalations.map((t) => `<li><span class="tag crit">Escalation</span> <span class="mono">${esc(t.id)}</span> ${esc(t.name)}</li>`),
+      ...d.new_checks.map((f) => `<li><span class="tag ${f.severity === "high" ? "crit" : f.severity === "medium" ? "high" : "warn"}">${esc(f.severity[0].toUpperCase() + f.severity.slice(1))}</span> ${esc(f.detail)}</li>`),
+    ];
+    return `<div class="tf-doc"><div class="tf-doc-h"><span class="mono">${esc(d.address)}</span><span class="tag plain">${esc(d.kind)}</span><span class="tag plain">${esc(d.action)}</span></div>
+      ${d.error ? `<p class="muted">Could not analyse: ${esc(d.error)}</p>` : ""}
+      ${findings.length ? `<ul class="tf-list">${findings.join("")}</ul>` : ""}
+      ${changes.length ? `<ul class="tf-list tf-changes">${changes.join("")}</ul>` : d.diff?.unchanged ? '<p class="muted">No change in what it allows.</p>' : ""}</div>`;
+  });
+  return `${head}<section class="dx-sec"><h3>Documents <span class="t-faint">${r.documents.length}</span></h3><p class="muted">${plural(s.new_escalations, "new escalation technique")}, ${plural(s.new_checks, "new risky pattern")}.</p>${docs.join("")}</section>
+    ${r.notes.map((n) => `<div class="callout"><div>${esc(n)}</div></div>`).join("")}`;
+}
+
 // ------------------------------------------------------------------------------------- fix plan
 
 // The engine's fix plan (iamtrace.fixplan): the cheapest set of Deny statements that removes every
 // path to admin, applied to a copy of the account and analysed again. Built straight after the
 // analysis for accounts of a size the browser handles quickly, on request for larger ones.
 const FIX_AUTO_LIMIT = 150;
-function fixPlanFor(scope) {
+async function fixPlanFor(scope) {
   const m = model;
   if (!m || m.mode !== "account") return null;
   const key = `${scope}${m.fix.gated ? "+gated" : ""}`;
   if (!m.fix.plans[key]) {
-    const out = call("fix_plan_query", m.inputs.account, scope === "start" ? m.start : "", m.inputs.scp, m.inputs.inv, Boolean(m.fix.gated));
+    const out = await call("fix_plan_query", m.inputs.account, scope === "start" ? m.start : "", m.inputs.scp, m.inputs.inv, Boolean(m.fix.gated));
     if (out.error) throw new Error(out.error);
     m.fix.plans[key] = out;
   }
@@ -950,8 +1196,7 @@ async function buildFixPlan() {
   const m = model, scope = m.fix.scope;
   m.fix.state = "working";
   renderFixPlan();
-  await nextFrame();
-  try { fixPlanFor(scope); m.fix.state = "done"; } catch (e) { m.fix.state = "error"; m.fix.error = e.message; }
+  try { await fixPlanFor(scope); m.fix.state = "done"; } catch (e) { m.fix.state = "error"; m.fix.error = e.message; }
   if (model === m) renderFixPlan();
 }
 function renderFixPlan() {
@@ -975,8 +1220,17 @@ function renderFixPlan() {
   body.querySelector("[data-fp-gated]")?.addEventListener("click", () => { m.fix.gated = !m.fix.gated; renderFixPlan(); });
   body.querySelectorAll("[data-fp-show]").forEach((b) => b.addEventListener("click", () => showFixOnGraph(plan, b.dataset.fpShow === "all" ? null : Number(b.dataset.fpShow))));
   body.querySelectorAll("[data-fp-copy]").forEach((b) => b.addEventListener("click", () => copy(JSON.stringify(fixStatement(plan.changes[Number(b.dataset.fpCopy)]), null, 2))));
-  $("fp-dl")?.addEventListener("click", () => download(`iam-trace-fix-${scope === "start" ? nameOf(m.start) : "account"}.json`, JSON.stringify(fixExport(plan), null, 2) + "\n"));
-  $("fp-copyall")?.addEventListener("click", () => copy(JSON.stringify(plan.policies, null, 2)));
+  const what = () => fixMode() === "scp" && plan.scp ? plan.scp.policy
+    : fixMode() === "narrow" && plan.narrowed ? Object.fromEntries(plan.narrowed.edits.map((e) => [e.policy, e.delete ? "delete this policy" : e.document]))
+    : null;
+  const name = `iam-trace-fix-${scope === "start" ? nameOf(m.start) : "account"}${fixMode() === "deny" ? "" : `-${fixMode()}`}.json`;
+  $("fp-dl")?.addEventListener("click", () => download(name, JSON.stringify(what() || fixExport(plan), null, 2) + "\n"));
+  $("fp-copyall")?.addEventListener("click", () => copy(JSON.stringify(what() || plan.policies, null, 2)));
+  body.querySelectorAll("[data-fp-mode]").forEach((b) => b.addEventListener("click", () => { m.fix.mode = b.dataset.fpMode; renderFixPlan(); }));
+  body.querySelectorAll("[data-fp-json]").forEach((b) => b.addEventListener("click", () => {
+    const k = b.dataset.fpJson;
+    copy(JSON.stringify(k === "scp" ? plan.scp.policy : plan.narrowed.edits[Number(k.slice(1))].document, null, 2));
+  }));
 }
 // Policy ids from the engine: "<principal ARN> inline <name>", "<role ARN> trust policy", or a
 // managed policy's ARN.
@@ -1032,8 +1286,42 @@ function fixPlanHtml(plan, scope) {
     : "";
   return `<div class="fp-sum"><div class="fp-n"><b>${n}</b><span>${n === 1 ? "change" : "changes"}</span></div>
       <div class="fp-sum-t"><p class="fp-head">${n === 1 ? "This change removes" : "These changes remove"} every ${plan.include_gated ? "" : "open "}path to admin from ${who}. ${tag}</p><p class="muted">${proof}</p>${extra}${gatedNote}</div></div>
-    <ol class="fp-list">${changes}</ol>
-    <div class="fp-foot"><button class="btn primary" data-fp-show="all">Show all on graph</button><button class="btn" id="fp-dl">Download policies</button><button class="btn" id="fp-copyall">Copy policies</button></div>${uncovered}`;
+    ${plan.narrowed ? fixModeSwitch() : ""}
+    ${fixMode() === "narrow" && plan.narrowed ? narrowedHtml(plan.narrowed) : fixMode() === "scp" && plan.scp ? scpHtml(plan.scp) : `<ol class="fp-list">${changes}</ol>`}
+    <div class="fp-foot"><button class="btn primary" data-fp-show="all">Show all on graph</button><button class="btn" id="fp-dl">Download ${fixMode() === "scp" ? "SCP" : "policies"}</button><button class="btn" id="fp-copyall">Copy ${fixMode() === "scp" ? "SCP" : "policies"}</button></div>${uncovered}`;
+}
+// How to apply the plan: Deny statements (the default), edits to the Allow statements that grant
+// the permissions, or one SCP. Each is verified separately by the engine.
+const fixMode = () => model?.fix?.mode || "deny";
+function fixModeSwitch() {
+  const modes = [["deny", "Deny statements"], ["narrow", "Narrow the Allow"], ["scp", "One SCP"]];
+  return `<div class="fp-mode"><span class="muted">Apply as</span><div class="seg sm" role="group" aria-label="Apply the fix as">${modes.map(([k, label]) => `<button data-fp-mode="${k}" class="${fixMode() === k ? "on" : ""}" aria-pressed="${fixMode() === k}">${label}</button>`).join("")}</div></div>`;
+}
+function verifiedTag(ok, partial = false) {
+  return ok ? `<span class="tag ok">${IC.ok}Verified</span>` : partial ? '<span class="tag warn">Partial</span>' : '<span class="tag warn">Not verified</span>';
+}
+function codeBlock(label, obj, key) {
+  return `<div class="codeblock fp-code"><div class="cb-h">${esc(label)}<button class="copy" data-fp-json="${key}">Copy</button></div><pre>${esc(JSON.stringify(obj, null, 2))}</pre></div>`;
+}
+function narrowedHtml(n) {
+  const head = `<p class="fp-alt-head">${verifiedTag(n.verified, !n.complete)} ${n.complete
+    ? "Edit the statements that grant the permissions instead of adding Deny statements. The account with these edits was analysed again."
+    : "Some changes can't be made by narrowing a statement readably; keep their Deny statements."}</p>`;
+  const edits = n.edits.map((e, i) => {
+    const who = e.affects.length ? e.affects.map((a) => `<span class="mono">${esc(short(a))}</span>`).join(", ") : "nobody";
+    const shared = e.kind === "managed" || e.kind === "group" ? ` <span class="tag warn">Shared</span>` : "";
+    const also = e.also_removes.length ? `<ul class="fp-also">${e.also_removes.map((x) => `<li>Also no longer allows ${esc(x)}</li>`).join("")}</ul>` : "";
+    const body = e.delete
+      ? `<p>${e.kind === "managed" ? "Detach and delete" : "Delete"} this policy: after the change it grants nothing else.</p>`
+      : codeBlock("New policy document", e.document, `n${i}`);
+    return `<li class="fp-ch"><div class="fp-what"><b>${policyName(e.policy)}</b>${shared}<p>Affects ${who}${e.kind === "managed" || e.kind === "group" ? ": the edit changes their access too" : ""}.</p></div>${body}${also}</li>`;
+  }).join("");
+  const problems = n.problems.map((p) => `<li>${esc(p)}</li>`).join("");
+  return `${head}<ol class="fp-list fp-alt">${edits}</ol>${problems ? `<ul class="fp-problems">${problems}</ul>` : ""}`;
+}
+function scpHtml(s) {
+  return `<p class="fp-alt-head">${verifiedTag(s.verified)} One service control policy with every Deny, each limited to its principal. ${s.size.toLocaleString()} of 5,120 characters.</p>
+    ${codeBlock("SCP", s.policy, "scp")}<ul class="fp-also">${s.notes.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
 }
 // Cut the steps a change breaks on the attack graph, so the what-if bar confirms the result.
 function showFixOnGraph(plan, i) {
@@ -1069,7 +1357,7 @@ async function runExample() {
   await loadExampleAccount();
   setSource("account");
   whenReady(async () => {
-    const out = JSON.parse(api.account_principals(input.account));
+    const out = await call("account_principals", input.account);
     input.principals = out.principals || [];
     input.start = input.principals.find((p) => p.endsWith(":user/dev")) || input.principals[0];
     renderPicker(input.principals);
@@ -1166,11 +1454,11 @@ function setPathsPanel(open) {
 $("g-hide-paths").addEventListener("click", () => { setPathsPanel(false); $("g-show-paths").focus(); });
 $("g-show-paths").addEventListener("click", () => setPathsPanel(true));
 // The report: one HTML file for people who will never open iam-trace. It prints cleanly to PDF.
-function downloadReport() {
+async function downloadReport() {
   if (!model) return toast("Run an analysis first");
   let plan = null;
   if (model.mode === "account") {
-    try { plan = fixPlanFor("all"); } catch { plan = null; }
+    try { plan = await fixPlanFor("all"); } catch { plan = null; }
   }
   const html = buildReport(model, { version: engineVersion, fixes: recommendedFixes(model), plan });
   const acct = (model.principals[0]?.arn || "").split(":")[4] || "account";
@@ -1484,14 +1772,14 @@ function loadEvExample(ex) {
   $("ev-result").innerHTML = `<div class="glass empty-state"><span class="es-ic">${IC.info}</span><h2>Ready to evaluate</h2><p>Press Evaluate to see the decision, every step AWS checks, and the statement that decided it.</p></div>`;
 }
 $("ev-clear").addEventListener("click", () => { for (const [k] of POLICY_TYPES) evPolicies[k] = ""; evOpen.clear(); renderEvPolicies(); edited.evaluate = true; persist("evaluate"); });
-$("ev-run").addEventListener("click", () => {
+$("ev-run").addEventListener("click", async () => {
   const req = {
     principal: $("ev-principal").value, action: $("ev-action").value, resource: $("ev-resource").value,
     resource_account: $("ev-account").value, context: $("ev-context").value,
     identity: [evPolicies.identity], resource_policy: evPolicies.resource_policy, boundary: evPolicies.boundary,
     session: [evPolicies.session], scp: [evPolicies.scp], rcp: [evPolicies.rcp],
   };
-  const out = call("can", JSON.stringify(req));
+  const out = await call("can", JSON.stringify(req));
   renderEvResult(out, req);
 });
 
@@ -1629,8 +1917,8 @@ const drawNew = editorWith($("d-new"), $("dg2"), JSON.stringify(DIFF_EXAMPLE.aft
 $("d-swap").addEventListener("click", () => { const a = $("d-old").value; $("d-old").value = $("d-new").value; $("d-new").value = a; drawOld(); drawNew(); });
 const KINDS = [["newly_allowed", "Newly allowed", "crit"], ["deny_removed", "Deny removed", "warn"], ["no_longer_allowed", "No longer allowed", "ok"], ["newly_denied", "Newly denied", "ok"]];
 const LEVELS = ["Permissions management", "Write", "Tagging", "Read", "List", "Unknown"];
-$("d-run").addEventListener("click", () => {
-  const out = call("diff", $("d-old").value, $("d-new").value);
+$("d-run").addEventListener("click", async () => {
+  const out = await call("diff", $("d-old").value, $("d-new").value);
   if (out.error) {
     openSheet("Could not compare", `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not compare</h2><p>${esc(sentence(out.error))}</p></div></div>`);
     return;
@@ -1767,8 +2055,8 @@ function drawWhoCanGraph(r) {
   wcGraph.setData(whoCanGraph(r));
   requestAnimationFrame(() => wcGraph.fit());
 }
-function runWhoCan() {
-  const out = call("who_can_query", input.account, $("wc-action").value, $("wc-resource").value, $("wc-policy").value, input.scp, input.inv, $("wc-context").value);
+async function runWhoCan() {
+  const out = await call("who_can_query", input.account, $("wc-action").value, $("wc-resource").value, $("wc-policy").value, input.scp, input.inv, $("wc-context").value);
   const el = $("wc-result");
   if (out.error) {
     el.innerHTML = `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not answer</h2><p>${esc(sentence(out.error))}</p></div></div>`;
@@ -1845,14 +2133,14 @@ $("pc-example").addEventListener("click", () => { $("pc-text").value = JSON.stri
 $("pc-account").addEventListener("click", () => { pc.account = true; pcList(); whenReady(runCheck); });
 $("pc-run").addEventListener("click", runCheck);
 
-function runCheck() {
+async function runCheck() {
   const docs = pcDocs();
   if (!docs.length) {
     toast("Paste a policy, drop files or use Load example first");
     $("pc-text").focus();
     return;
   }
-  const out = call("check", JSON.stringify(docs), $("pc-aws").checked);
+  const out = await call("check", JSON.stringify(docs), $("pc-aws").checked);
   if (out.error) {
     openSheet("Could not check", `<div class="verdict glass v-warn"><span class="vb">${IC.warn}</span><div><h2>Could not check</h2><p>${esc(sentence(out.error))}</p></div></div>`);
     return;
@@ -1911,7 +2199,11 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Fix plan</b>: the fewest Deny statements that cut every path to admin, scoped to the target wherever possible, chosen by an exact minimum hitting set search and verified by analysing the changed account again. <code class='c'>iam-trace fix</code> on the command line.",
+    ["Added", ["<b>Terraform plan</b>: a new screen and <code class='c'>iam-trace terraform</code> review the IAM changes in a plan, and with an account loaded, the paths to admin and entry points it would open. The GitHub Action can post it on pull requests.",
+      "<b>Data access</b>: a new screen and <code class='c'>iam-trace data</code> rate every S3 bucket and KMS key by who can read and write it, directly, by escalating or from outside the account. Encrypted buckets need the key too; public policies are checked against the key and Block Public Access.",
+      "<b>Apply as</b> in the Fix plan: besides Deny statements, the same fix as narrowed Allow statements (with anything else they stop allowing named) or as one SCP. Each is verified by analysing again.",
+      "<b>Credential report</b>: a new Data input tab and <code class='c'>iam-trace credentials collect</code>. Entry points then leave out users with no password and no active key, rank old or unused keys and passwords without MFA higher, and flag root user access keys as critical.",
+      "<b>Fix plan</b>: the fewest Deny statements that cut every path to admin, scoped to the target wherever possible, chosen by an exact minimum hitting set search and verified by analysing the changed account again. <code class='c'>iam-trace fix</code> on the command line.",
       "<b>Entry points</b>: where an attack could start, worst first. Trust policies are tested with the evaluator, so a GitHub Actions role open to every repository, another account without ExternalId or a public role is found and ranked by what it reaches. <b>Analyse from here</b> re-runs the analysis. <code class='c'>iam-trace entry-points</code> on the command line.",
       "<b>Condition-aware paths</b>: tags from the export are used, and steps that need MFA, a network location or a time window are found and labelled instead of missed. Open paths come first; only they make the verdict critical.",
       "Policy check rule <code class='c'>open-federated-trust</code>, for trust policies open to every identity of a provider.",
@@ -1934,7 +2226,8 @@ const CHANGES = [
       "Settings: light, dark or system mode; bold, restrained or brand-colour style; graph node style.",
       "Marked as beta, with an honest comparison to pathfinding.cloud, PMapper, Cloudsplaining and iam-lens, and a public roadmap (ROADMAP.md).",
       "<code class='c'>web_api.analyze_account</code>: one call returns the analysis from a starting principal, a summary of every principal, and supports SCPs."]],
-    ["Changed", ["<b>Design review</b>: flat surfaces instead of glows and frosted glass (smoother scrolling too), type that scales with the window, and layouts for phones, tablets and wide screens.",
+    ["Changed", ["The analysis runs in a background worker: the page stays usable while a large account is analysed, and long operations can be cancelled.",
+      "<b>Design review</b>: flat surfaces instead of glows and frosted glass (smoother scrolling too), type that scales with the window, and layouts for phones, tablets and wide screens.",
       "Policy diff and Policy check fill the screen and open their results in a full-screen sheet. The attack graph's paths panel is a docked column with each path as a list of steps.",
       "Renamed from IAM Lens to iam-trace. Install <code class='c'>iam-trace</code>, import <code class='c'>iamtrace</code>, catalog variable <code class='c'>IAMTRACE_CATALOG</code>.",
       "Escalation analysis skips techniques a principal cannot allow before evaluating them fully. Same results; 400 principals in 3 s instead of 24 s."]],
@@ -2145,6 +2438,7 @@ const SAVED = {
   policy: { label: "Single policy", where: "input", read: () => input.policy.trim() || null, apply: (v) => { input.policy = v; }, clear: () => { input.policy = ""; } },
   scp: { label: "Organization SCPs", where: "input", read: () => input.scp.trim() || null, apply: (v) => { input.scp = v; }, clear: () => { input.scp = ""; } },
   inv: { label: "Resource inventory", where: "input", read: () => input.inv.trim() || null, apply: (v) => { input.inv = v; }, clear: () => { input.inv = ""; } },
+  cred: { label: "Credential report", where: "input", read: () => input.cred.trim() || null, apply: (v) => { input.cred = v; }, clear: () => { input.cred = ""; } },
   analysis: {
     label: "Last analysis", where: "overview", detail: (v) => `re-run from ${v.src === "policy" ? "the single policy" : "the account export"} when the page opens`,
     read: () => lastRun, apply: (v) => { lastRun = v; $("opt-blast").checked = Boolean(v.blast); }, clear: () => { lastRun = null; },
@@ -2332,7 +2626,7 @@ async function restoreSaved() {
     try { SAVED[e.key]?.apply(e.value); } catch (err) { console.warn("iam-trace: could not restore", e.key, err); }
   }
   saving.ready = true;
-  if (entries.some((e) => ["account", "policy", "scp", "inv"].includes(e.key))) setSource(lastRun?.src === "policy" ? "policy" : input.src);
+  if (entries.some((e) => ["account", "policy", "scp", "inv", "cred"].includes(e.key))) setSource(lastRun?.src === "policy" ? "policy" : input.src);
   refreshSaveStatus();
   if (lastRun) {
     whenReady(async () => {

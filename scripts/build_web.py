@@ -70,13 +70,25 @@ def main() -> int:
     if DIST.exists():
         shutil.rmtree(DIST)
     DIST.mkdir(parents=True)
-    for name in ("index.html", "theme.js", "app.js", "graph.js", "examples.js", "store.js", "report.js", "style.css"):
+    for name in (
+        "index.html",
+        "theme.js",
+        "app.js",
+        "engine.js",
+        "graph.js",
+        "examples.js",
+        "store.js",
+        "report.js",
+        "style.css",
+    ):
         shutil.copy2(WEB / name, DIST / name)
     shutil.copytree(WEB / "fonts", DIST / "fonts")
     shutil.copy2(WEB / "og.png", DIST / "og.png")  # the link-preview image named in index.html
     (DIST / "examples").mkdir()
     shutil.copy2(ROOT / "examples" / "account" / "auth-details.json", DIST / "examples" / "auth-details.json")
     shutil.copy2(ROOT / "examples" / "account" / "inventory.json", DIST / "examples" / "inventory.json")
+    shutil.copy2(ROOT / "examples" / "account" / "credential-report.csv", DIST / "examples" / "credential-report.csv")
+    shutil.copy2(ROOT / "examples" / "terraform" / "plan.json", DIST / "examples" / "terraform-plan.json")
     n = zip_dir(PKG, DIST / "iamtrace.zip", "iamtrace", skip_catalog=True)
     print(f"iamtrace.zip: {n} files")
     if (CATALOG / "services").is_dir():

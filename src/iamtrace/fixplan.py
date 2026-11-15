@@ -33,11 +33,14 @@ from collections.abc import Iterable
 from typing import Any
 
 from iamtrace.arn import resource_matches
+from iamtrace.catalog import Catalog
 from iamtrace.context import Context
 from iamtrace.escalate import FULL_ADMIN, PERMISSION_TARGET, Environment, analyze
 from iamtrace.inventory import TECHNIQUE_KIND
 from iamtrace.matching import any_action_matches
 from iamtrace.model import Policy, PolicyType
+from iamtrace.narrow import narrowed_plan, scp_plan
+from iamtrace.narrow import text as narrow_text
 
 SINK = "#admin"
 TARGETED_COST = 1.0
@@ -268,6 +271,8 @@ def fix_plan(
     scps: list[list[Policy]] | None = None,
     everyone: dict[str, Any] | None = None,
     include_gated: bool = False,
+    catalog: Catalog | None = None,
+    alternatives: bool = True,
 ) -> dict[str, Any]:
     """The cheapest verified set of denials that removes every path to admin from `start`, or
     from every principal when `start` is None. Keys starting with "_" are Python objects for
@@ -275,6 +280,10 @@ def fix_plan(
 
     `everyone` is `analyze(env, scps=scps)` if the caller already has it. The whole account is
     analysed once before and once after the change: one starting principal's view is part of it.
+
+    With `alternatives`, a verified plan also gets "narrowed" (the granting Allow statements
+    edited instead, see iamtrace.narrow; `catalog` lets wildcards be listed out) and "scp" (the
+    Denies as one SCP), each verified by analysing again.
 
     By default only open paths are cut: those anyone holding the credentials can follow. Paths that
     need MFA, a network location or a time window are often intended (break-glass admin access with
@@ -400,8 +409,15 @@ def fix_plan(
                 "consequence": _consequence(principal, action, res),
             }
         )
+    extra: dict[str, Any] = {}
+    if alternatives and verified and changes:
+        extra["narrowed"] = narrowed_plan(
+            env, changes, roots=roots, scps=scps, include_gated=include_gated, catalog=catalog, everyone=everyone
+        )
+        extra["scp"] = scp_plan(env, changes, roots=roots, scps=scps, include_gated=include_gated)
     return {
         **base,
+        **extra,
         "status": "fixed" if verified else "not-verified",
         "changes": changes,
         "policies": policies,
@@ -480,9 +496,13 @@ def _short(arn: str) -> str:
     return arn.split(":", 5)[-1] if arn.startswith("arn:") else arn
 
 
-def public(plan: dict[str, Any]) -> dict[str, Any]:
-    """The plan without its Python-only keys, ready for JSON."""
-    return {k: v for k, v in plan.items() if not k.startswith("_")}
+def public(plan: Any) -> Any:
+    """The plan without its Python-only keys (at any depth), ready for JSON."""
+    if isinstance(plan, dict):
+        return {k: public(v) for k, v in plan.items() if not k.startswith("_")}
+    if isinstance(plan, list):
+        return [public(v) for v in plan]
+    return plan
 
 
 def fix_plan_text(plan: dict[str, Any]) -> str:
@@ -538,6 +558,7 @@ def fix_plan_text(plan: dict[str, Any]) -> str:
         lines.append("")
         lines.append(f"Inline policy for {_short(principal)}:")
         lines.append(json.dumps(policy, indent=2))
+    lines += narrow_text(plan)
     if plan["not_covered"]:
         lines.append("")
         lines.append(

@@ -6,6 +6,28 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Terraform plans: `iam-trace terraform plan.json` reviews the IAM changes in a plan (diff, new
+  escalation techniques, new risky patterns per document). With `--auth-details` it applies the
+  plan to the export, including policies created in the same plan and attached by reference, and
+  reports new and removed paths to admin, new admins and new entry points. `--format markdown`
+  writes a pull-request comment, and the GitHub Action takes `terraform-plan`, `auth-details` and
+  `fail-on-terraform`. A Terraform plan screen does the same in the app.
+- Data access: `iam-trace data` and a Data access screen rate every S3 bucket and KMS key in the
+  inventory by who can read and write it (directly, by escalating, from outside the account),
+  worst first, with the routes. Reading an SSE-KMS bucket needs kms:Decrypt on its key too;
+  public bucket policies are checked against the key and S3 Block Public Access.
+  `inventory collect` now records buckets (policy, default encryption key, Block Public Access)
+  and customer managed keys (key policy). The Overview gets a Data exposure card.
+- Fix plans come in three verified forms: Deny statements, the granting Allow statements
+  narrowed (actions removed, resources listed or excluded, policies that grant nothing else
+  deleted), and one SCP. Each narrowing names what else it stops allowing and who else a shared
+  policy affects. "Apply as" in the Fix plan card switches between them; `fix --out-dir` writes
+  all three.
+- Credential report: `iam-trace credentials collect` fetches the IAM credential report
+  (read-only), and `entry-points --credential-report` and a new Data input tab use it. Users with
+  no password and no active access key are no longer entry points; old or unused keys and
+  passwords without MFA rank higher and are explained with their dates; root user access keys
+  are critical.
 - Fix plans: `iam-trace fix` and a Fix plan card on the Overview give the fewest Deny statements
   that cut every path to admin, from one principal or from all of them. Denials are scoped to the
   target role, user or policy wherever possible. Choosing them is a weighted minimum hitting set
@@ -96,6 +118,9 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Changed
 
+- The web app runs the analysis engine in a background worker, so the page stays responsive
+  while a large account is analysed. Long operations show a Cancel button, which stops the
+  engine and starts a fresh one.
 - Web app design review: flat surfaces instead of glows, gradients and frosted glass (which also
   made scrolling slow); a neutral palette with a blue accent; type that scales with the window;
   pages that use wide screens; no status badges in the top bar.
@@ -129,6 +154,10 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Fixed
 
+- Markdown escaping in pull-request comments no longer breaks HTML entities (an apostrophe showed
+  as `&\#x27;`).
+- The selected Data input tab no longer has a glow ring, and the five tabs fit one row on wide
+  screens.
 - The escalation analysis evaluated every check with no request context, so steps allowed only
   in a given region or with given request tags were missed, and conditions on principal or role
   tags were never met.

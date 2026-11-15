@@ -232,8 +232,9 @@ def md_text(value: object, limit: int = 300) -> str:
     """Escape plain text (for example an error message quoting a policy) so Markdown renders it as
     text: HTML is escaped and every Markdown control character is backslash-escaped."""
     text = " ".join(str(value).split())[:limit]
-    text = html.escape(text, quote=True).replace("@", "&#64;").replace("|", "&#124;")
-    return "".join("\\" + ch if ch in "\\`*_[]()#!~" else ch for ch in text)
+    # Markdown escapes first, then HTML: the other way round, "#" in "&#x27;" would be escaped too.
+    text = "".join("\\" + ch if ch in "\\`*_[]()#!~" else ch for ch in text)
+    return html.escape(text, quote=False).replace("@", "&#64;").replace("|", "&#124;")
 
 
 def diff_markdown(d: dict[str, Any], title: str | None = None) -> str:

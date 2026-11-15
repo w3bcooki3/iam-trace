@@ -31,6 +31,7 @@ through the account export.
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
@@ -56,7 +57,12 @@ KINDS: dict[str, Kind] = {
     "sagemaker-notebook": Kind("sagemaker", "notebook-instance/", "SageMaker notebook instances"),
     "state-machine": Kind("states", "stateMachine:", "Step Functions state machines"),
     "apprunner-service": Kind("apprunner", "service/", "App Runner services"),
+    # Data, for iamtrace.data: no role, but a resource policy (and for a bucket, its default
+    # encryption key and Block Public Access settings).
+    "s3-bucket": Kind("s3", "", "S3 buckets"),
+    "kms-key": Kind("kms", "key/", "KMS keys"),
 }
+DATA_KINDS = ("s3-bucket", "kms-key")
 
 # Existing-resource techniques that act on one resource of a known kind with all of their
 # permissions. Techniques left out (launch templates, Batch, CodeDeploy, ECS tasks, Bedrock
@@ -84,8 +90,10 @@ def kind_of(arn: str) -> str | None:
     parts = arn.split(":", 5)
     if len(parts) < 6 or parts[0] != "arn":
         return None
+    if parts[2] == "s3":
+        return "s3-bucket" if parts[5] and "/" not in parts[5] else None
     for name, k in KINDS.items():
-        if parts[2] == k.service and parts[5].startswith(k.prefix):
+        if parts[2] == k.service and k.prefix and parts[5].startswith(k.prefix):
             return name
     return None
 
@@ -95,6 +103,9 @@ class Resource:
     arn: str
     kind: str
     role: str | None  # role ARN after instance-profile resolution; None if it has none
+    policy: dict[str, Any] | None = None  # resource policy document: bucket policy, key policy
+    kms_key: str | None = None  # a bucket's default encryption key (SSE-KMS)
+    public_access_block: dict[str, Any] | None = None  # a bucket's Block Public Access settings
 
 
 @dataclass
@@ -105,6 +116,9 @@ class Inventory:
 
     def of_kind(self, kind: str) -> list[Resource]:
         return [r for r in self.resources if r.kind == kind]
+
+    def find(self, arn: str) -> Resource | None:
+        return next((r for r in self.resources if r.arn == arn), None)
 
     def summary(self) -> dict[str, int]:
         return {k: len(self.of_kind(k)) for k in sorted(self.collected)}
@@ -149,5 +163,24 @@ def load_inventory(data: Any, env: Environment) -> Inventory:
                 warnings.append(f"inventory: {arn} uses {role}, which is not in the account export; ignored")
                 continue
             role = resolved
-        resources.append(Resource(arn, kind, role or None))
+        policy = item.get("Policy")
+        if isinstance(policy, str):
+            try:
+                policy = json.loads(policy)
+            except json.JSONDecodeError as e:
+                raise PolicyError(f"inventory: {arn} Policy is not JSON") from e
+        if policy is not None and not isinstance(policy, dict):
+            raise PolicyError(f"inventory: Resources[{i}] Policy must be a policy document")
+        key = item.get("KmsKey")
+        pab = item.get("PublicAccessBlock")
+        resources.append(
+            Resource(
+                arn,
+                kind,
+                role or None,
+                policy=policy,
+                kms_key=key if isinstance(key, str) and key else None,
+                public_access_block=pab if isinstance(pab, dict) else None,
+            )
+        )
     return Inventory(collected, resources, warnings)

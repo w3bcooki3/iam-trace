@@ -1,7 +1,7 @@
 name: iam-trace policy review
 description: >
-  Comments a semantic diff on pull requests that change IAM policy files, flags risky patterns the
-  change introduces, and can fail the check when a change allows new privilege-escalation techniques.
+  Comments a semantic diff on pull requests that change IAM policy files or a Terraform plan, flags risky
+  patterns the change introduces, and can fail the check when it opens a new path to admin.
 author: iam-trace contributors
 branding:
   icon: shield
@@ -20,6 +20,19 @@ inputs:
   fail-on-check:
     description: "Fail when the change introduces a risky pattern (iam-trace check) at this severity or higher: never, high, medium or low."
     default: "never"
+  terraform-plan:
+    description: >
+      Path to a Terraform plan in JSON (terraform show -json plan.out > plan.json, run in an earlier step).
+      Its IAM changes are reviewed in the same comment.
+    default: ""
+  auth-details:
+    description: >
+      Path to the current account export (aws iam get-account-authorization-details). With terraform-plan,
+      the plan is applied to it and new paths to admin and new entry points are reported.
+    default: ""
+  fail-on-terraform:
+    description: "Fail when the Terraform plan does this: never, new-path, new-entry-point, escalation, check-high or any."
+    default: "new-path"
   comment:
     description: Post (or update) a pull-request comment with the review.
     default: "true"
@@ -59,6 +72,9 @@ runs:
         FAIL_ON_DIFF: ${{ inputs.fail-on-diff }}
         FAIL_ON_ESCALATION: ${{ inputs.fail-on-escalation }}
         FAIL_ON_CHECK: ${{ inputs.fail-on-check }}
+        TF_PLAN: ${{ inputs.terraform-plan }}
+        AUTH_DETAILS: ${{ inputs.auth-details }}
+        FAIL_ON_TF: ${{ inputs.fail-on-terraform }}
       run: |
         # Inputs arrive through the environment, never interpolated into the script.
         if [ -z "$BASE" ]; then echo "This action runs on pull_request events."; exit 1; fi
@@ -68,7 +84,17 @@ runs:
         if [ "$FAIL_ON_ESCALATION" = "true" ]; then args+=(--fail-on-escalation); fi
         set +e
         python -m iamtrace.pr_review "${args[@]}"
-        echo "exit=$?" >> "$GITHUB_OUTPUT"
+        code=$?
+        if [ -n "$TF_PLAN" ]; then
+          tf=(terraform "$TF_PLAN" --format markdown --fail-on "$FAIL_ON_TF")
+          if [ -n "$AUTH_DETAILS" ]; then tf+=(--auth-details "$AUTH_DETAILS"); fi
+          iam-trace "${tf[@]}" > "$RUNNER_TEMP/iamtrace-tf.md"
+          tf_code=$?
+          printf '\n---\n\n' >> "$RUNNER_TEMP/iamtrace.md"
+          cat "$RUNNER_TEMP/iamtrace-tf.md" >> "$RUNNER_TEMP/iamtrace.md"
+          if [ "$tf_code" -ne 0 ]; then code=$tf_code; fi
+        fi
+        echo "exit=$code" >> "$GITHUB_OUTPUT"
         cat "$RUNNER_TEMP/iamtrace.md" >> "$GITHUB_STEP_SUMMARY"
 
     - name: Post or update the pull-request comment

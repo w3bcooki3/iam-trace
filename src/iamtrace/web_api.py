@@ -14,6 +14,8 @@ from typing import Any
 
 from iamtrace.catalog import Catalog, CatalogMissing
 from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
+from iamtrace.credentials import CredentialError, parse_credential_report
+from iamtrace.data import data_access, data_exposure
 from iamtrace.diff import diff_policies, diff_text
 from iamtrace.entry import entry_points
 from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
@@ -24,6 +26,8 @@ from iamtrace.loader import parse_any_policy, parse_context
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import can_text
 from iamtrace.principals import Principal
+from iamtrace.terraform import review as terraform_review
+from iamtrace.terraform import review_markdown
 from iamtrace.whatif import what_if, what_if_text
 from iamtrace.whocan import who_can, who_can_text
 
@@ -242,13 +246,15 @@ def analyze_account(
     scp_text: str = "",
     blast_radius: bool = False,
     inventory_text: str = "",
+    credential_text: str = "",
 ) -> dict[str, Any]:
     """Everything the web app's attack-path screens show, in one call.
 
     `result` and `graph` are the analysis from the chosen starting principal (as escalate_account).
     `account` summarises every principal in the export: its techniques and its shortest path to an
     admin-equivalent principal, if any. `scp_text` is one level of SCPs that apply to the account.
-    `inventory_text` is an optional resource inventory (iamtrace.inventory).
+    `inventory_text` is an optional resource inventory (iamtrace.inventory). `credential_text` is an
+    optional IAM credential report (iamtrace.credentials), used for entry points.
     """
     data = json.loads(auth_details_text)
     if not isinstance(data, dict):
@@ -263,6 +269,12 @@ def analyze_account(
         except json.JSONDecodeError as e:
             raise ValueError(f"the resource inventory is not valid JSON: {e}") from e
         env.resources = load_inventory(inv_data, env)
+    credentials = None
+    if credential_text.strip():
+        try:
+            credentials = parse_credential_report(credential_text)
+        except CredentialError as e:
+            raise ValueError(f"the credential report: {e}") from e
     scps = _scp_level(scp_text)
     report = analyze(env, start=start, catalog=_catalog() if blast_radius else None, scps=scps)
     everyone = analyze(env, scps=scps)
@@ -298,7 +310,8 @@ def analyze_account(
         "result": report,
         "graph": escalation_graph(report),
         "account": {"principals": principals, "paths": everyone["paths"]},
-        "entry_points": entry_points(env, everyone=everyone, scps=scps),
+        "entry_points": entry_points(env, everyone=everyone, scps=scps, credentials=credentials),
+        "data": data_exposure(env, scps=scps, report=everyone),
         "inventory": _inventory(data),
         "scps": sum(len(level) for level in scps) if scps else 0,
         "resources": env.resources.summary() if env.resources else None,
@@ -334,8 +347,49 @@ def fix_plan_query(
             env.resources = load_inventory(json.loads(inventory_text), env)
         scps = _scp_level(scp_text)
         everyone = None
-    plan = fix_plan(env, start=principal.strip() or None, scps=scps, everyone=everyone, include_gated=include_gated)
-    return public(plan)
+    plan = fix_plan(
+        env,
+        start=principal.strip() or None,
+        scps=scps,
+        everyone=everyone,
+        include_gated=include_gated,
+        catalog=_catalog(),
+    )
+    out: dict[str, Any] = public(plan)
+    return out
+
+
+@_safe
+def data_query(
+    auth_details_text: str, resource: str, access: str, scp_text: str = "", inventory_text: str = ""
+) -> dict[str, Any]:
+    """Who can read (write, delete) one bucket or key (iamtrace.data), reusing the last analysis."""
+    key = _key(auth_details_text, scp_text, inventory_text)
+    if _LAST.get("key") == key:
+        env, everyone, scps = _LAST["env"], _LAST["everyone"], _LAST["scps"]
+    else:
+        env = Environment.from_auth_details(json.loads(auth_details_text))
+        if inventory_text.strip():
+            env.resources = load_inventory(json.loads(inventory_text), env)
+        scps = _scp_level(scp_text)
+        everyone = analyze(env, scps=scps)
+    return data_access(env, resource.strip(), access, scps=scps, report=everyone)
+
+
+@_safe
+def terraform_query(plan_text: str, auth_details_text: str = "") -> dict[str, Any]:
+    """Review a Terraform plan (iamtrace.terraform), against the account export if one is given."""
+    cat = _catalog()
+    if cat is None:
+        raise ValueError("the action catalog is not available")
+    try:
+        plan = json.loads(plan_text)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"the plan is not valid JSON: {e}") from e
+    export = json.loads(auth_details_text) if auth_details_text.strip() else None
+    out = terraform_review(plan, cat, export=export)
+    out["markdown"] = review_markdown(out)
+    return out
 
 
 def account_principals(auth_details_text: str) -> str:
