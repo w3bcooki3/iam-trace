@@ -30,6 +30,13 @@ the passed role. Only confirmed edges form paths.
 A resource inventory (iamtrace.inventory) lists the existing resources and their roles. With one,
 existing-resource techniques are checked against each resource and become confirmed, or are
 ruled out when the kind was collected and nothing matches.
+
+Conditions. Each check carries the caller's tags (aws:PrincipalTag) and, for a user or role target,
+its tags (aws:ResourceTag, iam:ResourceTag) from the export. A check that fails is retried with
+the values its conditions name (iamtrace.gates): values the attacker chooses (region, request tags,
+ExternalId) make it open; MFA, a network location or a time window make it *gated*. Gated
+techniques, edges and paths carry "requires", so an open path (anyone with the credentials) can be
+told from one that needs, say, MFA. `analyze(..., conditions=False)` turns the retry off.
 """
 
 from __future__ import annotations
@@ -37,7 +44,7 @@ from __future__ import annotations
 import json
 import urllib.parse
 from collections import deque
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from functools import cache
 from importlib import resources
 from typing import Any
@@ -46,6 +53,7 @@ from iamtrace.arn import resource_matches
 from iamtrace.catalog import ACCESS_LEVELS, Catalog
 from iamtrace.context import Context
 from iamtrace.evaluate import PolicySet, Request, evaluate
+from iamtrace.gates import Gate, condition_values, describe, find_gates, summary
 from iamtrace.inventory import TECHNIQUE_KIND, Inventory
 from iamtrace.matching import any_action_matches
 from iamtrace.model import Policy, PolicyError, PolicyType
@@ -136,6 +144,7 @@ class Node:
     trust: Policy | None = None
     groups: list[str] = field(default_factory=list)  # group ARNs
     attached: list[str] = field(default_factory=list)  # managed policy ARNs, incl. via groups
+    tags: dict[str, str] = field(default_factory=dict)
 
     @property
     def account(self) -> str:
@@ -143,6 +152,12 @@ class Node:
 
     def caller(self) -> Principal:
         return Principal.from_arn(self.arn)
+
+
+def _tags(entity: dict[str, Any]) -> dict[str, str]:
+    return {
+        str(t["Key"]): str(t.get("Value", "")) for t in entity.get("Tags") or [] if isinstance(t, dict) and "Key" in t
+    }
 
 
 def _document(value: Any, where: str) -> Any:
@@ -251,7 +266,9 @@ class Environment:
                 gl.append(garn)
                 policies += gpols
                 arns += garns
-            nodes[u["Arn"]] = Node(u["Arn"], "user", policies, boundary(u, label), groups=gl, attached=arns)
+            nodes[u["Arn"]] = Node(
+                u["Arn"], "user", policies, boundary(u, label), groups=gl, attached=arns, tags=_tags(u)
+            )
         for r in data.get("RoleDetailList", []):
             label = r["Arn"]
             pols, arns = attached(r, label)
@@ -267,6 +284,7 @@ class Environment:
                 boundary(r, label),
                 trust=trust,
                 attached=arns,
+                tags=_tags(r),
             )
         return cls(nodes, group_arns, warnings, raw=data)
 
@@ -287,13 +305,20 @@ class Edge:
     technique: str
     name: str
     grants_admin: bool
+    gates: frozenset[Gate] = frozenset()
 
 
 class _Analyzer:
-    def __init__(self, env: Environment, scps: list[list[Policy]] | None) -> None:
+    def __init__(self, env: Environment, scps: list[list[Policy]] | None, conditions: bool = True) -> None:
         self.env = env
         self.scps = scps
-        self._cache: dict[tuple[str, str, str, str], bool] = {}
+        self.conditions = conditions
+        self.gated_ok = conditions  # off while looking for an open way first
+        self._acc: set[Gate] | None = None  # gates used by the checks of the technique being tested
+        self._cache: dict[tuple[str, str, str, str], frozenset[Gate] | None] = {}
+        self._sig_cache: dict[tuple[Any, ...], frozenset[Gate] | None] = {}
+        self._has_keys: dict[int, tuple[Policy, bool]] = {}
+        self._loose_cache: dict[int, tuple[Policy, Policy]] = {}  # keeps the original alive: ids stay unique
         self._may: dict[tuple[str, str], bool] = {}
         self._trust: dict[tuple[str, str], bool] = {}
         self._patterns: dict[str, tuple[str, ...] | None] = {}
@@ -314,15 +339,101 @@ class _Analyzer:
             json.dumps(context or {}, sort_keys=True) + (trust.id if trust else ""),
         )
         if key not in self._cache:
-            # The resource's own account when its ARN has one (S3 ARNs do not), else the caller's.
-            parts = resource.split(":", 5)
-            account = parts[4] if len(parts) > 4 and parts[0] == "arn" and parts[4] else node.account
-            req = Request(node.caller(), action, resource, resource_account=account, context=context or {})
-            ps = PolicySet(
-                identity=node.policies, boundary=node.boundary, scps=self.scps, resource=[trust] if trust else []
-            )
-            self._cache[key] = evaluate(req, ps).allowed
-        return self._cache[key]
+            # Resources that the same policy patterns match, with the same trust policy and tags,
+            # get the same answer: decide once per signature (as _existing does for inventories).
+            sig = self._signature(node, action, resource, trust, key[3])
+            if sig is not None and sig in self._sig_cache:
+                self._cache[key] = self._sig_cache[sig]
+            else:
+                self._cache[key] = self._decide(node, action, resource, trust, context)
+                if sig is not None:
+                    self._sig_cache[sig] = self._cache[key]
+        gates = self._cache[key]
+        if gates is None or (gates and not self.gated_ok):
+            return False
+        if gates and self._acc is not None:
+            self._acc |= gates
+        return True
+
+    def _signature(
+        self, node: Node, action: str, resource: str, trust: Policy | None, ctx_key: str
+    ) -> tuple[Any, ...] | None:
+        patterns = self._resource_patterns(node)
+        if patterns is None:
+            return None
+        parts = resource.split(":", 5)
+        account = parts[4] if len(parts) > 4 and parts[0] == "arn" and parts[4] else node.account
+        target = self.env.nodes.get(resource)
+        tags = tuple(sorted(target.tags.items())) if target is not None else ()
+        hit = tuple(x for x in patterns if resource_matches(x, resource, _NO_CONTEXT, False))
+        # The trust policy is part of the answer, and so is the target itself when the policies name
+        # it by exact ARN (hit then differs) or the trust policy is its own (keyed by id).
+        return (
+            node.arn,
+            action.lower(),
+            account,
+            hit,
+            id(trust) if trust else None,
+            tags,
+            ctx_key,
+            resource == node.arn,
+        )
+
+    def _decide(
+        self, node: Node, action: str, resource: str, trust: Policy | None, context: dict[str, Any] | None
+    ) -> frozenset[Gate] | None:
+        """frozenset() if allowed as is, the gates it needs if only a gated context allows it, else None."""
+        # The resource's own account when its ARN has one (S3 ARNs do not), else the caller's.
+        parts = resource.split(":", 5)
+        account = parts[4] if len(parts) > 4 and parts[0] == "arn" and parts[4] else node.account
+        ctx: dict[str, Any] = {f"aws:PrincipalTag/{k}": v for k, v in node.tags.items()}
+        target = self.env.nodes.get(resource)
+        if target is not None:
+            for k, v in target.tags.items():
+                ctx[f"aws:ResourceTag/{k}"] = v
+                ctx[f"iam:ResourceTag/{k}"] = v
+        ctx.update(context or {})
+        req = Request(node.caller(), action, resource, resource_account=account, context=ctx)
+        ps = PolicySet(
+            identity=node.policies, boundary=node.boundary, scps=self.scps, resource=[trust] if trust else []
+        )
+        if evaluate(req, ps).allowed:
+            return frozenset()
+        if not self.conditions:
+            return None
+        pols = [*node.policies, *([node.boundary] if node.boundary else []), *([trust] if trust else [])]
+        pols += [p for level in self.scps or [] for p in level]
+        if not self._searchable(pols):
+            return None  # no condition the attacker could satisfy: nothing to search
+        # Upper bound: with every Deny gone and every Allow unconditional, is it allowed? If not,
+        # no context can allow it, and the search is skipped. Most failed checks end here.
+        loose = PolicySet(
+            identity=[self._loose(p) for p in node.policies],
+            boundary=self._loose(node.boundary) if node.boundary else None,
+            scps=[[self._loose(p) for p in level] for level in self.scps] if self.scps else None,
+            resource=[self._loose(trust)] if trust else [],
+        )
+        if not evaluate(req, loose).allowed:
+            return None
+        return find_gates(lambda c: evaluate(replace(req, context=c), ps).allowed, ctx, pols)
+
+    def _searchable(self, pols: list[Policy]) -> bool:
+        """Does any of these policies have a condition key the gate search can vary?"""
+        out = False
+        for pol in pols:
+            key = id(pol)
+            if key not in self._has_keys:
+                self._has_keys[key] = (pol, bool(condition_values([pol])))
+            out = out or self._has_keys[key][1]
+        return out
+
+    def _loose(self, pol: Policy) -> Policy:
+        """The policy with its Deny statements removed and its Allow statements unconditional."""
+        key = id(pol)
+        if key not in self._loose_cache:
+            sts = tuple(replace(st, condition={}) for st in pol.statements if st.effect == "Allow")
+            self._loose_cache[key] = (pol, replace(pol, statements=sts))
+        return self._loose_cache[key][1]
 
     def may_allow(self, node: Node, action: str) -> bool:
         """Cheap over-approximation: can any of the node's Allow statements cover this action?
@@ -362,7 +473,15 @@ class _Analyzer:
         return sorted(out)
 
     def any_allowed(self, node: Node, action: str, context: dict[str, Any] | None = None) -> bool:
-        return any(self.can(node, action, r, context=context) for r in self.candidates(node, action))
+        cands = self.candidates(node, action)
+        saved = self.gated_ok
+        self.gated_ok = False  # an open way, if there is one, before a gated one
+        try:
+            if any(self.can(node, action, r, context=context) for r in cands):
+                return True
+        finally:
+            self.gated_ok = saved
+        return saved and any(self.can(node, action, r, context=context) for r in cands)
 
     def is_admin(self, node: Node) -> bool:
         return self.can(node, ADMIN_PROBE, "*")
@@ -394,13 +513,24 @@ class _Analyzer:
         found: list[dict[str, Any]] = []
         edges: list[Edge] = []
         for t in technique_catalog():
-            result = self._check(node, t)
+            shared: set[Gate] = set()
+            self._acc = shared
+            self._target_gates: dict[str, set[Gate]] = {}
+            try:
+                result = self._check(node, t)
+            finally:
+                self._acc = None
             if result is None:
                 continue
             # (targets, confidence, grants_admin, edge_targets[, via]): via names the existing
             # resources an inventory-backed finding goes through.
             targets, confidence, grants_admin, edge_targets = result[:4]
             via: list[str] = list(result[4]) if len(result) > 4 else []
+            per_target = {x: frozenset(shared | g) for x, g in self._target_gates.items() if x in targets}
+            every = set(shared).union(*per_target.values()) if per_target else set(shared)
+            # A technique is gated only if every target needs a gate; then it lists what they need.
+            open_somewhere = not shared and (not per_target or any(not g for g in per_target.values()))
+            requires = [] if open_somewhere else describe(every)
             found.append(
                 {
                     "id": t["id"],
@@ -411,6 +541,12 @@ class _Analyzer:
                     "confidence": confidence,
                     "grants_admin": grants_admin,
                     **({"via": via} if via else {}),
+                    **({"requires": requires} if requires else {}),
+                    **(
+                        {"gated_targets": {x: describe(g) for x, g in per_target.items() if g}}
+                        if any(per_target.values()) and open_somewhere
+                        else {}
+                    ),
                     "source": {
                         "pathfinding": t["pathfinding_url"],
                         "first_documented": t["first_documented"].get("link"),
@@ -423,8 +559,22 @@ class _Analyzer:
                 }
             )
             for target in edge_targets:
-                edges.append(Edge(node.arn, target, t["id"], t["name"], grants_admin))
+                gates = frozenset(shared | self._target_gates.get(target, set()))
+                edges.append(Edge(node.arn, target, t["id"], t["name"], grants_admin, gates))
         return found, edges
+
+    def _per_target(self, target: str, check: Any) -> bool:
+        """Run a check for one target, keeping the gates it uses apart from the technique's."""
+        outer = self._acc
+        mine: set[Gate] = set()
+        self._acc = mine
+        try:
+            ok = bool(check())
+        finally:
+            self._acc = outer
+        if ok:
+            self._target_gates[target] = mine
+        return ok
 
     def _perm_ok(
         self, node: Node, perm: str, target: Node | str | None, extra_ctx: dict[str, Any] | None = None
@@ -464,7 +614,7 @@ class _Analyzer:
             hits = []
             for arn in self.targets(node, ttype, others=True):
                 tnode = env.nodes[arn]
-                if all(self._perm_ok(node, p, tnode) for p in perms):
+                if self._per_target(arn, lambda tnode=tnode: all(self._perm_ok(node, p, tnode) for p in perms)):
                     hits.append(arn)
             return (hits, "confirmed", grants_admin, hits) if hits else None
 
@@ -482,7 +632,7 @@ class _Analyzer:
             hits, possible = [], []
             for arn in self.targets(node, "role", others=True):
                 tnode = env.nodes[arn]
-                if not self.can(node, "iam:PassRole", arn, context=ctx):
+                if not self._per_target(arn, lambda arn=arn: self.can(node, "iam:PassRole", arn, context=ctx)):
                     continue
                 if svc_principal is None:
                     possible.append(arn)
@@ -587,14 +737,16 @@ def analyze(
     *,
     catalog: Catalog | None = None,
     scps: list[list[Policy]] | None = None,
+    conditions: bool = True,
 ) -> dict[str, Any]:
-    a = _Analyzer(env, scps)
+    a = _Analyzer(env, scps, conditions)
     if start is not None and start not in env.nodes:
         raise ValueError(f"{start} is not in the account export")
 
     techniques: dict[str, list[dict[str, Any]]] = {}
     edges: dict[str, list[Edge]] = {}
     admin: dict[str, str | None] = {}
+    admin_gates: dict[str, frozenset[Gate]] = {}
 
     def visit(arn: str) -> None:
         if arn in techniques:
@@ -603,14 +755,21 @@ def analyze(
         found, out = a.techniques(node)
         techniques[arn] = found
         edges[arn] = out
-        if a.is_admin(node):
+        gates: set[Gate] = set()
+        a._acc = gates
+        try:
+            full = a.is_admin(node)
+        finally:
+            a._acc = None
+        selfesc = [f for f in found if f["category"] == "self-escalation"]
+        if full:
             admin[arn] = FULL_ADMIN
-        elif any(f["category"] == "self-escalation" for f in found):
-            admin[arn] = (
-                "can grant itself any permission ("
-                + ", ".join(f["id"] for f in found if f["category"] == "self-escalation")
-                + ")"
-            )
+            admin_gates[arn] = frozenset(gates)
+        elif selfesc:
+            admin[arn] = "can grant itself any permission (" + ", ".join(f["id"] for f in selfesc) + ")"
+            # Admin as soon as one self-escalation works; gated only if every one of them is.
+            if all(f.get("requires") for f in selfesc):
+                admin_gates[arn] = frozenset((r["kind"], r["key"], r["value"]) for r in selfesc[0]["requires"])
         else:
             admin[arn] = None
 
@@ -628,7 +787,7 @@ def analyze(
             if e.target not in techniques:
                 queue.append(e.target)
 
-    paths = _paths(roots, edges, admin)
+    paths = _paths(roots, edges, admin, admin_gates)
     report: dict[str, Any] = {
         "start": start,
         "principals": [
@@ -637,6 +796,7 @@ def analyze(
                 "kind": env.nodes[arn].kind,
                 "admin_equivalent": admin[arn] is not None,
                 "admin_reason": admin[arn],
+                **({"admin_requires": describe(admin_gates[arn])} if admin_gates.get(arn) else {}),
                 "techniques": techniques[arn],
             }
             for arn in order
@@ -652,42 +812,69 @@ def analyze(
     return report
 
 
-def _paths(roots: list[str], edges: dict[str, list[Edge]], admin: dict[str, str | None]) -> list[dict[str, Any]]:
+def _paths(
+    roots: list[str],
+    edges: dict[str, list[Edge]],
+    admin: dict[str, str | None],
+    admin_gates: dict[str, frozenset[Gate]] | None = None,
+) -> list[dict[str, Any]]:
+    """The shortest path from each root to each admin-equivalent principal it reaches.
+
+    Open steps (no gate) are searched first, so an open path is found even when a shorter gated
+    one exists; ends reachable only through gated steps get the shortest gated path. Each path
+    lists what it requires: the gates of its steps and of the admin access at its end.
+    """
+    admin_gates = admin_gates or {}
     out: list[dict[str, Any]] = []
     for root in roots:
-        if admin.get(root):
+        if admin.get(root) and not admin_gates.get(root):
             continue  # already admin-equivalent; no path needed
-        prev: dict[str, Edge | None] = {root: None}
-        q = deque([root])
-        while q:
-            cur = q.popleft()
-            for e in edges.get(cur, []):
-                if e.target in prev:
-                    continue
-                prev[e.target] = e
-                if admin.get(e.target) or e.grants_admin:
-                    steps = []
-                    node: str = e.target
-                    while prev[node] is not None:
-                        edge = prev[node]
-                        assert edge is not None
-                        steps.append(
-                            {"from": edge.source, "to": edge.target, "technique": edge.technique, "name": edge.name}
+        found_ends: set[str] = set()
+        for open_only in (True, False):
+            prev: dict[str, Edge | None] = {root: None}
+            q = deque([root])
+            while q:
+                cur = q.popleft()
+                for e in edges.get(cur, []):
+                    if e.target in prev or (open_only and e.gates):
+                        continue
+                    prev[e.target] = e
+                    if (admin.get(e.target) or e.grants_admin) and e.target not in found_ends:
+                        found_ends.add(e.target)
+                        chain: list[Edge] = []
+                        node: str = e.target
+                        while prev[node] is not None:
+                            edge = prev[node]
+                            assert edge is not None
+                            chain.append(edge)
+                            node = edge.source
+                        chain.reverse()
+                        end_gates = admin_gates.get(e.target, frozenset()) if not e.grants_admin else frozenset()
+                        gates = frozenset().union(*(x.gates for x in chain)) | end_gates
+                        out.append(
+                            {
+                                "start": root,
+                                "end": e.target,
+                                "end_admin": True,
+                                "why": admin.get(e.target) or "the last step lets the attacker grant it any permission",
+                                "steps": [
+                                    {
+                                        "from": x.source,
+                                        "to": x.target,
+                                        "technique": x.technique,
+                                        "name": x.name,
+                                        **({"requires": describe(x.gates)} if x.gates else {}),
+                                    }
+                                    for x in chain
+                                ],
+                                "open": not gates,
+                                "requires": describe(gates),
+                            }
                         )
-                        node = edge.source
-                    steps.reverse()
-                    out.append(
-                        {
-                            "start": root,
-                            "end": e.target,
-                            "end_admin": True,
-                            "why": admin.get(e.target) or "the last step lets the attacker grant it any permission",
-                            "steps": steps,
-                        }
-                    )
-                if e.target in edges:
-                    q.append(e.target)
-    out.sort(key=lambda p: (p["start"], len(p["steps"]), p["end"]))
+                    # Past an admin-equivalent principal there is nothing more to gain.
+                    if e.target in edges and not (admin.get(e.target) and not admin_gates.get(e.target)):
+                        q.append(e.target)
+    out.sort(key=lambda p: (p["start"], not p["open"], len(p["steps"]), p["end"]))
     return out
 
 
@@ -723,6 +910,8 @@ def escalate_text(r: dict[str, Any]) -> str:
     for p in r["principals"]:
         lines.append(f"Principal {p['arn']}")
         lines.append(f"  Admin-equivalent: {'yes, ' + p['admin_reason'] if p['admin_equivalent'] else 'no'}")
+        if p.get("admin_requires"):
+            lines.append(f"      only when {'; '.join(x['text'] for x in p['admin_requires'])}")
         if not p["techniques"]:
             lines.append("  No known escalation technique is allowed.")
         if p["admin_equivalent"] and p["admin_reason"] == FULL_ADMIN:
@@ -735,6 +924,8 @@ def escalate_text(r: dict[str, Any]) -> str:
             lines.append(f"      targets: {', '.join(t['targets'])}")
             if t.get("via"):
                 lines.append(f"      via:     {', '.join(t['via'])}")
+            if t.get("requires"):
+                lines.append(f"      only when {'; '.join(x['text'] for x in t['requires'])}")
             src = t["source"]
             lines.append(f"      source:  {src['pathfinding']}")
             if src.get("first_documented"):
@@ -746,8 +937,11 @@ def escalate_text(r: dict[str, Any]) -> str:
             chain = _short(path["start"])
             for s in path["steps"]:
                 chain += f" --[{s['technique']}]--> {_short(s['to'])}"
-            lines.append(f"  {i}. {chain}")
+            gate = summary((x["kind"], x["key"], x["value"]) for x in path.get("requires", []))
+            lines.append(f"  {i}. {chain}  [{gate}]")
             lines.append(f"     {path['why']}")
+            if path.get("requires"):
+                lines.append(f"     only when {'; '.join(x['text'] for x in path['requires'])}")
     elif r["start"]:
         lines.append("Escalation paths: none found to an admin-equivalent principal.")
     if r.get("new_findings") is not None:

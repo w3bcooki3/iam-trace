@@ -7,6 +7,7 @@ from the in-browser file system.
 
 from __future__ import annotations
 
+import hashlib
 import json
 from functools import cache
 from typing import Any
@@ -14,8 +15,10 @@ from typing import Any
 from iamtrace.catalog import Catalog, CatalogMissing
 from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
 from iamtrace.diff import diff_policies, diff_text
+from iamtrace.entry import entry_points
 from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
+from iamtrace.fixplan import fix_plan, public
 from iamtrace.inventory import load_inventory
 from iamtrace.loader import parse_any_policy, parse_context
 from iamtrace.model import Policy, PolicyError, PolicyType
@@ -263,10 +266,16 @@ def analyze_account(
     scps = _scp_level(scp_text)
     report = analyze(env, start=start, catalog=_catalog() if blast_radius else None, scps=scps)
     everyone = analyze(env, scps=scps)
+    _LAST.clear()
+    _LAST.update(key=_key(auth_details_text, scp_text, inventory_text), env=env, everyone=everyone, scps=scps)
     shortest: dict[str, dict[str, Any]] = {}
     for path in everyone["paths"]:
         best = shortest.get(path["start"])
-        if best is None or len(path["steps"]) < len(best["steps"]):
+        # An open path beats a gated one (MFA, network, time); then the shorter one.
+        if best is None or (not path.get("open", True), len(path["steps"])) < (
+            not best.get("open", True),
+            len(best["steps"]),
+        ):
             shortest[path["start"]] = path
     principals = []
     for p in everyone["principals"]:
@@ -289,12 +298,44 @@ def analyze_account(
         "result": report,
         "graph": escalation_graph(report),
         "account": {"principals": principals, "paths": everyone["paths"]},
+        "entry_points": entry_points(env, everyone=everyone, scps=scps),
         "inventory": _inventory(data),
         "scps": sum(len(level) for level in scps) if scps else 0,
         "resources": env.resources.summary() if env.resources else None,
         "text": escalate_text(report),
         "sarif": escalate_sarif(report),
     }
+
+
+# The last account analysed, so a fix plan for the same input reuses its analysis instead of
+# running it again. One entry: the page works on one account at a time.
+_LAST: dict[str, Any] = {}
+
+
+def _key(*texts: str) -> str:
+    return hashlib.sha256("\x00".join(texts).encode()).hexdigest()
+
+
+@_safe
+def fix_plan_query(
+    auth_details_text: str, principal: str, scp_text: str = "", inventory_text: str = "", include_gated: bool = False
+) -> dict[str, Any]:
+    """The verified fix plan (iamtrace.fixplan) from `principal`, or from every principal when
+    `principal` is empty."""
+    key = _key(auth_details_text, scp_text, inventory_text)
+    if _LAST.get("key") == key:
+        env, everyone, scps = _LAST["env"], _LAST["everyone"], _LAST["scps"]
+    else:
+        data = json.loads(auth_details_text)
+        if not isinstance(data, dict):
+            raise ValueError("expected the JSON object that get-account-authorization-details prints")
+        env = Environment.from_auth_details(data)
+        if inventory_text.strip():
+            env.resources = load_inventory(json.loads(inventory_text), env)
+        scps = _scp_level(scp_text)
+        everyone = None
+    plan = fix_plan(env, start=principal.strip() or None, scps=scps, everyone=everyone, include_gated=include_gated)
+    return public(plan)
 
 
 def account_principals(auth_details_text: str) -> str:
@@ -354,10 +395,15 @@ def escalation_graph(report: dict[str, Any]) -> dict[str, Any]:
             },
         )
 
-    def edge(src: str, dst: str, label: str, name: str, confidence: str) -> None:
+    def edge(
+        src: str, dst: str, label: str, name: str, confidence: str, requires: list[dict[str, str]] | None = None
+    ) -> None:
         if any(e["from"] == src and e["to"] == dst and e["label"] == label for e in edges):
             return
-        edges.append({"from": src, "to": dst, "label": label, "name": name, "confidence": confidence})
+        e: dict[str, Any] = {"from": src, "to": dst, "label": label, "name": name, "confidence": confidence}
+        if requires:
+            e["requires"] = requires  # a gated step: only with MFA, a network location, ...
+        edges.append(e)
 
     if start:
         principal_node(start)
@@ -366,7 +412,7 @@ def escalation_graph(report: dict[str, Any]) -> dict[str, Any]:
         for step in path["steps"]:
             principal_node(step["from"])
             principal_node(step["to"])
-            edge(step["from"], step["to"], step["technique"], step["name"], "confirmed")
+            edge(step["from"], step["to"], step["technique"], step["name"], "confirmed", step.get("requires"))
 
     for p in report["principals"]:
         if p["arn"] not in nodes:
@@ -375,7 +421,7 @@ def escalation_graph(report: dict[str, Any]) -> dict[str, Any]:
             admin_node()
             reason = p["admin_reason"] or ""
             label = "admin" if reason.startswith("allowed every") else reason.split("(")[-1].rstrip(")") or "self"
-            edge(p["arn"], ADMIN_NODE, label, reason, "confirmed")
+            edge(p["arn"], ADMIN_NODE, label, reason, "confirmed", p.get("admin_requires"))
         if p["arn"] != start or p["admin_equivalent"]:
             continue
         # The start principal's remaining techniques, grouped by where they lead.
@@ -410,7 +456,10 @@ def escalation_graph(report: dict[str, Any]) -> dict[str, Any]:
                 }
             ids = [t["id"] for t in techniques]
             label = ids[0] if len(ids) == 1 else f"{ids[0]} +{len(ids) - 1}"
-            edge(start, target, label, ", ".join(ids), "confirmed" if confirmed else "possible")
+            conf = [t for t in techniques if t["confidence"] == "confirmed"]
+            gated = bool(conf) and all(t.get("requires") or target in t.get("gated_targets", {}) for t in conf)
+            requires = (conf[0].get("requires") or conf[0]["gated_targets"][target]) if gated else None
+            edge(start, target, label, ", ".join(ids), "confirmed" if confirmed else "possible", requires)
             if any(t["grants_admin"] for t in techniques):
                 admin_node()
                 edge(

@@ -5,18 +5,23 @@
 [![licence: MIT](https://img.shields.io/badge/licence-MIT-blue.svg)](LICENSE)
 ![python 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue.svg)
 
-iam-trace explains what AWS IAM policies allow. It answers five questions:
+iam-trace explains what AWS IAM policies allow. It answers six questions:
 
 1. **Can principal P do action A on resource R?** Yes or no, with a trace of the evaluation step
    and the statement that decided it.
 2. **What does this policy change actually grant?** A semantic diff: newly allowed and denied
    actions and resources, grouped by access level. Reordering statements is not a change.
 3. **If this principal is compromised, what can an attacker do?** Known privilege-escalation
-   techniques, multi-step paths to admin-equivalent principals, and the blast radius.
+   techniques, multi-step paths to admin-equivalent principals, and the blast radius. Paths that
+   need MFA or a network location are told apart from open ones.
+   And **where would an attack start?** Roles that a GitHub workflow in someone else's
+   repository, another AWS account or anyone can assume, ranked by what they reach.
 4. **Who can do this?** Every principal that can perform an action on a resource, directly or
    by escalating to someone who can. And for any one request: what would change the answer.
 5. **What in this policy is risky?** Patterns such as full admin, `iam:PassRole` on any role,
    public principals and actions that match nothing, each with the reason and a fix.
+6. **What is the smallest change that stops it?** The fewest Deny statements that cut every
+   path to admin, proven by analysing the changed account again.
 
 The engine is a typed Python package with no dependencies. It makes no network calls when it
 evaluates, so the same code runs in the CLI, in CI and in the browser.
@@ -138,6 +143,7 @@ stop the rest from being checked.
 | `passrole-any-role` | high | `iam:PassRole` on all roles, with no `iam:PassedToService` |
 | `privilege-escalation` | high or medium | every permission a pathfinding.cloud technique needs; high for self-escalation |
 | `public-principal` | high | `"Principal": "*"` with no condition on who the caller is |
+| `open-federated-trust` | high or medium | a trust policy any identity of an OIDC provider can use: GitHub Actions without a `sub` condition (high), or open to a whole organisation or every branch (medium) |
 | `permissions-management` | medium | permissions-management actions on `"Resource": "*"` |
 | `allow-not-resource` | medium | Allow with NotResource |
 | `for-all-values-allow` | medium | `ForAllValues` in an Allow without a `Null` check |
@@ -213,8 +219,18 @@ or `*`). Each principal is evaluated with the same engine as `can`.
 On the example account in `examples/account/`:
 
     Escalation paths
-      1. user/dev --[sts-001]--> role/ops --[ec2-001]--> role/ec2-admin
+      1. user/dev --[sts-001]--> role/ops --[ec2-001]--> role/ec2-admin  [open]
          allowed every action on every resource
+      2. user/dev --[sts-001]--> role/break-glass  [needs MFA]
+         allowed every action on every resource
+         only when the caller signed in with MFA
+
+Conditions are taken into account. Each check carries the caller's tags and the target's tags
+from the export. A check that fails is tried again with the values its conditions name: if
+only values the attacker picks are needed (the region, request tags, an ExternalId), the step
+is open; if it needs MFA, a network location (source IP, VPC, VPC endpoint) or a time window,
+it is *gated*, and the path says so. Open paths are searched and listed first.
+`--strict-context` turns this off and evaluates every check with no context.
 
 Each technique cites its [pathfinding.cloud](https://pathfinding.cloud) page and the research
 that first documented it.
@@ -240,6 +256,52 @@ To check a single policy without an account export:
 
     iam-trace escalate --policy new.json --baseline old.json --fail-on new
 
+### entry-points
+
+    iam-trace entry-points --auth-details auth.json [--fail-on high]
+
+Where an attack could start, worst first. IAM users count (their keys or password can leak).
+Each role's trust policy is tested with the evaluator rather than read as text: can a GitHub
+workflow in a repository you don't own assume it, or one in another repository of the
+organisation it names, or one on another branch or in a pull request? Any identity of an OIDC
+provider, an unauthenticated Cognito identity, a principal in an unrelated AWS account, or the
+named account without `sts:ExternalId`? Each exposure is combined with the escalation analysis:
+
+    Critical  87  role/github-deploy
+                  Reachable by any GitHub repository: a workflow anyone writes can assume it,
+                  and reaches admin in 2 steps.
+                  Path: role/github-deploy -> [sts-001] role/ops -> [ec2-001] role/ec2-admin
+                  Fix: Add a StringEquals condition on "token.actions.githubusercontent.com:sub" ...
+
+A trust policy that checks the token's audience (`aud`) but not its subject (`sub`) is the
+common mistake this catches: every GitHub repository in the world gets the role. `check` reports
+the same finding as `open-federated-trust`.
+
+### fix
+
+    iam-trace fix --auth-details auth.json [--principal ARN] [--out-dir fixes/] [--include-gated]
+
+The smallest set of changes that removes every path to admin, from one principal or from all of
+them. Each change is a Deny statement, scoped to the role, user or policy the step targets
+wherever possible, because denying a permission everywhere breaks more of what the principal
+legitimately does. Choosing them is a weighted minimum hitting set over the routes to admin,
+solved exactly by branch and bound. The plan is then applied to a copy of the account and the
+whole analysis runs again; only a plan that leaves no path is reported as verified.
+
+    Verified: 1 change removes every path to admin from user/dev (1 before, 0 after, ...).
+    Also removes the paths of: role/github-deploy, role/ops.
+
+    1. Deny iam:PassRole for role/ops on role/ec2-admin
+       role/ops can no longer call iam:PassRole on role/ec2-admin. Everything else it is allowed stays allowed.
+       Breaks: role/ops -> role/ec2-admin (ec2-001)
+       Or narrow where it is granted: role/ops inline deploy Statement[0]
+
+Among equally small plans, the one that also fixes other principals wins. Each change names the
+Allow statement that grants the permission, if you would rather narrow it than add a Deny.
+Paths that need MFA or a network location are left alone by default, since access like that is
+usually intended (break-glass admin with MFA); `--include-gated` cuts them too. Exit code 1
+means the plan could not be verified.
+
 ### Output formats and exit codes
 
 Every command supports `--format text|json|sarif`; `diff` also supports `markdown`.
@@ -247,7 +309,7 @@ Every command supports `--format text|json|sarif`; `diff` also supports `markdow
 | Exit code | Meaning |
 |---|---|
 | 0 | Success. For `can`, the request is allowed. |
-| 1 | For `can`, the request is denied. For `check`, `diff` and `escalate`, a `--fail-on` condition matched. |
+| 1 | For `can`, the request is denied. For `check`, `diff`, `escalate` and `entry-points`, a `--fail-on` condition matched. For `fix`, the plan could not be verified. |
 | 2 | A usage error, an unreadable file, or a policy AWS would reject. |
 
 ## GitHub Action
@@ -288,9 +350,12 @@ read-only, so the review goes to the job summary only.
 - **Overview**: the verdict for the chosen starting principal, paths to admin, recommended fixes
   ordered by how many paths each breaks, technique categories, blast radius and every principal
   ranked by exposure.
+- **Entry points**: where an attack could start, worst first, with "Analyse from here".
+- **Fix plan**: the fewest Deny statements that cut every open path to admin, verified by
+  analysing the changed account again, with downloads and "Show on graph".
 - **Attack graph**: who the attacker can become, full screen, with details for every principal
-  and technique. Cut any step, or simulate a recommended fix, to see whether another route to
-  admin remains.
+  and technique. Steps that need MFA or a network location are dotted and labelled. Cut any
+  step to see whether another route to admin remains.
 - **Who can**: every principal that can perform an action on a resource, directly or through
   escalation, drawn as an access graph.
 - **Download report**: one HTML file with the verdict, paths, fixes and principals at risk. No
@@ -311,6 +376,10 @@ read-only, so the review goes to the job summary only.
 | Attack graph | Who can | What would change this |
 | --- | --- | --- |
 | ![Attack graph with the path from dev to ec2-admin](docs/images/attack-graph.png) | ![Access graph for s3:PutObject on one object](docs/images/who-can.png) | ![A denied request with the missing Allow](docs/images/what-would-change.png) |
+
+![Entry points: a GitHub Actions role any repository can assume, rated critical](docs/images/entry-points.png)
+
+![Fix plan: one verified Deny statement removes every open path to admin](docs/images/fix-plan.png)
 
 Your data is kept in the browser's IndexedDB so it survives a refresh. Settings lists what is
 saved and deletes any of it.
@@ -414,8 +483,13 @@ The most important ones:
 - **Service-specific rules:** only role trust policies and KMS key policies are modelled as
   needing an explicit allow. S3 ACLs, Block Public Access, VPC endpoint policies, KMS grants and
   similar are not modelled.
-- **Request context:** context keys other than the principal and account keys must be supplied.
-  A key you don't supply is treated as missing.
+- **Request context:** for `can`, context keys other than the principal and account keys must
+  be supplied; a key you don't supply is treated as missing. The escalation analysis fills in
+  tags from the export and tries the values conditions name, but only for the keys listed in
+  [docs/limitations.md](docs/limitations.md).
+- **Entry points:** the export doesn't say which users have access keys or a password, so every
+  user is listed; nor which identity providers exist, so a trust policy naming a provider that
+  was deleted is still reported.
 - **Catalog access levels:** access levels are derived from AWS's annotation flags, because the
   JSON reference has no access-level field.
 - **Diff conditions:** the diff compares conditions by equality.

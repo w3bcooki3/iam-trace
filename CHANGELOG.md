@@ -6,6 +6,29 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Fix plans: `iam-trace fix` and a Fix plan card on the Overview give the fewest Deny statements
+  that cut every path to admin, from one principal or from all of them. Denials are scoped to the
+  target role, user or policy wherever possible. Choosing them is a weighted minimum hitting set
+  over the routes to admin, solved exactly; the plan is then applied to a copy of the account and
+  analysed again, and only a plan that leaves no path is called verified. Each change names the
+  statement that grants the permission. Downloads, a JSON format and `--out-dir` write the
+  policies; the HTML report includes the plan.
+- Entry points: `iam-trace entry-points` and an Entry points card on the Overview list where an
+  attack could start, worst first: IAM users, and roles that someone outside the account can
+  assume. Trust policies are tested with the evaluator (can a GitHub workflow in a repository you
+  don't own assume this role? one in another repository of the organisation? any identity of
+  this OIDC provider? an unauthenticated Cognito identity? an unrelated account? the named
+  account without ExternalId?) and combined with the escalation analysis. "Analyse from here"
+  re-runs the analysis from that principal.
+- Policy check rule `open-federated-trust`: a trust policy open to every identity of a provider,
+  such as GitHub Actions with an audience condition but no subject condition.
+- Condition-aware escalation analysis: tags from the export are used, and failed checks are
+  tried again with the values their conditions name. Steps that only need values the attacker
+  chooses (region, request tags, ExternalId) are open; steps that need MFA, a network location
+  or a time window are gated and labelled. Paths say whether they are open or what they need,
+  and open paths are listed first. `escalate --strict-context` turns this off.
+- The example account gains role/github-deploy (trusted by any GitHub repository) and
+  role/break-glass (admin, assumable with MFA).
 - Search and commands: Ctrl K (Cmd K on a Mac), or / outside a text field, opens one search box
   for every screen, principal (at-risk principals first), documentation topic and heading, plus
   common commands such as Download report, Load the example account and switching mode. Keyboard
@@ -19,7 +42,7 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
   and says whether the attacker still reaches an admin-equivalent principal; if so it draws the
   other route. Cuts are not saved and do not change the analysis.
 - Link previews (Open Graph and Twitter card) and README screenshots.
-- Policy check: `iam-trace check` and a new screen in the app flag 14 risky patterns, each with
+- Policy check: `iam-trace check` and a new screen in the app flag 15 risky patterns, each with
   where it is, why it matters and how to fix it. Examples: full admin, `iam:PassRole` on any
   role, Allow with `NotAction`, public principals, `ForAllValues` in an Allow, a typo in a Deny,
   and every permission a pathfinding.cloud technique needs. Works on policy files or every
@@ -106,6 +129,10 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Fixed
 
+- The escalation analysis evaluated every check with no request context, so steps allowed only
+  in a given region or with given request tags were missed, and conditions on principal or role
+  tags were never met.
+- Row highlights no longer stick after a tap on touch screens.
 - Settings and Changelog were hard to read on phones: Settings is now one column of compact
   options with a section list (a tab strip on small screens), and the Changelog shows each entry
   as a title and a description, with counts per kind and long groups folded.

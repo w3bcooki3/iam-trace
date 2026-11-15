@@ -19,7 +19,8 @@ from importlib import resources
 from typing import Any
 
 from iamtrace.catalog import Catalog
-from iamtrace.escalate import _document
+from iamtrace.entry import trust_exposures
+from iamtrace.escalate import Node, _document
 from iamtrace.loader import parse_any_policy
 from iamtrace.model import Policy, PolicyError, PolicyType, Statement
 from iamtrace.output import sarif_location, sarif_log
@@ -150,6 +151,16 @@ RULES: dict[str, Rule] = {
             "Any user or role in that account whose own policies allow sts:AssumeRole can assume "
             "this role. For a third party, anyone at that company who can assume roles can use it.",
             "Name the specific role ARNs that may assume it. For third parties, also require sts:ExternalId.",
+        ),
+        Rule(
+            "open-federated-trust",
+            "high",
+            "Trust open to a whole identity provider",
+            "The trust policy lets identities of an OIDC or SAML provider assume the role without "
+            "limiting which ones. For GitHub Actions without a condition on the token's subject (sub), "
+            "a workflow in anyone's repository can assume it.",
+            'Add a StringEquals condition on the provider\'s "sub" key naming the repository and branch, '
+            "service account or user that should assume the role.",
         ),
         Rule(
             "duplicate-key",
@@ -320,6 +331,22 @@ class _Checker:
             self.statement(pol, st, **extra)
         if pol.type in (PolicyType.IDENTITY, PolicyType.BOUNDARY, PolicyType.SESSION) and not admin_unconditional:
             self.escalation(pol, **extra)
+        if pol.type == PolicyType.RESOURCE and any(_principal_values(st, "Federated") for st in pol.statements):
+            self.federated_trust(pol, **extra)
+
+    def federated_trust(self, pol: Policy, **extra: Any) -> None:
+        """Ask the trust policy, as entry points do, whether a stranger's identity gets in."""
+        attached = extra.get("attached_to") or []
+        arn = attached[0] if attached else "arn:aws:iam::111122223333:role/checked-role"
+        role = Node(arn, "role", [], trust=pol)
+        for e in trust_exposures(role):
+            if e["source"] != "federated" or e["level"] not in ("public", "broad", "branch"):
+                continue
+            detail = f"{e['statement_label']} lets {e['who']} assume this role."
+            if e["detail"]:
+                detail += " " + e["detail"]
+            severity = "high" if e["level"] == "public" else "medium"
+            self.add("open-federated-trust", pol.id, e["statement_label"], detail, severity=severity, **extra)
 
     def statement(self, pol: Policy, st: Statement, **extra: Any) -> None:
         self.unknown_actions(pol, st, **extra)

@@ -93,46 +93,65 @@ def who_can(
 
     # Confirmed escalation edges between principals in the export.
     report = report or analyze(env, scps=scps)
-    edges: dict[str, list[tuple[str, str, str]]] = {}
+    # A step can need MFA, a network location or a time window ("requires", from the analysis).
+    edges: dict[str, list[tuple[str, str, str, list[dict[str, str]]]]] = {}
     for p in report["principals"]:
         for t in p["techniques"]:
             if t["confidence"] != "confirmed":
                 continue
             for target in t["targets"]:
                 if target in env.nodes and target != p["arn"]:
-                    edges.setdefault(p["arn"], []).append((target, t["id"], t["name"]))
+                    gate = t.get("requires") or t.get("gated_targets", {}).get(target) or []
+                    edges.setdefault(p["arn"], []).append((target, t["id"], t["name"], gate))
 
-    via = []
+    via: list[dict[str, Any]] = []
     for arn, node in env.nodes.items():
         if arn in direct:
             continue
-        # Breadth-first: the first principal with direct access is the end of the shortest path.
-        prev: dict[str, tuple[str, str, str]] = {}
-        queue = deque([arn])
-        seen = {arn}
-        end = None
-        while queue and end is None:
-            cur = queue.popleft()
-            for nxt, tid, name in edges.get(cur, []):
-                if nxt in seen:
-                    continue
-                seen.add(nxt)
-                prev[nxt] = (cur, tid, name)
-                if nxt in direct:
-                    end = nxt
-                    break
-                queue.append(nxt)
+        # Breadth-first, over open steps first: the first principal with direct access ends the
+        # shortest path. Only if there is none, steps that need MFA or a network are allowed too.
+        for open_only in (True, False):
+            prev: dict[str, tuple[str, str, str, list[dict[str, str]]]] = {}
+            queue = deque([arn])
+            seen = {arn}
+            end = None
+            while queue and end is None:
+                cur = queue.popleft()
+                for nxt, tid, name, gate in edges.get(cur, []):
+                    if nxt in seen or (open_only and gate):
+                        continue
+                    seen.add(nxt)
+                    prev[nxt] = (cur, tid, name, gate)
+                    if nxt in direct:
+                        end = nxt
+                        break
+                    queue.append(nxt)
+            if end is not None:
+                break
         if end is None:
             continue
         steps = []
         cur = end
+        requires: list[dict[str, str]] = []
         while cur != arn:
-            frm, tid, name = prev[cur]
-            steps.append({"from": frm, "to": cur, "technique": tid, "name": name})
+            frm, tid, name, gate = prev[cur]
+            steps.append(
+                {"from": frm, "to": cur, "technique": tid, "name": name, **({"requires": gate} if gate else {})}
+            )
+            requires += [r for r in gate if r not in requires]
             cur = frm
         steps.reverse()
-        via.append({"principal": arn, "kind": node.kind, "through": end, "steps": steps})
-    via.sort(key=lambda v: (len(v["steps"]), v["principal"]))
+        via.append(
+            {
+                "principal": arn,
+                "kind": node.kind,
+                "through": end,
+                "steps": steps,
+                "open": not requires,
+                **({"requires": requires} if requires else {}),
+            }
+        )
+    via.sort(key=lambda v: (not v["open"], len(v["steps"]), v["principal"]))
 
     outside = _outside(env, resource_policy, action)
     total = len(env.nodes)
@@ -164,6 +183,8 @@ def who_can_text(r: dict[str, Any]) -> str:
         lines += ["", "Through escalation (shortest path to someone who can):"]
         for v in r["via"]:
             chain = " -> ".join([v["principal"]] + [f"[{s['technique']}] {s['to']}" for s in v["steps"]])
+            if v.get("requires"):
+                chain += "  (only when " + "; ".join(r["text"] for r in v["requires"]) + ")"
             lines.append(f"  {chain}")
     if r["outside"]:
         lines += ["", "Named by the resource policy but not in the export (their own policies are unknown):"]

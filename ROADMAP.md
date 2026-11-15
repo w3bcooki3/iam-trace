@@ -39,7 +39,7 @@ Goal: fewer blind spots, so fewer "possible" findings and fewer surprises.
       `iam:PassRole` on `*`, admin access without conditions, wildcard principals in trust
       policies, `NotAction` with Allow, missing `aws:SourceAccount` on service trust, unused
       `Deny` statements. This covers what Cloudsplaining users expect, in the iam-trace style.
-      Done: 14 rules, in the CLI, the app and the GitHub Action.
+      Done: 15 rules, in the CLI, the app and the GitHub Action.
 - [x] **Resource inventory.** Most "possible" findings come from techniques that take over an
       existing resource (a Lambda function, an EC2 instance) whose role the IAM export doesn't
       show. `iam-trace inventory collect` (read-only) lists eight kinds of resource with their
@@ -51,8 +51,13 @@ Goal: fewer blind spots, so fewer "possible" findings and fewer surprises.
 - [ ] **Organization view.** Load an AWS Organizations export (SCPs and RCPs per OU) once and
       apply the right guardrails to each account automatically.
 - [ ] **Cross-account paths.** Load several account exports and follow role trust across them.
-- [ ] **Smarter context.** Offer common condition keys (MFA present, source IP, VPC endpoint,
-      principal tags) as toggles, and show how the answer changes with and without them.
+- [x] **Smarter context.** Take conditions into account instead of assuming an empty request.
+      Done: the escalation analysis uses tags from the export and tries the values conditions
+      name; steps that need MFA, a network location or a time window are labelled, and open
+      paths come first. Next: the same toggles on the Evaluate screen.
+- [x] **Entry points.** Find where an attack would start: roles open to GitHub repositories you
+      don't own, any identity of an OIDC provider, other accounts without ExternalId, and IAM
+      users, ranked by what they reach. Done: `iam-trace entry-points` and the Overview card.
 - [ ] **More service rules.** S3 Block Public Access and ACLs, VPC endpoint policies, KMS
       grants, and services that require an explicit allow in their resource policy.
 
@@ -60,13 +65,13 @@ Goal: fewer blind spots, so fewer "possible" findings and fewer surprises.
 
 Goal: go from "here is the problem" to "here is the change, and here is proof it works".
 
-- [ ] **What-if mode.** Untick a permission in the graph and watch the paths disappear before
-      touching AWS. Show which other principals would lose access too.
-- [ ] **Generated fixes.** For each recommended fix, produce the policy change: a narrowed
-      statement, a condition, or a targeted deny or SCP. Run it through the engine to prove that
-      it breaks the path and nothing else.
-      Started: for one request, `can --what-if` and Evaluate already give the smallest verified
-      fix as JSON. Still to do: the same for each recommended fix on the attack graph.
+- [x] **What-if mode.** Cut a step on the graph and see whether another route to admin is left.
+      Done: Cut this step, and Show on graph from the fix plan.
+- [x] **Generated fixes.** Produce the policy change and prove it works.
+      Done: `iam-trace fix` and the Fix plan card give the fewest Deny statements that cut every
+      path, verified by analysing the changed account again, and `can --what-if` does the same
+      for one request. Next: generate the narrowed Allow statement as an alternative to a Deny,
+      and an SCP version for organisations.
 - [ ] **Infrastructure as code.** Read Terraform plans and CloudFormation templates, so risky
       IAM changes are caught before they are deployed, in the same pull-request comment as today.
 - [ ] **Drift over time.** Compare two exports of the same account and report new paths, new

@@ -43,9 +43,10 @@ These are covered only by hand-written tests that quote the AWS docs
   Lambda and other services that require an explicit allow in their resource policy.
 - **Request context.** iam-trace fills in `aws:PrincipalArn`, `aws:PrincipalAccount`,
   `aws:PrincipalType`, `aws:username` (IAM users), `aws:PrincipalServiceName` (service principals)
-  and `aws:ResourceAccount`. Every other key, including ones AWS always sends such as
+  and `aws:ResourceAccount`. For `can`, every other key, including ones AWS always sends such as
   `aws:SourceIp` or `aws:SecureTransport`, must be supplied with `--context`. A key you do not
-  supply is treated as missing, with AWS's missing-key semantics.
+  supply is treated as missing, with AWS's missing-key semantics. The escalation analysis does
+  more; see "Conditions in the escalation analysis" below.
 - **Which services support which global condition keys.** Like the simulator, iam-trace does not
   know that a service ignores, say, `aws:TagKeys`.
 - **Principal forms**: unique IDs (`AIDA...`, `AROA...`) and `CanonicalUser` are not matched. The
@@ -102,6 +103,50 @@ These are covered only by hand-written tests that quote the AWS docs
 - Run time grows with principals times techniques. A synthetic account of 200 users and 200
   roles takes about 3 seconds for every principal on one core; much larger accounts are best
   analysed one starting principal at a time (`--principal`).
+
+## Conditions in the escalation analysis
+
+- Tags come from the export: `aws:PrincipalTag/*` for the caller, `aws:ResourceTag/*` and
+  `iam:ResourceTag/*` for a user or role target. Tags of other resources (a Lambda function, an
+  S3 bucket) are not known, so a condition on them is not met.
+- A failed check is tried again with the values its conditions name, for these keys only.
+  Chosen by the attacker, so the step is open: `aws:RequestedRegion`, `aws:SecureTransport`,
+  `aws:UserAgent`, `aws:Referer`, `aws:RequestTag/*`, `aws:TagKeys`, `sts:RoleSessionName`,
+  `sts:SourceIdentity`, `aws:SourceIdentity`, `sts:ExternalId`. Gated: MFA
+  (`aws:MultiFactorAuthPresent`, `aws:MultiFactorAuthAge`), network (`aws:SourceIp`,
+  `aws:SourceVpc`, `aws:SourceVpce`, `aws:VpcSourceIp`) and time (`aws:CurrentTime`,
+  `aws:EpochTime`). Any other key, for example `aws:PrincipalOrgID` or `aws:CalledVia`, is left
+  missing, as before.
+- The search tries up to two gated keys at once and stops after 256 evaluations for one check;
+  a check that needs more stays denied.
+- A gated technique records the gates per target; when one of its targets is open the technique
+  is listed as open and the gated targets are named separately.
+- Gates are judged per step. A path that needs MFA at one step and a network location at another
+  lists both; iam-trace does not model that an attacker who has one may also have the other.
+
+## Entry points
+
+- The export does not say which IAM users have access keys or a console password, so every user
+  is listed as an entry point.
+- The export does not list the account's OIDC and SAML providers, so a trust policy naming a
+  provider that no longer exists is still reported.
+- For a role trusted by another account, the probe gives the caller allow-all identity policies:
+  that account controls them, so the worst case is assumed.
+- Scores are a ranking aid, not a measurement: the exposure (anyone, a large group, another
+  account, a leaked user key) times what the principal reaches.
+
+## Fix plans
+
+- A plan is made of Deny statements. Each one names the Allow statements that grant the
+  permission, so you can narrow those instead, but narrowing is not generated or checked.
+- Only confirmed paths are cut. Possible techniques (resources not in the export) are counted in
+  the plan but not covered by its check; a resource inventory confirms or rules them out.
+- Paths that need MFA, a network location or a time window are left alone unless
+  `--include-gated` is given.
+- The search is exact (branch and bound) up to 200,000 steps; past that the best plan found is
+  returned and marked as possibly not the smallest. It is still verified.
+- A plan checks that no path is left. It does not check what else the denied permission was
+  used for: the consequence line says what the principal can no longer do.
 
 ## Web page
 

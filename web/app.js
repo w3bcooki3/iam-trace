@@ -8,7 +8,7 @@
 // fonts and the example account; the Content-Security-Policy in index.html blocks everything else.
 // Inline style attributes are blocked too, so styling goes through classes and element.style.
 
-import { Graph, ICON, KIND_COLOR, KIND_NAME } from "./graph.js";
+import { Graph, ICON, KIND_COLOR, KIND_NAME, gateShort } from "./graph.js";
 import { EVALUATE_EXAMPLES, DIFF_EXAMPLE, ATTACK_POLICY_EXAMPLE, CHECK_EXAMPLE } from "./examples.js";
 import { store as dataStore } from "./store.js";
 import { buildReport } from "./report.js";
@@ -630,6 +630,9 @@ function fromAccount(out) {
     resources: out.resources,
     text: out.text,
     sarif: out.sarif,
+    entry: out.entry_points || { entries: [], summary: {} },
+    inputs: { account: input.account, scp: input.scp, inv: input.inv },
+    fix: { scope: "start", plans: {}, state: "idle" },
   };
 }
 function fromPolicy(out) {
@@ -686,13 +689,20 @@ const CATEGORY = {
 function stepsHtml(path) {
   const rows = [`<li class="sv-node mono">${esc(short(path.start))}</li>`];
   for (const s of path.steps) {
-    rows.push(`<li class="sv-edge"><span class="mono">${esc(s.technique)}</span> ${esc(s.name || "")}</li>`);
+    rows.push(`<li class="sv-edge"><span class="mono">${esc(s.technique)}</span> ${esc(s.name || "")}${s.requires ? ` <span class="gate-note">only with ${esc(gateShort(s.requires))}</span>` : ""}</li>`);
     rows.push(`<li class="sv-node mono">${esc(short(s.to))}</li>`);
   }
   return `<ol class="steps-v">${rows.join("")}</ol>`;
 }
+const isOpen = (p) => p.open !== false;
+// "MFA", "a network location", ... for a sentence.
+function gateWords(requires = []) {
+  const words = { mfa: "MFA", network: "a network location", time: "a time window" };
+  return [...new Set(requires.map((r) => words[r.kind] || r.kind))].join(" and ");
+}
 function pathItem(p, i, meta = "") {
-  return `<button class="path-item" data-path="${i}" aria-pressed="false"><span class="ph"><b>${esc(nameOf(p.start))} to ${esc(nameOf(p.end))}</b><span class="tag crit">${plural(p.steps.length, "step")}</span></span>${stepsHtml(p)}${meta ? `<span class="pmeta">${meta}</span>` : ""}</button>`;
+  const gate = isOpen(p) ? "" : `<span class="tag warn" title="${esc(p.requires.map((r) => r.text).join("; "))}">Needs ${esc(gateShort(p.requires))}</span>`;
+  return `<button class="path-item" data-path="${i}" aria-pressed="false"><span class="ph"><b>${esc(nameOf(p.start))} to ${esc(nameOf(p.end))}</b>${gate}<span class="tag ${isOpen(p) ? "crit" : "warn"}">${plural(p.steps.length, "step")}</span></span>${stepsHtml(p)}${meta ? `<span class="pmeta">${meta}</span>` : ""}</button>`;
 }
 function chainHtml(path) {
   const parts = [`<span class="st">${esc(short(path.start))}</span>`];
@@ -737,7 +747,9 @@ function renderOverview() {
   }
   const m = model;
   const startP = m.principals.find((p) => p.arn === m.start);
-  const startPaths = m.report.paths.filter((p) => p.start === m.start).sort((a, b) => a.steps.length - b.steps.length);
+  // Open paths (anyone with the credentials) first, then those that need MFA or a network.
+  const startPaths = m.report.paths.filter((p) => p.start === m.start).sort((a, b) => (isOpen(b) - isOpen(a)) || a.steps.length - b.steps.length);
+  const openPaths = startPaths.filter(isOpen);
   const startTech = (m.report.principals.find((p) => p.arn === m.start)?.techniques) || [];
   const confirmed = startTech.filter((t) => t.confidence === "confirmed");
   const possible = startTech.filter((t) => t.confidence === "possible");
@@ -749,6 +761,11 @@ function renderOverview() {
     tone = "crit";
     head = `<span>Critical:</span> ${who} is already admin-equivalent`;
     body = `This principal ${esc(startP.admin_reason || "has full control")}. Anyone with its credentials controls the account.`;
+  } else if (startPaths.length && !openPaths.length) {
+    const need = gateWords(startPaths[0].requires);
+    tone = "warn";
+    head = `<span>High:</span> ${who} can take over the account with ${need}`;
+    body = `Every path to admin from ${who} needs ${need}. ${gateAdvice(startPaths[0].requires)} The shortest takes ${plural(startPaths[0].steps.length, "step")}.`;
   } else if (startPaths.length) {
     tone = "crit";
     head = `<span>Critical:</span> ${who} can take over the account`;
@@ -766,7 +783,7 @@ function renderOverview() {
     head = `<span>No path found:</span> ${who} cannot escalate`;
     body = `None of the 92 known techniques is allowed for this principal${m.scps ? ", with your SCPs applied" : ""}.`;
   }
-  const reaches = startP?.admin_equivalent ? '<span class="tag crit">Already admin</span>' : startPaths.length ? '<span class="tag crit">Full control</span>' : '<span class="tag ok">No admin path</span>';
+  const reaches = startP?.admin_equivalent ? '<span class="tag crit">Already admin</span>' : openPaths.length ? '<span class="tag crit">Full control</span>' : startPaths.length ? `<span class="tag warn">Full control with ${esc(gateShort(startPaths[0].requires))}</span>` : '<span class="tag ok">No admin path</span>';
   const atRisk = m.principals.filter((p) => p.admin_equivalent || p.path);
   const admins = m.principals.filter((p) => p.admin_equivalent);
   const fixes = recommendedFixes(m);
@@ -832,14 +849,18 @@ function renderOverview() {
     <div class="posture glass p-${tone}"><div class="posture-main"><span class="sev-badge">${tone === "ok" ? IC.ok : IC.warn}</span><div><h2>${head}</h2><p>${body}</p>${startPaths.length ? `<div class="chain">${chainHtml(startPaths[0])}</div>` : ""}</div></div>
       <div class="posture-side"><div class="ps-item"><div class="l">Starting principal</div><div class="v mono">${who}</div></div><div class="ps-item"><div class="l">Reaches</div><div class="v">${reaches}</div></div>
         <div class="ps-item"><div class="l">Shortest path</div><div class="v">${startPaths.length ? plural(startPaths[0].steps.length, "step") : "None"}</div></div><div class="ps-item"><div class="l">SCPs applied</div><div class="v">${m.scps || "None"}</div></div></div></div>
+    ${m.mode === "account" && m.entry.entries.length ? entryCard(m) : ""}
     <div class="kpis">${kpis}</div>
     <div class="grid-2">
       <div class="glass"><div class="card-h"><h3>Attack graph</h3><span class="sub">Who the attacker can become</span><div class="right"><button class="btn" data-go="graph">Open full screen</button></div></div>
         <div class="preview" id="preview" title="Open the attack graph"><div class="surface" id="psurface"><div class="world" id="pworld"><svg></svg></div></div></div></div>
       <div class="glass"><div class="card-h"><h3>Paths to admin</h3><span class="sub">Select one to view it on the graph</span></div><div class="card-b" id="ov-paths">${pathItems}</div></div>
     </div>
-    <div class="grid-3">
-      <div class="glass"><div class="card-h"><h3>Recommended fixes</h3><span class="sub">Ordered by paths broken</span></div><div class="card-b">${fixHtml}</div></div>
+    ${m.mode === "account" ? `<div class="glass fixplan" id="fixplan"><div class="card-h"><h3>Fix plan</h3><span class="sub">The fewest changes that remove every path to admin, proven by analysing again</span>
+        <div class="right"><div class="seg sm" id="fp-scope" role="group" aria-label="Fix paths from"><button data-scope="start">From ${esc(nameOf(m.start))}</button><button data-scope="all">Every principal</button></div></div></div>
+        <div class="card-b" id="fp-body"></div></div>` : ""}
+    <div class="${m.mode === "account" ? "grid-2" : "grid-3"}">
+      ${m.mode === "account" ? "" : `<div class="glass"><div class="card-h"><h3>Recommended fixes</h3><span class="sub">Ordered by paths broken</span></div><div class="card-b">${fixHtml}</div></div>`}
       <div class="glass"><div class="card-h"><h3>Technique categories</h3><span class="sub">Allowed for ${esc(nameOf(m.start))}</span></div><div class="card-b bars">${catHtml}</div></div>
       <div class="glass"><div class="card-h"><h3>Blast radius</h3><span class="sub">What the attacker can do</span></div><div class="card-b bars">${blastHtml}</div></div>
     </div>
@@ -858,11 +879,172 @@ function renderOverview() {
     go("graph");
     setCut(keys, true);
   }));
+  el.querySelectorAll("[data-entry-start]").forEach((b) => b.addEventListener("click", () => analyseFrom(b.dataset.entryStart)));
+  $("ep-more")?.addEventListener("click", () => { m.entryAll = true; renderOverview(); $("entry-card")?.scrollIntoView({ block: "start" }); });
+  if (m.mode === "account") {
+    $("fp-scope").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-scope]"); if (!b) return;
+      m.fix.scope = b.dataset.scope;
+      renderFixPlan();
+    });
+    renderFixPlan();
+  }
   $("preview").addEventListener("click", () => go("graph"));
   if (graphs.includes(preview)) graphs.splice(graphs.indexOf(preview), 1);
   preview = new Graph($("psurface"), $("pworld"), { interactive: false, pad: 24, maxScale: 0.85, markerPrefix: "p" });
   graphs.push(preview);
   preview.setData(graphData(m));
+}
+
+// ------------------------------------------------------------------------------------- entry points
+
+// Who outside the account could become each principal (iamtrace.entry), worst first. The analysis
+// above starts from one principal; this card says which start an attacker would choose.
+const RATING = { Critical: "c-crit", High: "c-high", Medium: "c-warn", Low: "c-ok" };
+function entryCard(m) {
+  const all = m.entry.entries;
+  const shown = m.entryAll ? all : all.slice(0, 5);
+  const s = m.entry.summary;
+  const counts = ["critical", "high", "medium", "low"].filter((k) => s[k]).map((k) => `${s[k]} ${k}`).join(", ");
+  const rows = shown.map((e) => {
+    const k = kindOf(e.principal);
+    const imp = e.impact;
+    const reach = imp.admin ? "Is admin-equivalent" : imp.steps ? `Admin in ${plural(imp.steps, "step")}` : imp.confirmed ? `${plural(imp.confirmed, "technique")}, no path` : "No known technique";
+    const current = e.principal === m.start;
+    return `<tr><td><div class="who" data-kind="${k}"><span class="wi">${ICON[k] || ICON.resource}</span><div><b>${esc(nameOf(e.principal))}</b><small>${esc(short(e.principal))}</small></div></div></td>
+      <td data-label="Rating"><span class="sev ${RATING[e.rating]}"><i></i>${e.rating}</span></td>
+      <td data-label="Who can get in" class="ep-who">${esc(sentence(e.exposure.who))}${e.exposure.fix ? `<small>${esc(e.exposure.fix)}</small>` : ""}</td>
+      <td data-label="Reaches">${reach}</td>
+      <td class="ep-act">${current ? '<span class="t-faint">Current start</span>' : `<button class="btn" data-entry-start="${esc(e.principal)}">Analyse from here</button>`}</td></tr>`;
+  }).join("");
+  return `<div class="glass" id="entry-card"><div class="card-h"><h3>Entry points</h3><span class="sub">Where an attack could start, worst first: ${counts}</span></div>
+    <table class="mtable ep-table"><thead><tr><th>Principal</th><th>Rating</th><th>Who can get in</th><th>Reaches</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+    ${all.length > shown.length ? `<div class="more"><button class="btn" id="ep-more">Show all ${all.length} entry points</button></div>` : ""}</div>`;
+}
+async function analyseFrom(arn) {
+  input.start = arn;
+  persist("account");
+  if (input.principals?.length) renderPicker(input.principals);
+  await runAnalysis();
+  $("v-overview").scrollTop = 0;
+}
+
+// ------------------------------------------------------------------------------------- fix plan
+
+// The engine's fix plan (iamtrace.fixplan): the cheapest set of Deny statements that removes every
+// path to admin, applied to a copy of the account and analysed again. Built straight after the
+// analysis for accounts of a size the browser handles quickly, on request for larger ones.
+const FIX_AUTO_LIMIT = 150;
+function fixPlanFor(scope) {
+  const m = model;
+  if (!m || m.mode !== "account") return null;
+  const key = `${scope}${m.fix.gated ? "+gated" : ""}`;
+  if (!m.fix.plans[key]) {
+    const out = call("fix_plan_query", m.inputs.account, scope === "start" ? m.start : "", m.inputs.scp, m.inputs.inv, Boolean(m.fix.gated));
+    if (out.error) throw new Error(out.error);
+    m.fix.plans[key] = out;
+  }
+  return m.fix.plans[key];
+}
+async function buildFixPlan() {
+  const m = model, scope = m.fix.scope;
+  m.fix.state = "working";
+  renderFixPlan();
+  await nextFrame();
+  try { fixPlanFor(scope); m.fix.state = "done"; } catch (e) { m.fix.state = "error"; m.fix.error = e.message; }
+  if (model === m) renderFixPlan();
+}
+function renderFixPlan() {
+  const m = model, body = $("fp-body");
+  if (!body || !m || m.mode !== "account") return;
+  const scope = m.fix.scope;
+  $("fp-scope").querySelectorAll("button").forEach((b) => { const on = b.dataset.scope === scope; b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on)); });
+  const plan = m.fix.plans[`${scope}${m.fix.gated ? "+gated" : ""}`];
+  if (!plan) {
+    if (m.fix.state === "working") { body.innerHTML = '<p class="fp-wait"><span class="spinner sm"></span>Working out the smallest fix and checking it</p>'; return; }
+    if (m.fix.state === "error") { body.innerHTML = `<p class="list-empty">The fix plan failed: ${esc(sentence(m.fix.error || ""))}</p>`; m.fix.state = "idle"; return; }
+    if (m.principals.length > FIX_AUTO_LIMIT) {
+      body.innerHTML = `<div class="fp-ask"><p>This account has ${m.principals.length.toLocaleString()} principals. Building a plan analyses the changed account again, which can take a while in the browser. The CLI does the same with <span class="mono">iam-trace fix</span>.</p><button class="btn primary" id="fp-build">Build fix plan</button></div>`;
+      $("fp-build").addEventListener("click", buildFixPlan);
+      return;
+    }
+    buildFixPlan();
+    return;
+  }
+  body.innerHTML = fixPlanHtml(plan, scope);
+  body.querySelector("[data-fp-gated]")?.addEventListener("click", () => { m.fix.gated = !m.fix.gated; renderFixPlan(); });
+  body.querySelectorAll("[data-fp-show]").forEach((b) => b.addEventListener("click", () => showFixOnGraph(plan, b.dataset.fpShow === "all" ? null : Number(b.dataset.fpShow))));
+  body.querySelectorAll("[data-fp-copy]").forEach((b) => b.addEventListener("click", () => copy(JSON.stringify(fixStatement(plan.changes[Number(b.dataset.fpCopy)]), null, 2))));
+  $("fp-dl")?.addEventListener("click", () => download(`iam-trace-fix-${scope === "start" ? nameOf(m.start) : "account"}.json`, JSON.stringify(fixExport(plan), null, 2) + "\n"));
+  $("fp-copyall")?.addEventListener("click", () => copy(JSON.stringify(plan.policies, null, 2)));
+}
+// Policy ids from the engine: "<principal ARN> inline <name>", "<role ARN> trust policy", or a
+// managed policy's ARN.
+function policyName(id) {
+  const inl = /^(arn:\S+) inline (.+)$/.exec(id);
+  if (inl) return `Inline policy <span class="mono">${esc(inl[2])}</span> on ${esc(short(inl[1]))}`;
+  const trust = /^(arn:\S+) trust policy$/.exec(id);
+  if (trust) return `Trust policy of ${esc(short(trust[1]))}`;
+  return `Managed policy <span class="mono">${esc(nameOf(id))}</span>`;
+}
+function fixStatement(c) {
+  return { Effect: "Deny", Action: c.actions.length === 1 ? c.actions[0] : c.actions, Resource: c.resources.length === 1 ? c.resources[0] : c.resources };
+}
+function fixExport(plan) {
+  return {
+    generated_by: `iam-trace ${engineVersion || ""}`.trim(),
+    start: plan.start,
+    verified: plan.verified,
+    note: "Add each policy as an inline policy on its principal, or narrow the Allow statements named in granted_by instead.",
+    policies: plan.policies,
+    changes: plan.changes,
+  };
+}
+function fixPlanHtml(plan, scope) {
+  const who = scope === "start" ? esc(short(plan.start)) : "any principal";
+  if (plan.status === "start-is-admin") return `<p class="list-empty">${who} is admin-equivalent on its own, so there is no path to cut. Remove its admin permissions, or choose another starting principal in Data input.</p>`;
+  const gatedNote = plan.gated_left
+    ? `<p class="muted fp-gated">${plural(plan.gated_left, "path")} to admin ${plan.gated_left === 1 ? "needs" : "need"} MFA, a network location or a time window and ${plan.gated_left === 1 ? "is" : "are"} left as ${plan.gated_left === 1 ? "it is" : "they are"}: access like that is often intended, such as break-glass admin with MFA. <button class="linkish" data-fp-gated>Cut ${plan.gated_left === 1 ? "it" : "them"} too</button></p>`
+    : plan.include_gated ? '<p class="muted fp-gated">Paths that need MFA or a network location are cut too. <button class="linkish" data-fp-gated>Leave them as they are</button></p>' : "";
+  if (plan.status === "nothing-to-fix") return `<p class="list-empty">No ${plan.gated_left ? "open " : "confirmed "}path to admin from ${who}. Nothing to fix.</p>${gatedNote}`;
+  const n = plan.changes.length;
+  const tag = plan.verified ? `<span class="tag ok">${IC.ok}Verified</span>` : '<span class="tag warn">Not verified</span>';
+  const proof = plan.verified
+    ? `The changed account was analysed again: ${plural(plan.paths_before, "path")} to admin before, none after.`
+    : "Analysing the changed account again still found a path. Treat this plan as a starting point and check the attack graph.";
+  const extra = [
+    plan.also_fixed.length ? `Also removes the paths of ${plan.also_fixed.map((x) => `<span class="mono">${esc(short(x))}</span>`).join(", ")}.` : "",
+    scope === "start" && plan.still_at_risk.length ? `${plural(plan.still_at_risk.length, "other principal")} still ${plan.still_at_risk.length === 1 ? "reaches" : "reach"} admin: switch to Every principal to fix them too.` : "",
+    plan.optimal ? "" : "The search stopped early on this large account: the plan works but may not be the smallest.",
+  ].filter(Boolean).map((x) => `<p class="muted">${x}</p>`).join("");
+  const changes = plan.changes.map((c, i) => {
+    const res = c.resources.map((r) => `<span class="mono">${esc(r === "*" ? "every resource" : short(r))}</span>`).join(", ");
+    const breaks = c.breaks.map((b) => `<span class="fp-step"><span class="mono">${esc(b.technique)}</span>${esc(nameOf(b.from))} to ${esc(b.to === "admin" ? "admin" : nameOf(b.to))}</span>`).join("");
+    const narrow = c.granted_by.map((g) => `<span>${policyName(g.policy)}, ${esc(g.statement)}</span>`).join("");
+    return `<li class="fp-ch"><div class="fp-top"><span class="fp-i">${i + 1}</span>
+        <div class="fp-what"><b>Deny <code class="c">${esc(c.actions.join(", "))}</code> for <span class="mono">${esc(short(c.principal))}</span> on ${res}</b>
+          <p>${esc(c.consequence)}${c.scope === "everywhere" ? " No narrower change was found for this step." : ""}</p></div>
+        <div class="fp-act"><button class="btn" data-fp-show="${i}">Show on graph</button><button class="btn" data-fp-copy="${i}">Copy statement</button></div></div>
+      <dl class="fp-meta"><dt>Breaks</dt><dd>${breaks}</dd>${narrow ? `<dt>Or narrow</dt><dd>${narrow}</dd>` : ""}</dl></li>`;
+  }).join("");
+  const uncovered = plan.not_covered
+    ? `<p class="muted fp-note">${plural(plan.not_covered, "possible technique")} depend on resources the export does not describe, so this check does not cover them. <a href="#docs/d-input">Add a resource inventory</a> to confirm or rule them out.</p>`
+    : "";
+  return `<div class="fp-sum"><div class="fp-n"><b>${n}</b><span>${n === 1 ? "change" : "changes"}</span></div>
+      <div class="fp-sum-t"><p class="fp-head">${n === 1 ? "This change removes" : "These changes remove"} every ${plan.include_gated ? "" : "open "}path to admin from ${who}. ${tag}</p><p class="muted">${proof}</p>${extra}${gatedNote}</div></div>
+    <ol class="fp-list">${changes}</ol>
+    <div class="fp-foot"><button class="btn primary" data-fp-show="all">Show all on graph</button><button class="btn" id="fp-dl">Download policies</button><button class="btn" id="fp-copyall">Copy policies</button></div>${uncovered}`;
+}
+// Cut the steps a change breaks on the attack graph, so the what-if bar confirms the result.
+function showFixOnGraph(plan, i) {
+  const changes = i === null ? plan.changes : [plan.changes[i]];
+  const keys = changes.flatMap((c) => c.breaks.map((b) => cutKey(b.from, b.to)));
+  const drawn = new Set(allSteps(model).map((e) => cutKey(e.from, e.to)));
+  const useful = keys.filter((k) => drawn.has(k));
+  if (!useful.length) return toast("These steps are not on the attack graph from " + nameOf(model.start));
+  whatIf.clear();
+  go("graph");
+  setCut(useful, true);
 }
 
 function statusOf(p) {
@@ -946,12 +1128,15 @@ function renderGraphView() {
   }
   const m = model;
   main.setData(graphData(m));
-  const startPaths = m.report.paths.map((p, i) => [p, i]).filter(([p]) => p.start === m.start);
-  const shortest = startPaths.length ? Math.min(...startPaths.map(([p]) => p.steps.length)) : 0;
+  const startPaths = m.report.paths.map((p, i) => [p, i]).filter(([p]) => p.start === m.start).sort(([a], [b]) => (isOpen(b) - isOpen(a)) || a.steps.length - b.steps.length);
+  const open = startPaths.filter(([p]) => isOpen(p));
+  const pool = open.length ? open : startPaths;
+  const shortest = pool.length ? Math.min(...pool.map(([p]) => p.steps.length)) : 0;
+  const gatedCount = startPaths.length - open.length;
   const sum = $("g-summary");
   sum.className = startPaths.length ? "risk" : "safe";
   sum.innerHTML = startPaths.length
-    ? `<b>${plural(startPaths.length, "path")}</b> from ${esc(short(m.start))}, the shortest in ${plural(shortest, "step")}. Select one to show only that path.`
+    ? `<b>${plural(startPaths.length, "path")}</b> from ${esc(short(m.start))}${open.length ? `, the shortest open one in ${plural(shortest, "step")}` : `, all needing MFA or a network location; the shortest in ${plural(shortest, "step")}`}.${open.length && gatedCount ? ` ${gatedCount} ${gatedCount === 1 ? "needs" : "need"} MFA or a network location.` : ""} Select one to show only that path.`
     : `<b>No path</b> from ${esc(short(m.start))}. Possible techniques, if any, are drawn as dashed lines.`;
   $("g-paths").innerHTML = startPaths.map(([p, i]) => pathItem(p, i)).join("");
   $("g-paths").querySelectorAll(".path-item").forEach((el) => el.addEventListener("click", () => focusPath(Number(el.dataset.path))));
@@ -983,7 +1168,11 @@ $("g-show-paths").addEventListener("click", () => setPathsPanel(true));
 // The report: one HTML file for people who will never open iam-trace. It prints cleanly to PDF.
 function downloadReport() {
   if (!model) return toast("Run an analysis first");
-  const html = buildReport(model, { version: engineVersion, fixes: recommendedFixes(model) });
+  let plan = null;
+  if (model.mode === "account") {
+    try { plan = fixPlanFor("all"); } catch { plan = null; }
+  }
+  const html = buildReport(model, { version: engineVersion, fixes: recommendedFixes(model), plan });
   const acct = (model.principals[0]?.arn || "").split(":")[4] || "account";
   const day = new Date().toISOString().slice(0, 10);
   download(`iam-trace-report-${acct}-${day}.html`, html, "text/html");
@@ -1003,7 +1192,7 @@ function closeDetails() {
 function techCard(t) {
   const src = t.source || {};
   return `<div class="tech"><div class="th"><a class="id" href="${esc(src.pathfinding || t.pathfinding_url || "#")}" target="_blank" rel="noopener">${esc(t.id)}</a><span class="tag ${t.confidence === "confirmed" ? "crit" : "warn"}">${t.confidence === "confirmed" ? "Confirmed" : "Possible"}</span></div>
-    <div class="nm">${esc(t.name)}</div><div class="why">Leads to ${t.targets.map((x) => esc(short(x))).join(", ")}${t.via ? `, through ${t.via.map((x) => `<span class="mono">${esc(short(x))}</span>`).join(", ")}` : ""}.${src.author ? ` First documented by ${src.first_documented ? `<a href="${esc(src.first_documented)}" target="_blank" rel="noopener">${esc(src.author)}</a>` : esc(src.author)}.` : ""}</div></div>`;
+    <div class="nm">${esc(t.name)}</div>${t.requires ? `<div class="gate-note">Only when ${esc(t.requires.map((r) => r.text).join("; "))}</div>` : ""}<div class="why">Leads to ${t.targets.map((x) => esc(short(x))).join(", ")}${t.via ? `, through ${t.via.map((x) => `<span class="mono">${esc(short(x))}</span>`).join(", ")}` : ""}.${src.author ? ` First documented by ${src.first_documented ? `<a href="${esc(src.first_documented)}" target="_blank" rel="noopener">${esc(src.author)}</a>` : esc(src.author)}.` : ""}</div></div>`;
 }
 function showNode(n) {
   main.selected = n.id;
@@ -1045,15 +1234,24 @@ function allSteps(m) {
   for (const p of m.report.principals) {
     for (const t of p.techniques) {
       if (t.confidence !== "confirmed") continue;
-      for (const to of t.targets) if (to !== p.arn && String(to).startsWith("arn:")) out.push({ from: p.arn, to, label: t.id, name: t.name });
+      for (const to of t.targets) {
+        if (to === p.arn || !String(to).startsWith("arn:")) continue;
+        const requires = t.requires || t.gated_targets?.[to];
+        out.push({ from: p.arn, to, label: t.id, name: t.name, ...(requires ? { requires } : {}) });
+      }
     }
   }
   return out;
 }
+// The shortest route to an admin-equivalent principal, over open steps first and, if none is left,
+// over steps that need MFA or a network location too (the route then carries "requires").
 function routeToAdmin(m, cut) {
-  const admin = new Set(m.report.principals.filter((p) => p.admin_equivalent).map((p) => p.arn));
+  return routeOver(m, cut, true) || routeOver(m, cut, false);
+}
+function routeOver(m, cut, openOnly) {
+  const admin = new Set(m.report.principals.filter((p) => p.admin_equivalent && !(openOnly && p.admin_requires)).map((p) => p.arn));
   if (admin.has(m.start)) return [];
-  const edges = allSteps(m).filter((e) => !cut.has(cutKey(e.from, e.to)));
+  const edges = allSteps(m).filter((e) => !cut.has(cutKey(e.from, e.to)) && !(openOnly && e.requires));
   const prev = new Map([[m.start, null]]);
   const queue = [m.start];
   while (queue.length) {
@@ -1084,7 +1282,7 @@ function showOnGraph(route) {
       added = true;
     }
     if (!d.edges.some((x) => x.from === e.from && x.to === e.to)) {
-      d.edges.push({ from: e.from, to: e.to, label: e.label, name: e.name, confidence: "confirmed", paths: new Set() });
+      d.edges.push({ from: e.from, to: e.to, label: e.label, name: e.name, confidence: "confirmed", paths: new Set(), ...(e.requires ? { requires: e.requires } : {}) });
       added = true;
     }
   }
@@ -1106,6 +1304,11 @@ function updateWhatIf() {
   let msg;
   if (!before) msg = `<b>No path to admin</b> from ${who}, with or without these changes.`;
   else if (!after) msg = `<b class="safe">No path to admin</b> from ${who} after cutting ${plural(whatIf.size, "step")}.`;
+  else if (after.some((e) => e.requires) && !before.some((e) => e.requires)) {
+    const req = after.flatMap((e) => e.requires || []);
+    msg = `<b class="safe">No open path to admin</b> from ${who}. One route is left that needs ${esc(gateWords(req))}: ${routeText(after)}.`;
+    showOnGraph(after);
+  }
   else if (after.length !== before.length || after.some((e, i) => cutKey(e.from, e.to) !== cutKey(before[i].from, before[i].to))) {
     msg = `<b class="risk">Still reaches admin</b> by another route: ${routeText(after)}. It is now on the graph; cut a step on it too.`;
     showOnGraph(after);
@@ -1116,6 +1319,15 @@ function updateWhatIf() {
   $("whatif-reset").addEventListener("click", () => { whatIf.clear(); setCut([], false); if (!$("g-details").classList.contains("closed")) closeDetails(); });
 }
 
+// What a gate means for an attacker, in a sentence.
+function gateAdvice(requires) {
+  const kinds = new Set(requires.map((r) => r.kind));
+  const parts = [];
+  if (kinds.has("mfa")) parts.push("Stolen access keys alone are not enough, but a stolen session that signed in with MFA is");
+  if (kinds.has("network")) parts.push("the attacker has to send the request from that network, for example from a compromised machine inside it");
+  if (kinds.has("time")) parts.push("it works only at the times the condition allows");
+  return parts.length ? esc(sentence(parts.join("; "))) : "";
+}
 function showEdge(e, el) {
   if (selectedLabel) selectedLabel.classList.remove("sel");
   selectedLabel = el;
@@ -1125,6 +1337,7 @@ function showEdge(e, el) {
   const from = m.report.principals.find((x) => x.arn === e.from);
   const techs = from ? from.techniques.filter((t) => ids.includes(t.id) || t.id === e.label) : [];
   $("g-details").innerHTML = `<div class="d-head"><div class="d-top"><div><div class="d-name mono">${esc(e.label)}</div><div class="d-kind">${esc(nameOf(e.from))} to ${esc(nameOf(e.to))}</div></div><button class="icon-btn" id="d-close" aria-label="Close">${IC.x}</button></div></div>
+    ${e.requires ? `<div class="d-sec d-gate"><h4>Only when</h4><ul>${e.requires.map((r) => `<li>${esc(sentence(r.text))} <span class="mono">${esc(r.key)}</span></li>`).join("")}</ul><p>${gateAdvice(e.requires)}</p></div>` : ""}
     <div class="d-sec">${techs.length ? techs.map(techCard).join("") : `<p>${esc(sentence(e.name))}</p>`}</div>
     ${techs.length ? `<div class="d-sec"><h4>Permissions involved</h4>${[...new Set(techs.flatMap((t) => t.permissions))].map((x) => `<div class="policy-line"><span class="mono">${esc(x)}</span></div>`).join("")}</div>` : ""}
     ${e.confidence !== "possible" && e.to !== "admin" ? `<div class="d-sec d-cut"><h4>What if</h4><p>Pretend this step is not allowed and see whether ${esc(nameOf(m.start))} still reaches admin. Nothing in AWS changes.</p>
@@ -1185,7 +1398,7 @@ function drawFindings(rows) {
           <td><span class="sev ${t.confidence === "confirmed" ? "c-crit" : "c-warn"}"><i></i>${t.confidence === "confirmed" ? "Confirmed" : "Possible"}</span></td>
           <td data-label="Technique"><b class="mono">${esc(t.id)}</b><div class="cat-note">${esc(CATEGORY[t.category] || t.category)}</div></td>
           <td><div class="who" data-kind="${k(p.arn)}"><span class="wi">${ICON[k(p.arn)] || ICON.resource}</span><div><b>${esc(nameOf(p.arn))}</b><small>${esc(short(p.arn))}</small></div></div></td>
-          <td class="td-mono" data-label="Leads to">${t.targets.map((x) => esc(short(x))).join("<br>")}${t.via ? `<div class="t-muted">through ${t.via.map((x) => esc(short(x))).join(", ")}</div>` : ""}</td>
+          <td class="td-mono" data-label="Leads to">${t.targets.map((x) => esc(short(x))).join("<br>")}${t.via ? `<div class="t-muted">through ${t.via.map((x) => esc(short(x))).join(", ")}</div>` : ""}${t.requires ? `<div class="gate-note">Only with ${esc(gateShort(t.requires))}</div>` : ""}</td>
           <td class="td-mono" data-label="Permissions">${t.permissions.map(esc).join("<br>")}</td>
           <td data-label="Reference"><a href="${esc(t.source?.pathfinding || "#")}" target="_blank" rel="noopener">pathfinding.cloud</a></td></tr>`).join("")}</tbody></table></div>`
       : '<p class="list-empty">Nothing matches.</p>';
@@ -1498,15 +1711,15 @@ function whoCanGraph(r) {
     Object.assign(nodes.get(id), extra);
     return nodes.get(id);
   };
-  const edge = (from, to, label, name, confidence) => {
-    if (!edges.some((e) => e.from === from && e.to === to && e.label === label)) edges.push({ from, to, label, name, confidence, paths: new Set() });
+  const edge = (from, to, label, name, confidence, requires) => {
+    if (!edges.some((e) => e.from === from && e.to === to && e.label === label)) edges.push({ from, to, label, name, confidence, paths: new Set(), ...(requires ? { requires } : {}) });
   };
   for (const v of r.via) {
     v.steps.forEach((s, i) => {
       node(s.from, { foot: [["Escalates", ""], [plural(v.steps.length - i, "step"), "to reach it"]] });
       node(s.to);
       near(s.from, v.steps.length - i + 1);
-      edge(s.from, s.to, s.technique, s.name, "confirmed");
+      edge(s.from, s.to, s.technique, s.name, "confirmed", s.requires);
     });
   }
   for (const d of r.direct) {
@@ -1564,7 +1777,7 @@ function runWhoCan() {
   const r = out.result;
   const n = r.direct.length + r.via.length;
   const direct = r.direct.map((d) => `<tr data-arn="${esc(d.principal)}"><td data-label="Principal">${whoCell(d.principal)}</td><td data-label="Granted by" class="td-mono">${d.granted_by.map((g) => esc(short(g))).join("<br>") || '<span class="t-faint">Resource policy</span>'}</td></tr>`).join("");
-  const via = r.via.map((v) => `<li class="wc-via" data-arn="${esc(v.principal)}"><div class="wc-via-h">${whoCell(v.principal)}<span class="tag high">${plural(v.steps.length, "step")}</span></div>
+  const via = r.via.map((v) => `<li class="wc-via" data-arn="${esc(v.principal)}"><div class="wc-via-h">${whoCell(v.principal)}${v.requires ? `<span class="tag warn" title="${esc(v.requires.map((r) => r.text).join("; "))}">Needs ${esc(gateShort(v.requires))}</span>` : ""}<span class="tag high">${plural(v.steps.length, "step")}</span></div>
       ${stepsHtml({ start: v.principal, steps: v.steps })}</li>`).join("");
   const outside = r.outside.map((o) => `<li data-arn="outside:${esc(o.principal)}"><b class="mono">${esc(o.principal)}</b><span>${esc(o.what)}, ${esc(o.statement)}${o.conditional ? ", with a condition" : ""}</span></li>`).join("");
   el.innerHTML = `<div class="verdict glass ${n ? (r.via.length ? "v-crit" : "v-warn") : "v-ok"} wc-sum"><span class="vb">${n ? IC.warn : IC.ok}</span>
@@ -1698,7 +1911,11 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Search and commands</b>: press Ctrl K (⌘K on a Mac) or / to find any screen, principal, documentation topic or heading, and to run common commands.",
+    ["Added", ["<b>Fix plan</b>: the fewest Deny statements that cut every path to admin, scoped to the target wherever possible, chosen by an exact minimum hitting set search and verified by analysing the changed account again. <code class='c'>iam-trace fix</code> on the command line.",
+      "<b>Entry points</b>: where an attack could start, worst first. Trust policies are tested with the evaluator, so a GitHub Actions role open to every repository, another account without ExternalId or a public role is found and ranked by what it reaches. <b>Analyse from here</b> re-runs the analysis. <code class='c'>iam-trace entry-points</code> on the command line.",
+      "<b>Condition-aware paths</b>: tags from the export are used, and steps that need MFA, a network location or a time window are found and labelled instead of missed. Open paths come first; only they make the verdict critical.",
+      "Policy check rule <code class='c'>open-federated-trust</code>, for trust policies open to every identity of a provider.",
+      "<b>Search and commands</b>: press Ctrl K (⌘K on a Mac) or / to find any screen, principal, documentation topic or heading, and to run common commands.",
       "<b>Download report</b>: a single HTML file with the verdict, the shortest paths, what to fix first and every principal at risk. It has no scripts, opens offline and prints to PDF.",
       "<b>Cut a step</b> on the attack graph: select a technique and cut it, or use Simulate on a recommended fix, to see whether the attacker still reaches admin by another route. The other route is drawn.",
       "Link previews: sharing the app link shows a title, a description and an image.",
@@ -1707,7 +1924,7 @@ const CHANGES = [
       "<b>Who can</b>: every principal that can perform an action on a resource, directly or through escalation, drawn as an access graph.",
       "<b>Documentation</b>: one topic per page with search, links to every heading, and previous and next.",
       "<b>Saved in your browser</b>: your data and last analysis come back after a refresh. Settings lists what is saved and deletes any of it.",
-      "<b>Policy check</b>: a new screen and <code class='c'>iam-trace check</code> flag 14 risky patterns (full admin, iam:PassRole on any role, NotAction, public principals, a typo in a Deny and more), each with why it matters and how to fix it.",
+      "<b>Policy check</b>: a new screen and <code class='c'>iam-trace check</code> flag 15 risky patterns (full admin, iam:PassRole on any role, NotAction, public principals, a typo in a Deny and more), each with why it matters and how to fix it.",
       "<b>Resource inventory</b>: <code class='c'>iam-trace inventory collect</code> (read-only) and a new Data input tab. Techniques that take over an existing Lambda function, EC2 instance or similar are confirmed with the exact resource, or ruled out.",
       "Report-a-wrong-answer links on Evaluate results, graph findings and Policy check findings. Account IDs are replaced before the issue opens.",
       "A complete web app: an Overview dashboard with the verdict, metrics, paths to admin, recommended fixes and principals at risk.",

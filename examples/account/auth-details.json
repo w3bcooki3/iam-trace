@@ -46,6 +46,24 @@
               }
             ]
           }
+        },
+        {
+          "PolicyName": "break-glass-with-mfa",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "sts:AssumeRole",
+                "Resource": "arn:aws:iam::111122223333:role/break-glass",
+                "Condition": {
+                  "Bool": {
+                    "aws:MultiFactorAuthPresent": "true"
+                  }
+                }
+              }
+            ]
+          }
         }
       ],
       "AttachedManagedPolicies": []
@@ -154,6 +172,79 @@
         }
       ],
       "AttachedManagedPolicies": []
+    },
+    {
+      "RoleName": "github-deploy",
+      "Arn": "arn:aws:iam::111122223333:role/github-deploy",
+      "Path": "/",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "Federated": "arn:aws:iam::111122223333:oidc-provider/token.actions.githubusercontent.com"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+              "StringEquals": {
+                "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+              }
+            }
+          }
+        ]
+      },
+      "RolePolicyList": [
+        {
+          "PolicyName": "deploy",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": "sts:AssumeRole",
+                "Resource": "arn:aws:iam::111122223333:role/ops"
+              }
+            ]
+          }
+        }
+      ],
+      "AttachedManagedPolicies": []
+    },
+    {
+      "RoleName": "break-glass",
+      "Arn": "arn:aws:iam::111122223333:role/break-glass",
+      "Path": "/",
+      "AssumeRolePolicyDocument": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::111122223333:root"
+            },
+            "Action": "sts:AssumeRole",
+            "Condition": {
+              "Bool": {
+                "aws:MultiFactorAuthPresent": "true"
+              }
+            }
+          }
+        ]
+      },
+      "RolePolicyList": [],
+      "AttachedManagedPolicies": [
+        {
+          "PolicyName": "AdministratorAccess",
+          "PolicyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+        }
+      ],
+      "Tags": [
+        {
+          "Key": "purpose",
+          "Value": "emergency admin access, MFA required"
+        }
+      ]
     }
   ],
   "Policies": [

@@ -20,9 +20,11 @@ from iamtrace.catalog.refresh import refresh
 from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
 from iamtrace.collect import CollectError, aws_cli, collect
 from iamtrace.diff import diff_markdown, diff_policies, diff_sarif, diff_text
+from iamtrace.entry import entry_points, entry_points_text
 from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
 from iamtrace.expand import expand_patterns, expand_policies, expand_sarif, expand_text
+from iamtrace.fixplan import fix_plan, fix_plan_text, public
 from iamtrace.inventory import load_inventory
 from iamtrace.loader import load_any_policy, load_levels, load_policies, load_policy, parse_context
 from iamtrace.model import Policy, PolicyError, PolicyType
@@ -239,14 +241,14 @@ def cmd_escalate(args: argparse.Namespace) -> int:
             except (OSError, json.JSONDecodeError, RecursionError) as e:
                 raise PolicyError(f"{args.inventory}: cannot read: {e}") from e
             env.resources = load_inventory(inv_data, env)
-        report = analyze(env, start=args.principal, catalog=cat, scps=scps)
+        report = analyze(env, start=args.principal, catalog=cat, scps=scps, conditions=not args.strict_context)
     elif args.policy:
         if args.inventory:
             raise PolicyError("--inventory needs --auth-details: roles are resolved through the account export")
         principal = args.principal or "arn:aws:iam::111122223333:role/policy-under-test"
         boundary = load_policy(args.boundary, PolicyType.BOUNDARY) if args.boundary else None
         env = Environment.single([load_policy(f, PolicyType.IDENTITY) for f in args.policy], principal, boundary)
-        report = analyze(env, start=principal, catalog=cat, scps=scps)
+        report = analyze(env, start=principal, catalog=cat, scps=scps, conditions=not args.strict_context)
         if args.baseline:
             base_env = Environment.single([load_policy(args.baseline, PolicyType.IDENTITY)], principal, boundary)
             base = analyze(base_env, start=principal, scps=scps)
@@ -297,6 +299,12 @@ def _add_escalate(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> N
     )
     p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
     p.add_argument("--blast-radius", action="store_true", help="count every action the reachable principals allow")
+    p.add_argument(
+        "--strict-context",
+        action="store_true",
+        help="evaluate every check with no request context, instead of trying the values conditions name "
+        "(MFA, source IP, region, ...); gated paths are then not found",
+    )
     p.add_argument(
         "--fail-on",
         choices=["never", "any", "admin", "new"],
@@ -412,6 +420,104 @@ def _add_who_can(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> No
     p.set_defaults(func=cmd_who_can)
 
 
+# --- entry points -----------------------------------------------------------------------
+
+
+def _load_account(path: str, inventory: str | None) -> Environment:
+    try:
+        data = json.loads(Path(path).read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError, RecursionError) as e:
+        raise PolicyError(f"{path}: cannot read: {e}") from e
+    env = Environment.from_auth_details(data)
+    if inventory:
+        try:
+            inv_data = json.loads(Path(inventory).read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError, RecursionError) as e:
+            raise PolicyError(f"{inventory}: cannot read: {e}") from e
+        env.resources = load_inventory(inv_data, env)
+    return env
+
+
+def cmd_entry_points(args: argparse.Namespace) -> int:
+    env = _load_account(args.auth_details, args.inventory)
+    report = entry_points(env, scps=load_levels(args.scp, PolicyType.SCP))
+    sys.stdout.write(entry_points_text(report) if args.format == "text" else to_json(report))
+    order = ["low", "medium", "high", "critical"]
+    if args.fail_on != "never":
+        worst = [e["rating"].lower() for e in report["entries"]]
+        if any(order.index(w) >= order.index(args.fail_on) for w in worst):
+            return 1
+    return 0
+
+
+def _add_entry_points(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "entry-points",
+        help="who outside the account could become each principal, ranked by what it reaches",
+        description="Asks each role's trust policy whether a GitHub workflow in another repository, any identity "
+        "of an OIDC or SAML provider, an unrelated AWS account or a named account without ExternalId can assume "
+        "it, and combines that with the escalation analysis. IAM users count as entry points too.",
+    )
+    p.add_argument(
+        "--auth-details", required=True, metavar="FILE", help="aws iam get-account-authorization-details output"
+    )
+    p.add_argument("--inventory", metavar="FILE", help="resource inventory, to confirm more escalation paths")
+    p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
+    p.add_argument(
+        "--fail-on",
+        choices=["never", "low", "medium", "high", "critical"],
+        default="never",
+        help="exit 1 if any entry point is rated at least this",
+    )
+    p.add_argument("--format", choices=["text", "json"], default="text")
+    p.set_defaults(func=cmd_entry_points)
+
+
+# --- fix --------------------------------------------------------------------------------
+
+
+def cmd_fix(args: argparse.Namespace) -> int:
+    env = _load_account(args.auth_details, args.inventory)
+    try:
+        plan = fix_plan(
+            env, start=args.principal, scps=load_levels(args.scp, PolicyType.SCP), include_gated=args.include_gated
+        )
+    except ValueError as e:
+        raise PolicyError(str(e)) from e
+    if args.out_dir:
+        out = Path(args.out_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        for principal, policy in plan["policies"].items():
+            name = principal.split(":", 5)[-1].replace("/", "-")
+            (out / f"{name}.iam-trace-fix.json").write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8")
+    sys.stdout.write(fix_plan_text(plan) if args.format == "text" else to_json(public(plan)))
+    return 0 if plan["verified"] else 1
+
+
+def _add_fix(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "fix",
+        help="the smallest verified set of policy changes that removes every path to admin",
+        description="Finds the cheapest set of Deny statements (targeted ones first) that cuts every confirmed path "
+        "to an admin-equivalent principal, applies them to a copy of the account and runs the analysis again "
+        "to prove it. Exits 1 if the plan could not be verified.",
+    )
+    p.add_argument(
+        "--auth-details", required=True, metavar="FILE", help="aws iam get-account-authorization-details output"
+    )
+    p.add_argument("--principal", metavar="ARN", help="fix the paths from this principal (default: every principal)")
+    p.add_argument("--inventory", metavar="FILE", help="resource inventory, to confirm more escalation paths")
+    p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
+    p.add_argument("--out-dir", metavar="DIR", help="also write each principal's Deny policy as a JSON file here")
+    p.add_argument(
+        "--include-gated",
+        action="store_true",
+        help="also cut paths that need MFA, a network location or a time window (often intended access)",
+    )
+    p.add_argument("--format", choices=["text", "json"], default="text")
+    p.set_defaults(func=cmd_fix)
+
+
 # --- inventory ------------------------------------------------------------------------
 
 
@@ -502,6 +608,8 @@ SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]]
     _add_diff,
     _add_escalate,
     _add_who_can,
+    _add_entry_points,
+    _add_fix,
     _add_inventory,
     _add_catalog,
 ]

@@ -428,3 +428,50 @@ def test_text_when_clean() -> None:
         CAT,
     )
     assert "No risky patterns found" in check_text(report)
+
+
+GH_PROVIDER = "arn:aws:iam::111122223333:oidc-provider/token.actions.githubusercontent.com"
+
+
+def gh_statement(condition: dict[str, Any] | None) -> dict[str, Any]:
+    st: dict[str, Any] = {
+        "Effect": "Allow",
+        "Principal": {"Federated": GH_PROVIDER},
+        "Action": "sts:AssumeRoleWithWebIdentity",
+    }
+    if condition:
+        st["Condition"] = condition
+    return st
+
+
+def test_github_trust_with_audience_only_is_open() -> None:
+    aud_only = {"StringEquals": {"token.actions.githubusercontent.com:aud": "sts.amazonaws.com"}}
+    f = one(run(gh_statement(aud_only)), "open-federated-trust")
+    assert f["severity"] == "high"
+    assert "any GitHub repository" in f["detail"]
+
+
+def test_github_trust_for_a_whole_organisation_is_medium() -> None:
+    org = {"StringLike": {"token.actions.githubusercontent.com:sub": "repo:acme/*"}}
+    f = one(run(gh_statement(org)), "open-federated-trust")
+    assert f["severity"] == "medium"
+    assert "acme" in f["detail"]
+
+
+def test_github_trust_pinned_to_a_branch_is_not_flagged() -> None:
+    pinned = {
+        "StringEquals": {
+            "token.actions.githubusercontent.com:sub": "repo:acme/app:ref:refs/heads/main",
+            "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+        }
+    }
+    assert "open-federated-trust" not in rules(run(gh_statement(pinned)))
+
+
+def test_example_account_github_role_is_flagged() -> None:
+    from pathlib import Path
+
+    data = json.loads((Path(__file__).resolve().parents[2] / "examples/account/auth-details.json").read_text())
+    report = check_auth_details(data, CAT)
+    hits = [f for f in report["findings"] if f["rule"] == "open-federated-trust"]
+    assert [f["policy"] for f in hits] == ["arn:aws:iam::111122223333:role/github-deploy trust policy"]

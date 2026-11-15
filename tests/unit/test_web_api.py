@@ -141,7 +141,7 @@ def test_analyze_account_summarises_every_principal() -> None:
     assert by_arn[DEV]["path"] is not None
     assert [s["technique"] for s in by_arn[DEV]["path"]["steps"]] == ["sts-001", "ec2-001"]
     assert by_arn["arn:aws:iam::111122223333:role/ec2-admin"]["admin_equivalent"]
-    assert out["inventory"]["users"] == 1 and out["inventory"]["roles"] == 3
+    assert out["inventory"]["users"] == 1 and out["inventory"]["roles"] == 5
     assert out["result"]["start"] == DEV
     assert json.loads(out["sarif"])["version"] == "2.1.0"
 
@@ -153,8 +153,9 @@ def test_analyze_account_scp_can_break_a_path() -> None:
     allow = json.dumps({"Version": "2012-10-17", "Statement": [{"Effect": "Allow", "Action": "*", "Resource": "*"}]})
     without = json.loads(web_api.analyze_account(ACCOUNT, DEV))
     with_scp = json.loads(web_api.analyze_account(ACCOUNT, DEV, f"[{allow}, {deny}]"))
-    assert without["result"]["paths"]
-    assert not with_scp["result"]["paths"]
+    assert any(p["open"] for p in without["result"]["paths"])
+    # The SCP breaks the open path; the break-glass path that needs MFA is not affected by it.
+    assert not any(p["open"] for p in with_scp["result"]["paths"])
     assert with_scp["scps"] == 2
 
 
@@ -185,7 +186,7 @@ def test_check_policies_and_export_together() -> None:
     )
     rules = {f["rule"] for f in out["result"]["findings"]}
     assert {"full-admin", "passrole-any-role"} <= rules
-    assert out["result"]["summary"]["policies"] == 8  # 1 file + 4 inline + 3 trust policies
+    assert out["result"]["summary"]["policies"] == 12  # 1 file + 6 inline + 5 trust policies
     assert out["result"]["findings"][0]["severity"] == "high"
     assert "Fix:" in out["text"] and json.loads(out["sarif"])["version"] == "2.1.0"
 
@@ -213,3 +214,29 @@ def test_analyze_account_with_inventory() -> None:
     assert with_inv["resources"] == {"ec2-instance": 1, "lambda-function": 2}
     bad = json.loads(web_api.analyze_account(ACCOUNT, dev, "", False, "{oops"))
     assert "inventory" in bad["error"]
+
+
+def test_fix_plan_query_reuses_the_last_analysis() -> None:
+    text = (Path(__file__).resolve().parents[2] / "examples/account/auth-details.json").read_text()
+    dev = "arn:aws:iam::111122223333:user/dev"
+    json.loads(web_api.analyze_account(text, dev))
+    cached = web_api._LAST["everyone"]
+    plan = json.loads(web_api.fix_plan_query(text, dev))
+    assert web_api._LAST["everyone"] is cached
+    assert plan["verified"] is True
+    assert plan["changes"][0]["actions"] == ["iam:PassRole"]
+    assert "_fixed_env" not in plan
+    every = json.loads(web_api.fix_plan_query(text, ""))
+    assert every["start"] is None and every["verified"]
+
+
+def test_fix_plan_query_without_a_previous_analysis() -> None:
+    text = (Path(__file__).resolve().parents[2] / "examples/account/auth-details.json").read_text()
+    web_api._LAST.clear()
+    plan = json.loads(web_api.fix_plan_query(text, "arn:aws:iam::111122223333:user/dev"))
+    assert plan["status"] == "fixed"
+
+
+def test_fix_plan_query_reports_errors() -> None:
+    out = json.loads(web_api.fix_plan_query("{}", "arn:aws:iam::1:user/x"))
+    assert "error" in out

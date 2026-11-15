@@ -3,6 +3,12 @@
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const short = (arn) => (String(arn).startsWith("arn:") ? String(arn).split(":").slice(5).join(":") : String(arn));
+function policyLabel(id) {
+  const inl = /^(arn:\S+) inline (.+)$/.exec(id);
+  if (inl) return `inline policy ${inl[2]} on ${short(inl[1])}`;
+  const trust = /^(arn:\S+) trust policy$/.exec(id);
+  return trust ? `trust policy of ${short(trust[1])}` : `managed policy ${short(id)}`;
+}
 const plural = (n, word) => `${n} ${word}${n === 1 ? "" : "s"}`;
 const account = (m) => (m.principals[0]?.arn || m.start || "").split(":")[4] || "unknown";
 
@@ -23,7 +29,7 @@ function status(p) {
   return ["ok", "No known technique"];
 }
 
-export function buildReport(m, { version, fixes, generated = new Date() }) {
+export function buildReport(m, { version, fixes, plan = null, generated = new Date() }) {
   const ps = m.principals;
   const admins = ps.filter((p) => p.admin_equivalent);
   const reach = ps.filter((p) => !p.admin_equivalent && p.path);
@@ -71,11 +77,13 @@ export function buildReport(m, { version, fixes, generated = new Date() }) {
   .steps .edge { color: var(--muted); font-size: 13px; padding: 1px 0 1px 10px; }
   .steps .edge b { color: var(--crit); font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 600; }
   .mono { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13.5px; overflow-wrap: anywhere; }
+  pre { margin: 6px 0 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 6px; background: #f7f8fa; font: 12.5px/1.5 ui-monospace, Menlo, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; break-inside: avoid; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { font-weight: 600; color: var(--muted); font-size: 13px; }
   tr { break-inside: avoid; }
   .s { font-weight: 600; white-space: nowrap; } .s.crit { color: var(--crit); } .s.high { color: var(--high); } .s.warn { color: var(--warn); } .s.ok { color: var(--ok); }
+  .small { font-size: 13px; color: var(--muted); }
   ul.notes { padding-left: 20px; color: var(--muted); font-size: 14px; }
   footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
   a { color: var(--accent); }
@@ -86,10 +94,28 @@ export function buildReport(m, { version, fixes, generated = new Date() }) {
   const pathsHtml = paths.length
     ? paths.map((p) => `<div class="card"><h3>${esc(short(p.start))} reaches ${esc(short(p.end))} in ${plural(p.steps.length, "step")}</h3>${p.why ? `<p>${esc(short(p.end))} is admin-equivalent: it is ${esc(p.why)}.</p>` : ""}${steps(p)}</div>`).join("")
     : "<p>None found. Every escalation technique checked either needs a permission nobody has, or leads nowhere new.</p>";
-  const fixHtml = fixes.length
+  const planHtml = plan && plan.changes.length ? (() => {
+    const n = plan.changes.length;
+    const head = `<p class="meta">The fewest changes that remove every confirmed path to admin in the account: ${plural(n, "Deny statement")}, targeted to the resource wherever possible. ${plan.verified ? `Verified: the account with these changes was analysed again, with ${plural(plan.paths_before, "path")} to admin before and none after.` : "Not verified: analysing the changed account again still found a path."}${plan.not_covered ? ` ${plural(plan.not_covered, "possible technique")} depend on resources the export does not describe and are not covered.` : ""}</p>`;
+    const cards = plan.changes.map((c, i) => `<div class="card"><h3>${i + 1}. Deny <span class="mono">${esc(c.actions.join(", "))}</span> for ${esc(short(c.principal))} on ${c.resources.map((r) => esc(r === "*" ? "every resource" : short(r))).join(", ")}</h3>
+        <p>${esc(c.consequence)}</p>
+        <p>Breaks ${c.breaks.map((b) => `<span class="mono">${esc(b.technique)}</span> ${esc(short(b.from))} to ${esc(b.to === "admin" ? "admin" : short(b.to))}`).join("; ")}.</p>
+        ${c.granted_by.length ? `<p>Instead of a Deny, you can narrow: ${c.granted_by.map((g) => `${esc(policyLabel(g.policy))}, ${esc(g.statement)}`).join("; ")}.</p>` : ""}</div>`).join("");
+    const pols = Object.entries(plan.policies).map(([who, doc]) => `<h3>Inline policy for ${esc(short(who))}</h3><pre>${esc(JSON.stringify(doc, null, 2))}</pre>`).join("");
+    return head + cards + pols;
+  })() : null;
+  const entries = (m.entry && m.entry.entries) || [];
+  const entryHtml = entries.length ? `<h2>Entry points</h2>
+  <p class="meta">Where an attack could start: IAM users, whose keys or password can leak, and roles that someone outside the account can assume. Each trust policy was tested with the evaluator, for example by asking whether a GitHub workflow in a repository you do not own can assume the role.</p>
+  <table><thead><tr><th>Principal</th><th>Rating</th><th>Who can get in</th><th>Reaches</th></tr></thead><tbody>${entries.map((e) => {
+    const imp = e.impact;
+    const reach = imp.admin ? "Is admin-equivalent" : imp.steps ? `Admin in ${plural(imp.steps, "step")}` : imp.confirmed ? `${plural(imp.confirmed, "technique")}, no path` : "No known technique";
+    return `<tr><td class="mono">${esc(short(e.principal))}</td><td><span class="s ${{ Critical: "crit", High: "high", Medium: "warn", Low: "ok" }[e.rating]}">${e.rating}</span></td><td>${esc(e.exposure.who)}${e.exposure.fix ? `<br><span class="small">${esc(e.exposure.fix)}</span>` : ""}</td><td>${reach}</td></tr>`;
+  }).join("")}</tbody></table>` : "";
+  const fixHtml = planHtml ?? (fixes.length
     ? fixes.map((f, i) => `<div class="card"><h3>${i + 1}. Narrow <span class="mono">${esc(f.permissions.join(", "))}</span> for ${esc(short(f.from))}</h3>
         <p>Removes ${esc(f.technique)} (${esc(f.name)}). Used by ${plural(f.paths, "path")} from ${plural(f.starts.size ?? f.starts.length ?? 0, "starting principal")}. Scope the permission to the resources this principal needs, add a condition, or move it to a separate role.</p></div>`).join("")
-    : "<p>Nothing to fix: no confirmed path to admin.</p>";
+    : "<p>Nothing to fix: no confirmed path to admin.</p>");
   const tableHtml = rows.map((p) => {
     const [t, label] = status(p);
     const path = p.admin_equivalent ? "Is admin" : p.path ? `${plural(p.path.steps.length, "step")}: ${p.path.steps.map((s) => esc(s.technique)).join(", ")}` : "None";
@@ -118,12 +144,13 @@ export function buildReport(m, { version, fixes, generated = new Date() }) {
     <div><b>${confirmed}</b><span>confirmed techniques for non-admins</span></div>
   </div>
 
+  ${entryHtml}
   <h2>Paths to admin</h2>
   <p class="meta">The shortest path for each principal that can become an administrator. Each step is a published technique from pathfinding.cloud that the principal's policies allow.</p>
   ${pathsHtml}
 
-  <h2>What to fix first</h2>
-  <p class="meta">The permissions that the most paths depend on. Removing or narrowing one breaks every path that uses it.</p>
+  <h2>${planHtml ? "Fix plan" : "What to fix first"}</h2>
+  ${planHtml ? "" : '<p class="meta">The permissions that the most paths depend on. Removing or narrowing one breaks every path that uses it.</p>'}
   ${fixHtml}
 
   <h2>Every principal</h2>

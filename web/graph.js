@@ -114,6 +114,12 @@ function nodeHtml(n, style) {
     <div class="name">${esc(n.label)}</div><div class="sub">${esc(n.subtitle)}</div></div>`;
 }
 
+// "MFA", "Network", "Time", or several of them, for a gated edge's label.
+export function gateShort(requires = []) {
+  const names = { mfa: "MFA", network: "Network", time: "Time" };
+  return [...new Set(requires.map((r) => names[r.kind] || r.kind))].join(" + ");
+}
+
 export class Graph {
   constructor(surface, world, { interactive = true, onSelect, onEdge, pad = 60, maxScale = 1.1, insets, markerPrefix = "g" } = {}) {
     Object.assign(this, { surface, world, interactive, onSelect, onEdge, pad, maxScale, insets, markerPrefix });
@@ -157,7 +163,7 @@ export class Graph {
     const edges = this.data.edges.filter((e) => !(this.hidePossible && e.confidence === "possible"));
     const visible = new Set([this.data.start, ...edges.flatMap((e) => [e.from, e.to])]);
     const mp = this.markerPrefix;
-    let paths = `<defs>${["crit", "warn", "faint"].map((c) => `<marker id="${mp}-${c}" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1L9 5L0 9z" class="mk-${c}"/></marker>`).join("")}</defs>`;
+    let paths = `<defs>${["crit", "warn", "faint", "high"].map((c) => `<marker id="${mp}-${c}" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1L9 5L0 9z" class="mk-${c}"/></marker>`).join("")}</defs>`;
     const labels = [];
     for (const e of edges) {
       const a = byId.get(e.from);
@@ -172,10 +178,11 @@ export class Graph {
         : `M${p1.x},${p1.y} L${p2.x},${p2.y}`;
       const dim = this.focus !== null && !(e.paths && e.paths.has(this.focus)) ? " dim" : "";
       const cut = this.cut.has(`${e.from}|${e.to}`);
-      const type = cut ? "cut" : e.confidence === "possible" ? "poss" : "conf";
+      const type = cut ? "cut" : e.confidence === "possible" ? "poss" : e.requires ? "gated" : "conf";
       const hot = type === "conf" && e.paths && e.paths.size && !dim ? " hot" : "";
-      paths += `<path class="e ${type}${hot}${dim}" d="${d}" marker-end="url(#${mp}-${type === "conf" ? "crit" : type === "cut" ? "faint" : "warn"})"/>`;
-      if (!dim && !cut) paths += `<path class="e flow" d="${d}"/>`;
+      const marker = type === "conf" ? "crit" : type === "cut" ? "faint" : type === "gated" ? "high" : "warn";
+      paths += `<path class="e ${type}${hot}${dim}" d="${d}" marker-end="url(#${mp}-${marker})"/>`;
+      if (!dim && !cut && type !== "gated") paths += `<path class="e flow" d="${d}"/>`;
       labels.push({ e, type, x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2, dim });
     }
     svg.innerHTML = paths;
@@ -183,7 +190,12 @@ export class Graph {
       const el = document.createElement(this.interactive ? "button" : "span");
       el.className = `elabel ${l.type}${l.dim}`;
       el.textContent = l.e.label;
-      el.title = l.e.name;
+      if (l.type === "gated") {
+        const gate = document.createElement("small");
+        gate.textContent = gateShort(l.e.requires);
+        el.appendChild(gate);
+      }
+      el.title = l.e.requires ? `${l.e.name}. Only when ${l.e.requires.map((r) => r.text).join("; ")}.` : l.e.name;
       el.style.left = `${l.x}px`;
       el.style.top = `${l.y}px`;
       if (this.interactive) el.addEventListener("click", (ev) => { ev.stopPropagation(); this.onEdge?.(l.e, el); });
