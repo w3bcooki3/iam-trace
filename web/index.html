@@ -43,6 +43,7 @@
       <span class="sl">/</span><span id="crumb-group">Attack paths</span><span class="sl">/</span><b id="crumb-view">Overview</b>
     </div>
     <div class="top-right">
+      <button class="cmdk-btn" id="cmdk-btn" aria-label="Search and commands" aria-keyshortcuts="Control+K Meta+K /"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><span>Search</span><kbd>Ctrl K</kbd></button>
       <span class="engine-status" id="engine-status" data-state="loading" role="status">Starting the analysis engine</span>
       <button class="save-status" id="save-status" data-go="settings" hidden></button>
       <button class="icon-btn" id="focus-btn" title="Focus mode: hide the sidebar" aria-label="Focus mode"><svg class="i" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
@@ -307,6 +308,8 @@
           </ol>
           <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>aws iam get-account-authorization-details --output json &gt; auth-details.json</pre></div>
           <p>No account handy? Press <strong>Load example</strong> in Data input to try a small sample account.</p>
+          <h3>Finding your way around</h3>
+          <p>Press <kbd>Ctrl</kbd> <kbd>K</kbd> (<kbd>⌘</kbd> <kbd>K</kbd> on a Mac), or <kbd>/</kbd> when you are not typing in a field, to search every screen, principal, documentation topic and heading, and run common commands such as Download report. On a phone, use the search button at the top. Choosing a principal opens it on the attack graph, or in Findings if it has no route to admin.</p>
         </section>
 
         <section class="dsec" id="d-attack">
@@ -541,26 +544,27 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
     </div></section>
 
     <!-- ============================================================== changelog -->
-    <section class="view" id="v-changelog"><div class="page narrow">
+    <section class="view" id="v-changelog"><div class="page pg2">
       <div class="page-head"><div><h1>Changelog</h1><p>Notable changes, newest first. CHANGELOG.md in the repository has the same entries.</p></div></div>
-      <div class="cl-layout">
-        <nav class="cl-index" aria-label="Changelog">
-          <h2>Show</h2>
-          <div class="cl-filters" id="cl-filters">
-            <button class="chipf on" data-f="all">All changes</button><button class="chipf" data-f="Added">Added</button><button class="chipf" data-f="Changed">Changed</button><button class="chipf" data-f="Security">Security</button><button class="chipf" data-f="Fixed">Fixed</button>
-          </div>
-          <h2>Versions</h2>
-          <div class="cl-versions" id="cl-versions"></div>
-        </nav>
-        <div class="cl-body" id="timeline"></div>
+      <div class="pg2-grid">
+        <nav class="pg2-nav" id="cl-versions" aria-label="Versions"></nav>
+        <div class="pg2-body">
+          <div class="seg" id="cl-filters" role="group" aria-label="Show changes of kind"></div>
+          <div id="timeline"></div>
+        </div>
       </div>
     </div></section>
 
     <!-- ============================================================== settings -->
-    <section class="view" id="v-settings"><div class="page narrow">
+    <section class="view" id="v-settings"><div class="page pg2">
       <div class="page-head"><div><h1>Settings</h1><p>Saved in this browser only. Nothing is sent anywhere.</p></div></div>
-      <div class="glass set-card">
-        <div class="card-h"><h3>Appearance</h3></div>
+      <div class="pg2-grid">
+      <nav class="pg2-nav" id="set-nav" aria-label="Settings sections">
+        <button data-sec="set-appearance" class="on">Appearance</button><button data-sec="set-graph">Attack graph</button><button data-sec="set-saved">Saved data</button><button data-sec="set-privacy">Privacy</button><button data-sec="set-about">About</button>
+      </nav>
+      <div class="pg2-body">
+      <div class="glass set-card" id="set-appearance">
+        <div class="card-h"><h2>Appearance</h2></div>
         <div class="set-row"><div class="lab"><b>Mode</b><span>Light is the default. System follows your operating system.</span></div>
           <div class="opt-grid" data-set="mode">
             <button class="opt" data-v="light"><span class="mini mini-pic"><svg viewBox="0 0 160 74" preserveAspectRatio="none"><rect width="160" height="74" fill="#f4f5fb"/><rect width="34" height="74" fill="#e9ebf5"/><rect x="8" y="10" width="18" height="4" rx="2" fill="#d9dcea"/><rect x="8" y="20" width="14" height="4" rx="2" fill="#d9dcea"/><rect x="44" y="10" width="106" height="26" rx="4" fill="#fff" stroke="#d9dcea"/><rect x="52" y="18" width="40" height="5" rx="2.5" fill="#5b4ff0"/><rect x="44" y="44" width="50" height="22" rx="4" fill="#fff" stroke="#d9dcea"/><rect x="100" y="44" width="50" height="22" rx="4" fill="#fff" stroke="#d9dcea"/><path d="M52 58 C62 50 72 62 86 52" stroke="#e0204f" stroke-width="2" fill="none"/></svg></span>Light</button>
@@ -580,22 +584,20 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
             <input type="color" id="brand-color" value="#19b6a4" title="Any colour" aria-label="Pick any colour"><small id="brand-hex">#19b6a4</small>
           </div></div>
       </div>
-      <div class="glass set-card">
-        <div class="card-h"><h3>Attack graph</h3></div>
+      <div class="glass set-card" id="set-graph">
+        <div class="card-h"><h2>Attack graph</h2></div>
         <div class="set-row"><div class="lab"><b>Node style</b><span>How principals are drawn on the graph and in the overview preview.</span></div>
           <div class="opt-grid" data-set="nodes">
             <button class="opt" data-v="card"><span class="mini"><svg viewBox="0 0 100 44"><rect x="4" y="8" width="38" height="28" rx="5" fill="none" stroke="currentColor"/><rect x="58" y="8" width="38" height="28" rx="5" fill="none" stroke="currentColor"/><path d="M42 22h16" stroke="currentColor"/><rect x="9" y="13" width="8" height="8" rx="2" fill="currentColor"/><rect x="63" y="13" width="8" height="8" rx="2" fill="currentColor"/><path d="M9 28h26M63 28h26" stroke="currentColor" opacity=".5"/></svg></span>Info cards</button>
             <button class="opt" data-v="n8n"><span class="mini"><svg viewBox="0 0 100 44"><rect x="12" y="9" width="24" height="24" rx="6" fill="none" stroke="currentColor"/><rect x="64" y="9" width="24" height="24" rx="6" fill="none" stroke="currentColor"/><path d="M36 21h28" stroke="currentColor"/><circle cx="36" cy="21" r="2.4" fill="currentColor"/><circle cx="64" cy="21" r="2.4" fill="currentColor"/></svg></span>Tiles</button>
             <button class="opt" data-v="wiz"><span class="mini"><svg viewBox="0 0 100 44"><circle cx="24" cy="21" r="12" fill="none" stroke="currentColor"/><circle cx="76" cy="21" r="12" fill="none" stroke="currentColor"/><path d="M36 21h28" stroke="currentColor"/><circle cx="24" cy="21" r="4" fill="currentColor"/><circle cx="76" cy="21" r="4" fill="currentColor"/></svg></span>Circles</button>
           </div></div>
-        <div class="set-row"><div class="lab"><b>Motion and labels</b><span>Turn off animation if you prefer a still graph. Your system's reduced-motion setting is always respected.</span></div>
+        <div class="set-row"><div class="lab"><b>Motion</b><span>Turn off animation if you prefer a still graph. Your system's reduced-motion setting is always respected.</span></div>
           <div><label class="toggle">Animate attack edges<input type="checkbox" id="opt-anim" checked><span class="switch"></span></label></div></div>
       </div>
-      <div class="glass set-card">
-        <div class="card-h"><h3>Data and privacy</h3></div>
-        <div class="set-row"><div class="lab"><b>Your files</b><span>Analysed in this browser tab. Never uploaded.</span></div>
-          <div class="kv-list"><span>Uploaded</span><div>Never. The page has no server and no analytics.</div><span>Network</span><div>Only this site: the engine, the action catalog and fonts.</div></div></div>
-        <div class="set-row" id="saved-data"><div class="lab"><b>Saved data</b><span>Kept in this browser's storage (IndexedDB) so a refresh or a closed tab does not lose your work. Turn it off on a shared computer.</span></div>
+      <div class="glass set-card" id="set-saved">
+        <div class="card-h"><h2>Saved data</h2></div>
+        <div class="set-row" id="saved-data"><div class="lab"><b>Remember my work</b><span>Kept in this browser's storage (IndexedDB) so a refresh or a closed tab does not lose your work. Turn it off on a shared computer.</span></div>
           <div class="saved">
             <label class="toggle">Remember my data in this browser<input type="checkbox" id="save-on" checked><span class="switch"></span></label>
             <div class="saved-list" id="saved-list"></div>
@@ -604,15 +606,29 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
         <div class="set-row"><div class="lab"><b>Saved settings</b><span>Mode, style, colour and graph options.</span></div>
           <div><button class="btn" id="reset-settings">Reset to defaults</button></div></div>
       </div>
-      <div class="glass set-card">
-        <div class="card-h"><h3>About</h3></div>
+      <div class="glass set-card" id="set-privacy">
+        <div class="card-h"><h2>Privacy</h2></div>
+        <div class="set-row"><div class="lab"><b>Your files</b><span>Analysed in this browser tab. Never uploaded.</span></div>
+          <div class="kv-list"><span>Uploaded</span><div>Never. The page has no server and no analytics.</div><span>Network</span><div>Only this site: the engine, the action catalog and fonts.</div></div></div>
+      </div>
+      <div class="glass set-card" id="set-about">
+        <div class="card-h"><h2>About</h2></div>
         <div class="set-row"><div class="lab"><b>iam-trace</b><span>Open source under the MIT licence.</span></div>
           <div class="kv-list"><span>Version</span><div><span class="mono">0.2.0</span>, beta. Tested against AWS's documented examples; not yet compared live with AWS's policy simulator.</div><span>Engine</span><div>Python, running in this browser with Pyodide 0.29.3</div><span>Action catalog</span><div id="about-catalog">Loading</div><span>Techniques</span><div>92, from pathfinding.cloud</div><span>Source</span><div><a href="https://github.com/w3bcooki3/iam-trace" target="_blank" rel="noopener">github.com/w3bcooki3/iam-trace</a></div></div></div>
       </div>
+    </div></div>
     </div></section>
   </main>
 </div>
 <div class="overlay" id="overlay" role="status" aria-live="polite"><div class="box"><span class="spinner"></span><span id="overlay-text">Working</span></div></div>
+<div class="cmdk" id="cmdk" hidden>
+  <div class="cmdk-back" data-close></div>
+  <div class="cmdk-box" role="dialog" aria-modal="true" aria-label="Search and commands">
+    <div class="cmdk-in"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="cmdk-q" type="text" role="combobox" aria-expanded="true" aria-controls="cmdk-list" aria-autocomplete="list" placeholder="Search screens, principals, documentation and commands" autocomplete="off" spellcheck="false"><button class="cmdk-esc" data-close aria-label="Close">Esc</button></div>
+    <div class="cmdk-list" id="cmdk-list" role="listbox" aria-label="Results"></div>
+    <div class="cmdk-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script type="module" src="app.js"></script>
 </body>

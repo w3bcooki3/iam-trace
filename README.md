@@ -303,6 +303,8 @@ read-only, so the review goes to the job summary only.
   starting principal. The input is validated before it runs.
 - **Evaluate a request** and **Policy diff**: the `can` and `diff` commands with a full trace.
   Evaluate also shows what would change the answer, and can apply the change.
+- **Search and commands** (Ctrl K, Cmd K or /): any screen, principal or documentation heading,
+  and common commands.
 - **Documentation**, **changelog** and **settings** (light, dark or system mode; three styles;
   brand colour), all inside the app.
 

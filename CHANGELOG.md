@@ -6,6 +6,10 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Search and commands: Ctrl K (Cmd K on a Mac), or / outside a text field, opens one search box
+  for every screen, principal (at-risk principals first), documentation topic and heading, plus
+  common commands such as Download report, Load the example account and switching mode. Keyboard
+  only works throughout; on phones it opens from a button in the top bar.
 - Report: Download report in the app saves a single HTML file with the verdict, the shortest path
   from each starting principal, what to fix first and every principal at risk, plus the scope and
   limits of the analysis. It has no scripts and no external references, opens offline and prints
@@ -102,6 +106,10 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Fixed
 
+- Settings and Changelog were hard to read on phones: Settings is now one column of compact
+  options with a section list (a tab strip on small screens), and the Changelog shows each entry
+  as a title and a description, with counts per kind and long groups folded.
+- Phones no longer show the focus-mode button, which had no effect there.
 - Overview header buttons no longer wrap onto two lines; the request summary on an Evaluate
   result no longer breaks long ARNs mid-word.
 

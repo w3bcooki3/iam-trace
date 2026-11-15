@@ -1698,9 +1698,11 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Download report</b>: a single HTML file with the verdict, the shortest paths, what to fix first and every principal at risk. It has no scripts, opens offline and prints to PDF.",
+    ["Added", ["<b>Search and commands</b>: press Ctrl K (⌘K on a Mac) or / to find any screen, principal, documentation topic or heading, and to run common commands.",
+      "<b>Download report</b>: a single HTML file with the verdict, the shortest paths, what to fix first and every principal at risk. It has no scripts, opens offline and prints to PDF.",
       "<b>Cut a step</b> on the attack graph: select a technique and cut it, or use Simulate on a recommended fix, to see whether the attacker still reaches admin by another route. The other route is drawn.",
       "Link previews: sharing the app link shows a title, a description and an image.",
+      "<b>Settings and Changelog</b>: redesigned as one reading column with a list of sections that follows you as you scroll, and a tab strip on phones. Changelog entries can be filtered by kind and long groups fold.",
       "<b>What would change this</b>: under every Evaluate result, the smallest checked fix for a denied request, or what an allowed one depends on. <b>Try this change</b> applies it.",
       "<b>Who can</b>: every principal that can perform an action on a resource, directly or through escalation, drawn as an access graph.",
       "<b>Documentation</b>: one topic per page with search, links to every heading, and previous and next.",
@@ -1737,23 +1739,68 @@ const CHANGES = [
   ] },
 ];
 const CT = { Added: "c-ok", Changed: "c-acc", Security: "c-crit", Fixed: "c-warn" };
-function renderChangelog(filter) {
-  $("timeline").innerHTML = CHANGES.map((r) => {
-    const groups = r.groups.filter(([t]) => filter === "all" || t === filter);
-    if (!groups.length) return "";
-    return `<section class="rel" id="rel-${r.v}"><div class="rel-h"><h2>${r.v}</h2><span class="tag ${r.status[0]}">${r.status[1]}</span><span class="date">${r.date}</span></div>
-      <p class="rel-sum">${r.sum}</p>${groups.map(([t, items]) => `<div class="rel-group"><h3 class="ctype ${CT[t]}">${t}</h3><ul>${items.map((x) => `<li>${x}</li>`).join("")}</ul></div>`).join("")}</section>`;
-  }).join("") || '<p class="list-empty">No changes of this kind yet.</p>';
-  $("cl-versions").innerHTML = CHANGES.map((r) => `<a href="#rel-${r.v}" data-rel="${r.v}"><b class="mono">${r.v}</b><span>${r.date}</span></a>`).join("");
-  $("cl-versions").querySelectorAll("a").forEach((a) => a.addEventListener("click", (e) => {
-    e.preventDefault();
-    $(`rel-${a.dataset.rel}`)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-  }));
+const CL_KINDS = ["Added", "Changed", "Security", "Fixed"];
+const CL_FOLD = 6; // a group longer than this shows its first entries and a "Show more" button
+let clFilter = "all";
+const clOpen = new Set();
+// "<b>Title</b>: description" becomes a title line and a muted description; other entries stay one line.
+function clItem(x) {
+  const m = /^<b>(.+?)<\/b>:?\s*([\s\S]*)$/.exec(x);
+  if (!m) return `<li class="ci plain">${x}</li>`;
+  const rest = m[2].replace(/^[a-z]/, (c) => c.toUpperCase());
+  return `<li class="ci"><span class="ci-t">${m[1]}</span>${rest}</li>`;
 }
-document.querySelectorAll("#cl-filters .chipf").forEach((c) => c.addEventListener("click", () => {
-  document.querySelectorAll("#cl-filters .chipf").forEach((x) => x.classList.toggle("on", x === c));
-  renderChangelog(c.dataset.f);
-}));
+function renderChangelog() {
+  const count = (k) => CHANGES.reduce((n, r) => n + r.groups.filter(([t]) => k === "all" || t === k).reduce((m, [, items]) => m + items.length, 0), 0);
+  $("cl-filters").innerHTML = ["all", ...CL_KINDS].filter((k) => count(k)).map((k) =>
+    `<button data-f="${k}" class="${k === clFilter ? "on" : ""}" aria-pressed="${k === clFilter}">${k === "all" ? "All" : k} <span>${count(k)}</span></button>`).join("");
+  $("timeline").innerHTML = CHANGES.map((r) => {
+    const groups = r.groups.filter(([t]) => clFilter === "all" || t === clFilter);
+    if (!groups.length) return "";
+    return `<section class="rel" id="rel-${r.v}"><div class="rel-h"><h2>Version ${r.v}</h2><span class="tag ${r.status[0]}">${r.status[1]}</span><span class="date">${r.date}</span></div>
+      <p class="rel-sum">${r.sum}</p>${groups.map(([t, items]) => {
+        const key = `${r.v}/${t}`, fold = items.length > CL_FOLD + 2 && !clOpen.has(key);
+        const shown = fold ? items.slice(0, CL_FOLD) : items;
+        return `<div class="rel-group"><h3 class="${CT[t]}">${t} <span>${items.length}</span></h3><ul class="ci-list">${shown.map(clItem).join("")}</ul>${fold ? `<div class="ci-more"><button class="btn" data-more="${key}">Show ${items.length - CL_FOLD} more</button></div>` : ""}</div>`;
+      }).join("")}</section>`;
+  }).join("") || '<p class="list-empty">No changes of this kind yet.</p>';
+  $("cl-versions").innerHTML = CHANGES.map((r, i) => `<button data-sec="rel-${r.v}" class="${i ? "" : "on"}">${r.v}<small>${r.date}</small></button>`).join("");
+  spyNav($("cl-versions"), $("v-changelog"));
+}
+$("cl-filters").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-f]"); if (!b) return;
+  clFilter = b.dataset.f; renderChangelog();
+});
+$("timeline").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-more]"); if (!b) return;
+  clOpen.add(b.dataset.more); renderChangelog();
+});
+
+// Section lists beside Settings and the Changelog: a click scrolls to the section, and the entry
+// for the section being read is highlighted as the page scrolls.
+function spyNav(nav, scroller) {
+  const buttons = [...nav.querySelectorAll("button[data-sec]")];
+  const mark = (id) => buttons.forEach((b) => { const on = b.dataset.sec === id; b.classList.toggle("on", on); if (on) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
+  nav.onclick = (e) => {
+    const b = e.target.closest("button[data-sec]"); if (!b) return;
+    const el = $(b.dataset.sec); if (!el) return;
+    const navH = getComputedStyle(nav).position === "sticky" && nav.offsetWidth > nav.parentElement.offsetWidth * 0.6 ? nav.offsetHeight : 0;
+    const top = el.getBoundingClientRect().top - scroller.getBoundingClientRect().top + scroller.scrollTop - navH - 12;
+    scroller.scrollTo({ top, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    mark(b.dataset.sec);
+    if (nav.scrollWidth > nav.clientWidth) nav.scrollTo({ left: b.offsetLeft - nav.clientWidth / 2 + b.offsetWidth / 2, behavior: "smooth" });
+  };
+  scroller.onscroll = () => {
+    const limit = scroller.getBoundingClientRect().top + scroller.clientHeight * 0.3;
+    let cur = buttons[0]?.dataset.sec;
+    for (const b of buttons) { const el = $(b.dataset.sec); if (el && el.getBoundingClientRect().top <= limit) cur = b.dataset.sec; }
+    if (scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 4) cur = buttons.at(-1)?.dataset.sec;
+    mark(cur);
+    const on = nav.querySelector(".on");
+    if (on && nav.scrollWidth > nav.clientWidth && (on.offsetLeft < nav.scrollLeft || on.offsetLeft + on.offsetWidth > nav.scrollLeft + nav.clientWidth)) nav.scrollLeft = on.offsetLeft - 16;
+  };
+}
+spyNav($("set-nav"), $("v-settings"));
 
 // ------------------------------------------------------------------------------------- docs
 
@@ -2079,10 +2126,159 @@ async function restoreSaved() {
   }
 }
 
+// ------------------------------------------------------------------------------------- command palette
+
+// Ctrl+K (or Cmd+K, or "/" outside a text field) opens one search box for every screen, principal,
+// documentation topic and heading, and the common commands. Nothing here changes data without the
+// usual confirmation: "Delete saved data" only opens Settings.
+const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+const PI = {
+  screen: '<svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>',
+  user: '<svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
+  role: '<svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>',
+  group: '<svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2.5.6 4 2.5 4 5.5"/></svg>',
+  doc: '<svg class="i" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>',
+  hash: '<svg class="i" viewBox="0 0 24 24"><path d="M5 9h15M4 15h15M10 3 8 21M16 3l-2 18"/></svg>',
+  run: '<svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+};
+const pal = { items: [], shown: [], active: 0, back: null };
+
+function palItems() {
+  const items = [];
+  const add = (group, title, run, o = {}) => items.push({ group, title, run, icon: o.icon || PI.run, hint: o.hint || "", keys: (o.keys || "").toLowerCase(), top: o.top !== false });
+  for (const [view, [grp, name]] of Object.entries(VIEWS)) add("Screens", name, () => go(view), { icon: PI.screen, hint: grp, keys: view });
+  add("Commands", "Load the example account", () => { go("overview"); runExample(); }, { keys: "demo sample try" });
+  add("Commands", "Load your own data", () => go("input"), { keys: "upload import export file account" });
+  if (model) add("Commands", "Download report", downloadReport, { keys: "export html pdf share print" });
+  if (model && whatIf.size) add("Commands", "Restore every cut step", () => { go("graph"); whatIf.clear(); setCut([], false); }, { keys: "what-if reset" });
+  const dark = root.dataset.mode === "dark";
+  add("Commands", dark ? "Switch to light mode" : "Switch to dark mode", () => document.querySelector(`[data-set=mode] [data-v=${dark ? "light" : "dark"}]`)?.click(), { keys: "theme appearance colour color" });
+  add("Commands", "Delete saved data", () => { go("settings"); requestAnimationFrame(() => $("set-nav").querySelector("[data-sec=set-saved]")?.click()); }, { keys: "clear reset privacy indexeddb storage" });
+  add("Commands", "Report a problem on GitHub", () => window.open(ISSUES, "_blank", "noopener"), { keys: "bug issue feedback" });
+  if (model) {
+    const rank = (p) => (p.admin_equivalent ? 0 : p.path ? 1 : 2);
+    for (const p of [...model.principals].sort((a, b) => rank(a) - rank(b))) {
+      const hint = p.admin_equivalent ? "Admin-equivalent" : p.path ? `Reaches admin in ${plural(p.path.steps.length, "step")}` : `${p.confirmed} confirmed`;
+      add(model.principals.length && rank(p) < 2 ? "Principals at risk" : "Principals", short(p.arn), () => openPrincipal(p.arn), { icon: PI[p.kind] || PI.role, hint, keys: `${p.arn} ${p.kind}`, top: rank(p) < 2 });
+    }
+  }
+  for (const id of DOC_IDS) {
+    add("Documentation", docTitle(id), () => go(`docs/${id}`), { icon: PI.doc, hint: docGroup(id), keys: $(id)?.querySelector(".tldr")?.textContent || "", top: false });
+    for (const h of $(id)?.querySelectorAll("h3") || []) {
+      const text = (h.firstChild?.textContent || h.textContent).trim();
+      add("Documentation", text, () => go(`docs/${id}/${id}--${slug(text)}`), { icon: PI.hash, hint: docTitle(id), top: false });
+    }
+  }
+  return items;
+}
+function openPrincipal(arn) {
+  go("graph");
+  const n = main.data?.nodes?.find((x) => x.id === arn);
+  if (n) { showNode(n); return; }
+  // Not on the attack graph (no route to admin): show its findings instead.
+  go("findings");
+  const q = $("find-q");
+  if (q) { q.value = nameOf(arn); q.dispatchEvent(new Event("input", { bubbles: true })); }
+}
+// Substring matches rank first (earlier and at a word start is better), then letters in order.
+function palScore(q, item) {
+  const t = item.title.toLowerCase();
+  const at = t.indexOf(q);
+  if (at >= 0) return 1000 - at * 4 + (at === 0 || /[\s/:-]/.test(t[at - 1]) ? 200 : 0) - t.length * 0.5;
+  if (item.keys.includes(q)) return 500 - item.keys.indexOf(q) * 0.1;
+  let i = 0, run = 0, best = 0;
+  for (const c of t) { if (c === q[i]) { i++; run++; best = Math.max(best, run); } else run = 0; if (i === q.length) break; }
+  return i === q.length ? 100 + best * 10 - t.length * 0.5 : -1;
+}
+function palMark(title, q) {
+  const at = q ? title.toLowerCase().indexOf(q) : -1;
+  if (at < 0) return esc(title);
+  return `${esc(title.slice(0, at))}<mark>${esc(title.slice(at, at + q.length))}</mark>${esc(title.slice(at + q.length))}`;
+}
+function palRender() {
+  const q = $("cmdk-q").value.trim().toLowerCase();
+  let list;
+  if (!q) {
+    list = pal.items.filter((x) => x.top);
+    const per = { "Principals at risk": 5 };
+    const seen = {};
+    list = list.filter((x) => (seen[x.group] = (seen[x.group] || 0) + 1) <= (per[x.group] || 99));
+    const order = ["Principals at risk", "Commands", "Screens"];
+    list.sort((a, b) => order.indexOf(a.group) - order.indexOf(b.group));
+  } else {
+    list = pal.items.map((x) => ({ x, s: palScore(q, x) })).filter((r) => r.s >= 0).sort((a, b) => b.s - a.s).slice(0, 40).map((r) => r.x);
+    // Group in order of each group's best match, keeping the ranking inside a group.
+    const first = new Map();
+    list.forEach((x, i) => { if (!first.has(x.group)) first.set(x.group, i); });
+    list.sort((a, b) => first.get(a.group) - first.get(b.group));
+  }
+  pal.shown = list;
+  pal.active = 0;
+  if (!list.length) {
+    $("cmdk-list").innerHTML = `<p class="cmdk-empty">Nothing matches "${esc($("cmdk-q").value.trim())}". Try a principal name, a screen or a word from the documentation.</p>`;
+    $("cmdk-q").removeAttribute("aria-activedescendant");
+    return;
+  }
+  let html = "", group = "";
+  list.forEach((x, i) => {
+    if (x.group !== group) { if (group) html += "</div>"; group = x.group; html += `<div class="cmdk-g" role="group" aria-label="${esc(group)}"><div class="cmdk-gh">${esc(group)}</div>`; }
+    html += `<div class="cmdk-it" role="option" id="cmdk-${i}" data-i="${i}" aria-selected="false"><span class="cmdk-ic">${x.icon}</span><span class="cmdk-t">${palMark(x.title, q)}</span>${x.hint ? `<span class="cmdk-h">${esc(x.hint)}</span>` : ""}</div>`;
+  });
+  $("cmdk-list").innerHTML = html + "</div>";
+  $("cmdk-list").scrollTop = 0;
+  palActive(0);
+}
+function palActive(i) {
+  const els = $("cmdk-list").querySelectorAll(".cmdk-it");
+  if (!els.length) return;
+  pal.active = (i + els.length) % els.length;
+  els.forEach((el, k) => { const on = k === pal.active; el.classList.toggle("on", on); el.setAttribute("aria-selected", String(on)); });
+  els[pal.active].scrollIntoView({ block: "nearest" });
+  $("cmdk-q").setAttribute("aria-activedescendant", `cmdk-${pal.active}`);
+}
+function palOpen() {
+  if (!$("cmdk").hidden) { $("cmdk-q").select(); return; }
+  pal.back = document.activeElement;
+  pal.items = palItems();
+  $("cmdk").hidden = false;
+  $("cmdk-q").value = "";
+  palRender();
+  $("cmdk-q").focus();
+}
+function palClose(restore = true) {
+  if ($("cmdk").hidden) return;
+  $("cmdk").hidden = true;
+  if (restore && pal.back && document.contains(pal.back)) pal.back.focus();
+}
+function palRun(i) {
+  const x = pal.shown[i];
+  if (!x) return;
+  palClose(false);
+  x.run();
+}
+$("cmdk-q").addEventListener("input", palRender);
+$("cmdk-q").addEventListener("keydown", (e) => {
+  if (e.key === "ArrowDown") { e.preventDefault(); palActive(pal.active + 1); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); palActive(pal.active - 1); }
+  else if (e.key === "Enter") { e.preventDefault(); palRun(pal.active); }
+  else if (e.key === "Tab") e.preventDefault();
+});
+$("cmdk-list").addEventListener("mousemove", (e) => { const it = e.target.closest(".cmdk-it"); if (it && Number(it.dataset.i) !== pal.active) palActive(Number(it.dataset.i)); });
+$("cmdk-list").addEventListener("click", (e) => { const it = e.target.closest(".cmdk-it"); if (it) palRun(Number(it.dataset.i)); });
+$("cmdk").addEventListener("mousedown", (e) => { if (e.target.closest("[data-close]")) palClose(); });
+$("cmdk-btn").addEventListener("click", palOpen);
+$("cmdk-btn").querySelector("kbd").textContent = isMac ? "⌘K" : "Ctrl K";
+window.addEventListener("keydown", (e) => {
+  if ((e.key === "k" || e.key === "K") && (e.ctrlKey || e.metaKey) && !e.altKey) { e.preventDefault(); palOpen(); return; }
+  if (!$("cmdk").hidden && e.key === "Escape") { e.preventDefault(); e.stopImmediatePropagation(); palClose(); return; }
+  const typing = e.target.closest?.("input, textarea, select, [contenteditable]");
+  if (e.key === "/" && !typing && !e.ctrlKey && !e.metaKey && !e.altKey) { e.preventDefault(); palOpen(); }
+}, true);
+
 // ------------------------------------------------------------------------------------- start
 
 applyPrefs();
-renderChangelog("all");
+renderChangelog();
 renderOverview();
 renderFindings();
 setSource("account");
