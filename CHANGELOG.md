@@ -6,6 +6,15 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Escalation benchmark: `tests/benchmark/bench.py` builds an account for each of the 91 AWS paths
+  in pathfinding.cloud from its own description and checks it is found, then tries 1,136 near
+  misses (a permission removed or denied, an SCP, a permissions boundary, a target that is not
+  admin, PassRole limited to another service or role, a role trusted by another service) that
+  must not be. All 91 are confirmed, 23 of them with a resource inventory, with no false alarm.
+  `docs/coverage.md` has the table, and a test fails if any path gets worse.
+- Resource inventory: `inventory collect` also records Batch job definitions, running ECS tasks,
+  EC2 launch templates, and Bedrock AgentCore runtimes, custom code interpreters and browsers,
+  with their roles. Every existing-resource technique can now be confirmed.
 - Terraform plans: `iam-trace terraform plan.json` reviews the IAM changes in a plan (diff, new
   escalation techniques, new risky patterns per document). With `--auth-details` it applies the
   plan to the export, including policies created in the same plan and attached by reference, and
@@ -118,6 +127,9 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Changed
 
+- The technique list follows pathfinding.cloud again (`scripts/sync_catalog.py`): four paths need
+  the permissions upstream now lists (codedeploy-001, ec2instanceconnect-003, gamelift-001,
+  omics-001), and ec2-004, which upstream renamed to ec2-005, is gone. 91 techniques.
 - The web app runs the analysis engine in a background worker, so the page stays responsive
   while a large account is analysed. Long operations show a Cancel button, which stops the
   engine and starts a fresh one.
@@ -154,6 +166,11 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Fixed
 
+- Found by the benchmark: batch-001 and gamelift-001 now accept a role trusted by
+  batch.amazonaws.com or ec2.amazonaws.com, as pathfinding.cloud describes them, and were missed
+  before; cognitoidentity-001 checks the role's web identity trust for Cognito and is confirmed
+  instead of possible; cloudformation-005 (a change set on a stack with a service role), which
+  passes no role, was never reported and is now checked against existing stacks.
 - Markdown escaping in pull-request comments no longer breaks HTML entities (an apostrophe showed
   as `&\#x27;`).
 - The selected Data input tab no longer has a glow ring, and the five tabs fit one row on wide

@@ -107,7 +107,10 @@ def test_every_mapped_technique_exists_and_every_kind_is_described() -> None:
     ids = {t["id"]: t for t in technique_catalog()}
     for tid, kind in TECHNIQUE_KIND.items():
         assert tid in ids, tid
-        assert ids[tid]["category"] == "existing-passrole", tid
+        # Existing-resource techniques, and new-passrole ones that pass no role (a change set on
+        # a stack that already has a service role).
+        no_passrole = all(p.lower() != "iam:passrole" for p in ids[tid]["permissions"])
+        assert ids[tid]["category"] == "existing-passrole" or no_passrole, tid
         assert kind in KINDS, kind
 
 

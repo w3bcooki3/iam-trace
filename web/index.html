@@ -335,7 +335,7 @@
             <li><strong>Policy diff:</strong> what does a policy change add or remove, in plain terms?</li>
           </ul>
           <h3>How it works</h3>
-          <p>An engine that follows AWS's own evaluation order reads your policies: explicit denies, organization guardrails, resource policies, identity policies, permissions boundaries and session policies. The attack-path analysis checks every user and role against 92 published privilege-escalation techniques from <a href="https://pathfinding.cloud" target="_blank" rel="noopener">pathfinding.cloud</a>. Every answer is something you can check: the trace names the statement, and suggested fixes are verified by evaluating again.</p>
+          <p>An engine that follows AWS's own evaluation order reads your policies: explicit denies, organization guardrails, resource policies, identity policies, permissions boundaries and session policies. The attack-path analysis checks every user and role against <span id="tech-count">91</span> published privilege-escalation techniques from <a href="https://pathfinding.cloud" target="_blank" rel="noopener">pathfinding.cloud</a>. Every answer is something you can check: the trace names the statement, and suggested fixes are verified by evaluating again.</p>
           <div class="callout callout-ok"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><div>Everything runs inside this browser tab. Your files are never uploaded, and you don't need to give iam-trace any AWS access.</div></div>
         </section>
 
@@ -469,7 +469,7 @@
           <h3>Optional: a resource inventory</h3>
           <p>Some techniques take over something that already exists, such as editing an existing Lambda function's code to act as its role. The export doesn't list your functions or instances, so these are <strong>possible</strong> until you add a resource inventory:</p>
           <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>iam-trace inventory collect --out inventory.json</pre></div>
-          <p>It runs read-only list and describe calls through your AWS CLI and records each Lambda function, EC2 instance, CodeBuild project, CloudFormation stack, Glue dev endpoint, SageMaker notebook, Step Functions state machine and App Runner service with the role it runs as. Load the file under <strong>Resource inventory</strong> in Data input. Findings then name the exact resource, and techniques with nothing to take over disappear. If a kind couldn't be collected, it stays possible instead of being treated as empty.</p>
+          <p>It runs read-only list and describe calls through your AWS CLI and records each Lambda function, EC2 instance and launch template, CodeBuild project, CloudFormation stack, Glue dev endpoint, SageMaker notebook, Step Functions state machine, App Runner service, Batch job definition, running ECS task and Bedrock AgentCore resource with the role it runs as. Load the file under <strong>Resource inventory</strong> in Data input. Findings then name the exact resource, and techniques with nothing to take over disappear. If a kind couldn't be collected, it stays possible instead of being treated as empty.</p>
         </section>
 
         <section class="dsec" id="d-words">
@@ -590,7 +590,7 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
             <li><strong>Context keys you don't supply count as missing.</strong> Only principal and account keys are filled in automatically.</li>
             <li><strong>Some service rules are not modelled</strong>, such as S3 ACLs, Block Public Access, VPC endpoint policies and KMS grants.</li>
             <li><strong>One account at a time.</strong> Paths into other accounts are not followed.</li>
-            <li><strong>Existing resources need an inventory.</strong> Without one, techniques that take over a function or instance are possible, not confirmed. Launch templates, Batch, CodeDeploy, ECS tasks and Bedrock AgentCore stay possible even with one.</li>
+            <li><strong>Existing resources need an inventory.</strong> Without one, techniques that take over a function or instance are possible, not confirmed. With one, permissions are checked on the main resource only (not, say, a Batch job queue), and ECS tasks are those running when it was collected.</li>
           </ul>
           <p>The repository's <code class="c">docs/limitations.md</code> has the complete list.</p>
         </section>

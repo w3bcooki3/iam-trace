@@ -85,12 +85,96 @@ class FakeAws:
                     for n in names
                 ]
             }
-        data = self.data_answer(service, op, args, r)
+        data = self.data_answer(service, op, args, r) or self.compute_answer(service, op, args, r)
         if data is not None:
             return data
         if (service, op) in answers:
             return answers[(service, op)]
         raise AssertionError(f"unexpected call {args}")
+
+    def compute_answer(self, service: str, op: str, args: list[str], r: str) -> Any:
+        """Batch, ECS, launch templates and Bedrock AgentCore, in us-east-1 only."""
+        here = r == "us-east-1"
+        role = f"arn:aws:iam::{ACCT}:role"
+        if (service, op) == ("batch", "describe-job-definitions"):
+            assert args[args.index("--status") + 1] == "ACTIVE"
+            jd = f"arn:aws:batch:{r}:{ACCT}:job-definition"
+            return {
+                "jobDefinitions": [
+                    {"jobDefinitionArn": f"{jd}/single:3", "containerProperties": {"jobRoleArn": f"{role}/batch-job"}},
+                    {
+                        "jobDefinitionArn": f"{jd}/multinode:1",
+                        "nodeProperties": {
+                            "nodeRangeProperties": [
+                                {"container": {"jobRoleArn": f"{role}/node-a"}},
+                                {"container": {"jobRoleArn": f"{role}/node-b"}},
+                            ]
+                        },
+                    },
+                    {"jobDefinitionArn": f"{jd}/norole:1", "containerProperties": {}},
+                ]
+                if here
+                else []
+            }
+        if (service, op) == ("ecs", "list-clusters"):
+            return {"clusterArns": [f"arn:aws:ecs:{r}:{ACCT}:cluster/main"] if here else []}
+        if (service, op) == ("ecs", "list-tasks"):
+            return {"taskArns": [f"arn:aws:ecs:{r}:{ACCT}:task/main/t{i}" for i in range(120)]}
+        if (service, op) == ("ecs", "describe-tasks"):
+            tasks = args[args.index("--tasks") + 1 :]
+            assert len(tasks) <= 100
+            td = f"arn:aws:ecs:{r}:{ACCT}:task-definition/app:7"
+            return {
+                "tasks": [
+                    {
+                        "taskArn": t,
+                        "taskDefinitionArn": td,
+                        **({"overrides": {"taskRoleArn": f"{role}/override"}} if t.endswith("/t0") else {}),
+                    }
+                    for t in tasks
+                ]
+            }
+        if (service, op) == ("ecs", "describe-task-definition"):
+            self.task_definition_lookups = getattr(self, "task_definition_lookups", 0) + 1
+            return {"taskDefinition": {"taskRoleArn": f"{role}/app-task"}}
+        if (service, op) == ("ec2", "describe-launch-templates"):
+            return {
+                "LaunchTemplates": [{"LaunchTemplateId": "lt-arn"}, {"LaunchTemplateId": "lt-name"}] if here else []
+            }
+        if (service, op) == ("ec2", "describe-launch-template-versions"):
+            assert args[args.index("--versions") + 1] == "$Default"
+            tid = args[args.index("--launch-template-id") + 1]
+            profile = (
+                {"Arn": f"arn:aws:iam::{ACCT}:instance-profile/web"} if tid == "lt-arn" else {"Name": "batch-hosts"}
+            )
+            return {"LaunchTemplateVersions": [{"LaunchTemplateData": {"IamInstanceProfile": profile}}]}
+        ac = f"arn:aws:bedrock-agentcore:{r}"
+        if (service, op) == ("bedrock-agentcore-control", "list-agent-runtimes"):
+            return {
+                "agentRuntimes": [{"agentRuntimeId": "rt1", "agentRuntimeArn": f"{ac}:{ACCT}:runtime/rt1"}]
+                if here
+                else []
+            }
+        if (service, op) == ("bedrock-agentcore-control", "get-agent-runtime"):
+            return {"roleArn": f"{role}/agent"}
+        if (service, op) == ("bedrock-agentcore-control", "list-code-interpreters"):
+            return {
+                "codeInterpreterSummaries": [
+                    {
+                        "codeInterpreterId": "aws.codeinterpreter.v1",
+                        "codeInterpreterArn": f"{ac}:aws:code-interpreter/aws.codeinterpreter.v1",
+                    },
+                    {"codeInterpreterId": "ci1", "codeInterpreterArn": f"{ac}:{ACCT}:code-interpreter-custom/ci1"},
+                ]
+                if here
+                else []
+            }
+        if (service, op) == ("bedrock-agentcore-control", "get-code-interpreter"):
+            assert args[args.index("--code-interpreter-id") + 1] == "ci1"
+            return {"executionRoleArn": f"{role}/interpreter"}
+        if (service, op) == ("bedrock-agentcore-control", "list-browsers"):
+            return {"browserSummaries": []}
+        return None
 
     def data_answer(self, service: str, op: str, args: list[str], region: str) -> Any:
         """Two buckets (one with a policy, KMS encryption and Block Public Access) and one key."""
@@ -150,6 +234,28 @@ def test_collects_every_region_and_kind() -> None:
     # Read-only: every call lists, describes or gets.
     for call in aws.calls:
         assert call[1].split("-")[0] in ("list", "describe", "get", "batch"), call
+
+
+def test_collects_batch_ecs_launch_templates_and_agentcore() -> None:
+    aws = FakeAws()
+    kinds = ["batch-job-definition", "ecs-task", "ec2-launch-template", "agentcore-resource"]
+    inv = collect(aws, regions=["us-east-1"], kinds=kinds)
+    assert inv["Collected"] == kinds and inv["Errors"] == []
+    got = {(r["Arn"].split(":", 5)[5], r.get("Role", "").rsplit("/", 1)[-1]) for r in inv["Resources"]}
+    # A job definition with several roles is listed once per role; one with none, without a role.
+    assert ("job-definition/single:3", "batch-job") in got
+    assert {("job-definition/multinode:1", "node-a"), ("job-definition/multinode:1", "node-b")} <= got
+    assert ("job-definition/norole:1", "") in got
+    # A task's own override wins over its task definition, which is looked up once.
+    assert ("task/main/t0", "override") in got and ("task/main/t1", "app-task") in got
+    assert sum(1 for a, _ in got if a.startswith("task/")) == 120
+    assert aws.task_definition_lookups == 1
+    # A launch template's profile, given by ARN or only by name.
+    assert ("launch-template/lt-arn", "web") in got and ("launch-template/lt-name", "batch-hosts") in got
+    # AgentCore: the account's runtime and custom interpreter; AWS's built-in one is skipped.
+    assert ("runtime/rt1", "agent") in got and ("code-interpreter-custom/ci1", "interpreter") in got
+    assert all("aws.codeinterpreter" not in a for a, _ in got)
+    assert all(kind_of(r["Arn"]) for r in inv["Resources"])
 
 
 def test_a_failed_region_leaves_the_kind_uncollected() -> None:

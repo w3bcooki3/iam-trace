@@ -262,9 +262,14 @@ function call(fn, ...args) {
     engine.postMessage({ id, fn, args });
   }).then((text) => JSON.parse(text));
 }
+// How many escalation techniques the engine checks; the engine reports the real number.
+let TECHNIQUES = 91;
+
 function onEngineReady(info) {
   api = true;
   engineVersion = info.version;
+  TECHNIQUES = info.techniques || TECHNIQUES;
+  $("tech-count").textContent = TECHNIQUES;
   const summary = info.catalog;
   hasCatalog = Boolean(summary);
   engineStatus("ready");
@@ -353,6 +358,8 @@ const INV_KINDS = {
   "lambda-function": "Lambda functions", "ec2-instance": "EC2 instances", "codebuild-project": "CodeBuild projects",
   "cloudformation-stack": "CloudFormation stacks", "glue-dev-endpoint": "Glue dev endpoints", "sagemaker-notebook": "SageMaker notebooks",
   "state-machine": "Step Functions state machines", "apprunner-service": "App Runner services",
+  "batch-job-definition": "Batch job definitions", "ecs-task": "ECS tasks", "ec2-launch-template": "EC2 launch templates",
+  "agentcore-resource": "Bedrock AgentCore resources",
 };
 function setSource(src) {
   input.src = src;
@@ -651,10 +658,10 @@ function updateRun() {
   let note = "";
   if (input.src === "policy") {
     can = lastValid?.kind === "policy";
-    note = can ? "Checks this policy against 92 techniques." : "Load a policy document to begin.";
+    note = can ? `Checks this policy against ${TECHNIQUES} techniques.` : "Load a policy document to begin.";
   } else {
     can = Boolean(accountReady && api);
-    note = !input.account.trim() ? "Load an account export to begin." : !input.start ? "Choose who the attacker starts as." : `Starts from ${nameOf(input.start)}. Checks every principal against 92 techniques.`;
+    note = !input.account.trim() ? "Load an account export to begin." : !input.start ? "Choose who the attacker starts as." : `Starts from ${nameOf(input.start)}. Checks every principal against ${TECHNIQUES} techniques.`;
   }
   if (!api) note = "Starting the analysis engine.";
   $("run").disabled = !can;
@@ -866,7 +873,7 @@ function renderOverview() {
   } else {
     tone = "ok";
     head = `<span>No path found:</span> ${who} cannot escalate`;
-    body = `None of the 92 known techniques is allowed for this principal${m.scps ? ", with your SCPs applied" : ""}.`;
+    body = `None of the ${TECHNIQUES} known techniques is allowed for this principal${m.scps ? ", with your SCPs applied" : ""}.`;
   }
   const reaches = startP?.admin_equivalent ? '<span class="tag crit">Already admin</span>' : openPaths.length ? '<span class="tag crit">Full control</span>' : startPaths.length ? `<span class="tag warn">Full control with ${esc(gateShort(startPaths[0].requires))}</span>` : '<span class="tag ok">No admin path</span>';
   const atRisk = m.principals.filter((p) => p.admin_equivalent || p.path);
@@ -886,8 +893,8 @@ function renderOverview() {
     kpi(atRisk.length ? "k-high" : "k-ok", '<svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.4-3.4 8-8 9-4.6-1-8-4.6-8-9V7z"/></svg>', "Principals that reach admin", atRisk.length, `of ${plural(total, "principal")}`,
       total ? `<i class="c-crit" data-flex="${admins.length}"></i><i class="c-high" data-flex="${atRisk.length - admins.length}"></i><i class="c-faint" data-flex="${total - atRisk.length}"></i>` : "",
       `<span><i class="c-crit"></i>${admins.length} admin-equivalent</span><span><i class="c-high"></i>${atRisk.length - admins.length} with a path</span>`),
-    kpi(confirmed.length ? "k-warn" : "k-ok", '<svg class="i" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>', `Techniques for ${esc(nameOf(m.start))}`, startTech.length, "of 92 checked",
-      startTech.length ? `<i class="c-crit" data-flex="${confirmed.length}"></i><i class="c-warn" data-flex="${possible.length}"></i><i class="c-faint" data-flex="${Math.max(0, 92 - startTech.length)}"></i>` : "",
+    kpi(confirmed.length ? "k-warn" : "k-ok", '<svg class="i" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>', `Techniques for ${esc(nameOf(m.start))}`, startTech.length, `of ${TECHNIQUES} checked`,
+      startTech.length ? `<i class="c-crit" data-flex="${confirmed.length}"></i><i class="c-warn" data-flex="${possible.length}"></i><i class="c-faint" data-flex="${Math.max(0, TECHNIQUES - startTech.length)}"></i>` : "",
       `<span><i class="c-crit"></i>${confirmed.length} confirmed</span><span><i class="c-warn"></i>${possible.length} possible</span>`),
     inv
       ? kpi("k-acc", '<svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9.5" r="2.6"/><path d="M3 20c1-3.4 3.4-5.2 6-5.2s5 1.8 6 5.2"/></svg>', "Principals analysed", total, `${plural(inv.managed_policies, "managed policy", "managed policies")}, ${plural(inv.inline_policies, "inline policy", "inline policies")}`,
@@ -929,7 +936,7 @@ function renderOverview() {
   const riskRows = ranked.slice(0, 12).map((p) => principalRow(p)).join("");
 
   el.innerHTML = `${banner}
-    <div class="page-head"><div><h1>Overview</h1><p>Analysed <span class="mono">${esc(m.source)}</span> from <span class="mono">${who}</span> against 92 privilege-escalation techniques from pathfinding.cloud${m.scps ? `, with ${plural(m.scps, "SCP")} applied` : ""}${m.resources ? `, using a resource inventory of ${plural(Object.values(m.resources).reduce((a, b) => a + b, 0), "resource")}` : ""}.</p></div>
+    <div class="page-head"><div><h1>Overview</h1><p>Analysed <span class="mono">${esc(m.source)}</span> from <span class="mono">${who}</span> against ${TECHNIQUES} privilege-escalation techniques from pathfinding.cloud${m.scps ? `, with ${plural(m.scps, "SCP")} applied` : ""}${m.resources ? `, using a resource inventory of ${plural(Object.values(m.resources).reduce((a, b) => a + b, 0), "resource")}` : ""}.</p></div>
       <div class="actions"><button class="btn" data-go="input">Change input</button><button class="btn" data-report>Download report</button><button class="btn primary" data-go="graph">Open attack graph</button></div></div>
     <div class="posture glass p-${tone}"><div class="posture-main"><span class="sev-badge">${tone === "ok" ? IC.ok : IC.warn}</span><div><h2>${head}</h2><p>${body}</p>${startPaths.length ? `<div class="chain">${chainHtml(startPaths[0])}</div>` : ""}</div></div>
       <div class="posture-side"><div class="ps-item"><div class="l">Starting principal</div><div class="v mono">${who}</div></div><div class="ps-item"><div class="l">Reaches</div><div class="v">${reaches}</div></div>
@@ -2199,7 +2206,9 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Terraform plan</b>: a new screen and <code class='c'>iam-trace terraform</code> review the IAM changes in a plan, and with an account loaded, the paths to admin and entry points it would open. The GitHub Action can post it on pull requests.",
+    ["Added", ["<b>Escalation benchmark</b>: all 91 AWS paths in pathfinding.cloud are checked on every change, each built from pathfinding.cloud's own description, together with 1,136 near misses that must not be reported. All 91 are found, 23 of them with a resource inventory, with no false alarms. The table is in <code class='c'>docs/coverage.md</code>.",
+      "Resource inventory now also records Batch job definitions, running ECS tasks, EC2 launch templates and Bedrock AgentCore resources, so every existing-resource technique can be confirmed.",
+      "<b>Terraform plan</b>: a new screen and <code class='c'>iam-trace terraform</code> review the IAM changes in a plan, and with an account loaded, the paths to admin and entry points it would open. The GitHub Action can post it on pull requests.",
       "<b>Data access</b>: a new screen and <code class='c'>iam-trace data</code> rate every S3 bucket and KMS key by who can read and write it, directly, by escalating or from outside the account. Encrypted buckets need the key too; public policies are checked against the key and Block Public Access.",
       "<b>Apply as</b> in the Fix plan: besides Deny statements, the same fix as narrowed Allow statements (with anything else they stop allowing named) or as one SCP. Each is verified by analysing again.",
       "<b>Credential report</b>: a new Data input tab and <code class='c'>iam-trace credentials collect</code>. Entry points then leave out users with no password and no active key, rank old or unused keys and passwords without MFA higher, and flag root user access keys as critical.",
@@ -2237,7 +2246,8 @@ const CHANGES = [
       "Workflows pin third-party actions to commit SHAs and pass inputs through environment variables.",
       "<code class='c'>catalog refresh</code> refuses to replace a directory holding anything but catalog files.",
       "The web app bundles its Python runtime, loads nothing from third parties, and allows neither eval nor inline styles."]],
-    ["Fixed", ["The access-level check accepts actions listed under several levels. Against AWS's reference: 21,484 actions, 0 mismatches."]],
+    ["Fixed", ["Four techniques the benchmark found wrong: batch-001 and gamelift-001 were missed when the role trusted the service pathfinding.cloud names, cognitoidentity-001 was only possible, and cloudformation-005 was never reported.",
+      "The access-level check accepts actions listed under several levels. Against AWS's reference: 21,484 actions, 0 mismatches."]],
   ] },
   { v: "0.1.0", status: ["ok", "First version"], date: "November 2026", sum: "The engine, the command line, the GitHub Action and the first web page.", groups: [
     ["Added", ["<b>Evaluation engine</b> and <code class='c'>can</code>: identity, resource-based, boundary, session, SCP and RCP policies in AWS's order, every condition operator, policy variables, and a trace for every decision.",

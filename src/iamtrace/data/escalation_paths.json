@@ -347,7 +347,9 @@
    "name": "codedeploy:CreateDeployment",
    "pathfinding_url": "https://pathfinding.cloud/paths/codedeploy-001",
    "permissions": [
-    "codedeploy:CreateDeployment"
+    "codedeploy:CreateDeployment",
+    "codedeploy:RegisterApplicationRevision",
+    "codedeploy:GetDeploymentConfig"
    ]
   },
   {
@@ -379,20 +381,6 @@
     "datapipeline:CreatePipeline",
     "datapipeline:PutPipelineDefinition",
     "datapipeline:ActivatePipeline"
-   ]
-  },
-  {
-   "category": "existing-passrole",
-   "first_documented": {
-    "author": "Seth Art",
-    "link": "https://bishopfox.com/blog/aws-iam-privilege-escalation-playground",
-    "organization": "Bishop Fox"
-   },
-   "id": "ec2instanceconnect-003",
-   "name": "ec2-instance-connect:SendSSHPublicKey",
-   "pathfinding_url": "https://pathfinding.cloud/paths/ec2instanceconnect-003",
-   "permissions": [
-    "ec2-instance-connect:SendSSHPublicKey"
    ]
   },
   {
@@ -443,9 +431,9 @@
    "first_documented": {
     "link": "https://cloud.hacktricks.wiki/en/pentesting-cloud/aws-security/aws-privilege-escalation/aws-ec2-privesc/index.html#ec2createlaunchtemplateversionec2createlaunchtemplateec2modifylaunchtemplate"
    },
-   "id": "ec2-004",
+   "id": "ec2-005",
    "name": "ec2:CreateLaunchTemplateVersion + ec2:ModifyLaunchTemplate",
-   "pathfinding_url": "https://pathfinding.cloud/paths/ec2-004",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ec2-005",
    "permissions": [
     "ec2:CreateLaunchTemplateVersion",
     "ec2:ModifyLaunchTemplate"
@@ -455,14 +443,15 @@
    "category": "existing-passrole",
    "first_documented": {
     "author": "Seth Art",
-    "organization": "Datadog"
+    "link": "https://bishopfox.com/blog/aws-iam-privilege-escalation-playground",
+    "organization": "Bishop Fox"
    },
-   "id": "ec2-005",
-   "name": "ec2:CreateLaunchTemplateVersion + ec2:ModifyLaunchTemplate",
-   "pathfinding_url": "https://pathfinding.cloud/paths/ec2-005",
+   "id": "ec2instanceconnect-003",
+   "name": "ec2-instance-connect:SendSSHPublicKey",
+   "pathfinding_url": "https://pathfinding.cloud/paths/ec2instanceconnect-003",
    "permissions": [
-    "ec2:CreateLaunchTemplateVersion",
-    "ec2:ModifyLaunchTemplate"
+    "ec2-instance-connect:SendSSHPublicKey",
+    "ec2:DescribeInstances"
    ]
   },
   {
@@ -566,8 +555,8 @@
    "pathfinding_url": "https://pathfinding.cloud/paths/ecs-007",
    "permissions": [
     "iam:PassRole",
-    "ecs:StartTask",
-    "ecs:RegisterContainerInstance"
+    "ecs:RegisterContainerInstance",
+    "ecs:StartTask"
    ]
   },
   {
@@ -587,7 +576,9 @@
   },
   {
    "category": "new-passrole",
-   "first_documented": {},
+   "first_documented": {
+    "author": "pathfinding.cloud"
+   },
    "id": "ecs-009",
    "name": "iam:PassRole + ecs:StartTask",
    "pathfinding_url": "https://pathfinding.cloud/paths/ecs-009",
@@ -637,7 +628,8 @@
    "permissions": [
     "iam:PassRole",
     "gamelift:CreateBuild",
-    "gamelift:CreateFleet"
+    "gamelift:CreateFleet",
+    "gamelift:RequestUploadCredentials"
    ]
   },
   {
@@ -1122,7 +1114,9 @@
   },
   {
    "category": "existing-passrole",
-   "first_documented": {},
+   "first_documented": {
+    "author": "pathfinding.cloud"
+   },
    "id": "lambda-004",
    "name": "lambda:UpdateFunctionCode + lambda:InvokeFunction",
    "pathfinding_url": "https://pathfinding.cloud/paths/lambda-004",
@@ -1133,7 +1127,9 @@
   },
   {
    "category": "existing-passrole",
-   "first_documented": {},
+   "first_documented": {
+    "author": "pathfinding.cloud"
+   },
    "id": "lambda-005",
    "name": "lambda:UpdateFunctionCode + lambda:AddPermission",
    "pathfinding_url": "https://pathfinding.cloud/paths/lambda-005",
@@ -1169,7 +1165,8 @@
    "permissions": [
     "iam:PassRole",
     "omics:CreateWorkflow",
-    "omics:StartRun"
+    "omics:StartRun",
+    "s3:GetObject"
    ]
   },
   {

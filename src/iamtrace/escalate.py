@@ -54,7 +54,7 @@ from iamtrace.catalog import ACCESS_LEVELS, Catalog
 from iamtrace.context import Context
 from iamtrace.evaluate import PolicySet, Request, evaluate
 from iamtrace.gates import Gate, condition_values, describe, find_gates, summary
-from iamtrace.inventory import TECHNIQUE_KIND, Inventory
+from iamtrace.inventory import AGENTCORE_PREFIX, TECHNIQUE_KIND, Inventory
 from iamtrace.matching import any_action_matches
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import sarif_log
@@ -106,7 +106,19 @@ SERVICE_PRINCIPALS: dict[str, str] = {
     "scheduler": "scheduler.amazonaws.com",
     "ssm": "ssm.amazonaws.com",
     "stepfunctions": "states.amazonaws.com",
+    "cognitoidentity": "cognito-identity.amazonaws.com",
 }
+
+# Techniques whose passed role may instead trust another service, as pathfinding.cloud's
+# prerequisites describe it. Either trust makes the finding confirmed.
+ALSO_TRUSTED: dict[str, tuple[str, ...]] = {
+    "batch-001": ("batch.amazonaws.com",),
+    "gamelift-001": ("ec2.amazonaws.com",),
+}
+
+# Principals that assume a role through web identity federation (sts:AssumeRoleWithWebIdentity
+# from a "Federated" principal) rather than as a service.
+FEDERATED_SERVICES = frozenset({"cognito-identity.amazonaws.com"})
 
 MODIFY_PERMISSIONS = frozenset(
     {
@@ -503,9 +515,22 @@ class _Analyzer:
             return False
         key = (role.arn, service)
         if key not in self._trust:
-            req = Request(Principal.service(service), "sts:AssumeRole", role.arn, resource_account=role.account)
+            if service in FEDERATED_SERVICES:
+                req = Request(
+                    Principal.web_identity(service),
+                    "sts:AssumeRoleWithWebIdentity",
+                    role.arn,
+                    resource_account=role.account,
+                )
+            else:
+                req = Request(Principal.service(service), "sts:AssumeRole", role.arn, resource_account=role.account)
             self._trust[key] = evaluate(req, PolicySet(resource=[role.trust])).allowed
         return self._trust[key]
+
+    def trusted_for(self, role: Node, tid: str, service: str | None) -> bool:
+        """Does the role trust the service a technique passes it to (or an alternative)?"""
+        options = ((service,) if service else ()) + ALSO_TRUSTED.get(tid, ())
+        return any(self.trusted_by_service(role, x) for x in options)
 
     # -- techniques --------------------------------------------------------------------
 
@@ -620,6 +645,10 @@ class _Analyzer:
 
         service = tid.rsplit("-", 1)[0]
         svc_principal = SERVICE_PRINCIPALS.get(service)
+        if cat == "new-passrole" and not any(p.lower() == "iam:passrole" for p in perms):
+            # A role already attached to an existing resource (a CloudFormation change set on a
+            # stack with a service role): no role is passed, so check it as an existing resource.
+            cat = "existing-passrole"
         if cat == "new-passrole":
             others = [p for p in perms if p.lower() != "iam:passrole"]
             if not all(self.any_allowed(node, p) for p in others):
@@ -634,9 +663,9 @@ class _Analyzer:
                 tnode = env.nodes[arn]
                 if not self._per_target(arn, lambda arn=arn: self.can(node, "iam:PassRole", arn, context=ctx)):
                     continue
-                if svc_principal is None:
+                if svc_principal is None and tid not in ALSO_TRUSTED:
                     possible.append(arn)
-                elif self.trusted_by_service(tnode, svc_principal):
+                elif self.trusted_for(tnode, tid, svc_principal):
                     hits.append(arn)
             if hits:
                 return (hits, "confirmed", False, hits)
@@ -648,26 +677,31 @@ class _Analyzer:
             kind = TECHNIQUE_KIND.get(tid)
             inv = env.resources
             if inv is not None and kind in inv.collected:
-                return self._existing(node, perms, inv, kind)
+                return self._existing(node, perms, inv, kind, AGENTCORE_PREFIX.get(tid))
             if not all(self.any_allowed(node, p) for p in perms):
                 return None
             roles = [
                 a
                 for a in self.targets(node, "role", others=True)
-                if svc_principal and self.trusted_by_service(self.env.nodes[a], svc_principal)
+                if self.trusted_for(self.env.nodes[a], tid, svc_principal)
             ]
             label = roles or [f"existing {service} resources and the roles attached to them (not in the IAM export)"]
             return (label, "possible", False, [])
         return None
 
-    def _existing(self, node: Node, perms: list[str], inv: Inventory, kind: str) -> tuple[Any, ...] | None:
-        """Check an existing-resource technique against each inventoried resource of its kind."""
+    def _existing(
+        self, node: Node, perms: list[str], inv: Inventory, kind: str, prefix: str | None = None
+    ) -> tuple[Any, ...] | None:
+        """Check an existing-resource technique against each inventoried resource of its kind
+        (only those whose resource part starts with prefix, when given)."""
         roles: set[str] = set()
         via: set[str] = set()
         decided: dict[tuple[str, ...], bool] = {}
         patterns = self._resource_patterns(node)
         for r in inv.of_kind(kind):
             if r.role is None or r.role == node.arn:
+                continue
+            if prefix and not r.arn.split(":", 5)[5].startswith(prefix):
                 continue
             # Resources that the same Resource/NotResource patterns match, in the same account,
             # get the same decision, so evaluate once per group. Patterns with policy variables

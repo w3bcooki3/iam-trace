@@ -4,7 +4,7 @@
 // typing and animating while a large account is analysed. The page sends
 // { id, fn, args } and gets back { id, result } (the JSON string a web_api function returns)
 // or { id, error }. The first message is { init: { pyodideUrl } }; when the engine is ready the
-// worker answers { ready: { version, catalog } }, or { failed: message }.
+// worker answers { ready: { version, catalog, techniques } }, or { failed: message }.
 
 let api = null;
 
@@ -26,7 +26,12 @@ async function boot(pyodideUrl) {
   }
   pyodide.runPython("import sys; sys.path.insert(0, '/home/pyodide/lib')");
   api = pyodide.pyimport("iamtrace.web_api");
-  return { version: String(pyodide.pyimport("iamtrace").__version__), catalog: JSON.parse(api.catalog_summary()) };
+  const techniques = pyodide.runPython("from iamtrace.escalate import technique_catalog; len(technique_catalog())");
+  return {
+    version: String(pyodide.pyimport("iamtrace").__version__),
+    catalog: JSON.parse(api.catalog_summary()),
+    techniques: Number(techniques),
+  };
 }
 
 self.onmessage = async (e) => {

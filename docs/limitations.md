@@ -82,21 +82,27 @@ These are covered only by hand-written tests that quote the AWS docs
 ## Escalation analysis
 
 - The technique list is a snapshot of [pathfinding.cloud](https://pathfinding.cloud) (see
-  `NOTICE` for the commit). New techniques appear only when the data file is updated.
+  `NOTICE` for the commit). New techniques appear only when the data file is updated. Paths
+  nobody has documented there yet are not checked. [Coverage](coverage.md) shows how each
+  documented path is detected.
 - Techniques that take over existing resources (a running Lambda function, an EC2 instance, an
   SSM-managed host) are reported as "possible": an IAM export does not list those resources or
   which role each one uses. They do not form paths. A resource inventory (`--inventory`, from
-  `iam-trace inventory collect`) fixes this for Lambda functions, EC2 instances, CodeBuild
-  projects, CloudFormation stacks, Glue dev endpoints, SageMaker notebooks, Step Functions state
-  machines and App Runner services. Launch templates, Batch, CodeDeploy, ECS tasks and Bedrock
-  AgentCore stay "possible": they involve several resources or short-lived ones.
+  `iam-trace inventory collect`) fixes this for every existing-resource technique in the list.
+- ECS tasks are short-lived: an inventory lists the tasks running when it was collected. A Batch
+  job definition with several roles (one per node range or container) is listed once per role.
+  A launch template is judged by its default version's instance profile.
 - With an inventory, each permission is evaluated against the resource's own ARN. Permissions
-  that AWS also checks on a second resource (for example the SSM document for
-  `ssm:SendCommand`) are checked on the main resource only.
+  that AWS also checks on a second resource (the SSM document for `ssm:SendCommand`, the job
+  queue for `batch:SubmitJob`, the cluster for `ecs:ExecuteCommand`, the CodeDeploy application)
+  are checked on the main resource only.
 - Grants scoped to specific non-IAM resources are checked against the resource patterns in the
   principal's own policies and `"*"`, not against an inventory.
-- The service principal a passed role must trust is a best-effort table
-  (`SERVICE_PRINCIPALS` in `escalate.py`). Where it is missing, the finding is "possible".
+- The service principal a passed role must trust is a table (`SERVICE_PRINCIPALS` in
+  `escalate.py`, with alternatives in `ALSO_TRUSTED`), checked against pathfinding.cloud's
+  prerequisites by the benchmark. Where it is missing, the finding is "possible". A role's other
+  requirements in those prerequisites (an existing Batch queue, a Cognito identity pool with
+  unauthenticated access, a second role for EMR's instances) are not checked.
 - Only one account export is analysed. Roles in other accounts are not followed, and SCPs must be
   supplied with `--scp`.
 - The blast radius counts actions allowed on `Resource: "*"` only.

@@ -51,7 +51,7 @@ one that fits the job; they combine well.
 
 | Tool | What it is best at | How iam-trace differs |
 |---|---|---|
-| [pathfinding.cloud](https://pathfinding.cloud) (Datadog Security Labs) | The reference library of cloud privilege-escalation techniques, with labs. It documents techniques; it does not analyse your account. | iam-trace uses its 92 AWS techniques (Apache-2.0, see `NOTICE`) to check your policies, and links every finding back to it. |
+| [pathfinding.cloud](https://pathfinding.cloud) (Datadog Security Labs) | The reference library of cloud privilege-escalation techniques, with labs. It documents techniques; it does not analyse your account. | iam-trace uses its 91 AWS techniques (Apache-2.0, see `NOTICE`) to check your policies, and links every finding back to it. |
 | [PMapper](https://github.com/nccgroup/PMapper) (NCC Group) | Mapping who can become whom in an account or organization, with a local authorization simulator and queries. Command line, reads your account with AWS credentials. | iam-trace works from an exported file in the browser, explains each step in plain language, and adds policy diffs and pull-request reviews. |
 | [Cloudsplaining](https://github.com/salesforce/cloudsplaining) (Salesforce) | Least-privilege findings across an account (unrestricted actions, resource exposure, data exfiltration, privilege escalation) in an HTML report with a triage sheet. | iam-trace chains techniques into multi-step paths to admin, traces individual decisions, and diffs policy changes. It does not yet flag general least-privilege issues (see the roadmap). |
 | [iam-lens](https://github.com/cloud-copilot/iam-lens) (Cloud Copilot) | Simulating requests and answering "who can do this?" across many accounts and organizations. | iam-trace focuses on escalation paths and policy changes, in the browser, for one account at a time. |
@@ -244,9 +244,10 @@ it:
     iam-trace escalate --auth-details auth.json --inventory inventory.json
 
 `inventory collect` runs only list, describe and get calls (ReadOnlyAccess or SecurityAudit is
-enough) for Lambda functions, EC2 instances, CodeBuild projects, CloudFormation stacks, Glue dev
-endpoints, SageMaker notebooks, Step Functions state machines and App Runner services, in every
-enabled region or the ones you pass with `--regions`. Each finding then names the resource it
+enough) for Lambda functions, EC2 instances and launch templates, CodeBuild projects,
+CloudFormation stacks, Glue dev endpoints, SageMaker notebooks, Step Functions state machines,
+App Runner services, Batch job definitions, running ECS tasks and Bedrock AgentCore runtimes,
+code interpreters and browsers, in every enabled region or the ones you pass with `--regions`. Each finding then names the resource it
 goes through, permissions are checked against that resource's ARN, and a technique with no
 reachable resource is dropped. A kind whose collection failed in any region stays "possible";
 it's never treated as empty. iam-trace itself still makes no network calls: it runs the `aws`
@@ -518,9 +519,31 @@ decides whether boundaries limit the grant.
 | `tests/known_answer` | Every worked example in AWS's evaluation docs. See [SOURCES.md](tests/known_answer/SOURCES.md). |
 | `tests/handwritten` | Cases the AWS simulator cannot model, each quoting the AWS docs. |
 | `tests/differential` | 228 generated policy/request pairs. Offline they must evaluate; the live run compares them with AWS. |
+| `tests/benchmark` | Every AWS path in pathfinding.cloud, built from its own description, plus near misses that must not be reported. Results in [docs/coverage.md](docs/coverage.md). |
 
 CI (`ci.yml`) runs the offline suites, ruff and mypy on Python 3.11, 3.12 and 3.13 for every
 push. Nothing in CI talks to AWS.
+
+### Escalation benchmark
+
+`tests/benchmark/bench.py` checks the escalation engine against all 91 AWS paths in
+pathfinding.cloud. For each path it builds a small account from pathfinding.cloud's description
+(the required permissions, and the service a passed role must trust), not from iam-trace's own
+tables, and expects a path to admin. It then tries near misses that must not be reported: each
+permission removed, denied, denied by an SCP or left out of a permissions boundary; a target that
+isn't admin; a passed role trusted by a different service; PassRole limited to another service or
+role; and a Deny on the one existing resource. All 91 paths are confirmed (23 of them need a
+resource inventory) with no false alarm in 1,136 near misses. The table is in
+[docs/coverage.md](docs/coverage.md), and `tests/unit/test_benchmark.py` fails if any path gets
+worse.
+
+The benchmark measures iam-trace against a description of AWS, not AWS itself, and each account
+holds a single path. To pick up new paths:
+
+    git clone https://github.com/DataDog/pathfinding.cloud /tmp/pathfinding.cloud
+    python3 scripts/sync_catalog.py /tmp/pathfinding.cloud
+    python3 scripts/pathfinding_cases.py /tmp/pathfinding.cloud
+    python3 tests/benchmark/bench.py --write
 
 ### Differential testing
 

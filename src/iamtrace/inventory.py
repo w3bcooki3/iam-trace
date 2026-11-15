@@ -57,6 +57,10 @@ KINDS: dict[str, Kind] = {
     "sagemaker-notebook": Kind("sagemaker", "notebook-instance/", "SageMaker notebook instances"),
     "state-machine": Kind("states", "stateMachine:", "Step Functions state machines"),
     "apprunner-service": Kind("apprunner", "service/", "App Runner services"),
+    "batch-job-definition": Kind("batch", "job-definition/", "Batch job definitions"),
+    "ecs-task": Kind("ecs", "task/", "ECS tasks"),
+    "ec2-launch-template": Kind("ec2", "launch-template/", "EC2 launch templates"),
+    "agentcore-resource": Kind("bedrock-agentcore", "", "Bedrock AgentCore runtimes, code interpreters and browsers"),
     # Data, for iamtrace.data: no role, but a resource policy (and for a bucket, its default
     # encryption key and Block Public Access settings).
     "s3-bucket": Kind("s3", "", "S3 buckets"),
@@ -64,9 +68,10 @@ KINDS: dict[str, Kind] = {
 }
 DATA_KINDS = ("s3-bucket", "kms-key")
 
-# Existing-resource techniques that act on one resource of a known kind with all of their
-# permissions. Techniques left out (launch templates, Batch, CodeDeploy, ECS tasks, Bedrock
-# AgentCore) act on more than one resource or on short-lived ones, and stay "possible".
+# Existing-resource techniques and the kind of resource they act on. Every permission is checked
+# against that resource's ARN. Some also touch a second resource that is not checked (a Batch job
+# queue, an ECS cluster, a CodeDeploy application); ECS tasks are short-lived, so an inventory
+# shows the tasks running when it was collected.
 TECHNIQUE_KIND: dict[str, str] = {
     "lambda-003": "lambda-function",
     "lambda-004": "lambda-function",
@@ -78,11 +83,26 @@ TECHNIQUE_KIND: dict[str, str] = {
     "codebuild-002": "codebuild-project",
     "codebuild-003": "codebuild-project",
     "cloudformation-002": "cloudformation-stack",
+    "cloudformation-005": "cloudformation-stack",
+    "codedeploy-001": "ec2-instance",
     "glue-002": "glue-dev-endpoint",
     "sagemaker-004": "sagemaker-notebook",
     "sagemaker-005": "sagemaker-notebook",
     "stepfunctions-002": "state-machine",
     "apprunner-002": "apprunner-service",
+    "batch-002": "batch-job-definition",
+    "ecs-006": "ecs-task",
+    "ec2-005": "ec2-launch-template",
+    "bedrock-002": "agentcore-resource",
+    "bedrock-004": "agentcore-resource",
+    "bedrock-007": "agentcore-resource",
+}
+
+# AgentCore holds three resource types under one kind; each technique acts on one of them.
+AGENTCORE_PREFIX = {
+    "bedrock-002": "code-interpreter-custom/",
+    "bedrock-004": "runtime/",
+    "bedrock-007": "browser-custom/",
 }
 
 
@@ -92,6 +112,8 @@ def kind_of(arn: str) -> str | None:
         return None
     if parts[2] == "s3":
         return "s3-bucket" if parts[5] and "/" not in parts[5] else None
+    if parts[2] == "bedrock-agentcore":
+        return "agentcore-resource" if parts[5].startswith(tuple(AGENTCORE_PREFIX.values())) else None
     for name, k in KINDS.items():
         if parts[2] == k.service and k.prefix and parts[5].startswith(k.prefix):
             return name

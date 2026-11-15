@@ -140,6 +140,96 @@ def _apprunner(run: Runner, region: str, account: str, partition: str) -> list[t
     return found
 
 
+def _batch(run: Runner, region: str, account: str, partition: str) -> list[tuple[str, str | None]]:
+    """Active job definitions and the role each one's jobs run as (one entry per role)."""
+    found: list[tuple[str, str | None]] = []
+    out = run(["batch", "describe-job-definitions", "--status", "ACTIVE", "--region", region])
+    for d in out.get("jobDefinitions", []):
+        roles = [(d.get("containerProperties") or {}).get("jobRoleArn")]
+        roles += [
+            (n.get("container") or {}).get("jobRoleArn")
+            for n in (d.get("nodeProperties") or {}).get("nodeRangeProperties") or []
+        ]
+        roles += [t.get("taskRoleArn") for t in (d.get("ecsProperties") or {}).get("taskProperties") or []]
+        named = sorted({r for r in roles if r})
+        found += [(d["jobDefinitionArn"], r) for r in named] or [(d["jobDefinitionArn"], None)]
+    return found
+
+
+def _ecs(run: Runner, region: str, account: str, partition: str) -> list[tuple[str, str | None]]:
+    """Running ECS tasks and their task role (a task's override, else its task definition's)."""
+    found: list[tuple[str, str | None]] = []
+    definitions: dict[str, str | None] = {}
+    for cluster in run(["ecs", "list-clusters", "--region", region]).get("clusterArns", []):
+        arns = run(["ecs", "list-tasks", "--region", region, "--cluster", cluster]).get("taskArns", [])
+        for i in range(0, len(arns), 100):  # DescribeTasks takes at most 100 tasks
+            out = run(
+                ["ecs", "describe-tasks", "--region", region, "--cluster", cluster, "--tasks", *arns[i : i + 100]]
+            )
+            for t in out.get("tasks", []):
+                role = (t.get("overrides") or {}).get("taskRoleArn")
+                if not role and t.get("taskDefinitionArn"):
+                    td = t["taskDefinitionArn"]
+                    if td not in definitions:
+                        d = run(["ecs", "describe-task-definition", "--region", region, "--task-definition", td])
+                        definitions[td] = (d.get("taskDefinition") or {}).get("taskRoleArn")
+                    role = definitions[td]
+                found.append((t["taskArn"], role))
+    return found
+
+
+def _launch_templates(run: Runner, region: str, account: str, partition: str) -> list[tuple[str, str | None]]:
+    """Launch templates and the instance profile of each one's default version."""
+    found: list[tuple[str, str | None]] = []
+    for lt in run(["ec2", "describe-launch-templates", "--region", region]).get("LaunchTemplates", []):
+        tid = lt["LaunchTemplateId"]
+        out = run(
+            [
+                "ec2",
+                "describe-launch-template-versions",
+                "--region",
+                region,
+                "--launch-template-id",
+                tid,
+                "--versions",
+                "$Default",
+            ]
+        )
+        versions = out.get("LaunchTemplateVersions", [])
+        profile = (versions[0].get("LaunchTemplateData") or {}).get("IamInstanceProfile") or {} if versions else {}
+        role = profile.get("Arn")
+        if not role and profile.get("Name"):
+            role = f"arn:{partition}:iam::{account}:instance-profile/{profile['Name']}"
+        found.append((f"arn:{partition}:ec2:{region}:{account}:launch-template/{tid}", role))
+    return found
+
+
+def _aws_owned(arn: str) -> bool:
+    """AWS's own AgentCore resources have "aws" where the account ID would be."""
+    parts = arn.split(":")
+    return len(parts) > 4 and parts[4] == "aws"
+
+
+def _agentcore(run: Runner, region: str, account: str, partition: str) -> list[tuple[str, str | None]]:
+    """Bedrock AgentCore agent runtimes, and custom code interpreters and browsers, with their roles."""
+    found: list[tuple[str, str | None]] = []
+    ctl = "bedrock-agentcore-control"
+    for r in run([ctl, "list-agent-runtimes", "--region", region]).get("agentRuntimes", []):
+        d = run([ctl, "get-agent-runtime", "--region", region, "--agent-runtime-id", r["agentRuntimeId"]])
+        found.append((r["agentRuntimeArn"], d.get("roleArn")))
+    for c in run([ctl, "list-code-interpreters", "--region", region]).get("codeInterpreterSummaries", []):
+        if _aws_owned(c["codeInterpreterArn"]):
+            continue  # AWS's built-in interpreter: no role of the account's
+        d = run([ctl, "get-code-interpreter", "--region", region, "--code-interpreter-id", c["codeInterpreterId"]])
+        found.append((c["codeInterpreterArn"], d.get("executionRoleArn")))
+    for b in run([ctl, "list-browsers", "--region", region]).get("browserSummaries", []):
+        if _aws_owned(b["browserArn"]):
+            continue
+        d = run([ctl, "get-browser", "--region", region, "--browser-id", b["browserId"]])
+        found.append((b["browserArn"], d.get("executionRoleArn")))
+    return found
+
+
 COLLECTORS: dict[str, Callable[[Runner, str, str, str], list[tuple[str, str | None]]]] = {
     "lambda-function": _lambda,
     "ec2-instance": _ec2,
@@ -149,6 +239,10 @@ COLLECTORS: dict[str, Callable[[Runner, str, str, str], list[tuple[str, str | No
     "sagemaker-notebook": _sagemaker,
     "state-machine": _states,
     "apprunner-service": _apprunner,
+    "batch-job-definition": _batch,
+    "ecs-task": _ecs,
+    "ec2-launch-template": _launch_templates,
+    "agentcore-resource": _agentcore,
 }
 
 
