@@ -63,7 +63,7 @@ to do is contribute it there too.
 ## Status
 
 <!-- counts:start -->
-Offline tests: **660 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
+Offline tests: **983 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
 
 Live differential run: **not run yet**. See "Differential testing" below.
 <!-- counts:end -->
@@ -519,10 +519,22 @@ decides whether boundaries limit the grant.
 | `tests/known_answer` | Every worked example in AWS's evaluation docs. See [SOURCES.md](tests/known_answer/SOURCES.md). |
 | `tests/handwritten` | Cases the AWS simulator cannot model, each quoting the AWS docs. |
 | `tests/differential` | 228 generated policy/request pairs. Offline they must evaluate; the live run compares them with AWS. |
+| `tests/property` | Rules that must hold for every policy and account, checked on random ones: an explicit Deny always wins, an Allow never takes access away, boundaries and SCPs only restrict, export order changes nothing, a verified fix plan really leaves no path (re-applied independently), and the fix plan's solver matches brute force. |
 | `tests/benchmark` | Every AWS path in pathfinding.cloud, built from its own description, plus near misses that must not be reported. Results in [docs/coverage.md](docs/coverage.md). |
 
 CI (`ci.yml`) runs the offline suites, ruff and mypy on Python 3.11, 3.12 and 3.13 for every
 push. Nothing in CI talks to AWS.
+
+### Property tests
+
+`tests/property` generates random policies, requests and small accounts with
+[Hypothesis](https://hypothesis.readthedocs.io/) and checks rules taken from AWS's evaluation
+logic and from what a fix plan promises. Normal runs use a fixed seed, so CI is repeatable. To
+search for bugs with thousands of new random cases (about an hour):
+
+    HYPOTHESIS_PROFILE=deep pytest tests/property
+
+A failing case is shrunk to the smallest policy or account that still breaks the rule.
 
 ### Escalation benchmark
 

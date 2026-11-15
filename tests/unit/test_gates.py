@@ -179,6 +179,73 @@ def test_admin_only_with_mfa_makes_the_path_gated() -> None:
     assert p["steps"][0].get("requires") is None  # the step itself is open; the admin access is not
 
 
+def test_open_self_escalation_beats_admin_only_with_mfa() -> None:
+    # Found by tests/property: a user who can attach any policy to itself, and who is also
+    # allowed everything but only with MFA, is admin without MFA. It was reported as needing MFA.
+    mfa_admin = {"Effect": "Allow", "NotAction": "iam:PassRole", "Resource": "*", **_mfa()}
+    env = account([user("dev", {"Effect": "Allow", "Action": "iam:AttachUserPolicy", "Resource": "*"}, mfa_admin)], [])
+    me = analyze(env, start=DEV)["principals"][0]
+    assert me["admin_equivalent"]
+    assert "admin_requires" not in me
+    assert "iam-008" in me["admin_reason"]
+
+
+def _with_groups(users: list[dict[str, Any]], groups: dict[str, list[dict[str, Any]]]) -> Environment:
+    return Environment.from_auth_details(
+        {
+            "UserDetailList": users,
+            "RoleDetailList": [],
+            "Policies": [],
+            "GroupDetailList": [
+                {
+                    "GroupName": g,
+                    "Arn": arn("group", g),
+                    "GroupPolicyList": [{"PolicyName": "p", "PolicyDocument": doc(*sts)}] if sts else [],
+                    "AttachedManagedPolicies": [],
+                }
+                for g, sts in groups.items()
+            ],
+        }
+    )
+
+
+def test_joining_a_group_counts_only_if_the_group_makes_the_user_admin() -> None:
+    # Found by tests/property: iam:AddUserToGroup was treated as admin whatever the group allowed.
+    join = {"Effect": "Allow", "Action": "iam:AddUserToGroup", "Resource": "*"}
+    harmless = _with_groups(
+        [user("dev", join)], {"readers": [{"Effect": "Allow", "Action": "s3:GetObject", "Resource": "*"}]}
+    )
+    me = analyze(harmless, start=DEV)["principals"][0]
+    assert not me["admin_equivalent"]
+    assert all(t["id"] != "iam-013" for t in me["techniques"])
+    admins = _with_groups([user("dev", join)], {"readers": [], "admins": [ADMIN]})
+    me = analyze(admins, start=DEV)["principals"][0]
+    assert me["admin_equivalent"]
+    [t] = [t for t in me["techniques"] if t["id"] == "iam-013"]
+    assert t["targets"] == [arn("group", "admins")]
+
+
+def test_one_gated_target_does_not_gate_an_open_one() -> None:
+    # Found by tests/property: joining one admin group needed MFA and another did not; the
+    # technique, and so the user's admin access, was reported as needing MFA.
+    join_open = {
+        "Effect": "Allow",
+        "Action": "iam:AddUserToGroup",
+        "Resource": arn("group", "a"),
+    }
+    join_mfa = {"Effect": "Allow", "Action": "iam:AddUserToGroup", "Resource": arn("group", "b"), **_mfa()}
+    env = _with_groups([user("dev", join_open, join_mfa)], {"a": [ADMIN], "b": [ADMIN]})
+    me = analyze(env, start=DEV)["principals"][0]
+    assert me["admin_equivalent"] and "admin_requires" not in me
+    [t] = [t for t in me["techniques"] if t["id"] == "iam-013"]
+    assert "requires" not in t
+    assert list(t["gated_targets"]) == [arn("group", "b")]
+
+
+def _mfa() -> dict[str, Any]:
+    return {"Condition": {"Bool": {"aws:MultiFactorAuthPresent": "true"}}}
+
+
 def test_text_output_marks_gated_paths() -> None:
     mfa = {"Bool": {"aws:MultiFactorAuthPresent": "true"}}
     env = account([user("dev", assume("admin", mfa))], [role("admin", ADMIN)])

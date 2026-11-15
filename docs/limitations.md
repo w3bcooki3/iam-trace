@@ -22,6 +22,11 @@ choices rest on reading the docs, not on AWS's answers:
 Disagreements found by the live run are stored in `tests/differential/fixtures/`. Each one stays
 an expected failure until it is fixed or explained here.
 
+The property tests (`tests/property`) and the escalation benchmark (`tests/benchmark`) do not
+replace that run. They show that iam-trace follows the rules it is meant to follow on many random
+policies and on every documented escalation path, but the rules themselves come from AWS's
+documentation and pathfinding.cloud. Where a document is wrong or silent, so is the test.
+
 ## What the AWS simulator cannot check
 
 These are covered only by hand-written tests that quote the AWS docs
@@ -109,6 +114,9 @@ These are covered only by hand-written tests that quote the AWS docs
 - Run time grows with principals times techniques. A synthetic account of 200 users and 200
   roles takes about 3 seconds for every principal on one core; much larger accounts are best
   analysed one starting principal at a time (`--principal`).
+- Joining a group (iam:AddUserToGroup) counts as admin only if the group's policies, added to
+  the user's own, allow everything. A group that grants a step towards admin (assuming an admin
+  role, say) is not followed.
 
 ## Conditions in the escalation analysis
 

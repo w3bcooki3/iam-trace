@@ -6,6 +6,11 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Property tests (`tests/property`, Hypothesis, development only): random policies and accounts
+  check that an explicit Deny always wins, an Allow never takes access away, boundaries and SCPs
+  only restrict, statement and export order change nothing, a trust or key policy is needed for
+  AssumeRole and KMS, a verified fix plan leaves no open path when re-applied independently (as
+  Denies, narrowed Allows and an SCP), and the fix plan's solver matches brute force.
 - Escalation benchmark: `tests/benchmark/bench.py` builds an account for each of the 91 AWS paths
   in pathfinding.cloud from its own description and checks it is found, then tries 1,136 near
   misses (a permission removed or denied, an SCP, a permissions boundary, a target that is not
@@ -127,6 +132,11 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Changed
 
+- Fix plans are much faster. The exact search for the fewest changes no longer tries the same
+  combination in different orders, drops routes that a smaller route already covers, and prunes
+  with a stronger lower bound. On random seven-principal accounts the slowest plan went from
+  17 seconds to about 1, and the average from 1.3 to 0.4 seconds; the plans stay optimal
+  (checked against brute force).
 - The technique list follows pathfinding.cloud again (`scripts/sync_catalog.py`): four paths need
   the permissions upstream now lists (codedeploy-001, ec2instanceconnect-003, gamelift-001,
   omics-001), and ec2-004, which upstream renamed to ec2-005, is gone. 91 techniques.
@@ -166,6 +176,16 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Fixed
 
+- Found by the property tests: iam:AddUserToGroup (iam-013) counted as admin whatever the group
+  allowed. It now counts only for a group whose policies, added to the user's own under the
+  user's boundary and SCPs, allow everything.
+- Found by the property tests: when a technique reached one target only with MFA (or a network
+  location or time window) and another without, the whole technique, and so the principal's admin
+  access, was reported as needing it. Self-escalations and existing resources now keep each
+  target's conditions apart, as paths to other principals already did.
+- Found by the property tests: a principal that could make itself admin on its own (for example
+  with iam:AttachUserPolicy) and was also allowed everything only with MFA was reported as admin
+  only with MFA. The unconditional route now wins, so the verdict no longer looks safer than it is.
 - Found by the benchmark: batch-001 and gamelift-001 now accept a role trusted by
   batch.amazonaws.com or ec2.amazonaws.com, as pathfinding.cloud describes them, and were missed
   before; cognitoidentity-001 checks the role's web identity trust for Cognito and is confirmed

@@ -197,6 +197,7 @@ class Environment:
         self.raw = raw or {}
         self.inventory = inventory  # False for a single policy with no account export
         self.resources: Inventory | None = None  # existing resources and their roles, if given
+        self.group_policies: dict[str, list[Policy]] = {}  # group ARN -> its own policies
 
     @classmethod
     def from_auth_details(cls, data: dict[str, Any]) -> Environment:
@@ -298,7 +299,9 @@ class Environment:
                 attached=arns,
                 tags=_tags(r),
             )
-        return cls(nodes, group_arns, warnings, raw=data)
+        env = cls(nodes, group_arns, warnings, raw=data)
+        env.group_policies = {garn: gpols for garn, gpols, _ in groups_by_name.values()}
+        return env
 
     @classmethod
     def single(cls, policies: list[Policy], principal_arn: str, boundary: Policy | None = None) -> Environment:
@@ -598,8 +601,15 @@ class _Analyzer:
         finally:
             self._acc = outer
         if ok:
-            self._target_gates[target] = mine
+            self._record_target(target, mine)
         return ok
+
+    def _record_target(self, target: str, gates: set[Gate]) -> None:
+        """Note what reaching a target needs. Several ways to the same target (two resources that
+        run as one role): an open one wins over a gated one."""
+        prev = self._target_gates.get(target)
+        if prev is None or (prev and not gates):
+            self._target_gates[target] = gates
 
     def _perm_ok(
         self, node: Node, perm: str, target: Node | str | None, extra_ctx: dict[str, Any] | None = None
@@ -696,7 +706,9 @@ class _Analyzer:
         (only those whose resource part starts with prefix, when given)."""
         roles: set[str] = set()
         via: set[str] = set()
-        decided: dict[tuple[str, ...], bool] = {}
+        # signature -> the gates its resources need (None: not allowed), so each role keeps the
+        # gates of the resource it is reached through rather than the technique's union.
+        decided: dict[tuple[str, ...], frozenset[Gate] | None] = {}
         patterns = self._resource_patterns(node)
         for r in inv.of_kind(kind):
             if r.role is None or r.role == node.arn:
@@ -712,8 +724,17 @@ class _Analyzer:
                 acct = r.arn.split(":")[4]
                 sig = (acct, *(x for x in patterns if resource_matches(x, r.arn, _NO_CONTEXT, False)))
             if sig not in decided:
-                decided[sig] = all(self.can(node, p, r.arn) for p in perms)
-            if decided[sig]:
+                outer = self._acc
+                mine: set[Gate] = set()
+                self._acc = mine
+                try:
+                    ok = all(self.can(node, p, r.arn) for p in perms)
+                finally:
+                    self._acc = outer
+                decided[sig] = frozenset(mine) if ok else None
+            gates = decided[sig]
+            if gates is not None:
+                self._record_target(r.role, set(gates))
                 roles.add(r.role)
                 via.add(r.arn)
         if not roles:
@@ -738,28 +759,43 @@ class _Analyzer:
         main = perms[0]
         ttype = PERMISSION_TARGET.get(main)
         env = self.env
-        targets: list[str]
+        pool: list[str]
         if ttype == "policy":
-            customer = [a for a in self._attached(node) if ":iam::aws:policy/" not in a]
+            pool = [a for a in self._attached(node) if ":iam::aws:policy/" not in a]
             if not env.inventory:
-                customer = self.candidates(node, main)
-            targets = [a for a in customer if self.can(node, main, a)]
+                pool = self.candidates(node, main)
         elif ttype in ("user", "role"):
-            targets = [node.arn] if node.kind == ttype and self.can(node, main, node.arn) else []
+            pool = [node.arn] if node.kind == ttype else []
         elif ttype == "group":
             if main == "iam:addusertogroup":
                 if node.kind != "user":
                     return None
                 pool = list(env.groups) if env.inventory else self.candidates(node, main)
+                # Joining a group gains its permissions: only a group that makes the user admin
+                # counts (with no export, the groups are unknown and any is possible).
+                if env.inventory:
+                    pool = [g for g in pool if g not in node.groups and self._group_makes_admin(node, g)]
             else:
                 pool = node.groups if env.inventory else self.candidates(node, main)
-            targets = [g for g in pool if self.can(node, main, g)]
         else:
-            targets = []
+            pool = []
+        # Each target keeps its own gates, so one target that needs MFA does not mark the
+        # technique as needing MFA when another target is open.
+        targets = [x for x in pool if self._per_target(x, lambda x=x: self.can(node, main, x))]
         if not targets:
             return None
         confidence = "confirmed" if env.inventory else "possible"
         return (sorted(targets), confidence, True, [])
+
+    def _group_makes_admin(self, node: Node, group: str) -> bool:
+        """Would the user be allowed everything after joining the group? Checked with the user's
+        own policies plus the group's, under the user's boundary and the SCPs."""
+        extra = self.env.group_policies.get(group, [])
+        if not extra:
+            return False
+        req = Request(node.caller(), ADMIN_PROBE, "*", resource_account=node.account)
+        ps = PolicySet(identity=[*node.policies, *extra], boundary=node.boundary, scps=self.scps)
+        return evaluate(req, ps).allowed
 
     def _attached(self, node: Node) -> list[str]:
         return node.attached
@@ -795,15 +831,22 @@ def analyze(
             full = a.is_admin(node)
         finally:
             a._acc = None
-        selfesc = [f for f in found if f["category"] == "self-escalation"]
-        if full:
+        selfesc = [f for f in found if f["category"] == "self-escalation" and f["grants_admin"]]
+        open_selfesc = [f for f in selfesc if not f.get("requires")]
+        selfesc_reason = "can grant itself any permission (" + ", ".join(f["id"] for f in selfesc) + ")"
+        # Admin if allowed everything or able to grant itself anything. When both, and only one
+        # of them needs MFA, a network location or a time window, the open one is the answer:
+        # the principal is admin without the condition.
+        if full and not gates:
+            admin[arn] = FULL_ADMIN
+        elif open_selfesc:
+            admin[arn] = selfesc_reason
+        elif full:
             admin[arn] = FULL_ADMIN
             admin_gates[arn] = frozenset(gates)
         elif selfesc:
-            admin[arn] = "can grant itself any permission (" + ", ".join(f["id"] for f in selfesc) + ")"
-            # Admin as soon as one self-escalation works; gated only if every one of them is.
-            if all(f.get("requires") for f in selfesc):
-                admin_gates[arn] = frozenset((r["kind"], r["key"], r["value"]) for r in selfesc[0]["requires"])
+            admin[arn] = selfesc_reason
+            admin_gates[arn] = frozenset((r["kind"], r["key"], r["value"]) for r in selfesc[0]["requires"])
         else:
             admin[arn] = None
 

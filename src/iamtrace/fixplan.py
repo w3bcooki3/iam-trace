@@ -67,14 +67,26 @@ class _Edge:
 def min_hitting_set(sets: list[frozenset[Any]], cost: dict[Any, float], budget: int = 200_000) -> tuple[set[Any], bool]:
     """The cheapest set of elements that has at least one element of every set.
 
-    Exact branch and bound: take the unhit set with the fewest options, try each option, prune
-    any branch whose cost reaches the best found. Returns (choice, optimal); if the search runs
-    out of budget, the best found so far is returned with optimal False (the greedy start
-    guarantees there is one). Raises ValueError if a set is empty, as nothing can hit it.
+    Exact branch and bound. Sets that contain another set are dropped (hitting the smaller one
+    hits them too). The search takes the unhit set with the fewest options and tries each option
+    in turn; the options tried before are then excluded, so no combination is reached twice. A
+    branch is pruned when what it has spent plus a lower bound for the rest reaches the best
+    found: the bound adds up the cheapest option of unhit sets that share no element, since each
+    needs a different element. Returns (choice, optimal); if the search runs out of budget, the
+    best found so far is returned with optimal False (the greedy start guarantees there is one).
+    Raises ValueError if a set is empty, as nothing can hit it.
     """
     if any(not s for s in sets):
         raise ValueError("a route has no permission that can be denied")
-    uniq = sorted(set(sets), key=len)
+    distinct = sorted(set(sets), key=lambda s: (len(s), sorted(map(str, s))))
+    uniq: list[frozenset[Any]] = []
+    for s in distinct:
+        if not any(t <= s for t in uniq):
+            uniq.append(s)
+
+    def c(x: Any) -> float:
+        return cost.get(x, 1.0)
+
     # Greedy start: a good first bound makes the exact search prune early.
     best: set[Any] = set()
     left = list(uniq)
@@ -83,35 +95,46 @@ def min_hitting_set(sets: list[frozenset[Any]], cost: dict[Any, float], budget: 
         for s in left:
             for x in s:
                 counts[x] = counts.get(x, 0) + 1
-        pick = min(counts, key=lambda x: (cost.get(x, 1.0) / counts[x], str(x)))
+        pick = min(counts, key=lambda x: (c(x) / counts[x], str(x)))
         best.add(pick)
         left = [s for s in left if pick not in s]
-    best_cost = sum(cost.get(x, 1.0) for x in best)
+    best_cost = sum(c(x) for x in best)
     steps = 0
     exhausted = False
 
-    def search(chosen: frozenset[Any], spent: float) -> None:
+    def bound(unhit: list[frozenset[Any]]) -> float:
+        used: set[Any] = set()
+        total = 0.0
+        for s in sorted(unhit, key=lambda s: -min(c(x) for x in s)):
+            if not (s & used):
+                used |= s
+                total += min(c(x) for x in s)
+        return total
+
+    def search(chosen: frozenset[Any], spent: float, unhit: list[frozenset[Any]]) -> None:
         nonlocal best, best_cost, steps, exhausted
         steps += 1
         if steps > budget:
             exhausted = True
             return
-        unhit = [s for s in uniq if not (s & chosen)]
         if not unhit:
             if spent < best_cost - 1e-12:
                 best, best_cost = set(chosen), spent
             return
-        # Lower bound: the cheapest option of the unhit set that is hardest to hit.
-        target = min(unhit, key=len)
-        floor = max(min(cost.get(x, 1.0) for x in s) for s in unhit)
-        if spent + floor >= best_cost - 1e-12:
+        if any(not s for s in unhit):
+            return  # every option of some set was excluded: nothing can hit it on this branch
+        if spent + bound(unhit) >= best_cost - 1e-12:
             return
-        for x in sorted(target, key=lambda x: (cost.get(x, 1.0), str(x))):
-            search(chosen | {x}, spent + cost.get(x, 1.0))
+        target = min(unhit, key=len)
+        excluded: set[Any] = set()
+        for x in sorted(target, key=lambda x: (c(x), str(x))):
+            rest = [s - excluded for s in unhit if x not in s]
+            search(chosen | {x}, spent + c(x), rest)
             if exhausted:
                 return
+            excluded.add(x)
 
-    search(frozenset(), 0.0)
+    search(frozenset(), 0.0, list(uniq))
     return best, not exhausted
 
 
