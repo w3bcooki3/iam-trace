@@ -11,6 +11,7 @@
 import { Graph, ICON, KIND_COLOR, KIND_NAME } from "./graph.js";
 import { EVALUATE_EXAMPLES, DIFF_EXAMPLE, ATTACK_POLICY_EXAMPLE, CHECK_EXAMPLE } from "./examples.js";
 import { store as dataStore } from "./store.js";
+import { buildReport } from "./report.js";
 
 const PYODIDE_URL = new URL(document.querySelector('meta[name="pyodide-url"]').content, location.href).href;
 const root = document.documentElement;
@@ -657,6 +658,9 @@ function fromPolicy(out) {
 
 function setModel(m) {
   model = m;
+  whatIf.clear(); // a new analysis starts with nothing cut
+  main.cut = whatIf;
+  if ($("whatif-bar")) $("whatif-bar").hidden = true;
   const acct = String(m.start || "").split(":")[4];
   $("scope-text").textContent = m.mode === "policy" ? "Single policy" : acct ? `Account ${acct}` : "Account";
   const startPaths = m.report.paths.filter((p) => p.start === m.start);
@@ -795,7 +799,7 @@ function renderOverview() {
     : `<p class="list-empty">No path to admin from ${who}.${possible.length ? " Possible techniques are listed in Findings." : ""}</p>`;
 
   const fixHtml = fixes.length
-    ? fixes.map((f, i) => `<div class="fix"><span class="num">${i + 1}</span><span class="t">Narrow <span class="mono">${esc(f.permissions.join(", "))}</span> for ${esc(short(f.from))}</span><span class="tag crit imp">${plural(f.paths, "path")}</span>
+    ? fixes.map((f, i) => `<div class="fix"><span class="num">${i + 1}</span><span class="t">Narrow <span class="mono">${esc(f.permissions.join(", "))}</span> for ${esc(short(f.from))}</span><span class="tag crit imp">${plural(f.paths, "path")}</span><button class="btn sim" data-sim="${i}" title="Cut this step on the attack graph and see what is left">Simulate</button>
         <span class="d">Removes ${esc(f.technique)} (${esc(f.name)}). ${f.starts.size > 1 ? `Used by ${plural(f.starts.size, "starting principal")}.` : ""}</span></div>`).join("")
     : '<p class="list-empty">No paths to break.</p>';
 
@@ -824,7 +828,7 @@ function renderOverview() {
 
   el.innerHTML = `${banner}
     <div class="page-head"><div><h1>Overview</h1><p>Analysed <span class="mono">${esc(m.source)}</span> from <span class="mono">${who}</span> against 92 privilege-escalation techniques from pathfinding.cloud${m.scps ? `, with ${plural(m.scps, "SCP")} applied` : ""}${m.resources ? `, using a resource inventory of ${plural(Object.values(m.resources).reduce((a, b) => a + b, 0), "resource")}` : ""}.</p></div>
-      <div class="actions"><button class="btn" data-go="input">Change input</button><button class="btn primary" data-go="graph">Open attack graph</button></div></div>
+      <div class="actions"><button class="btn" data-go="input">Change input</button><button class="btn" data-report>Download report</button><button class="btn primary" data-go="graph">Open attack graph</button></div></div>
     <div class="posture glass p-${tone}"><div class="posture-main"><span class="sev-badge">${tone === "ok" ? IC.ok : IC.warn}</span><div><h2>${head}</h2><p>${body}</p>${startPaths.length ? `<div class="chain">${chainHtml(startPaths[0])}</div>` : ""}</div></div>
       <div class="posture-side"><div class="ps-item"><div class="l">Starting principal</div><div class="v mono">${who}</div></div><div class="ps-item"><div class="l">Reaches</div><div class="v">${reaches}</div></div>
         <div class="ps-item"><div class="l">Shortest path</div><div class="v">${startPaths.length ? plural(startPaths[0].steps.length, "step") : "None"}</div></div><div class="ps-item"><div class="l">SCPs applied</div><div class="v">${m.scps || "None"}</div></div></div></div>
@@ -845,6 +849,15 @@ function renderOverview() {
   applyWidths(el);
   hydrateWho(el);
   el.querySelectorAll("#ov-paths .path-item").forEach((p) => p.addEventListener("click", () => { go("graph"); focusPath(Number(p.dataset.path)); }));
+  // Simulate a fix: cut that step on the attack graph and show what is left.
+  el.querySelectorAll("[data-sim]").forEach((b) => b.addEventListener("click", () => {
+    const f = fixes[Number(b.dataset.sim)];
+    const keys = m.graph.edges.filter((e) => e.from === f.from && (e.label === f.technique || String(e.name).split(/,\s*/).includes(f.technique))).map((e) => cutKey(e.from, e.to));
+    if (!keys.length) return toast(`That step is not on the attack graph from ${nameOf(m.start)}.`);
+    whatIf.clear();
+    go("graph");
+    setCut(keys, true);
+  }));
   $("preview").addEventListener("click", () => go("graph"));
   if (graphs.includes(preview)) graphs.splice(graphs.indexOf(preview), 1);
   preview = new Graph($("psurface"), $("pworld"), { interactive: false, pad: 24, maxScale: 0.85, markerPrefix: "p" });
@@ -967,10 +980,17 @@ function setPathsPanel(open) {
 }
 $("g-hide-paths").addEventListener("click", () => { setPathsPanel(false); $("g-show-paths").focus(); });
 $("g-show-paths").addEventListener("click", () => setPathsPanel(true));
-$("g-export").addEventListener("click", () => {
+// The report: one HTML file for people who will never open iam-trace. It prints cleanly to PDF.
+function downloadReport() {
   if (!model) return toast("Run an analysis first");
-  download(`iam-trace-${nameOf(model.start)}.json`, JSON.stringify(model.report, null, 2));
-});
+  const html = buildReport(model, { version: engineVersion, fixes: recommendedFixes(model) });
+  const acct = (model.principals[0]?.arn || "").split(":")[4] || "account";
+  const day = new Date().toISOString().slice(0, 10);
+  download(`iam-trace-report-${acct}-${day}.html`, html, "text/html");
+  toast("Report downloaded. Open it in a browser; print it to save a PDF.");
+}
+$("g-export").addEventListener("click", downloadReport);
+document.addEventListener("click", (e) => { if (e.target.closest("[data-report]")) downloadReport(); });
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDetails(); });
 
 function closeDetails() {
@@ -1012,6 +1032,90 @@ function showNode(n) {
   $("g-details").classList.remove("closed");
   $("d-close").addEventListener("click", closeDetails);
 }
+// ------------------------------------------------------------------------------------- what-if on the graph
+
+// Cut a step and see whether the attacker still reaches admin. The search runs over every confirmed
+// step that is left, so a longer route the shortest path was hiding is found, not missed.
+const whatIf = new Set();
+const cutKey = (from, to) => `${from}|${to}`;
+// Every confirmed step between principals in the analysis. The drawn graph shows only the steps on
+// the shortest paths, so searching it alone could miss a longer route and give a false all-clear.
+function allSteps(m) {
+  const out = [];
+  for (const p of m.report.principals) {
+    for (const t of p.techniques) {
+      if (t.confidence !== "confirmed") continue;
+      for (const to of t.targets) if (to !== p.arn && String(to).startsWith("arn:")) out.push({ from: p.arn, to, label: t.id, name: t.name });
+    }
+  }
+  return out;
+}
+function routeToAdmin(m, cut) {
+  const admin = new Set(m.report.principals.filter((p) => p.admin_equivalent).map((p) => p.arn));
+  if (admin.has(m.start)) return [];
+  const edges = allSteps(m).filter((e) => !cut.has(cutKey(e.from, e.to)));
+  const prev = new Map([[m.start, null]]);
+  const queue = [m.start];
+  while (queue.length) {
+    const cur = queue.shift();
+    for (const e of edges) {
+      if (e.from !== cur || prev.has(e.to)) continue;
+      prev.set(e.to, e);
+      if (admin.has(e.to)) {
+        const route = [];
+        for (let x = e; x; x = prev.get(x.from)) route.unshift(x);
+        return route;
+      }
+      queue.push(e.to);
+    }
+  }
+  return null;
+}
+// A route the graph does not show yet is added to it, so it can be seen and cut too.
+function showOnGraph(route) {
+  const d = main.data;
+  if (!d) return;
+  let added = false;
+  for (const e of route) {
+    for (const id of [e.from, e.to]) {
+      if (d.nodes.some((n) => n.id === id)) continue;
+      const p = model.report.principals.find((x) => x.arn === id);
+      d.nodes.push({ id, label: nameOf(id), subtitle: short(id), kind: kindOf(id), start: false, admin: Boolean(p?.admin_equivalent), techniques: p ? p.techniques.length : 0, policies: model.principals.find((x) => x.arn === id)?.policies ?? null, paths: new Set() });
+      added = true;
+    }
+    if (!d.edges.some((x) => x.from === e.from && x.to === e.to)) {
+      d.edges.push({ from: e.from, to: e.to, label: e.label, name: e.name, confidence: "confirmed", paths: new Set() });
+      added = true;
+    }
+  }
+  if (added) main.render();
+}
+function setCut(keys, on) {
+  for (const k of keys) { if (on) whatIf.add(k); else whatIf.delete(k); }
+  main.cut = whatIf;
+  main.render();
+  updateWhatIf();
+}
+function updateWhatIf() {
+  const bar = $("whatif-bar");
+  if (!model || !whatIf.size) { bar.hidden = true; return; }
+  const before = routeToAdmin(model, new Set());
+  const after = routeToAdmin(model, whatIf);
+  const who = esc(short(model.start));
+  const routeText = (r) => r.filter((e) => e.to !== "admin").map((e) => `${esc(e.label)} to ${esc(nameOf(e.to))}`).join(", then ");
+  let msg;
+  if (!before) msg = `<b>No path to admin</b> from ${who}, with or without these changes.`;
+  else if (!after) msg = `<b class="safe">No path to admin</b> from ${who} after cutting ${plural(whatIf.size, "step")}.`;
+  else if (after.length !== before.length || after.some((e, i) => cutKey(e.from, e.to) !== cutKey(before[i].from, before[i].to))) {
+    msg = `<b class="risk">Still reaches admin</b> by another route: ${routeText(after)}. It is now on the graph; cut a step on it too.`;
+    showOnGraph(after);
+  }
+  else msg = `<b class="risk">Still reaches admin</b> the same way. Cut a step on the highlighted path.`;
+  bar.innerHTML = `<span>What-if: ${msg}</span><button class="btn" id="whatif-reset">Reset</button>`;
+  bar.hidden = false;
+  $("whatif-reset").addEventListener("click", () => { whatIf.clear(); setCut([], false); if (!$("g-details").classList.contains("closed")) closeDetails(); });
+}
+
 function showEdge(e, el) {
   if (selectedLabel) selectedLabel.classList.remove("sel");
   selectedLabel = el;
@@ -1023,9 +1127,16 @@ function showEdge(e, el) {
   $("g-details").innerHTML = `<div class="d-head"><div class="d-top"><div><div class="d-name mono">${esc(e.label)}</div><div class="d-kind">${esc(nameOf(e.from))} to ${esc(nameOf(e.to))}</div></div><button class="icon-btn" id="d-close" aria-label="Close">${IC.x}</button></div></div>
     <div class="d-sec">${techs.length ? techs.map(techCard).join("") : `<p>${esc(sentence(e.name))}</p>`}</div>
     ${techs.length ? `<div class="d-sec"><h4>Permissions involved</h4>${[...new Set(techs.flatMap((t) => t.permissions))].map((x) => `<div class="policy-line"><span class="mono">${esc(x)}</span></div>`).join("")}</div>` : ""}
+    ${e.confidence !== "possible" && e.to !== "admin" ? `<div class="d-sec d-cut"><h4>What if</h4><p>Pretend this step is not allowed and see whether ${esc(nameOf(m.start))} still reaches admin. Nothing in AWS changes.</p>
+      <button class="btn" id="d-cut">${whatIf.has(cutKey(e.from, e.to)) ? "Restore this step" : "Cut this step"}</button></div>` : ""}
     <div class="d-sec">${reportLink({ title: `Wrong finding: ${e.label}`, request: `${e.from} -> ${e.to} via ${e.label}`, iamtrace: `${e.confidence} technique ${e.label} (${e.name})` }, "Report a wrong finding")}</div>`;
   $("g-details").classList.remove("closed");
   $("d-close").addEventListener("click", closeDetails);
+  $("d-cut")?.addEventListener("click", () => {
+    const k = cutKey(e.from, e.to);
+    setCut([k], !whatIf.has(k));
+    $("d-cut").textContent = whatIf.has(k) ? "Restore this step" : "Cut this step";
+  });
 }
 
 // ------------------------------------------------------------------------------------- findings
@@ -1206,8 +1317,8 @@ function renderEvResult(out, req) {
   const warn = r.warnings && r.warnings.length ? `<div class="notice">${IC.warn}<div><b>Check these assumptions</b><ul>${r.warnings.map((w) => `<li>${esc(sentence(w))}</li>`).join("")}</ul></div></div>` : "";
   const decisionText = `${r.decision} (decided at step: ${r.deciding_step})`;
   const report = reportLink({ title: `Wrong answer: ${req.action}`, request: `${req.principal}  ${req.action}  ${req.resource}`, iamtrace: decisionText });
-  el.innerHTML = `<div class="verdict glass ${allowed ? "v-ok" : "v-crit"}"><span class="vb">${allowed ? IC.ok : IC.x}</span><div><h2>${allowed ? "Allowed" : "Denied"}</h2><p>${why}</p></div>
-      <div class="vreq">${esc(short(req.principal))}<br>${esc(req.action)}<br>${esc(short(req.resource))}</div></div>${warn}
+  el.innerHTML = `<div class="verdict glass ${allowed ? "v-ok" : "v-crit"}"><span class="vb">${allowed ? IC.ok : IC.x}</span><div class="vtext"><h2>${allowed ? "Allowed" : "Denied"}</h2><p>${why}</p>
+      <div class="vreq">${[req.principal, req.action, req.resource].map((v, i) => `<code title="${esc(v)}">${esc(i === 1 ? v : short(v))}</code>`).join("")}</div></div></div>${warn}
     <div class="report-row">Does AWS disagree? ${report}</div>
     ${whatIfHtml(out.what_if)}
     <div class="glass ev-block"><div class="card-h"><h3>Evaluation path</h3><span class="sub">AWS checks these steps in order. Select one to see what it matched.</span></div><ol class="pipe" id="ev-pipe">${pipe}</ol></div>
@@ -1587,7 +1698,10 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>What would change this</b>: under every Evaluate result, the smallest checked fix for a denied request, or what an allowed one depends on. <b>Try this change</b> applies it.",
+    ["Added", ["<b>Download report</b>: a single HTML file with the verdict, the shortest paths, what to fix first and every principal at risk. It has no scripts, opens offline and prints to PDF.",
+      "<b>Cut a step</b> on the attack graph: select a technique and cut it, or use Simulate on a recommended fix, to see whether the attacker still reaches admin by another route. The other route is drawn.",
+      "Link previews: sharing the app link shows a title, a description and an image.",
+      "<b>What would change this</b>: under every Evaluate result, the smallest checked fix for a denied request, or what an allowed one depends on. <b>Try this change</b> applies it.",
       "<b>Who can</b>: every principal that can perform an action on a resource, directly or through escalation, drawn as an access graph.",
       "<b>Documentation</b>: one topic per page with search, links to every heading, and previous and next.",
       "<b>Saved in your browser</b>: your data and last analysis come back after a refresh. Settings lists what is saved and deletes any of it.",

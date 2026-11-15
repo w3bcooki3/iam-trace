@@ -122,6 +122,7 @@ export class Graph {
     this.focus = null;
     this.selected = null;
     this.hidePossible = false;
+    this.cut = new Set(); // "from|to" steps switched off in what-if mode
     if (interactive) this.panZoom();
     new ResizeObserver(() => this.fit()).observe(surface);
   }
@@ -170,10 +171,11 @@ export class Graph {
         ? `M${p1.x},${p1.y} C${p1.x + dir * c},${p1.y} ${p2.x - dir * c},${p2.y} ${p2.x},${p2.y}`
         : `M${p1.x},${p1.y} L${p2.x},${p2.y}`;
       const dim = this.focus !== null && !(e.paths && e.paths.has(this.focus)) ? " dim" : "";
-      const type = e.confidence === "possible" ? "poss" : "conf";
+      const cut = this.cut.has(`${e.from}|${e.to}`);
+      const type = cut ? "cut" : e.confidence === "possible" ? "poss" : "conf";
       const hot = type === "conf" && e.paths && e.paths.size && !dim ? " hot" : "";
-      paths += `<path class="e ${type}${hot}${dim}" d="${d}" marker-end="url(#${mp}-${type === "conf" ? "crit" : "warn"})"/>`;
-      if (!dim) paths += `<path class="e flow" d="${d}"/>`;
+      paths += `<path class="e ${type}${hot}${dim}" d="${d}" marker-end="url(#${mp}-${type === "conf" ? "crit" : type === "cut" ? "faint" : "warn"})"/>`;
+      if (!dim && !cut) paths += `<path class="e flow" d="${d}"/>`;
       labels.push({ e, type, x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2, dim });
     }
     svg.innerHTML = paths;

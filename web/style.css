@@ -163,7 +163,8 @@ html.focus .side { visibility: hidden; }
 .page-head { display: flex; align-items: flex-end; gap: 20px; margin-bottom: 22px; }
 .page-head h1 { margin: 0; font-size: 1.5714rem; font-weight: 600; letter-spacing: -0.015em; }
 .page-head p { margin: 4px 0 0; color: var(--muted); font-size: 0.9643rem; }
-.page-head .actions { margin-left: auto; display: flex; gap: 10px; }
+.page-head .actions { margin-left: auto; display: flex; gap: 10px; flex: none; }
+.page-head .actions .btn { white-space: nowrap; }
 
 /* ===================================================================== overview */
 .posture { display: grid; grid-template-columns: 1.25fr 1fr; gap: 0; margin-bottom: 16px; overflow: hidden; }
@@ -579,7 +580,9 @@ code.c { font: 0.8929rem "Plex Mono"; padding: 1px 6px; border-radius: 5px; back
 .verdict .vb svg { width: 26px; height: 26px; stroke-width: 2.2; }
 .verdict h2 { margin: 0; font-size: 1.5714rem; letter-spacing: -0.015em; color: var(--vc); }
 .verdict p { margin: 3px 0 0; color: var(--muted); }
-.verdict .vreq { margin-left: auto; text-align: right; font: 0.8571rem/1.6 "Plex Mono"; color: var(--muted); }
+.verdict .vtext { min-width: 0; flex: 1; }
+.verdict .vreq { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.verdict .vreq code { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 0.8214rem/1.5 "Plex Mono"; color: var(--ink-2, var(--muted)); background: var(--sunk, var(--bg)); border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; }
 .pipe { display: grid; grid-template-columns: repeat(8, 1fr); padding: 26px 12px 20px; list-style: none; margin: 0; }
 .ps { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; }
 .ps + .ps::before { content: ""; position: absolute; top: 25px; right: calc(50% + 32px); left: calc(-50% + 32px); height: 2px; background: var(--line-2); }
@@ -767,7 +770,6 @@ button.n, button.elabel { font: inherit; }
   .banner .btn { margin-left: 0; }
   .posture-side { grid-template-columns: 1fr 1fr; }
   .verdict { flex-wrap: wrap; }
-  .verdict .vreq { margin-left: 0; text-align: left; }
   .pipe { grid-template-columns: repeat(4, 1fr); row-gap: 22px; }
   .ps:nth-child(5)::before { display: none; }
   table { display: block; overflow-x: auto; }
@@ -1051,3 +1053,15 @@ td.td-break { min-width: 16rem; overflow-wrap: anywhere; }
   .pg.next { grid-column: 1; }
 }
 @media (prefers-reduced-motion: reduce) { .dnav { transition: none; } }
+
+/* What-if: a step that has been cut is drawn grey, dashed and struck through. */
+.e.cut { stroke: var(--line-2); stroke-width: 1.8; stroke-dasharray: 3 5; }
+.elabel.cut { color: var(--faint); background: var(--solid); border-style: dashed; text-decoration: line-through; }
+.whatif-bar { left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; max-width: min(720px, calc(100% - 32px)); padding: 10px 12px 10px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--solid); box-shadow: var(--card-shadow); font-size: 0.9286rem; z-index: 8; }
+.whatif-bar b { font-weight: 600; }
+.whatif-bar .safe { color: var(--ok); } .whatif-bar .risk { color: var(--crit); }
+.whatif-bar .btn { margin-left: auto; }
+.d-cut { display: flex; flex-direction: column; gap: 8px; }
+.d-cut p { margin: 0; font-size: 0.8571rem; color: var(--muted); }
+.fix .sim { margin-left: 8px; }
+@media (max-width: 860px) { .whatif-bar { bottom: 72px; } }

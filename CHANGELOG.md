@@ -6,6 +6,15 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Report: Download report in the app saves a single HTML file with the verdict, the shortest path
+  from each starting principal, what to fix first and every principal at risk, plus the scope and
+  limits of the analysis. It has no scripts and no external references, opens offline and prints
+  to PDF.
+- What if I cut this step: in the attack graph, any technique can be cut, and every recommended
+  fix on the Overview has Simulate. iam-trace searches all confirmed steps in the analysis again
+  and says whether the attacker still reaches an admin-equivalent principal; if so it draws the
+  other route. Cuts are not saved and do not change the analysis.
+- Link previews (Open Graph and Twitter card) and README screenshots.
 - Policy check: `iam-trace check` and a new screen in the app flag 14 risky patterns, each with
   where it is, why it matters and how to fix it. Examples: full admin, `iam:PassRole` on any
   role, Allow with `NotAction`, public principals, `ForAllValues` in an Allow, a typo in a Deny,
@@ -92,6 +101,9 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
   Content-Security-Policy allows neither `unsafe-eval` nor inline styles.
 
 ### Fixed
+
+- Overview header buttons no longer wrap onto two lines; the request summary on an Evaluate
+  result no longer breaks long ARNs mid-word.
 
 - The access-level check now accepts actions the HTML reference lists under several levels
   ("Tagging, Write"). Against the live reference: 21,484 actions, 0 mismatches.

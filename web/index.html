@@ -15,6 +15,17 @@
 <meta name="pyodide-url" content="https://cdn.jsdelivr.net/pyodide/v0.29.3/full/">
 <meta name="description" content="See how an attacker could escalate in your AWS account, why a request is allowed or denied, and what a policy change grants. Runs entirely in your browser.">
 <meta name="color-scheme" content="light dark">
+<!-- Link previews (Slack, X, LinkedIn, Discord): the absolute URL is the published site. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="iam-trace">
+<meta property="og:title" content="iam-trace: see how an attacker becomes admin in your AWS account">
+<meta property="og:description" content="Open-source AWS IAM analysis that runs in your browser: privilege-escalation paths, who can access what, risky policies and why a request is allowed. Your policies never leave the page.">
+<meta property="og:url" content="https://w3bcooki3.github.io/iam-trace/">
+<meta property="og:image" content="https://w3bcooki3.github.io/iam-trace/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="iam-trace: a path from user/dev through role/ops to role/ec2-admin and full control of the account">
+<meta name="twitter:card" content="summary_large_image">
 <title>iam-trace</title>
 <script src="theme.js"></script>
 <link rel="stylesheet" href="style.css">
@@ -90,6 +101,7 @@
       <div class="g-canvas">
         <div class="gsurface" id="gsurface"><div class="world" id="gworld"><svg></svg></div></div>
         <button class="float btn g-open-paths" id="g-show-paths" aria-label="Show the paths panel"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Paths</button>
+        <div class="float whatif-bar" id="whatif-bar" role="status" hidden></div>
         <div class="float g-tools"><button class="btn" id="g-export"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 19h16"/></svg>Download report</button></div>
         <aside class="float g-details glass closed" id="g-details" aria-live="polite"></aside>
         <div class="float g-zoom glass"><button id="z-in" title="Zoom in" aria-label="Zoom in">+</button><button id="z-out" title="Zoom out" aria-label="Zoom out">&minus;</button><button id="z-fit" title="Fit to screen" aria-label="Fit to screen">&#x2922;</button></div>
@@ -316,6 +328,10 @@
           <div class="codeblock"><div class="cb-h">result</div><pre>user/dev --[<span class="r">sts-001</span>]--> role/ops --[<span class="r">ec2-001</span>]--> role/ec2-admin
          allowed every action on every resource</pre></div>
           <p>Removing either step breaks the path. Narrowing <code class="c">iam:PassRole</code> on <code class="c">ops</code> is usually the least disruptive fix.</p>
+          <h3>What if I remove this step?</h3>
+          <p>Select a technique label on the graph and choose <strong>Cut this step</strong>, or use <strong>Simulate</strong> next to a recommended fix on the Overview. iam-trace searches every confirmed step in the analysis again and tells you whether the attacker still reaches admin. If another route exists, it is drawn on the graph so you can cut that too. Cuts only change the view: the analysis and your saved data stay as they are. Run the analysis again after you change the policies to confirm the fix.</p>
+          <h3>Sharing the result</h3>
+          <p><strong>Download report</strong> on the Overview or the graph saves one HTML file: the verdict, the shortest path from each starting principal, what to fix first, every principal at risk, and what the analysis did and did not cover. It contains no scripts, opens without a network connection and prints to PDF. It does include principal names and the account ID, so treat it like the export it came from.</p>
         </section>
 
         <section class="dsec" id="d-evaluate">

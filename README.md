@@ -27,6 +27,8 @@ other cases, but it has not yet been compared case by case with AWS's own policy
 
 Try it in the browser: <https://w3bcooki3.github.io/iam-trace/>. Nothing is uploaded.
 
+![The Overview for the example account: user/dev reaches an admin-equivalent role in two steps](docs/images/overview.png)
+
 ## Who it is for
 
 Developers and small teams who look after AWS accounts without a dedicated security engineer, and
@@ -287,7 +289,12 @@ read-only, so the review goes to the job summary only.
   ordered by how many paths each breaks, technique categories, blast radius and every principal
   ranked by exposure.
 - **Attack graph**: who the attacker can become, full screen, with details for every principal
-  and technique. Three node styles.
+  and technique. Cut any step, or simulate a recommended fix, to see whether another route to
+  admin remains.
+- **Who can**: every principal that can perform an action on a resource, directly or through
+  escalation, drawn as an access graph.
+- **Download report**: one HTML file with the verdict, paths, fixes and principals at risk. No
+  scripts; prints to PDF.
 - **Findings**: every technique for every principal, searchable, with text, SARIF and JSON
   downloads.
 - **Policy check**: paste policies, drop files or use the loaded account export; every finding
@@ -295,8 +302,16 @@ read-only, so the review goes to the job summary only.
 - **Data input**: drop an account export or a single policy, add organization SCPs, choose the
   starting principal. The input is validated before it runs.
 - **Evaluate a request** and **Policy diff**: the `can` and `diff` commands with a full trace.
+  Evaluate also shows what would change the answer, and can apply the change.
 - **Documentation**, **changelog** and **settings** (light, dark or system mode; three styles;
   brand colour), all inside the app.
+
+| Attack graph | Who can | What would change this |
+| --- | --- | --- |
+| ![Attack graph with the path from dev to ec2-admin](docs/images/attack-graph.png) | ![Access graph for s3:PutObject on one object](docs/images/who-can.png) | ![A denied request with the missing Allow](docs/images/what-would-change.png) |
+
+Your data is kept in the browser's IndexedDB so it survives a refresh. Settings lists what is
+saved and deletes any of it.
 
 Why Pyodide rather than a TypeScript port: the app runs the exact code the CLI and the tests run,
 so the two can't drift apart. The cost is a one-time download of about 13 MB, which the browser
