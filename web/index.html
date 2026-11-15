@@ -233,38 +233,53 @@
     </div></section>
 
     <!-- ============================================================== docs -->
-    <section class="view" id="v-docs"><div class="page"><div class="docs">
-      <nav class="toc" id="toc" aria-label="Documentation contents">
-        <h5>Start here</h5>
-        <a href="#d-start">What iam-trace does</a><a href="#d-quick">Your first analysis</a>
-        <h5>Using the app</h5>
-        <a href="#d-attack">Attack paths</a><a href="#d-whocan">Who can</a><a href="#d-check">Policy check</a><a href="#d-evaluate">Evaluate a request</a><a href="#d-diff">Policy diff</a><a href="#d-input">Getting your data</a><a href="#d-words">Words used here</a>
-        <h5>Automation</h5>
-        <a href="#d-cli">Command line</a><a href="#d-action">GitHub Action</a><a href="#d-formats">Output and exit codes</a>
-        <h5>Good to know</h5>
-        <a href="#d-privacy">Privacy and security</a><a href="#d-limits">Limitations</a><a href="#d-faq">Questions</a>
+    <section class="view" id="v-docs"><div class="docs2" id="docs2">
+      <div class="dnav-scrim" id="dnav-scrim" hidden></div>
+      <nav class="dnav" id="dnav" aria-label="Documentation contents">
+        <div class="dnav-top">
+          <label class="dnav-search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="doc-search" placeholder="Search the docs" autocomplete="off" aria-label="Search the documentation"></label>
+          <button class="icon-btn dnav-close" id="dnav-close" aria-label="Close contents"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+        </div>
+        <div class="dnav-list" id="toc">
+          <h5>Start here</h5>
+          <a href="#docs/d-start">Introduction</a><a href="#docs/d-quick">Your first analysis</a>
+          <h5>Using the app</h5>
+          <a href="#docs/d-attack">Attack paths</a><a href="#docs/d-whocan">Who can</a><a href="#docs/d-check">Policy check</a><a href="#docs/d-evaluate">Evaluate a request</a><a href="#docs/d-diff">Policy diff</a><a href="#docs/d-input">Getting your data</a><a href="#docs/d-words">Words used here</a>
+          <h5>Automation</h5>
+          <a href="#docs/d-cli">Command line</a><a href="#docs/d-action">GitHub Action</a><a href="#docs/d-formats">Output and exit codes</a>
+          <h5>Good to know</h5>
+          <a href="#docs/d-privacy">Privacy and security</a><a href="#docs/d-limits">Limitations</a><a href="#docs/d-faq">Questions</a>
+        </div>
+        <div class="dnav-results" id="doc-results" hidden></div>
       </nav>
-      <article class="article">
-        <div class="hero glass">
+      <article class="article" id="doc-article">
+        <div class="doc-bar"><button class="btn dnav-open" id="dnav-open" aria-controls="dnav"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Contents</button><span class="doc-crumb" id="doc-crumb"></span></div>
+        <div class="hero" data-for="d-start">
           <h1>Documentation</h1>
           <p>iam-trace reads your AWS IAM policies and tells you, with evidence, what they really allow. Pick the question you have:</p>
           <div class="qcards">
-            <button class="qcard" data-doc="d-attack"><span class="qi"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11l9.4-5M7.3 13l9.4 5"/></svg></span><b>"If these keys leak, how bad is it?"</b><span>Attack paths</span></button>
-            <button class="qcard" data-doc="d-check"><span class="qi"><svg class="i" viewBox="0 0 24 24"><path d="M9 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M3 4l3 3 4-5"/><path d="M9 12h7M9 16h5"/></svg></span><b>"What in this policy is risky?"</b><span>Policy check</span></button>
-            <button class="qcard" data-doc="d-evaluate"><span class="qi"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></span><b>"Why was this request denied?"</b><span>Evaluate a request</span></button>
-            <button class="qcard" data-doc="d-diff"><span class="qi"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M4 8h6M14 16h6"/></svg></span><b>"Is this policy change safe?"</b><span>Policy diff</span></button>
+            <a class="qcard" href="#docs/d-attack"><span class="qi"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11l9.4-5M7.3 13l9.4 5"/></svg></span><b>If these keys leak, how bad is it?</b><span>Attack paths</span></a>
+            <a class="qcard" href="#docs/d-whocan"><span class="qi"><svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21 20c0-2.6-1.6-4.8-4-5.6"/></svg></span><b>Who can reach this bucket?</b><span>Who can</span></a>
+            <a class="qcard" href="#docs/d-check"><span class="qi"><svg class="i" viewBox="0 0 24 24"><path d="M9 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M3 4l3 3 4-5"/><path d="M9 12h7M9 16h5"/></svg></span><b>What in this policy is risky?</b><span>Policy check</span></a>
+            <a class="qcard" href="#docs/d-evaluate"><span class="qi"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg></span><b>Why was this request denied?</b><span>Evaluate a request</span></a>
+            <a class="qcard" href="#docs/d-diff"><span class="qi"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M4 8h6M14 16h6"/></svg></span><b>Is this policy change safe?</b><span>Policy diff</span></a>
+            <a class="qcard" href="#docs/d-quick"><span class="qi"><svg class="i" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><b>I just want to try it</b><span>Your first analysis</span></a>
           </div>
         </div>
 
         <section class="dsec" id="d-start">
-          <h2>What iam-trace does</h2>
-          <p class="doc-lead">AWS policies are hard to read. A single wildcard or a forgotten permission can let someone become an administrator. iam-trace works out what your policies actually allow and shows you why.</p>
-          <p>It answers three questions:</p>
+          <h2>Introduction</h2>
+          <p class="doc-lead">AWS policies are hard to read. A single wildcard or a forgotten permission can let someone become an administrator. iam-trace works out what your policies actually allow and shows you why, with the statement that decided each answer.</p>
+          <h3>What it answers</h3>
           <ul>
             <li><strong>Attack paths:</strong> if someone takes over this user or role, can they reach full control of the account, and how?</li>
-            <li><strong>Evaluate a request:</strong> is this one action allowed or denied, and which policy decided it?</li>
+            <li><strong>Who can:</strong> who in the account can perform this action on this resource, directly or by escalating?</li>
+            <li><strong>Policy check:</strong> what in this policy is risky, and how do I fix it?</li>
+            <li><strong>Evaluate a request:</strong> is this one request allowed or denied, which policy decided it, and what would change the answer?</li>
             <li><strong>Policy diff:</strong> what does a policy change add or remove, in plain terms?</li>
           </ul>
+          <h3>How it works</h3>
+          <p>An engine that follows AWS's own evaluation order reads your policies: explicit denies, organization guardrails, resource policies, identity policies, permissions boundaries and session policies. The attack-path analysis checks every user and role against 92 published privilege-escalation techniques from <a href="https://pathfinding.cloud" target="_blank" rel="noopener">pathfinding.cloud</a>. Every answer is something you can check: the trace names the statement, and suggested fixes are verified by evaluating again.</p>
           <div class="callout callout-ok"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><div>Everything runs inside this browser tab. Your files are never uploaded, and you don't need to give iam-trace any AWS access.</div></div>
         </section>
 
@@ -295,7 +310,7 @@
             <li><strong>Findings</strong> lists every technique for every principal, so you can search and export them.</li>
           </ul>
           <h3>Confirmed or possible?</h3>
-          <p><strong>Confirmed</strong> means the policies in your export fully allow the technique. <strong>Possible</strong> means it also depends on something the export does not describe, such as an existing Lambda function and the role it runs as. Possible techniques are drawn as dashed amber lines. Check those resources yourself, or add a <a href="#d-input">resource inventory</a> so iam-trace can.</p>
+          <p><strong>Confirmed</strong> means the policies in your export fully allow the technique. <strong>Possible</strong> means it also depends on something the export does not describe, such as an existing Lambda function and the role it runs as. Possible techniques are drawn as dashed amber lines. Check those resources yourself, or add a <a href="#docs/d-input">resource inventory</a> so iam-trace can.</p>
           <h3>Example</h3>
           <p>In the sample account, the user <code class="c">dev</code> can assume the role <code class="c">ops</code> (technique sts-001). <code class="c">ops</code> can launch an EC2 instance with the <code class="c">ec2-admin</code> role attached and read its credentials (ec2-001). <code class="c">ec2-admin</code> has full access. So dev reaches admin in two steps:</p>
           <div class="codeblock"><div class="cb-h">result</div><pre>user/dev --[<span class="r">sts-001</span>]--> role/ops --[<span class="r">ec2-001</span>]--> role/ec2-admin
@@ -353,7 +368,7 @@
           <p>It catches things like full administrator access, <code class="c">iam:PassRole</code> on any role, Allow with <code class="c">NotAction</code>, trust and bucket policies open to <code class="c">"Principal": "*"</code>, conditions that pass when a key is missing, and actions that match nothing. A typo in a Deny is the worst case: the policy looks safe but protects nothing.</p>
           <p>Severity is <span class="tag crit">High</span>, <span class="tag high">Medium</span> or <span class="tag warn">Low</span>. If a statement has a condition the rule doesn't look for, the finding drops one level and says so, because the condition may narrow it.</p>
           <p>Check an account export and every customer managed policy, inline policy and trust policy is checked once, with the users, groups and roles it's attached to. AWS managed policies are skipped unless you turn them on: they are broad by design.</p>
-          <p>Policy check looks at one policy at a time. It can't see what else a principal has, so a clean result doesn't prove least privilege. To see what an attacker could actually reach, use <a href="#d-attack">Attack paths</a>.</p>
+          <p>Policy check looks at one policy at a time. It can't see what else a principal has, so a clean result doesn't prove least privilege. To see what an attacker could actually reach, use <a href="#docs/d-attack">Attack paths</a>.</p>
         </section>
 
         <section class="dsec" id="d-diff">
@@ -413,6 +428,13 @@ iam-trace check policy.json   <span class="m"># the action list is included; cat
 iam-trace can --principal arn:aws:iam::111122223333:user/alice \
   --action s3:GetObject --resource arn:aws:s3:::example-app/data.csv \
   --resource-account 111122223333 --identity developer.json
+
+iam-trace who-can --auth-details auth.json \
+  --action s3:PutObject --resource arn:aws:s3:::example-reports/out.csv
+
+iam-trace can --principal arn:aws:iam::111122223333:user/alice \
+  --action s3:GetObject --resource arn:aws:s3:::example-app/data.csv \
+  --identity developer.json --what-if
 
 iam-trace check --auth-details auth.json --fail-on high
 
@@ -496,8 +518,11 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
           <h3>Is my data safe?</h3>
           <p>Your files never leave this browser tab. You can check this yourself in your browser's network panel.</p>
         </section>
+        <nav class="doc-pager" id="doc-pager" aria-label="Previous and next topic"></nav>
+        <p class="doc-feedback">Something unclear or wrong on this page? <a href="https://github.com/w3bcooki3/iam-trace/issues/new?template=bug_report.yml" target="_blank" rel="noopener noreferrer">Tell us on GitHub</a>.</p>
       </article>
-    </div></div></section>
+      <aside class="otp" id="otp" aria-label="On this page"></aside>
+    </div></section>
 
     <!-- ============================================================== changelog -->
     <section class="view" id="v-changelog"><div class="page narrow">

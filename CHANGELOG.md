@@ -31,6 +31,8 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
   at the resource, escalation hops are labelled with their technique, and selecting a principal
   finds it in the lists.
 - Evaluate: the request panel scrolls on its own and the Evaluate button stays in view.
+- Documentation redesigned: one topic per page with its own address, a contents sidebar with
+  full-text search, "On this page" links, previous and next, and a contents panel on phones.
 - Your work is saved in the browser (IndexedDB) and comes back after a refresh, including the
   last analysis. The top bar says "Saved in this browser" or "Not saved"; leaving with unsaved
   data asks first. Settings, Saved data, lists every saved item with its size and time, and can

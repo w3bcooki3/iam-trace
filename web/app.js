@@ -154,7 +154,9 @@ const VIEWS = {
   docs: ["Help", "Documentation"], changelog: ["Help", "Changelog"], settings: ["App", "Settings"],
 };
 let currentView = null;
-function go(view) {
+function go(path) {
+  const [base, ...sub] = String(path || "").split("/");
+  let view = base;
   if (!VIEWS[view]) view = "overview";
   const changed = view !== currentView;
   currentView = view;
@@ -164,10 +166,13 @@ function go(view) {
   closeSheet(false);
   if (view === "settings") renderSaved();
   if (view === "whocan") wcState();
+  if (view === "docs") showDoc(sub[0], sub[1]);
   document.querySelectorAll(".nav-item[data-go]").forEach((n) => n.classList.toggle("on", n.dataset.go === view));
   $("crumb-group").textContent = VIEWS[view][0];
   $("crumb-view").textContent = VIEWS[view][1];
-  if (location.hash !== "#" + view) history.replaceState(null, "", "#" + view);
+  // Docs keep their topic in the address; other screens are just their name.
+  const address = view === "docs" && sub.length ? [view, ...sub].join("/") : view;
+  if (location.hash !== "#" + address) history.replaceState(null, "", "#" + address);
   root.classList.remove("nav-open");
   requestAnimationFrame(() => graphs.forEach((g) => g.fit()));
 }
@@ -1584,6 +1589,7 @@ const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
     ["Added", ["<b>What would change this</b>: under every Evaluate result, the smallest checked fix for a denied request, or what an allowed one depends on. <b>Try this change</b> applies it.",
       "<b>Who can</b>: every principal that can perform an action on a resource, directly or through escalation, drawn as an access graph.",
+      "<b>Documentation</b>: one topic per page with search, links to every heading, and previous and next.",
       "<b>Saved in your browser</b>: your data and last analysis come back after a refresh. Settings lists what is saved and deletes any of it.",
       "<b>Policy check</b>: a new screen and <code class='c'>iam-trace check</code> flag 14 risky patterns (full admin, iam:PassRole on any role, NotAction, public principals, a typo in a Deny and more), each with why it matters and how to fix it.",
       "<b>Resource inventory</b>: <code class='c'>iam-trace inventory collect</code> (read-only) and a new Data input tab. Techniques that take over an existing Lambda function, EC2 instance or similar are confirmed with the exact resource, or ruled out.",
@@ -1637,17 +1643,109 @@ document.querySelectorAll("#cl-filters .chipf").forEach((c) => c.addEventListene
 
 // ------------------------------------------------------------------------------------- docs
 
-const docsView = $("v-docs");
-function docTo(id) {
-  const el = $(id);
-  if (el) docsView.scrollTo({ top: el.offsetTop - 10, behavior: "smooth" });
+// One topic per page, each with its own address (#docs/d-whocan, or #docs/d-whocan/<heading> for a
+// heading), so topics can be bookmarked and shared. The contents list is the single source of the
+// order: the pager and the breadcrumb are read from it.
+const DOC_IDS = [...$("toc").querySelectorAll("a")].map((a) => a.getAttribute("href").split("/")[1]);
+const docTitle = (id) => $("toc").querySelector(`a[href="#docs/${id}"]`)?.textContent || "";
+function docGroup(id) {
+  let group = "";
+  for (const el of $("toc").children) {
+    if (el.tagName === "H5") group = el.textContent;
+    else if (el.getAttribute("href") === `#docs/${id}`) return group;
+  }
+  return "";
 }
-document.querySelectorAll("#toc a, .dsec a[href^='#d-']").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); docTo(a.getAttribute("href").slice(1)); }));
-document.querySelectorAll(".qcard").forEach((q) => q.addEventListener("click", () => docTo(q.dataset.doc)));
-docsView.addEventListener("scroll", () => {
-  let cur = "d-start";
-  document.querySelectorAll(".dsec").forEach((s) => { if (s.offsetTop - 80 <= docsView.scrollTop) cur = s.id; });
-  document.querySelectorAll("#toc a").forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + cur));
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+let docCurrent = null;
+function showDoc(id, anchor) {
+  if (!DOC_IDS.includes(id)) id = "d-start";
+  const changed = id !== docCurrent;
+  docCurrent = id;
+  document.querySelectorAll("#doc-article .dsec").forEach((s) => { s.hidden = s.id !== id; });
+  document.querySelectorAll("#doc-article [data-for]").forEach((s) => { s.hidden = s.dataset.for !== id; });
+  $("toc").querySelectorAll("a").forEach((a) => {
+    const on = a.getAttribute("href") === `#docs/${id}`;
+    a.classList.toggle("on", on);
+    if (on) a.setAttribute("aria-current", "page");
+    else a.removeAttribute("aria-current");
+  });
+  $("doc-crumb").textContent = id === "d-start" ? "" : `${docGroup(id)} / ${docTitle(id)}`;
+  // Headings get stable ids and a link of their own; "On this page" lists them.
+  const heads = [...$(id).querySelectorAll("h3")];
+  for (const h of heads) {
+    if (h.id) continue;
+    h.id = `${id}--${slug(h.textContent)}`;
+    h.insertAdjacentHTML("beforeend", `<a class="h-anchor" href="#docs/${id}/${h.id}" aria-label="Link to this section">#</a>`);
+  }
+  $("otp").innerHTML = heads.length > 1
+    ? `<h5>On this page</h5>${heads.map((h) => `<a href="#docs/${id}/${h.id}" data-h="${h.id}">${esc(h.firstChild.textContent.trim())}</a>`).join("")}`
+    : "";
+  const i = DOC_IDS.indexOf(id);
+  const [prev, next] = [DOC_IDS[i - 1], DOC_IDS[i + 1]];
+  $("doc-pager").innerHTML = (prev ? `<a class="pg prev" href="#docs/${prev}"><span>Previous</span><b>${esc(docTitle(prev))}</b></a>` : "<span></span>")
+    + (next ? `<a class="pg next" href="#docs/${next}"><span>Next</span><b>${esc(docTitle(next))}</b></a>` : "");
+  setDocNav(false);
+  if (anchor && $(anchor)) $(anchor).scrollIntoView({ block: "start" });
+  else if (changed) $("v-docs").scrollTop = 0;
+  markOtp();
+}
+// "On this page" follows the reader.
+function markOtp() {
+  const view = $("v-docs");
+  let cur = null;
+  $("otp").querySelectorAll("a").forEach((a) => {
+    const h = $(a.dataset.h);
+    if (h && h.getBoundingClientRect().top - view.getBoundingClientRect().top < 120) cur = a;
+  });
+  $("otp").querySelectorAll("a").forEach((a) => a.classList.toggle("on", a === cur));
+}
+$("v-docs").addEventListener("scroll", markOtp, { passive: true });
+
+// On phones the contents slide over the page.
+function setDocNav(open) {
+  $("docs2").classList.toggle("nav-open", open);
+  $("dnav-scrim").hidden = !open;
+  if (open) $("doc-search").focus({ preventScroll: true });
+}
+$("dnav-open").addEventListener("click", () => setDocNav(true));
+$("dnav-close").addEventListener("click", () => { setDocNav(false); $("dnav-open").focus(); });
+$("dnav-scrim").addEventListener("click", () => setDocNav(false));
+document.addEventListener("keydown", (e) => { if (e.key === "Escape" && $("docs2").classList.contains("nav-open")) setDocNav(false); });
+
+// Search: every topic's full text, with the match shown in context.
+// Text is taken with a space at every tag, so table cells and list items don't run together.
+const plainText = (el) => new DOMParser().parseFromString(el.innerHTML.replace(/<[^>]+>/g, " "), "text/html").documentElement.textContent.replace(/\s+/g, " ").trim();
+const DOC_TEXT = DOC_IDS.map((id) => ({ id, title: docTitle(id), text: plainText($(id)) }));
+function searchDocs(q) {
+  const res = $("doc-results");
+  const query = q.trim().toLowerCase();
+  $("toc").hidden = Boolean(query);
+  res.hidden = !query;
+  if (!query) return;
+  const hits = DOC_TEXT.map((d) => {
+    const inTitle = d.title.toLowerCase().includes(query);
+    const at = d.text.toLowerCase().indexOf(query);
+    if (!inTitle && at < 0) return null;
+    let snippet = "";
+    if (at >= 0) {
+      const from = Math.max(0, at - 50);
+      const before = (from ? "…" : "") + d.text.slice(from, at);
+      const after = d.text.slice(at + query.length, at + query.length + 80) + "…";
+      snippet = `${esc(before)}<mark>${esc(d.text.slice(at, at + query.length))}</mark>${esc(after)}`;
+    }
+    // A title match first, then the topics that mention it most.
+    const count = d.text.toLowerCase().split(query).length - 1;
+    return { ...d, snippet, score: (inTitle ? 1000 : 0) + count };
+  }).filter(Boolean).sort((a, b) => b.score - a.score);
+  res.innerHTML = hits.length
+    ? `<p class="dnav-count">${plural(hits.length, "topic")}</p>${hits.map((h) => `<a href="#docs/${h.id}"><b>${esc(h.title)}</b>${h.snippet ? `<span>${h.snippet}</span>` : ""}</a>`).join("")}`
+    : `<p class="dnav-count">Nothing found for "${esc(q.trim())}". Try a shorter word.</p>`;
+}
+$("doc-search").addEventListener("input", (e) => searchDocs(e.target.value));
+$("doc-search").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") $("doc-results").querySelector("a")?.click();
+  if (e.key === "Escape" && e.target.value) { e.stopPropagation(); e.target.value = ""; searchDocs(""); }
 });
 document.querySelectorAll(".codeblock .copy").forEach((b) => b.addEventListener("click", () => copy(b.closest(".codeblock").querySelector("pre").innerText)));
 document.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", () => copy(b.dataset.copy)));

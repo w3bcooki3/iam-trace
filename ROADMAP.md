@@ -65,12 +65,16 @@ Goal: go from "here is the problem" to "here is the change, and here is proof it
 - [ ] **Generated fixes.** For each recommended fix, produce the policy change: a narrowed
       statement, a condition, or a targeted deny or SCP. Run it through the engine to prove that
       it breaks the path and nothing else.
+      Started: for one request, `can --what-if` and Evaluate already give the smallest verified
+      fix as JSON. Still to do: the same for each recommended fix on the attack graph.
 - [ ] **Infrastructure as code.** Read Terraform plans and CloudFormation templates, so risky
       IAM changes are caught before they are deployed, in the same pull-request comment as today.
 - [ ] **Drift over time.** Compare two exports of the same account and report new paths, new
       admins and permissions that grew.
-- [ ] **"Who can" questions.** "Who can read this bucket?" and "who can become this role?",
+- [x] **"Who can" questions.** "Who can read this bucket?" and "who can become this role?",
       answered across the whole export.
+      Done: `iam-trace who-can` and a Who can screen with an access graph. "Who can become
+      this role" is the same query with `sts:AssumeRole` on the role's ARN.
 - [ ] **Shareable reports.** Export a self-contained HTML or PDF report from the app for
       audits and tickets, still generated locally.
 
