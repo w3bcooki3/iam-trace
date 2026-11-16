@@ -125,6 +125,18 @@
    ],
    "data_plane": false
   },
+  "CreateIpGuardrailPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "CreateKeySigningKey": {
    "access_level": "Write",
    "flags": {
@@ -141,6 +153,21 @@
    "data_plane": false
   },
   "CreateQueryLoggingConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateResourceRecordSetProtections": {
    "access_level": "Write",
    "flags": {
     "IsDataPlane": false,
@@ -289,6 +316,18 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DeleteIpGuardrailPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "DeleteKeySigningKey": {
    "access_level": "Write",
    "flags": {
@@ -315,6 +354,21 @@
    },
    "resource_types": [
     "queryloggingconfig"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourceRecordSetProtections": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -598,6 +652,18 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetIpGuardrailPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "GetQueryLoggingConfig": {
    "access_level": "Read",
    "flags": {
@@ -796,7 +862,34 @@
    ],
    "data_plane": false
   },
+  "ListIpGuardrailPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "ListQueryLoggingConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListResourceRecordSetProtections": {
    "access_level": "List",
    "flags": {
     "IsDataPlane": false,
@@ -1014,6 +1107,18 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "UpdateIpGuardrailPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
   },
   "UpdateTrafficPolicyComment": {
    "access_level": "Write",
