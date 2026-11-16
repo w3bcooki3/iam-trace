@@ -254,6 +254,23 @@ def test_analyze_account_with_a_credential_report() -> None:
     assert "credential report" in bad["error"]
 
 
+def test_analyze_account_with_last_accessed_data() -> None:
+    root = Path(__file__).resolve().parents[2] / "examples/account"
+    text = (root / "auth-details.json").read_text()
+    usage = (root / "last-accessed.json").read_text()
+    dev = "arn:aws:iam::111122223333:user/dev"
+    assert json.loads(web_api.analyze_account(text, dev, "", False, "", ""))["unused"] is None
+    out = json.loads(web_api.analyze_account(text, dev, "", False, "", "", usage))
+    assert out["unused"]["days"] == 90
+    assert [p["end"] for p in out["unused"]["impact"]["closed"]] == ["arn:aws:iam::111122223333:role/ec2-admin"]
+    # Another window reuses the analysis: at 300 days github-deploy's sts use counts again.
+    r = json.loads(web_api.unused_query(text, usage, 300))
+    assert r["days"] == 300 and r["impact"]["closed"] == []
+    bad = json.loads(web_api.analyze_account(text, dev, "", False, "", "", "{}"))
+    assert "last accessed data" in bad["error"]
+    assert "last accessed data" in json.loads(web_api.unused_query(text, "[]", 90))["error"]
+
+
 def test_data_exposure_and_query() -> None:
     root = Path(__file__).resolve().parents[2] / "examples/account"
     text = (root / "auth-details.json").read_text()

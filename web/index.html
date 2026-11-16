@@ -57,6 +57,7 @@
     <button class="nav-item" data-go="graph"><svg class="i" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.3 11l9.4-5M7.3 13l9.4 5"/></svg>Attack graph<span class="count" id="nav-paths" hidden></span></button>
     <button class="nav-item" data-go="whocan"><svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M21 20c0-2.6-1.6-4.8-4-5.6"/></svg>Who can</button>
     <button class="nav-item" data-go="data"><svg class="i" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="7" ry="2.5"/><path d="M5 5.5v13c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-13M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/></svg>Data access<span class="count" id="nav-data" hidden></span></button>
+    <button class="nav-item" data-go="unused"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6"/><path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>Unused access<span class="count" id="nav-unused" hidden></span></button>
     <button class="nav-item" data-go="findings"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.4-3.4 8-8 9-4.6-1-8-4.6-8-9V7z"/><path d="M12 8v4M12 15.5v.5"/></svg>Findings<span class="count" id="nav-findings" hidden></span></button>
     <button class="nav-item" data-go="input"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>Data input</button>
     <h4>Tools</h4>
@@ -123,6 +124,7 @@
         <button class="src" data-src="scp" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="5" rx="1"/><rect x="3" y="16" width="6" height="5" rx="1"/><rect x="15" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M6 16v-4h12v4"/></svg></span><div><b>Organization SCPs</b><span>Optional: guardrails from AWS Organizations</span></div></button>
         <button class="src" data-src="inv" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="8" height="7" rx="1.5"/><path d="M15 16.5h4M17 14.5v4"/></svg></span><div><b>Resource inventory</b><span>Optional: existing resources and their roles</span></div></button>
         <button class="src" data-src="cred" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg></span><div><b>Credential report</b><span>Optional: who has keys, passwords and MFA</span></div></button>
+        <button class="src" data-src="usage" role="tab"><span class="si"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><b>Last accessed</b><span>Optional: which allowed services are really used</span></div></button>
       </div>
       <div class="input-grid">
         <div>
@@ -155,6 +157,10 @@
             <div class="cmd">iam-trace credentials collect --out credentials.json<button class="icon-btn copy" data-copy="iam-trace credentials collect --out credentials.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
             <p class="cmd-note">Read-only. Or with the AWS CLI alone: <span class="mono">aws iam generate-credential-report</span>, then <span class="mono">aws iam get-credential-report &gt; credentials.json</span>. SecurityAudit includes both permissions. The report lists dates and flags, no secrets.</p>
           </div></div>
+          <div class="glass" id="get-usage" hidden><div class="card-h"><h3>Get last accessed data</h3></div><div class="card-b">
+            <div class="cmd">iam-trace usage collect --auth-details auth-details.json --out last-accessed.json<button class="icon-btn copy" data-copy="iam-trace usage collect --auth-details auth-details.json --out last-accessed.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
+            <p class="cmd-note">Read-only. For every user and role it asks IAM when each allowed service was last used, over the last 400 days. Needs <span class="mono">iam:GenerateServiceLastAccessedDetails</span> and <span class="mono">iam:GetServiceLastAccessedDetails</span>.</p>
+          </div></div>
           <div class="glass" id="get-inventory" hidden><div class="card-h"><h3>Get the inventory</h3></div><div class="card-b">
             <div class="cmd">iam-trace inventory collect --out inventory.json<button class="icon-btn copy" data-copy="iam-trace inventory collect --out inventory.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
             <p class="cmd-note">Read-only list and describe calls through your AWS CLI, in every enabled region. ReadOnlyAccess or SecurityAudit is enough. Add <span class="mono">--regions us-east-1,eu-west-1</span> to limit it.</p>
@@ -168,6 +174,12 @@
     <section class="view" id="v-data"><div class="page">
       <div class="page-head"><div><h1>Data access</h1><p>Who can read, write or delete the data in your S3 buckets and KMS keys: directly, by escalating, or from outside the account. Reading an encrypted bucket takes the key too.</p></div></div>
       <div id="data-body"></div>
+    </div></section>
+
+    <section class="view" id="v-unused"><div class="page">
+      <div class="page-head"><div><h1>Unused access</h1><p>Services each policy allows that nobody who has it has used, and the same policies without them. Removing unused access can close paths to admin.</p></div>
+        <div class="actions"><label class="muted small-label" for="un-days">Unused for at least</label><select class="btn" id="un-days"><option value="30">30 days</option><option value="60">60 days</option><option value="90" selected>90 days</option><option value="180">180 days</option><option value="365">365 days</option></select></div></div>
+      <div id="unused-body"></div>
     </div></section>
 
     <section class="view" id="v-whocan"><div class="page">
@@ -335,7 +347,7 @@
             <li><strong>Policy diff:</strong> what does a policy change add or remove, in plain terms?</li>
           </ul>
           <h3>How it works</h3>
-          <p>An engine that follows AWS's own evaluation order reads your policies: explicit denies, organization guardrails, resource policies, identity policies, permissions boundaries and session policies. The attack-path analysis checks every user and role against <span id="tech-count">91</span> published privilege-escalation techniques from <a href="https://pathfinding.cloud" target="_blank" rel="noopener">pathfinding.cloud</a>. Every answer is something you can check: the trace names the statement, and suggested fixes are verified by evaluating again.</p>
+          <p>An engine that follows AWS's own evaluation order reads your policies: explicit denies, organization guardrails, resource policies, identity policies, permissions boundaries and session policies. The attack-path analysis checks every user and role against <span class="tech-count">91</span> published privilege-escalation techniques from <a href="https://pathfinding.cloud" target="_blank" rel="noopener">pathfinding.cloud</a>. Every answer is something you can check: the trace names the statement, and suggested fixes are verified by evaluating again.</p>
           <div class="callout callout-ok"><svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><div>Everything runs inside this browser tab. Your files are never uploaded, and you don't need to give iam-trace any AWS access.</div></div>
         </section>
 
@@ -359,7 +371,7 @@
           <h2>Attack paths</h2>
           <div class="tldr"><b>Answers</b><span>Can this principal become an administrator, and how?</span><b>Use it when</b><span>reviewing an account, after a key leak, or before granting a role new rights.</span><b>You need</b><span>an account export. SCPs are optional.</span></div>
           <h3>How it works</h3>
-          <p>iam-trace knows <strong>92 privilege-escalation techniques</strong>, collected by pathfinding.cloud. A technique is a trick such as "pass an admin role to a new EC2 instance, then read its credentials". For each user and role, iam-trace checks which techniques its policies allow, then chains them together: user A can become role B, role B can become role C, and so on, until it reaches someone with full control.</p>
+          <p>iam-trace knows <strong><span class="tech-count">91</span> privilege-escalation techniques</strong>, collected by pathfinding.cloud. A technique is a trick such as "pass an admin role to a new EC2 instance, then read its credentials". For each user and role, iam-trace checks which techniques its policies allow, then chains them together: user A can become role B, role B can become role C, and so on, until it reaches someone with full control.</p>
           <h3>Reading the results</h3>
           <ul>
             <li><strong>Overview</strong> gives the verdict first. <em>Critical</em> means a confirmed path to admin exists.</li>
@@ -466,6 +478,10 @@
           <p>The account export doesn't say which users have access keys or a password, so Entry points lists every user. The IAM credential report says, with dates. Get it read-only:</p>
           <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>iam-trace credentials collect --out credentials.json</pre></div>
           <p>Load it under <strong>Credential report</strong> in Data input. Users with no password and no active key are left out of Entry points, old or unused keys and passwords without MFA rank higher, and root user access keys are reported as critical. The report holds dates and flags, no secrets.</p>
+          <h3>Optional: last accessed data</h3>
+          <p>IAM records when each user and role last used each service it is allowed, over the last 400 days. Get it read-only:</p>
+          <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>iam-trace usage collect --auth-details auth-details.json --out last-accessed.json</pre></div>
+          <p>Load it under <strong>Last accessed</strong> in Data input, then open <a href="#unused">Unused access</a>. A service is removed from a policy only if nobody who has the policy, directly or through a group, used it for the number of days you choose (90 by default). Edits only take access away: a statement that allows everything becomes "everything except the unused services", so services the data doesn't cover stay. <code class="c">iam:PassRole</code> is never removed, because AWS doesn't record when a role is passed. The account is then analysed again, to show which paths to admin the cleanup closes. Roles kept for emergencies look unused by design; review each edit before applying it.</p>
           <h3>Optional: a resource inventory</h3>
           <p>Some techniques take over something that already exists, such as editing an existing Lambda function's code to act as its role. The export doesn't list your functions or instances, so these are <strong>possible</strong> until you add a resource inventory:</p>
           <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>iam-trace inventory collect --out inventory.json</pre></div>
@@ -495,6 +511,8 @@ iam-trace check policy.json   <span class="m"># the action list is included; cat
             <tr><td><code class="c">iam-trace entry-points</code></td><td>Where an attack could start: IAM users and roles that someone outside the account can assume, ranked by what they reach.</td></tr>
             <tr><td><code class="c">iam-trace terraform</code></td><td>Reviews the IAM changes in a Terraform plan; with an account export, the new paths to admin and entry points it would create.</td></tr>
             <tr><td><code class="c">iam-trace data</code></td><td>Who can read, write or delete the data in S3 buckets and KMS keys, by any route; every bucket and key rated, or one in detail.</td></tr>
+            <tr><td><code class="c">iam-trace usage collect</code></td><td>Fetches IAM last accessed data for every user and role (read-only), for <code class="c">unused --usage</code>.</td></tr>
+            <tr><td><code class="c">iam-trace unused</code></td><td>Services each policy allows that nobody who has it used, the policies without them, and the paths to admin that closes.</td></tr>
             <tr><td><code class="c">iam-trace credentials collect</code></td><td>Fetches the IAM credential report (read-only), for <code class="c">entry-points --credential-report</code>.</td></tr>
             <tr><td><code class="c">iam-trace inventory collect</code></td><td>Lists existing functions, instances and similar resources with their roles (read-only), for <code class="c">escalate --inventory</code>.</td></tr>
             <tr><td><code class="c">iam-trace who-can</code></td><td>Every principal in an account export that can perform an action on a resource, directly or through escalation.</td></tr>
@@ -685,7 +703,7 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
       <div class="glass set-card" id="set-about">
         <div class="card-h"><h2>About</h2></div>
         <div class="set-row"><div class="lab"><b>iam-trace</b><span>Open source under the MIT licence.</span></div>
-          <div class="kv-list"><span>Version</span><div><span class="mono">0.2.0</span>, beta. Tested against AWS's documented examples; not yet compared live with AWS's policy simulator.</div><span>Engine</span><div>Python, running in this browser with Pyodide 0.29.3</div><span>Action catalog</span><div id="about-catalog">Loading</div><span>Techniques</span><div>92, from pathfinding.cloud</div><span>Source</span><div><a href="https://github.com/w3bcooki3/iam-trace" target="_blank" rel="noopener">github.com/w3bcooki3/iam-trace</a></div></div></div>
+          <div class="kv-list"><span>Version</span><div><span class="mono">0.2.0</span>, beta. Tested against AWS's documented examples; not yet compared live with AWS's policy simulator.</div><span>Engine</span><div>Python, running in this browser with Pyodide 0.29.3</div><span>Action catalog</span><div id="about-catalog">Loading</div><span>Techniques</span><div><span class="tech-count">91</span>, from pathfinding.cloud</div><span>Source</span><div><a href="https://github.com/w3bcooki3/iam-trace" target="_blank" rel="noopener">github.com/w3bcooki3/iam-trace</a></div></div></div>
       </div>
     </div></div>
     </div></section>

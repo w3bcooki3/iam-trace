@@ -154,7 +154,7 @@ $("menu-btn").addEventListener("click", () => root.classList.toggle("nav-open"))
 // ------------------------------------------------------------------------------------- navigation
 
 const VIEWS = {
-  overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"], whocan: ["Attack paths", "Who can"], data: ["Attack paths", "Data access"],
+  overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"], whocan: ["Attack paths", "Who can"], data: ["Attack paths", "Data access"], unused: ["Attack paths", "Unused access"],
   input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"], terraform: ["Tools", "Terraform plan"],
   docs: ["Help", "Documentation"], changelog: ["Help", "Changelog"], settings: ["App", "Settings"],
 };
@@ -172,6 +172,7 @@ function go(path) {
   if (view === "settings") renderSaved();
   if (view === "whocan") wcState();
   if (view === "data") renderData();
+  if (view === "unused") renderUnused();
   if (view === "terraform") tfState();
   if (view === "docs") showDoc(sub[0], sub[1]);
   document.querySelectorAll(".nav-item[data-go]").forEach((n) => n.classList.toggle("on", n.dataset.go === view));
@@ -269,7 +270,7 @@ function onEngineReady(info) {
   api = true;
   engineVersion = info.version;
   TECHNIQUES = info.techniques || TECHNIQUES;
-  $("tech-count").textContent = TECHNIQUES;
+  document.querySelectorAll(".tech-count").forEach((el) => { el.textContent = TECHNIQUES; });
   const summary = info.catalog;
   hasCatalog = Boolean(summary);
   engineStatus("ready");
@@ -324,7 +325,7 @@ $("overlay-cancel").addEventListener("click", () => { overlay(""); cancelEngine(
 
 // ------------------------------------------------------------------------------------- data input
 
-const input = { src: "account", account: "", policy: "", scp: "", inv: "", cred: "", file: null, start: "", principals: [], example: false, accountValid: false };
+const input = { src: "account", account: "", policy: "", scp: "", inv: "", cred: "", usage: "", file: null, start: "", principals: [], example: false, accountValid: false };
 let lastValid = null;
 
 function setEditor(text) {
@@ -352,6 +353,7 @@ const SRC_TEXT = {
   scp: ["Drop SCP files here", "One SCP document, or a JSON array of them. They apply to every principal in the account export.", "scps.json"],
   inv: ["Drop the resource inventory here", "From iam-trace inventory collect. It lets techniques that abuse existing functions and instances be confirmed or ruled out.", "inventory.json"],
   cred: ["Drop the credential report here", "The CSV, or the JSON from aws iam get-credential-report. Entry points then know which users really have keys, passwords and MFA.", "credentials.csv"],
+  usage: ["Drop the last accessed data here", "From iam-trace usage collect: when each user and role last used each service it is allowed. Unused access then suggests what to remove.", "last-accessed.json"],
 };
 // Kinds the inventory can describe, as people say them (mirrors iamtrace.inventory.KINDS).
 const INV_KINDS = {
@@ -369,7 +371,8 @@ function setSource(src) {
   $("dz-sub").textContent = s;
   $("ed-name").textContent = src === "account" && input.file ? input.file.name : f;
   $("pick-card").hidden = src !== "account";
-  $("get-export").hidden = src === "inv" || src === "cred";
+  $("get-export").hidden = ["inv", "cred", "usage"].includes(src);
+  $("get-usage").hidden = src !== "usage";
   $("get-inventory").hidden = src !== "inv";
   $("get-credentials").hidden = src !== "cred";
   $("file-input").accept = src === "cred" ? ".csv,.json,text/csv,application/json" : ".json,application/json";
@@ -456,6 +459,10 @@ $("ed-example").addEventListener("click", async () => {
     const r = await fetch("examples/credential-report.csv");
     input.cred = r.ok ? await r.text() : "";
     if (!input.account.trim()) await loadExampleAccount();
+  } else if (input.src === "usage") {
+    const r = await fetch("examples/last-accessed.json");
+    input.usage = r.ok ? await r.text() : "";
+    if (!input.account.trim()) await loadExampleAccount();
   } else input.scp = JSON.stringify([{ Version: "2012-10-17", Statement: [{ Sid: "AllowAll", Effect: "Allow", Action: "*", Resource: "*" }] },
     { Version: "2012-10-17", Statement: [{ Sid: "DenyLeavingOrg", Effect: "Deny", Action: "organizations:LeaveOrganization", Resource: "*" }] }], null, 2);
   setSource(input.src);
@@ -523,6 +530,29 @@ function validateCredentials(text, box, set) {
     <div class="check ok">${IC.info}<div>Used the next time you run an account analysis</div></div>`;
   lastValid = { kind: "cred" };
 }
+// Last accessed data: {"Reports": {principal ARN: get-service-last-accessed-details output}}.
+function validateUsage(data, box, set) {
+  const reports = data && typeof data === "object" && !Array.isArray(data) ? data.Reports : null;
+  if (!reports || typeof reports !== "object" || Array.isArray(reports)) {
+    set("crit", "Not last accessed data");
+    box.innerHTML = `<div class="check bad">${IC.x}<div>This is not last accessed data<small>Expected the file iam-trace usage collect writes: {"Reports": {principal ARN: the output of get-service-last-accessed-details}}.</small></div></div>`;
+    return;
+  }
+  const entries = Object.entries(reports);
+  const bad = entries.filter(([, r]) => !r || !Array.isArray(r.ServicesLastAccessed));
+  if (bad.length) {
+    set("crit", "Problem");
+    box.innerHTML = `<div class="check bad">${IC.x}<div>${plural(bad.length, "report")} without ServicesLastAccessed<small>${esc(short(bad[0][0]))} and any others are not get-service-last-accessed-details output.</small></div></div>`;
+    return;
+  }
+  const dates = entries.map(([, r]) => Date.parse(r.JobCompletionDate || r.JobCreationDate)).filter((d) => !Number.isNaN(d));
+  const services = entries.reduce((a, [, r]) => a + r.ServicesLastAccessed.length, 0);
+  const newest = dates.length ? new Date(Math.max(...dates)) : null;
+  set("ok", "Ready");
+  box.innerHTML = `<div class="check ok">${IC.ok}<div>${plural(entries.length, "user or role", "users and roles")} with a report<small>${plural(services, "allowed service")} in all${newest ? `, made ${esc(newest.toLocaleDateString())}` : ""}.</small></div></div>
+    <div class="check ok">${IC.info}<div>Used the next time you run an account analysis<small>Then open Unused access.</small></div></div>`;
+  lastValid = { kind: "usage" };
+}
 function validate() {
   persist(input.src);
   const text = input[input.src].trim();
@@ -537,6 +567,7 @@ function validate() {
       scp: "Optional. Leave empty if the account is not in AWS Organizations.",
       inv: "Optional. Without it, techniques that abuse existing functions, instances and similar resources are reported as possible.",
       cred: "Optional. Without it, every IAM user is treated as a possible entry point, because the account export does not say who has keys or a password.",
+      usage: "Optional. With it, Unused access shows which allowed services nobody uses, and what removing them changes.",
     };
     box.innerHTML = `<p class="muted">${empty[input.src] || "Nothing loaded yet. Drop a file, paste JSON, or press Load example."}</p>`;
     if (input.src === "account") renderPicker([]);
@@ -555,6 +586,11 @@ function validate() {
     set("crit", "Not valid JSON");
     box.innerHTML = `<div class="check bad">${IC.x}<div>The text is not valid JSON<small>${esc(jsonError(text, e))}</small></div></div>`;
     if (input.src === "account") { input.principals = []; renderPicker([]); }
+    updateRun();
+    return;
+  }
+  if (input.src === "usage") {
+    validateUsage(data, box, set);
     updateRun();
     return;
   }
@@ -579,6 +615,7 @@ function validate() {
     else checks.push(`<div class="check ok">${IC.ok}<div>SCPs will be applied<small>From the Organization SCPs tab</small></div></div>`);
     if (input.inv.trim()) checks.push(`<div class="check ok">${IC.ok}<div>Resource inventory will be used<small>From the Resource inventory tab</small></div></div>`);
     if (input.cred.trim()) checks.push(`<div class="check ok">${IC.ok}<div>Credential report will be used<small>From the Credential report tab, for entry points</small></div></div>`);
+    if (input.usage.trim()) checks.push(`<div class="check ok">${IC.ok}<div>Last accessed data will be used<small>From the Last accessed tab, for unused access</small></div></div>`);
     box.innerHTML = checks.join("");
     lastValid = { kind: "account" };
     whenReady(async () => {
@@ -683,7 +720,7 @@ async function runAnalysis({ restoring = false, src = input.src } = {}) {
       if (out.error) throw new Error(out.error);
       setModel(fromPolicy(out));
     } else {
-      const out = await call("analyze_account", input.account, input.start, input.scp, $("opt-blast").checked, input.inv, input.cred);
+      const out = await call("analyze_account", input.account, input.start, input.scp, $("opt-blast").checked, input.inv, input.cred, input.usage);
       if (out.error) throw new Error(out.error);
       setModel(fromAccount(out));
     }
@@ -723,7 +760,8 @@ function fromAccount(out) {
     sarif: out.sarif,
     entry: out.entry_points || { entries: [], summary: {} },
     data: out.data || { resources: [], collected: [], notes: [] },
-    inputs: { account: input.account, scp: input.scp, inv: input.inv, cred: input.cred },
+    unused: out.unused || null,
+    inputs: { account: input.account, scp: input.scp, inv: input.inv, cred: input.cred, usage: input.usage },
     fix: { scope: "start", plans: {}, state: "idle" },
   };
 }
@@ -765,6 +803,9 @@ function setModel(m) {
   const findings = m.principals.reduce((a, p) => a + p.confirmed, 0);
   $("nav-findings").hidden = !findings;
   $("nav-findings").textContent = findings;
+  const edits = m.unused ? m.unused.edits.length : 0;
+  $("nav-unused").hidden = !edits;
+  $("nav-unused").textContent = edits;
   renderOverview();
   renderGraphView();
   renderFindings();
@@ -1106,6 +1147,98 @@ function dataCard(m) {
   return `<div class="glass" id="data-card"><div class="card-h"><h3>Data exposure</h3><span class="sub">Buckets and keys from the inventory, worst first</span><div class="right"><button class="btn" data-go="data">Open Data access</button></div></div>
     <table class="mtable dx-table"><tbody>${rows.map((r) => `<tr><td><b>${esc(dataName(r.resource))}</b><small class="t-faint"> ${r.kind === "kms-key" ? "KMS key" : "S3 bucket"}</small></td><td data-label="Rating"><span class="sev ${DATA_RATING[r.rating]}"><i></i>${r.rating}</span></td><td data-label="Who can read">${accessCell(r.read)}</td></tr>`).join("")}</tbody></table></div>`;
 }
+
+// ------------------------------------------------------------------------------------- unused access
+
+// Services each policy allows that nobody who has it used (iamtrace.usage), from IAM's last
+// accessed data, and the account analysed again without them.
+const UNUSED_KIND = { inline: "Inline", group: "Group", managed: "Customer managed", "aws-managed": "AWS managed" };
+const USAGE_CMD = "iam-trace usage collect --auth-details auth-details.json --out last-accessed.json";
+function idleText(days) {
+  return days === null || days === undefined ? "never used" : `unused ${plural(days, "day")}`;
+}
+function unusedEmpty() {
+  return `<div class="glass empty-card"><h3>Add last accessed data</h3>
+    <p>IAM records when each user and role last used each service it is allowed, over the last 400 days. Collect it, read-only, and load the file under <b>Last accessed</b> in Data input. Unused access then shows which allowed services nobody uses, the policies without them, and which paths to admin that closes.</p>
+    <div class="cmd">${esc(USAGE_CMD)}<button class="icon-btn copy" data-copy="${esc(USAGE_CMD)}" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
+    <div class="row-actions"><button class="btn primary" id="un-example">Try the example</button><button class="btn" id="un-open-input">Open Last accessed</button></div></div>`;
+}
+function renderUnused() {
+  const body = $("unused-body"), m = model;
+  $("un-days").disabled = !(m && m.unused);
+  if (!m || m.mode !== "account") {
+    body.innerHTML = `<div class="glass empty-card"><h3>Run an account analysis first</h3><p>Unused access uses the account export, and IAM's last accessed data for its users and roles.</p><div class="row-actions"><button class="btn primary" data-go="input">Open Data input</button></div></div>`;
+    return;
+  }
+  const u = m.unused;
+  if (!u) {
+    body.innerHTML = unusedEmpty();
+    $("un-example").addEventListener("click", async () => {
+      const r = await fetch("examples/last-accessed.json");
+      if (!r.ok) return toast("The example is missing from this site");
+      if (m.example || !input.account.trim()) { await loadExampleAccount(); persist("account"); }
+      input.usage = await r.text();
+      persist("usage");
+      await runAnalysis();
+      go("unused");
+    });
+    $("un-open-input").addEventListener("click", () => { go("input"); setSource("usage"); });
+    return;
+  }
+  $("un-days").value = String(u.days);
+  const imp = u.impact;
+  const removed = u.edits.reduce((a, e) => a + e.removes.length, 0);
+  const closed = imp.closed.length;
+  const verdict = closed
+    ? `<b>Removing unused access closes ${plural(closed, "path")} to admin.</b>`
+    : u.edits.length ? "<b>No path to admin closes,</b> but these services can go." : "<b>Nothing to remove.</b> Every allowed service is in use, or a report is missing for someone who shares the policy.";
+  const head = `<div class="callout ${closed ? "callout-ok" : ""}"><div>${verdict} ${u.edits.length ? `${plural(u.edits.length, "policy", "policies")} can lose ${plural(removed, "service")}.` : ""} Paths to admin: ${imp.paths_before} now, ${imp.paths_after} after. Admin-equivalent principals: ${imp.admins_before} now, ${imp.admins_after} after.</div></div>`;
+  const sec = (title, items, extra = "") => items.length ? `<section class="dx-sec"><h3>${title} <span class="t-faint">${items.length}</span></h3>${extra}${items.join("")}</section>` : "";
+  const rows = u.edits.map((e, i) => {
+    const who = e.affects.slice(0, 3).map((a) => `<span class="mono">${esc(short(a))}</span>`).join(", ") + (e.affects.length > 3 ? ` and ${e.affects.length - 3} more` : "");
+    const svcs = e.removes.map((ns) => `<span class="un-svc"><span class="mono">${esc(ns)}</span> <small>${esc(idleText(e.idle_days[ns]))}</small></span>`).join("");
+    return `<tr><td><b>${policyName(e.policy)}</b><div class="un-tags"><span class="tag plain">${esc(UNUSED_KIND[e.kind] || e.kind)}</span>${e.delete ? '<span class="tag warn">Delete</span>' : ""}</div></td>
+      <td data-label="Who has it">${who}</td>
+      <td data-label="Removes"><div class="un-svcs">${svcs}</div></td>
+      <td class="ep-act"><button class="btn" data-un="${i}">Details</button></td></tr>`;
+  });
+  const reports = u.principals.filter((p) => p.report);
+  const idle = reports.filter((p) => p.idle && p.allowed);
+  const missing = u.principals.length - reports.length;
+  body.innerHTML = `${head}
+    ${sec("Paths this closes", imp.closed.map(tfChain))}
+    ${rows.length ? `<div class="glass"><div class="card-h"><h3>Policies to edit</h3><span class="sub">Each edit only takes access away. Review it before applying.</span></div>
+      <table class="mtable un-table"><thead><tr><th>Policy</th><th>Who has it</th><th>Removes</th><th></th></tr></thead><tbody>${rows.join("")}</tbody></table></div>` : ""}
+    ${sec(`Used nothing in ${u.days} days`, idle.map((p) => `<div class="dx-row"><span class="mono">${esc(short(p.arn))}</span><small>${plural(p.allowed, "service")} allowed, none used${p.last_used ? `; last use ${esc(new Date(p.last_used).toLocaleDateString())}` : ""}.</small></div>`), '<p class="muted">Unless one is kept for emergencies, consider removing it.</p>')}
+    ${sec("Left alone", u.skipped.map((x) => `<div class="dx-row"><span>${policyName(x.policy)}</span><small>${esc(sentence(x.reason))}</small></div>`))}
+    <p class="ep-note">${plural(reports.length, "user or role", "users and roles")} with a report${missing ? `, ${missing} without one (their policies are only edited where everyone who shares them has a report)` : ""}. iam:PassRole is never removed: AWS does not record its use. Reports cover services; per-action data is shown in each edit's details but not acted on.</p>`;
+  body.querySelectorAll("[data-un]").forEach((b) => b.addEventListener("click", () => openUnusedEdit(u.edits[Number(b.dataset.un)], u)));
+}
+function openUnusedEdit(e, u) {
+  const notes = [];
+  if (e.kind === "aws-managed") notes.push("AWS managed policies can't be edited. Create a customer managed policy with the document below, attach it instead, and detach this one.");
+  if (e.kind === "managed" || e.kind === "group") notes.push(`Shared: ${plural(e.affects.length, "principal")} ${e.affects.length === 1 ? "has" : "have"} it, and none of them used what is removed.`);
+  if (e.keeps_passrole) notes.push("iam:PassRole stays: AWS does not record when a role is passed, so it never looks used.");
+  const actions = u.principals.filter((p) => e.affects.includes(p.arn)).flatMap((p) => p.unused_actions.filter((a) => e.removes.includes(a.split(":")[0])));
+  const doc = (label, obj, key) => `<div class="codeblock fp-code"><div class="cb-h">${esc(label)}<button class="copy" data-un-json="${key}">Copy</button></div><pre>${esc(JSON.stringify(obj, null, 2))}</pre></div>`;
+  const html = `${notes.map((n) => `<div class="callout">${esc(n)}</div>`).join("")}
+    <section class="dx-sec"><h3>Removes</h3>${e.removes.map((ns) => `<div class="dx-row"><span class="mono">${esc(ns)}</span><small>${e.idle_days[ns] === null || e.idle_days[ns] === undefined ? "Never used by anyone who has this policy." : `Not used for ${plural(e.idle_days[ns], "day")} by anyone who has this policy.`}${actions.some((a) => a.startsWith(ns + ":")) ? ` Tracked actions not used: ${esc([...new Set(actions.filter((a) => a.startsWith(ns + ":")))].slice(0, 8).join(", "))}.` : ""}</small></div>`).join("")}</section>
+    <section class="dx-sec"><h3>Who has it</h3>${e.affects.map((a) => `<div class="dx-row"><span class="mono">${esc(short(a))}</span></div>`).join("")}</section>
+    ${e.delete ? `<div class="callout"><b>Nothing is left: ${e.kind === "inline" || e.kind === "group" ? "delete the inline policy" : "detach and delete the policy"}.</b></div>` : doc("After", e.document, "after")}
+    ${doc("Now", e.before, "before")}`;
+  openSheet(policyName(e.policy).replace(/<[^>]+>/g, ""), html, "", "Back to Unused access");
+  $("sheet-body").querySelectorAll("[data-un-json]").forEach((b) => b.addEventListener("click", () => copy(JSON.stringify(b.dataset.unJson === "after" ? e.document : e.before, null, 2))));
+}
+$("un-days").addEventListener("change", async () => {
+  const m = model;
+  if (!m || !m.unused) return;
+  const r = await call("unused_query", m.inputs.account, m.inputs.usage, Number($("un-days").value), m.inputs.scp, m.inputs.inv);
+  if (r.error) return toast(sentence(r.error));
+  m.unused = r;
+  $("nav-unused").hidden = !r.edits.length;
+  $("nav-unused").textContent = r.edits.length;
+  renderUnused();
+});
 
 // ------------------------------------------------------------------------------------- terraform plan
 
@@ -2206,7 +2339,8 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Escalation benchmark</b>: all 91 AWS paths in pathfinding.cloud are checked on every change, each built from pathfinding.cloud's own description, together with 1,136 near misses that must not be reported. All 91 are found, 23 of them with a resource inventory, with no false alarms. The table is in <code class='c'>docs/coverage.md</code>.",
+    ["Added", ["<b>Unused access</b>: load IAM's last accessed data under the new Last accessed tab (or <code class='c'>iam-trace usage collect</code>), and a new screen lists the services each policy allows that nobody who has it used, the policies without them, and the paths to admin that removing them closes. Edits only take access away and keep <code class='c'>iam:PassRole</code>.",
+      "<b>Escalation benchmark</b>: all 91 AWS paths in pathfinding.cloud are checked on every change, each built from pathfinding.cloud's own description, together with 1,136 near misses that must not be reported. All 91 are found, 23 of them with a resource inventory, with no false alarms. The table is in <code class='c'>docs/coverage.md</code>.",
       "Resource inventory now also records Batch job definitions, running ECS tasks, EC2 launch templates and Bedrock AgentCore resources, so every existing-resource technique can be confirmed.",
       "<b>Terraform plan</b>: a new screen and <code class='c'>iam-trace terraform</code> review the IAM changes in a plan, and with an account loaded, the paths to admin and entry points it would open. The GitHub Action can post it on pull requests.",
       "<b>Data access</b>: a new screen and <code class='c'>iam-trace data</code> rate every S3 bucket and KMS key by who can read and write it, directly, by escalating or from outside the account. Encrypted buckets need the key too; public policies are checked against the key and Block Public Access.",
@@ -2235,7 +2369,8 @@ const CHANGES = [
       "Settings: light, dark or system mode; bold, restrained or brand-colour style; graph node style.",
       "Marked as beta, with an honest comparison to pathfinding.cloud, PMapper, Cloudsplaining and iam-lens, and a public roadmap (ROADMAP.md).",
       "<code class='c'>web_api.analyze_account</code>: one call returns the analysis from a starting principal, a summary of every principal, and supports SCPs."]],
-    ["Changed", ["<b>Fix plans are faster</b>: the search for the fewest changes skips combinations it has already tried and prunes earlier, so plans that took up to 17 seconds on a small account now take about one. They are still the smallest possible.",
+    ["Changed", ["<b>Analysis is 5 to 10 times faster on large accounts</b>, with the same results: an account of 200 users and 200 roles that took nearly a minute in the browser now takes about 10 seconds.",
+      "<b>Fix plans are faster</b>: the search for the fewest changes skips combinations it has already tried and prunes earlier, so plans that took up to 17 seconds on a small account now take about one. They are still the smallest possible.",
       "The analysis runs in a background worker: the page stays usable while a large account is analysed, and long operations can be cancelled.",
       "<b>Design review</b>: flat surfaces instead of glows and frosted glass (smoother scrolling too), type that scales with the window, and layouts for phones, tablets and wide screens.",
       "Policy diff and Policy check fill the screen and open their results in a full-screen sheet. The attack graph's paths panel is a docked column with each path as a list of steps.",
@@ -2452,6 +2587,7 @@ const SAVED = {
   scp: { label: "Organization SCPs", where: "input", read: () => input.scp.trim() || null, apply: (v) => { input.scp = v; }, clear: () => { input.scp = ""; } },
   inv: { label: "Resource inventory", where: "input", read: () => input.inv.trim() || null, apply: (v) => { input.inv = v; }, clear: () => { input.inv = ""; } },
   cred: { label: "Credential report", where: "input", read: () => input.cred.trim() || null, apply: (v) => { input.cred = v; }, clear: () => { input.cred = ""; } },
+  usage: { label: "Last accessed data", where: "input", read: () => input.usage.trim() || null, apply: (v) => { input.usage = v; }, clear: () => { input.usage = ""; } },
   analysis: {
     label: "Last analysis", where: "overview", detail: (v) => `re-run from ${v.src === "policy" ? "the single policy" : "the account export"} when the page opens`,
     read: () => lastRun, apply: (v) => { lastRun = v; $("opt-blast").checked = Boolean(v.blast); }, clear: () => { lastRun = null; },
@@ -2563,6 +2699,7 @@ function clearModel() {
   $("scope-text").textContent = "No account loaded";
   $("nav-paths").hidden = true;
   $("nav-findings").hidden = true;
+  $("nav-unused").hidden = true;
   renderOverview();
   renderGraphView();
   renderFindings();
@@ -2639,7 +2776,7 @@ async function restoreSaved() {
     try { SAVED[e.key]?.apply(e.value); } catch (err) { console.warn("iam-trace: could not restore", e.key, err); }
   }
   saving.ready = true;
-  if (entries.some((e) => ["account", "policy", "scp", "inv", "cred"].includes(e.key))) setSource(lastRun?.src === "policy" ? "policy" : input.src);
+  if (entries.some((e) => ["account", "policy", "scp", "inv", "cred", "usage"].includes(e.key))) setSource(lastRun?.src === "policy" ? "policy" : input.src);
   refreshSaveStatus();
   if (lastRun) {
     whenReady(async () => {

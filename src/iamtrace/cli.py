@@ -39,6 +39,7 @@ from iamtrace.output import can_sarif, can_text, to_json
 from iamtrace.principals import Principal
 from iamtrace.terraform import TerraformError, review_markdown, review_text
 from iamtrace.terraform import review as terraform_review
+from iamtrace.usage import STALE_DAYS, collect_usage, parse_usage, unused_access, unused_text
 from iamtrace.whatif import what_if, what_if_text
 from iamtrace.whocan import who_can, who_can_text
 
@@ -782,6 +783,74 @@ def _add_catalog(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> No
 
 # --- entry point ------------------------------------------------------------------
 
+# --- unused access ---------------------------------------------------------------------
+
+
+def cmd_usage_collect(args: argparse.Namespace) -> int:
+    env = _load_account(args.auth_details, None)
+    arns = sorted(a for a, n in env.nodes.items() if n.kind in ("user", "role"))
+    print(f"asking IAM for last accessed data for {len(arns)} users and roles", file=sys.stderr)
+    text = collect_usage(aws_cli(args.profile), arns)
+    if args.out:
+        Path(args.out).write_text(text, encoding="utf-8")
+    else:
+        sys.stdout.write(text)
+    return 0
+
+
+def cmd_unused(args: argparse.Namespace) -> int:
+    env = _load_account(args.auth_details, args.inventory)
+    try:
+        usage = parse_usage(Path(args.usage).read_text(encoding="utf-8-sig"))
+    except OSError as e:
+        raise PolicyError(f"{args.usage}: cannot read: {e}") from e
+    result = unused_access(env, usage, days=args.days, scps=load_levels(args.scp, PolicyType.SCP))
+    if args.out_dir:
+        out = Path(args.out_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        for edit in result["edits"]:
+            if edit["document"] is None:
+                continue
+            name = edit["policy"].split(":", 5)[-1].replace("/", "-").replace(" ", "-")
+            (out / f"{name}.trimmed.json").write_text(json.dumps(edit["document"], indent=2) + "\n", encoding="utf-8")
+    sys.stdout.write(unused_text(result) if args.format == "text" else to_json(result))
+    return 0
+
+
+def _add_usage(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser("usage", help="IAM last accessed data, for unused --usage")
+    usub = p.add_subparsers(dest="usage_command", required=True)
+    c = usub.add_parser(
+        "collect",
+        help="get last accessed data for every user and role with the AWS CLI (read-only)",
+        description="For each user and role in the export, runs aws iam generate-service-last-accessed-details "
+        "(action level), then aws iam get-service-last-accessed-details until the report is ready. Needs "
+        "iam:GenerateServiceLastAccessedDetails and iam:GetServiceLastAccessedDetails (both Read-level actions). "
+        "Reports cover the last 400 days.",
+    )
+    c.add_argument("--auth-details", required=True, metavar="FILE", help="the account export, for the principals")
+    c.add_argument("--out", metavar="FILE", help="write the reports here (default: stdout)")
+    c.add_argument("--profile", metavar="NAME", help="AWS CLI profile")
+    c.set_defaults(func=cmd_usage_collect)
+
+    p = sub.add_parser(
+        "unused",
+        help="services each policy allows that nobody who has it used, and the policies without them",
+        description="Reads IAM last accessed data (from `iam-trace usage collect`). A service is removed from a "
+        "policy only if every user and role that has the policy has not used it for --days days. Edits only take "
+        "access away, and iam:PassRole is kept (AWS does not track it). The trimmed account is analysed again to "
+        "show which paths to admin the cleanup closes.",
+    )
+    p.add_argument("--auth-details", required=True, metavar="FILE", help="aws iam get-account-authorization-details")
+    p.add_argument("--usage", required=True, metavar="FILE", help="from `iam-trace usage collect`")
+    p.add_argument("--days", type=int, default=STALE_DAYS, help=f"unused for this many days (default {STALE_DAYS})")
+    p.add_argument("--inventory", metavar="FILE", help="resource inventory, to confirm more escalation paths")
+    p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
+    p.add_argument("--out-dir", metavar="DIR", help="also write each trimmed policy as a JSON file here")
+    p.add_argument("--format", choices=["text", "json"], default="text")
+    p.set_defaults(func=cmd_unused)
+
+
 SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]], None]] = [
     _add_can,
     _add_check,
@@ -794,6 +863,7 @@ SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]]
     _add_terraform,
     _add_fix,
     _add_credentials,
+    _add_usage,
     _add_inventory,
     _add_catalog,
 ]

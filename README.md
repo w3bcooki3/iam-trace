@@ -63,7 +63,7 @@ to do is contribute it there too.
 ## Status
 
 <!-- counts:start -->
-Offline tests: **983 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
+Offline tests: **1011 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
 
 Live differential run: **not run yet**. See "Differential testing" below.
 <!-- counts:end -->
@@ -367,6 +367,41 @@ Access doesn't stop it; both cases are explained. `inventory collect` records ea
 policy, default encryption key and Block Public Access settings, and each customer managed key's
 key policy.
 
+### unused
+
+    iam-trace usage collect --auth-details auth.json --out last-accessed.json   # read-only
+    iam-trace unused --auth-details auth.json --usage last-accessed.json [--days 90] [--out-dir trimmed/]
+
+IAM records when each user and role last used each service it is allowed, over the last 400
+days. `usage collect` asks for that data for every user and role in the export; `unused` turns it
+into policy edits and shows what they change:
+
+    Used nothing in the period. Unless kept for emergencies, consider removing them:
+      role/break-glass
+      role/github-deploy
+
+    policy/AdministratorAccess (aws-managed, 2 principal(s)): remove cloudformation, dynamodb, iam, ...
+      AWS managed: attach a customer managed copy with the edit instead.
+      iam:PassRole kept: AWS does not track it.
+    role/github-deploy inline deploy (inline, 1 principal(s)): delete it (nothing left) sts
+
+    Paths to admin: 3 before, 2 after. Admin principals: 2 before, 2 after.
+      closes: role/github-deploy -> role/ec2-admin
+
+The rules, so the edits are safe to apply:
+
+- A service is removed from a policy only if everyone who has the policy, directly or through a
+  group, has a report that lists the service and hasn't used it for `--days` days. If anyone
+  sharing the policy has no report, the policy is left alone.
+- Edits only take access away: patterns for unused services are dropped, and a statement that
+  allows `*` (or uses `NotAction`) gets the unused services added to its `NotAction`, so services
+  the report doesn't cover are never removed. A property test checks this on random statements.
+- `iam:PassRole` is kept. AWS doesn't track it, so it would always look unused.
+- Action-level data (some EC2, IAM, Lambda and S3 actions) is shown, not acted on.
+
+The edited account is analysed again, so the output says which paths to admin the cleanup closes.
+`--out-dir` writes each trimmed policy as JSON.
+
 ### Output formats and exit codes
 
 Every command supports `--format text|json|sarif`; `diff` also supports `markdown`.
@@ -441,6 +476,8 @@ and what each changed document now allows.
   escalation, drawn as an access graph.
 - **Data access**: every bucket and key in the inventory rated by who can read and write it,
   public and shared ones first, with the routes.
+- **Unused access**: with IAM's last accessed data loaded, the services each policy allows that
+  nobody who has it used, the trimmed policies to copy, and the paths to admin that closes.
 - **Terraform plan**: the IAM changes in a plan, and with an account loaded, the new paths to
   admin and entry points it would create. Copy the result as a pull-request comment.
 - **Download report**: one HTML file with the verdict, paths, fixes and principals at risk. No
@@ -613,9 +650,11 @@ The most important ones:
   JSON reference has no access-level field.
 - **Diff conditions:** the diff compares conditions by equality.
 - **Escalation analysis:** without a resource inventory, techniques that take over existing
-  resources (Lambda functions, EC2 instances, ...) are reported as "possible". The inventory
-  covers eight kinds; launch templates, Batch, CodeDeploy, ECS tasks and Bedrock AgentCore stay
-  "possible".
+  resources (Lambda functions, EC2 instances, ...) are reported as "possible". With one, every
+  existing-resource technique can be confirmed; permissions are checked on the main resource
+  only.
+- **Unused access:** last accessed data covers the last 400 days, counts failed attempts as use,
+  and doesn't record `iam:PassRole`. Roles kept for emergencies look unused by design.
 
 The full list is in [docs/limitations.md](docs/limitations.md).
 

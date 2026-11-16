@@ -88,6 +88,7 @@ def main() -> int:
     shutil.copy2(ROOT / "examples" / "account" / "auth-details.json", DIST / "examples" / "auth-details.json")
     shutil.copy2(ROOT / "examples" / "account" / "inventory.json", DIST / "examples" / "inventory.json")
     shutil.copy2(ROOT / "examples" / "account" / "credential-report.csv", DIST / "examples" / "credential-report.csv")
+    shutil.copy2(ROOT / "examples" / "account" / "last-accessed.json", DIST / "examples" / "last-accessed.json")
     shutil.copy2(ROOT / "examples" / "terraform" / "plan.json", DIST / "examples" / "terraform-plan.json")
     n = zip_dir(PKG, DIST / "iamtrace.zip", "iamtrace", skip_catalog=True)
     print(f"iamtrace.zip: {n} files")

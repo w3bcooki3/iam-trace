@@ -32,6 +32,7 @@ from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from decimal import Decimal, InvalidOperation
+from functools import lru_cache
 from typing import Any
 
 from iamtrace.context import Context
@@ -120,10 +121,12 @@ def _ip(r: str, p: tuple[Segment, ...]) -> bool:
     return addr.version == net.version and addr in net
 
 
-def split_arn_text(text: str) -> list[str]:
+@lru_cache(maxsize=65536)
+def split_arn_text(text: str) -> tuple[str, ...]:
     """Split an ARN (or ARN pattern) into at most six components on ':'.
 
-    Colons inside ${...} do not split, so "${aws:username}" stays whole.
+    Colons inside ${...} do not split, so "${aws:username}" stays whole. Cached: the same
+    policy patterns are split again for every request.
     """
     parts: list[str] = []
     buf: list[str] = []
@@ -145,7 +148,7 @@ def split_arn_text(text: str) -> list[str]:
             buf.append(ch)
         i += 1
     parts.append("".join(buf))
-    return parts
+    return tuple(parts)
 
 
 def arn_like(r: str, pattern_parts: list[tuple[Segment, ...]]) -> bool:

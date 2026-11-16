@@ -6,6 +6,12 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Unused access: `iam-trace usage collect` gets IAM's last accessed data for every user and role
+  (read-only), and `iam-trace unused` turns it into policy edits that remove services nobody who
+  has the policy used for `--days` days (default 90), then analyses the account again to show
+  which paths to admin that closes. Edits only take access away (checked by a property test),
+  keep `iam:PassRole` (AWS does not track it), and leave a policy alone if anyone who shares it
+  has no report. In the web app: a Last accessed input tab and an Unused access screen.
 - Property tests (`tests/property`, Hypothesis, development only): random policies and accounts
   check that an explicit Deny always wins, an Allow never takes access away, boundaries and SCPs
   only restrict, statement and export order change nothing, a trust or key policy is needed for
@@ -132,6 +138,13 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Changed
 
+- Analysis is several times faster on large accounts, with identical results. Cheap
+  over-approximations skip checks that cannot succeed (a trust policy that cannot name the
+  caller, identity policies that cannot cover the action on that resource), repeated ARN and
+  action matching is cached, and the web app's two runs (from everyone, then from the chosen
+  principal) share their per-principal results. A property test checks that switching the
+  shortcuts off changes nothing, and `scripts/synthetic_account.py` writes the large made-up
+  accounts used to measure it.
 - Fix plans are much faster. The exact search for the fewest changes no longer tries the same
   combination in different orders, drops routes that a smaller route already covers, and prunes
   with a stronger lower bound. On random seven-principal accounts the slowest plan went from

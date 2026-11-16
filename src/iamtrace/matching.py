@@ -7,10 +7,14 @@ pattern is "*".
 
 from __future__ import annotations
 
+from functools import lru_cache
+
 from iamtrace.wildcard import glob_match
 
 
+@lru_cache(maxsize=131072)
 def action_matches(pattern: str, action: str) -> bool:
+    """Cached: policies repeat the same few patterns, and the analysis asks about the same actions."""
     if pattern == "*":
         return True
     p_service, sep, p_name = pattern.partition(":")

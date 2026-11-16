@@ -58,7 +58,7 @@ from iamtrace.inventory import AGENTCORE_PREFIX, TECHNIQUE_KIND, Inventory
 from iamtrace.matching import any_action_matches
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import sarif_log
-from iamtrace.principals import Principal
+from iamtrace.principals import GrantKind, Principal, match_principal_element
 
 # Which kind of IAM resource each targeted permission acts on.
 PERMISSION_TARGET: dict[str, str] = {
@@ -163,7 +163,12 @@ class Node:
         return self.arn.split(":")[4]
 
     def caller(self) -> Principal:
-        return Principal.from_arn(self.arn)
+        return _caller(self.arn)
+
+
+@cache
+def _caller(arn: str) -> Principal:
+    return Principal.from_arn(arn)
 
 
 def _tags(entity: dict[str, Any]) -> dict[str, str]:
@@ -337,6 +342,11 @@ class _Analyzer:
         self._may: dict[tuple[str, str], bool] = {}
         self._trust: dict[tuple[str, str], bool] = {}
         self._patterns: dict[str, tuple[str, ...] | None] = {}
+        self._admits: dict[tuple[str, str], bool] = {}
+        self._by_type: dict[str, list[str]] = {}
+        self._ctx_keys: dict[tuple[tuple[str, str], ...], str] = {}
+        self._may_on: dict[tuple[str, str, str], bool] = {}
+        self._hits: dict[tuple[tuple[str, ...], str], tuple[str, ...]] = {}
 
     def can(
         self,
@@ -351,8 +361,11 @@ class _Analyzer:
             node.arn,
             action.lower(),
             resource,
-            json.dumps(context or {}, sort_keys=True) + (trust.id if trust else ""),
+            (self._context_key(context) if context else "") + (trust.id if trust else ""),
         )
+        if key not in self._cache and trust is None and not self._identity_may_on(node, action, resource):
+            # No resource policy here, so only the identity policies could allow it: none can.
+            self._cache[key] = None
         if key not in self._cache:
             # Resources that the same policy patterns match, with the same trust policy and tags,
             # get the same answer: decide once per signature (as _existing does for inventories).
@@ -370,6 +383,14 @@ class _Analyzer:
             self._acc |= gates
         return True
 
+    def _context_key(self, context: dict[str, Any]) -> str:
+        """A stable string for a request context (the analysis reuses a handful of them)."""
+        flat = tuple(sorted((k, json.dumps(v, sort_keys=True)) for k, v in context.items()))
+        key = self._ctx_keys.get(flat)
+        if key is None:
+            key = self._ctx_keys[flat] = json.dumps(context, sort_keys=True)
+        return key
+
     def _signature(
         self, node: Node, action: str, resource: str, trust: Policy | None, ctx_key: str
     ) -> tuple[Any, ...] | None:
@@ -380,7 +401,11 @@ class _Analyzer:
         account = parts[4] if len(parts) > 4 and parts[0] == "arn" and parts[4] else node.account
         target = self.env.nodes.get(resource)
         tags = tuple(sorted(target.tags.items())) if target is not None else ()
-        hit = tuple(x for x in patterns if resource_matches(x, resource, _NO_CONTEXT, False))
+        hkey = (patterns, resource)
+        hit = self._hits.get(hkey)
+        if hit is None:
+            hit = tuple(x for x in patterns if resource_matches(x, resource, _NO_CONTEXT, False))
+            self._hits[hkey] = hit
         # The trust policy is part of the answer, and so is the target itself when the policies name
         # it by exact ARN (hit then differs) or the trust policy is its own (keyed by id).
         return (
@@ -450,6 +475,37 @@ class _Analyzer:
             self._loose_cache[key] = (pol, replace(pol, statements=sts))
         return self._loose_cache[key][1]
 
+    def trust_admits(self, role: Node, node: Node) -> bool:
+        """Cheap over-approximation: could the role's trust policy let this node assume it?
+
+        True if an Allow statement's Principal names the caller (its ARN, its role, "*") or uses
+        NotPrincipal. If the only match is the caller's account, the caller's own policies must
+        also allow sts:AssumeRole, so that is checked too. Conditions are ignored, so a False
+        here means the full evaluation would deny as well.
+        """
+        if role.trust is None:
+            return False
+        key = (role.arn, node.arn)
+        if key not in self._admits:
+            caller = node.caller()
+            best: GrantKind | None = None
+            for st in role.trust.statements:
+                if st.effect != "Allow":
+                    continue
+                if st.not_principal is not None:
+                    best = GrantKind.DIRECT
+                    break
+                if st.principal is None:
+                    continue
+                grant = match_principal_element(st.principal, caller)
+                if grant is not None and (best is None or grant != GrantKind.ACCOUNT):
+                    best = grant
+            if best == GrantKind.ACCOUNT:
+                self._admits[key] = self._identity_may_on(node, "sts:AssumeRole", role.arn)
+            else:
+                self._admits[key] = best is not None
+        return self._admits[key]
+
     def may_allow(self, node: Node, action: str) -> bool:
         """Cheap over-approximation: can any of the node's Allow statements cover this action?
 
@@ -457,10 +513,48 @@ class _Analyzer:
         expensive per-target checks are skipped. sts:AssumeRole is the exception: a role's trust
         policy can grant it directly, so it is always checked per target.
         """
-        a = action.lower()
-        if a == "sts:assumerole":
+        if action.lower() == "sts:assumerole":
             return True
-        key = (node.arn, a)
+        return self._identity_may(node, action)
+
+    def _identity_may_on(self, node: Node, action: str, resource: str) -> bool:
+        """Cheap over-approximation: could one of the node's Allow statements cover this action on
+        this resource? Conditions are ignored, and a pattern with a policy variable counts as
+        matching, so False means the identity policies cannot allow it."""
+        if node.kind == "root":
+            return True
+        key = (node.arn, action.lower(), resource)
+        hit = self._may_on.get(key)
+        if hit is None:
+            hit = False
+            for pol in node.policies:
+                for st in pol.statements:
+                    if st.effect != "Allow":
+                        continue
+                    if st.actions is not None:
+                        if not any_action_matches(st.actions, action):
+                            continue
+                    elif any_action_matches(st.not_actions or (), action):
+                        continue
+                    if st.resources is not None:
+                        ok = any("${" in x or resource_matches(x, resource, _NO_CONTEXT, False) for x in st.resources)
+                    else:
+                        ok = not any(
+                            "${" not in x and resource_matches(x, resource, _NO_CONTEXT, False)
+                            for x in st.not_resources or ()
+                        )
+                    if ok:
+                        hit = True
+                        break
+                if hit:
+                    break
+            self._may_on[key] = hit
+        return hit
+
+    def _identity_may(self, node: Node, action: str) -> bool:
+        """Can any of the node's Allow statements cover this action (ignoring resources and
+        conditions)?"""
+        key = (node.arn, action.lower())
         if key not in self._may:
             self._may[key] = (
                 any(
@@ -504,14 +598,17 @@ class _Analyzer:
     # -- targets ---------------------------------------------------------------------
 
     def targets(self, node: Node, ttype: str, *, others: bool) -> list[str]:
-        env = self.env
-        if ttype in ("user", "role"):
-            arns = [a for a, n in env.nodes.items() if n.kind == ttype and (a != node.arn or not others)]
-        elif ttype == "group":
-            arns = list(env.groups)
-        else:
-            arns = []
-        return sorted(arns)
+        if ttype not in self._by_type:
+            env = self.env
+            if ttype in ("user", "role"):
+                arns = [a for a, n in env.nodes.items() if n.kind == ttype]
+            elif ttype == "group":
+                arns = list(env.groups)
+            else:
+                arns = []
+            self._by_type[ttype] = sorted(arns)
+        every = self._by_type[ttype]
+        return [a for a in every if a != node.arn] if others and ttype in ("user", "role") else list(every)
 
     def trusted_by_service(self, role: Node, service: str) -> bool:
         if role.trust is None:
@@ -617,7 +714,10 @@ class _Analyzer:
         ptype = PERMISSION_TARGET.get(perm.lower())
         tnode = target if isinstance(target, Node) else None
         if ptype in ("user", "role") and tnode is not None:
-            trust = tnode.trust if perm.lower() == "sts:assumerole" else None
+            assume = perm.lower() == "sts:assumerole"
+            if assume and not self.trust_admits(tnode, node):
+                return False
+            trust = tnode.trust if assume else None
             return self.can(node, perm, tnode.arn, trust=trust, context=extra_ctx)
         if ptype == "policy" and tnode is not None:
             customer = [a for a in tnode.attached if ":iam::aws:policy/" not in a]
@@ -668,15 +768,17 @@ class _Analyzer:
                 if self.any_allowed(node, "iam:PassRole", ctx):
                     return (["any role the policy lets it pass"], "possible", False, [])
                 return None
-            hits, possible = [], []
+            hits = []
+            possible: list[str] = []
+            unknown_service = svc_principal is None and tid not in ALSO_TRUSTED
             for arn in self.targets(node, "role", others=True):
                 tnode = env.nodes[arn]
+                # A role the service cannot assume is no finding, so check the (cached) trust first.
+                if not unknown_service and not self.trusted_for(tnode, tid, svc_principal):
+                    continue
                 if not self._per_target(arn, lambda arn=arn: self.can(node, "iam:PassRole", arn, context=ctx)):
                     continue
-                if svc_principal is None and tid not in ALSO_TRUSTED:
-                    possible.append(arn)
-                elif self.trusted_for(tnode, tid, svc_principal):
-                    hits.append(arn)
+                (possible if unknown_service else hits).append(arn)
             if hits:
                 return (hits, "confirmed", False, hits)
             if possible:
@@ -801,6 +903,27 @@ class _Analyzer:
         return node.attached
 
 
+class AnalysisCache:
+    """Per-principal results to share between analyze() calls on the same account.
+
+    Pass the same cache to several calls (from everyone, then from one principal) and each
+    principal is worked out once. It is used only while the account, the SCPs and the
+    conditions setting are the very same objects; otherwise it starts over.
+    """
+
+    def __init__(self) -> None:
+        self.key: tuple[int, int, bool] | None = None
+        self.analyzer: _Analyzer | None = None
+        self.visits: dict[str, tuple[list[dict[str, Any]], list[Edge], str | None, frozenset[Gate] | None]] = {}
+        self._keep: tuple[Any, ...] = ()  # the keyed objects, so their ids stay theirs
+
+    def analyzer_for(self, env: Environment, scps: list[list[Policy]] | None, conditions: bool) -> _Analyzer:
+        key = (id(env), id(scps), conditions)
+        if self.key != key or self.analyzer is None:
+            self.key, self.analyzer, self.visits, self._keep = key, _Analyzer(env, scps, conditions), {}, (env, scps)
+        return self.analyzer
+
+
 def analyze(
     env: Environment,
     start: str | None = None,
@@ -808,8 +931,9 @@ def analyze(
     catalog: Catalog | None = None,
     scps: list[list[Policy]] | None = None,
     conditions: bool = True,
+    cache: AnalysisCache | None = None,
 ) -> dict[str, Any]:
-    a = _Analyzer(env, scps, conditions)
+    a = cache.analyzer_for(env, scps, conditions) if cache else _Analyzer(env, scps, conditions)
     if start is not None and start not in env.nodes:
         raise ValueError(f"{start} is not in the account export")
 
@@ -821,6 +945,16 @@ def analyze(
     def visit(arn: str) -> None:
         if arn in techniques:
             return
+        if cache and arn in cache.visits:
+            techniques[arn], edges[arn], admin[arn], g = cache.visits[arn]
+            if g is not None:
+                admin_gates[arn] = g
+            return
+        _visit(arn)
+        if cache:
+            cache.visits[arn] = (techniques[arn], edges[arn], admin[arn], admin_gates.get(arn))
+
+    def _visit(arn: str) -> None:
         node = env.nodes[arn]
         found, out = a.techniques(node)
         techniques[arn] = found

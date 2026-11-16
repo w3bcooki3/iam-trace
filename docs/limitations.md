@@ -111,9 +111,12 @@ These are covered only by hand-written tests that quote the AWS docs
 - Only one account export is analysed. Roles in other accounts are not followed, and SCPs must be
   supplied with `--scp`.
 - The blast radius counts actions allowed on `Resource: "*"` only.
-- Run time grows with principals times techniques. A synthetic account of 200 users and 200
-  roles takes about 3 seconds for every principal on one core; much larger accounts are best
-  analysed one starting principal at a time (`--principal`).
+- Run time grows with principals times techniques. On made-up accounts from
+  `scripts/synthetic_account.py`, analysing every principal takes about 2 seconds for 200 users
+  and 200 roles and about 6 seconds for 400 and 400, on one core. The web app runs the same
+  Python in the browser and is slower: an account of 200 users and 200 roles with conditions in
+  every policy takes about 10 seconds. Much larger accounts are best analysed one starting
+  principal at a time (`--principal`).
 - Joining a group (iam:AddUserToGroup) counts as admin only if the group's policies, added to
   the user's own, allow everything. A group that grants a step towards admin (assuming an admin
   role, say) is not followed.
@@ -210,3 +213,22 @@ These are covered only by hand-written tests that quote the AWS docs
 - Large account exports are analysed in a background worker in the browser tab. The page stays
   usable, but an account with hundreds of roles and users can take a minute; the CLI is faster.
 - Diff is only available when the site was built with a catalog.
+
+## Unused access
+
+- Last accessed data covers services over the last 400 days. A service used only before that
+  looks unused.
+- AWS records attempts, including failed ones, so a service someone tried and was denied counts
+  as used. That errs towards keeping access.
+- `iam:PassRole` is not tracked by AWS, so it is never removed. Other actions that AWS checks
+  without an API call of their own may look unused; review edits that remove a service a
+  workload relies on indirectly.
+- Action-level data covers management actions of some services only (EC2, IAM, Lambda and S3,
+  among others), so edits work per service and never narrow a service to the actions it used.
+- A pattern whose service part has a wildcard (`s*:Get*`) is left as it is: it can't be split
+  into services without listing every service.
+- Roles kept for emergencies (break-glass) are meant to be unused. The report lists them; whether
+  to keep them is your call.
+- Edits to a policy are suggested only when every user and role that has it has a report. Groups
+  count through their members.
+

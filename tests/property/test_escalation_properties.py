@@ -192,3 +192,23 @@ def test_a_fix_plan_only_denies_what_it_names(export: dict[str, Any]) -> None:
             # Untouched principals keep their own techniques (targets may shrink: a target's own
             # permissions can change, not the principal's).
             assert {t["id"] for t in a["techniques"]} <= {t["id"] for t in b["techniques"]}
+
+
+@examples(60, 800)
+@given(accounts())
+def test_the_shortcuts_change_no_result(export: dict[str, Any]) -> None:
+    """The analysis skips checks its cheap pre-checks rule out (a trust policy that cannot name
+    the caller, identity policies that cannot cover the action on the resource). With the
+    pre-checks switched off, every result must be the same."""
+    from iamtrace import escalate
+
+    fast = analyze(env_of(export))
+    saved = escalate._Analyzer.trust_admits, escalate._Analyzer._identity_may_on, escalate._Analyzer._identity_may
+    try:
+        escalate._Analyzer.trust_admits = lambda self, role, node: role.trust is not None  # type: ignore[method-assign]
+        escalate._Analyzer._identity_may_on = lambda self, node, action, resource: True  # type: ignore[method-assign]
+        escalate._Analyzer._identity_may = lambda self, node, action: True  # type: ignore[method-assign]
+        slow = analyze(env_of(export))
+    finally:
+        escalate._Analyzer.trust_admits, escalate._Analyzer._identity_may_on, escalate._Analyzer._identity_may = saved
+    assert fast == slow

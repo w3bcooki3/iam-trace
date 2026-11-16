@@ -18,7 +18,7 @@ from iamtrace.credentials import CredentialError, parse_credential_report
 from iamtrace.data import data_access, data_exposure
 from iamtrace.diff import diff_policies, diff_text
 from iamtrace.entry import entry_points
-from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
+from iamtrace.escalate import AnalysisCache, Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
 from iamtrace.fixplan import fix_plan, public
 from iamtrace.inventory import load_inventory
@@ -28,6 +28,7 @@ from iamtrace.output import can_text
 from iamtrace.principals import Principal
 from iamtrace.terraform import review as terraform_review
 from iamtrace.terraform import review_markdown
+from iamtrace.usage import UsageError, parse_usage, unused_access
 from iamtrace.whatif import what_if, what_if_text
 from iamtrace.whocan import who_can, who_can_text
 
@@ -247,6 +248,7 @@ def analyze_account(
     blast_radius: bool = False,
     inventory_text: str = "",
     credential_text: str = "",
+    usage_text: str = "",
 ) -> dict[str, Any]:
     """Everything the web app's attack-path screens show, in one call.
 
@@ -254,7 +256,8 @@ def analyze_account(
     `account` summarises every principal in the export: its techniques and its shortest path to an
     admin-equivalent principal, if any. `scp_text` is one level of SCPs that apply to the account.
     `inventory_text` is an optional resource inventory (iamtrace.inventory). `credential_text` is an
-    optional IAM credential report (iamtrace.credentials), used for entry points.
+    optional IAM credential report (iamtrace.credentials), used for entry points. `usage_text` is
+    optional IAM last accessed data (iamtrace.usage), for unused access.
     """
     data = json.loads(auth_details_text)
     if not isinstance(data, dict):
@@ -275,9 +278,17 @@ def analyze_account(
             credentials = parse_credential_report(credential_text)
         except CredentialError as e:
             raise ValueError(f"the credential report: {e}") from e
+    usage = None
+    if usage_text.strip():
+        try:
+            usage = parse_usage(usage_text)
+        except UsageError as e:
+            raise ValueError(f"the last accessed data: {e}") from e
     scps = _scp_level(scp_text)
-    report = analyze(env, start=start, catalog=_catalog() if blast_radius else None, scps=scps)
-    everyone = analyze(env, scps=scps)
+    # Everyone first; the run from the chosen principal then reuses every principal's result.
+    shared = AnalysisCache()
+    everyone = analyze(env, scps=scps, cache=shared)
+    report = analyze(env, start=start, catalog=_catalog() if blast_radius else None, scps=scps, cache=shared)
     _LAST.clear()
     _LAST.update(key=_key(auth_details_text, scp_text, inventory_text), env=env, everyone=everyone, scps=scps)
     shortest: dict[str, dict[str, Any]] = {}
@@ -312,6 +323,7 @@ def analyze_account(
         "account": {"principals": principals, "paths": everyone["paths"]},
         "entry_points": entry_points(env, everyone=everyone, scps=scps, credentials=credentials),
         "data": data_exposure(env, scps=scps, report=everyone),
+        "unused": unused_access(env, usage, scps=scps, everyone=everyone) if usage is not None else None,
         "inventory": _inventory(data),
         "scps": sum(len(level) for level in scps) if scps else 0,
         "resources": env.resources.summary() if env.resources else None,
@@ -374,6 +386,27 @@ def data_query(
         scps = _scp_level(scp_text)
         everyone = analyze(env, scps=scps)
     return data_access(env, resource.strip(), access, scps=scps, report=everyone)
+
+
+@_safe
+def unused_query(
+    auth_details_text: str, usage_text: str, days: int, scp_text: str = "", inventory_text: str = ""
+) -> dict[str, Any]:
+    """Unused access (iamtrace.usage) for another number of days, reusing the last analysis."""
+    key = _key(auth_details_text, scp_text, inventory_text)
+    if _LAST.get("key") == key:
+        env, everyone, scps = _LAST["env"], _LAST["everyone"], _LAST["scps"]
+    else:
+        env = Environment.from_auth_details(json.loads(auth_details_text))
+        if inventory_text.strip():
+            env.resources = load_inventory(json.loads(inventory_text), env)
+        scps = _scp_level(scp_text)
+        everyone = analyze(env, scps=scps)
+    try:
+        usage = parse_usage(usage_text)
+    except UsageError as e:
+        raise ValueError(f"the last accessed data: {e}") from e
+    return unused_access(env, usage, days=int(days), scps=scps, everyone=everyone)
 
 
 @_safe
