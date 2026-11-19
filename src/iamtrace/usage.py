@@ -68,50 +68,60 @@ class PrincipalUsage:
         return idle is None or idle >= days
 
 
-def _time(value: Any) -> datetime | None:
+def _time(value: Any, where: str = "a date") -> datetime | None:
     if not value:
         return None
-    t = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    try:
+        t = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except ValueError as e:
+        raise UsageError(f"{where}: {value!r} is not a date and time") from e
     return t if t.tzinfo else t.replace(tzinfo=UTC)
 
 
-def parse_usage(text: str) -> dict[str, PrincipalUsage]:
+def parse_usage(text: str | bytes) -> dict[str, PrincipalUsage]:
     """Read the file `iam-trace usage collect` writes: {"Reports": {principal ARN: the JSON of
     get-service-last-accessed-details}}."""
+    from iamtrace.documents import DocumentError, load_json
+
     try:
-        data = json.loads(text)
-    except json.JSONDecodeError as e:
-        raise UsageError(f"not valid JSON: {e}") from e
+        data = load_json(text, "the last accessed data").value
+    except DocumentError as e:
+        raise UsageError(str(e).removeprefix("the last accessed data: ")) from e
     reports = data.get("Reports") if isinstance(data, dict) else None
     if not isinstance(reports, dict):
         raise UsageError('expected {"Reports": {principal ARN: get-service-last-accessed-details output}}')
     out: dict[str, PrincipalUsage] = {}
     for arn, r in reports.items():
-        if not isinstance(r, dict) or "ServicesLastAccessed" not in r:
+        if not isinstance(r, dict) or not isinstance(r.get("ServicesLastAccessed"), list):
             raise UsageError(f"{arn}: not the output of get-service-last-accessed-details")
         if r.get("JobStatus", "COMPLETED") != "COMPLETED":
             raise UsageError(f"{arn}: the report's job is {r.get('JobStatus')}, not COMPLETED")
-        generated = _time(r.get("JobCompletionDate")) or _time(r.get("JobCreationDate"))
+        generated = _time(r.get("JobCompletionDate"), f"{arn} JobCompletionDate") or _time(
+            r.get("JobCreationDate"), f"{arn} JobCreationDate"
+        )
         if generated is None:
             raise UsageError(f"{arn}: the report has no JobCompletionDate")
         services: dict[str, ServiceUse] = {}
-        for s in r["ServicesLastAccessed"]:
-            ns = str(s.get("ServiceNamespace", "")).lower()
+        for i, s in enumerate(r["ServicesLastAccessed"]):
+            where = f"{arn} ServicesLastAccessed[{i}]"
+            if not isinstance(s, dict):
+                raise UsageError(f"{where}: must be an object")
+            ns = str(s.get("ServiceNamespace") or "").lower().strip()
             if not ns:
                 continue
+            tracked = s.get("TrackedActionsLastAccessed") or []
+            if not isinstance(tracked, list):
+                raise UsageError(f"{where}: TrackedActionsLastAccessed must be a list")
             actions = {
-                f"{ns}:{a['ActionName']}": _time(a.get("LastAccessedTime"))
-                for a in s.get("TrackedActionsLastAccessed") or []
-                if a.get("ActionName")
+                f"{ns}:{a['ActionName']}": _time(a.get("LastAccessedTime"), f"{where} {a['ActionName']}")
+                for a in tracked
+                if isinstance(a, dict) and isinstance(a.get("ActionName"), str) and a["ActionName"]
             }
-            services[ns] = ServiceUse(
-                ns,
-                str(s.get("ServiceName", ns)),
-                _time(s.get("LastAuthenticated")),
-                s.get("LastAuthenticatedRegion"),
-                actions,
-            )
-        out[arn] = PrincipalUsage(arn, generated, services)
+            name = str(s.get("ServiceName") or ns)
+            last = _time(s.get("LastAuthenticated"), f"{where} LastAuthenticated")
+            region = s.get("LastAuthenticatedRegion")
+            services[ns] = ServiceUse(ns, name, last, region if isinstance(region, str) else None, actions)
+        out[str(arn)] = PrincipalUsage(str(arn), generated, services)
     return out
 
 

@@ -464,6 +464,7 @@
 
         <section class="dsec" id="d-input">
           <h2>Getting your data</h2>
+          <p>Files can be UTF-8, UTF-16 or UTF-32, and <code class="c">.gz</code> files are unpacked here. A policy can be the document itself or the output of the AWS CLI command that returns it (<code class="c">get-policy-version</code>, <code class="c">get-role-policy</code>, <code class="c">get-bucket-policy</code>, <code class="c">describe-policy</code> and others). JSON is read strictly, as AWS does; if something is wrong, the message names the line and column. In an account export, a policy iam-trace cannot read is left out with a warning instead of stopping the analysis.</p>
           <p>Attack paths needs one file, produced by a single read-only AWS command:</p>
           <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>aws iam get-account-authorization-details --output json &gt; auth-details.json</pre></div>
           <ul>

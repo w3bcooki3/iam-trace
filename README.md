@@ -63,7 +63,7 @@ to do is contribute it there too.
 ## Status
 
 <!-- counts:start -->
-Offline tests: **1011 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
+Offline tests: **1130 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
 
 Live differential run: **not run yet**. See "Differential testing" below.
 <!-- counts:end -->
@@ -86,6 +86,28 @@ The package includes the action catalog that `check`, `expand`, `diff` and
     iam-trace catalog info
 
 ## Usage
+
+### What files iam-trace reads
+
+Every command and the web app read input the same way (`src/iamtrace/documents.py`):
+
+- Text in UTF-8, UTF-16 or UTF-32, with or without a byte order mark. The web app also unpacks
+  `.gz` files. A binary file (a ZIP, an image) is refused with a message saying what it is.
+- Strict JSON, as AWS uses: comments, trailing commas, single quotes, `NaN` and duplicate keys
+  are reported (duplicates as a warning, since parsers silently keep the last one), with the line
+  and column and a guess at what the text is (YAML, CSV, an HTML page).
+- A policy can be the document itself or the output of the AWS CLI command that returns it:
+  `get-policy-version`, `get-role-policy` and the user and group versions, `get-role` (its trust
+  policy), `get-bucket-policy`, `get-key-policy`, Lambda `get-policy`, SQS and SNS
+  `get-*-attributes`, ECR `get-repository-policy`, Secrets Manager `get-resource-policy`, and
+  Organizations `describe-policy`. Documents may be objects, JSON strings, or the URL-encoded
+  strings the raw IAM API returns.
+- In an account export, a policy iam-trace cannot read is left out with a warning instead of
+  stopping the whole analysis, and an export that is only the first page (`IsTruncated`) is
+  flagged.
+- Typed values are checked before anything runs: a principal ARN with a 12-digit account, one
+  action (`s3:GetObject`, not a pattern), an ARN or `*` for the resource, and the global context
+  keys that have a type (dates, IP addresses, true or false, numbers).
 
 ### can
 

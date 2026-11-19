@@ -7,22 +7,25 @@ from the in-browser file system.
 
 from __future__ import annotations
 
+import functools
 import hashlib
 import json
 from functools import cache
 from typing import Any
 
+from iamtrace import fields
 from iamtrace.catalog import Catalog, CatalogMissing
 from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
 from iamtrace.credentials import CredentialError, parse_credential_report
 from iamtrace.data import data_access, data_exposure
 from iamtrace.diff import diff_policies, diff_text
+from iamtrace.documents import DocumentError, decode, load_json, looks_like_policy, unwrap_policy, wrong_kind
 from iamtrace.entry import entry_points
 from iamtrace.escalate import AnalysisCache, Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
 from iamtrace.fixplan import fix_plan, public
 from iamtrace.inventory import load_inventory
-from iamtrace.loader import parse_any_policy, parse_context
+from iamtrace.loader import parse_any_policy, parse_context, policy_from_text
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import can_text
 from iamtrace.principals import Principal
@@ -44,7 +47,29 @@ def _catalog() -> Catalog | None:
 
 
 def _policies(texts: list[str], t: PolicyType, label: str) -> list[Policy]:
-    return [Policy.from_json(x, policy_id=f"{label} {i + 1}", policy_type=t) for i, x in enumerate(texts) if x.strip()]
+    return [policy_from_text(x, t, f"{label} {i + 1}") for i, x in enumerate(texts) if isinstance(x, str) and x.strip()]
+
+
+def _json(text: str, where: str, kind: str | None = None) -> Any:
+    """Parse one input box: strict JSON (iamtrace.documents), and the right kind of input."""
+    value = load_json(text, where).value
+    if kind is not None:
+        wrong = wrong_kind(value, kind, where)
+        if wrong is not None:
+            raise wrong
+    return value
+
+
+def _account(text: str) -> tuple[Environment, dict[str, Any]]:
+    data = _json(text, "the account export", "account")
+    if not isinstance(data, dict):
+        raise DocumentError("the account export: expected the JSON object get-account-authorization-details prints")
+    return Environment.from_auth_details(data), data
+
+
+def _with_inventory(env: Environment, inventory_text: str) -> None:
+    if inventory_text.strip():
+        env.resources = load_inventory(_json(inventory_text, "the resource inventory", "inventory"), env)
 
 
 def _safe(fn: Any) -> Any:
@@ -53,18 +78,30 @@ def _safe(fn: Any) -> Any:
             return json.dumps(fn(*args))
         except (PolicyError, ValueError, KeyError) as e:
             return json.dumps({"error": str(e)})
+        except RecursionError:
+            return json.dumps({"error": "the input is nested too deeply to analyse"})
+        except Exception as e:  # noqa: BLE001 - the page must get a message, never a crash
+            return json.dumps(
+                {
+                    "error": f"iam-trace could not process this input ({type(e).__name__}: {e}). "
+                    "This is a bug in iam-trace: please report it with the input that caused it."
+                }
+            )
 
-    wrapper.__name__ = fn.__name__
-    wrapper.__doc__ = fn.__doc__
-    return wrapper
+    return functools.wraps(fn)(wrapper)
 
 
 @_safe
 def can(request_json: str) -> dict[str, Any]:
     """request: {principal, action, resource, resource_account, context: "k=v\\n...",
     identity: [text], resource_policy: text, boundary: text, session: [text], scp: [text], rcp: [text]}"""
-    r = json.loads(request_json)
-    principal = r["principal"].strip()
+    r = _json(request_json, "the request")
+    if not isinstance(r, dict):
+        raise DocumentError("the request must be a JSON object")
+    principal = fields.principal(str(r.get("principal") or ""))
+    act = fields.action(str(r.get("action") or ""))
+    res = fields.resource(str(r.get("resource") or "*"))
+    account = fields.account_id(str(r.get("resource_account") or ""), "the resource account")
     p = Principal.service(principal[8:]) if principal.startswith("service:") else Principal.from_arn(principal)
     boundary = _policies([r.get("boundary", "")], PolicyType.BOUNDARY, "boundary")
     scps = _policies(r.get("scp", []), PolicyType.SCP, "SCP")
@@ -78,14 +115,10 @@ def can(request_json: str) -> dict[str, Any]:
         scps=[[x] for x in scps] or None,
         rcps=[[x] for x in rcps] or None,
     )
-    pairs = [line.strip() for line in r.get("context", "").splitlines() if line.strip()]
-    req = Request(
-        p,
-        r["action"].strip(),
-        r.get("resource", "*").strip() or "*",
-        resource_account=(r.get("resource_account") or "").strip() or None,
-        context=parse_context(pairs, None),
-    )
+    pairs = [line.strip() for line in str(r.get("context") or "").splitlines() if line.strip()]
+    ctx = parse_context(pairs, None)
+    fields.context(ctx)
+    req = Request(p, act, res, resource_account=account, context=ctx)
     result = evaluate(req, ps)
     report = what_if(req, ps, result)
     return {
@@ -114,16 +147,18 @@ def check(documents_json: str, include_aws_managed: bool = False) -> dict[str, A
     cat = _catalog()
     if cat is None:
         return {"error": "the action catalog is not available on this page"}
-    docs = [d for d in json.loads(documents_json) if str(d.get("text", "")).strip()]
+    raw_docs = _json(documents_json, "the documents")
+    raw_list = raw_docs if isinstance(raw_docs, list) else []
+    docs = [d for d in raw_list if isinstance(d, dict) and str(d.get("text", "")).strip()]
     if not docs:
         return {"error": "paste a policy or drop a file to check"}
     reports = []
     singles: list[tuple[str, str]] = []
     for d in docs:
-        text = str(d["text"]).lstrip("\ufeff")
+        text = decode(str(d["text"]), "document")
         try:
-            data = json.loads(text)
-        except (json.JSONDecodeError, RecursionError):
+            data = load_json(text, "document").value
+        except DocumentError:
             data = None
         if isinstance(data, dict) and any(k in data for k in ("UserDetailList", "RoleDetailList", "GroupDetailList")):
             reports.append(check_auth_details(data, cat, include_aws_managed=include_aws_managed))
@@ -159,32 +194,32 @@ def who_can_query(
     context_text: str = "",
 ) -> dict[str, Any]:
     """Every principal in the export that can perform `action` on `resource`."""
-    if not action.strip():
-        return {"error": "enter the action to check, for example s3:GetObject"}
-    data = json.loads(auth_details_text)
-    env = Environment.from_auth_details(data)
-    if inventory_text.strip():
-        env.resources = load_inventory(json.loads(inventory_text), env)
+    act = fields.action(action)
+    res = fields.resource(resource)
+    env, _ = _account(auth_details_text)
+    _with_inventory(env, inventory_text)
     res_policy = (
-        Policy.from_json(resource_policy_text, policy_id="resource policy", policy_type=PolicyType.RESOURCE)
+        policy_from_text(resource_policy_text, PolicyType.RESOURCE, "the resource policy")
         if resource_policy_text.strip()
         else None
     )
     pairs = [line.strip() for line in context_text.splitlines() if line.strip()]
+    ctx = parse_context(pairs, None)
+    fields.context(ctx)
     report = who_can(
         env,
-        action.strip(),
-        resource.strip() or "*",
+        act,
+        res,
         scps=_scp_level(scp_text),
         resource_policy=res_policy,
-        context=dict(parse_context(pairs, None)),
+        context=dict(ctx),
     )
     return {"result": report, "text": who_can_text(report)}
 
 
 @_safe
 def escalate(policy_text: str) -> dict[str, Any]:
-    pol = Policy.from_json(policy_text, policy_id="policy", policy_type=PolicyType.IDENTITY)
+    pol = policy_from_text(policy_text, PolicyType.IDENTITY, "the policy")
     arn = "arn:aws:iam::111122223333:role/policy-under-test"
     report = analyze(Environment.single([pol], arn), start=arn)
     return {"text": escalate_text(report), "result": report, "graph": escalation_graph(report)}
@@ -193,11 +228,12 @@ def escalate(policy_text: str) -> dict[str, Any]:
 @_safe
 def escalate_account(auth_details_text: str, principal: str) -> dict[str, Any]:
     """Analyse an `aws iam get-account-authorization-details` export from one principal."""
-    data = json.loads(auth_details_text)
-    env = Environment.from_auth_details(data)
+    env, _ = _account(auth_details_text)
     start = principal.strip() or None
     if start is None:
         return {"error": "choose the principal to start from"}
+    if start not in env.nodes:
+        raise DocumentError(f"{start} is not a user or role in the account export")
     report = analyze(env, start=start)
     principals = sorted(env.nodes)
     return {
@@ -209,15 +245,20 @@ def escalate_account(auth_details_text: str, principal: str) -> dict[str, Any]:
 
 
 def _scp_level(scp_text: str) -> list[list[Policy]] | None:
-    """One organization level of SCPs from a policy document or a JSON array of them."""
+    """One organization level of SCPs: a policy document, a JSON array of them, or the output
+    of aws organizations describe-policy (one, or an array of them)."""
     if not scp_text.strip():
         return None
-    doc = json.loads(scp_text)
+    doc = _json(scp_text, "the SCPs")
     docs = doc if isinstance(doc, list) else [doc]
-    level = [
-        Policy.from_json(json.dumps(d), policy_id=f"SCP {i + 1}", policy_type=PolicyType.SCP)
-        for i, d in enumerate(docs)
-    ]
+    level = []
+    for i, d in enumerate(docs):
+        where = f"SCP {i + 1}"
+        found = unwrap_policy(d, where)
+        if not looks_like_policy(found.document):
+            wrong = wrong_kind(d, "policy", where)
+            raise wrong or DocumentError(f"{where}: not a policy document (no Statement)")
+        level.append(Policy.parse(found.document, policy_id=where, policy_type=PolicyType.SCP))
     return [level] if level else None
 
 
@@ -259,19 +300,13 @@ def analyze_account(
     optional IAM credential report (iamtrace.credentials), used for entry points. `usage_text` is
     optional IAM last accessed data (iamtrace.usage), for unused access.
     """
-    data = json.loads(auth_details_text)
-    if not isinstance(data, dict):
-        raise ValueError("expected the JSON object that get-account-authorization-details prints")
-    env = Environment.from_auth_details(data)
+    env, data = _account(auth_details_text)
     start = principal.strip()
     if not start:
         return {"error": "choose the principal the attacker starts as"}
-    if inventory_text.strip():
-        try:
-            inv_data = json.loads(inventory_text)
-        except json.JSONDecodeError as e:
-            raise ValueError(f"the resource inventory is not valid JSON: {e}") from e
-        env.resources = load_inventory(inv_data, env)
+    if start not in env.nodes:
+        return {"error": f"{start} is not a user or role in the account export"}
+    _with_inventory(env, inventory_text)
     credentials = None
     if credential_text.strip():
         try:
@@ -325,6 +360,8 @@ def analyze_account(
         "data": data_exposure(env, scps=scps, report=everyone),
         "unused": unused_access(env, usage, scps=scps, everyone=everyone) if usage is not None else None,
         "inventory": _inventory(data),
+        "warnings": env.warnings[:200],
+        "unreadable": env.unreadable,
         "scps": sum(len(level) for level in scps) if scps else 0,
         "resources": env.resources.summary() if env.resources else None,
         "text": escalate_text(report),
@@ -351,12 +388,8 @@ def fix_plan_query(
     if _LAST.get("key") == key:
         env, everyone, scps = _LAST["env"], _LAST["everyone"], _LAST["scps"]
     else:
-        data = json.loads(auth_details_text)
-        if not isinstance(data, dict):
-            raise ValueError("expected the JSON object that get-account-authorization-details prints")
-        env = Environment.from_auth_details(data)
-        if inventory_text.strip():
-            env.resources = load_inventory(json.loads(inventory_text), env)
+        env, _ = _account(auth_details_text)
+        _with_inventory(env, inventory_text)
         scps = _scp_level(scp_text)
         everyone = None
     plan = fix_plan(
@@ -380,9 +413,8 @@ def data_query(
     if _LAST.get("key") == key:
         env, everyone, scps = _LAST["env"], _LAST["everyone"], _LAST["scps"]
     else:
-        env = Environment.from_auth_details(json.loads(auth_details_text))
-        if inventory_text.strip():
-            env.resources = load_inventory(json.loads(inventory_text), env)
+        env, _ = _account(auth_details_text)
+        _with_inventory(env, inventory_text)
         scps = _scp_level(scp_text)
         everyone = analyze(env, scps=scps)
     return data_access(env, resource.strip(), access, scps=scps, report=everyone)
@@ -397,16 +429,16 @@ def unused_query(
     if _LAST.get("key") == key:
         env, everyone, scps = _LAST["env"], _LAST["everyone"], _LAST["scps"]
     else:
-        env = Environment.from_auth_details(json.loads(auth_details_text))
-        if inventory_text.strip():
-            env.resources = load_inventory(json.loads(inventory_text), env)
+        env, _ = _account(auth_details_text)
+        _with_inventory(env, inventory_text)
         scps = _scp_level(scp_text)
         everyone = analyze(env, scps=scps)
     try:
         usage = parse_usage(usage_text)
     except UsageError as e:
         raise ValueError(f"the last accessed data: {e}") from e
-    return unused_access(env, usage, days=int(days), scps=scps, everyone=everyone)
+    window = fields.whole_number(days, "the number of days", 1, 400)
+    return unused_access(env, usage, days=window, scps=scps, everyone=everyone)
 
 
 @_safe
@@ -415,11 +447,8 @@ def terraform_query(plan_text: str, auth_details_text: str = "") -> dict[str, An
     cat = _catalog()
     if cat is None:
         raise ValueError("the action catalog is not available")
-    try:
-        plan = json.loads(plan_text)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"the plan is not valid JSON: {e}") from e
-    export = json.loads(auth_details_text) if auth_details_text.strip() else None
+    plan = _json(plan_text, "the plan", "terraform")
+    export = _json(auth_details_text, "the account export", "account") if auth_details_text.strip() else None
     out = terraform_review(plan, cat, export=export)
     out["markdown"] = review_markdown(out)
     return out
@@ -428,7 +457,7 @@ def terraform_query(plan_text: str, auth_details_text: str = "") -> dict[str, An
 def account_principals(auth_details_text: str) -> str:
     """List the users and roles in an export, for the page's principal picker."""
     try:
-        env = Environment.from_auth_details(json.loads(auth_details_text))
+        env, _ = _account(auth_details_text)
     except (PolicyError, ValueError, KeyError) as e:
         return json.dumps({"error": str(e)})
     return json.dumps({"principals": sorted(env.nodes)})

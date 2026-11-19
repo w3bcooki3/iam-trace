@@ -77,10 +77,49 @@ def _text(v: Any) -> str | None:
     return v if isinstance(v, str) else json.dumps(v)
 
 
+class _AllUnknown(dict):  # type: ignore[type-arg]
+    """after_unknown given as true: every attribute is unknown until apply."""
+
+    def get(self, key: Any, default: Any = None) -> Any:
+        return True
+
+
+def _dict(v: Any) -> dict[str, Any]:
+    return v if isinstance(v, dict) else {}
+
+
+def _clean_change(c: Any) -> dict[str, Any] | None:
+    """One resource change with every field of the type the code expects, or None if unusable.
+    Plans are machine-written, but a hand-edited or truncated one must not crash the review."""
+    if not isinstance(c, dict) or not isinstance(c.get("address"), str) or not isinstance(c.get("type"), str):
+        return None
+    ch = _dict(c.get("change"))
+    actions = ch.get("actions")
+    unknown = ch.get("after_unknown")
+    sides: dict[str, dict[str, Any]] = {}
+    for side in ("before", "after"):
+        values = _dict(ch.get(side))
+        inl = values.get("inline_policy")
+        if inl is not None:
+            keep = [x for x in inl if isinstance(x, dict)] if isinstance(inl, list) else []
+            values = {**values, "inline_policy": keep}
+        sides[side] = values
+    clean: dict[str, Any] = {
+        "actions": [a for a in actions if isinstance(a, str)] if isinstance(actions, list) else [],
+        "before": sides["before"],
+        "after": sides["after"],
+        "after_unknown": _AllUnknown() if unknown is True else _dict(unknown),
+    }
+    return {**c, "change": clean}
+
+
 def _changes(plan: Any) -> list[dict[str, Any]]:
     if not isinstance(plan, dict) or "resource_changes" not in plan and "format_version" not in plan:
         raise TerraformError("not a Terraform plan: expected the JSON from terraform show -json plan.out")
-    return [c for c in plan.get("resource_changes") or [] if isinstance(c, dict)]
+    raw = plan.get("resource_changes") or []
+    if not isinstance(raw, list):
+        raise TerraformError("resource_changes must be a list")
+    return [x for x in (_clean_change(c) for c in raw) if x is not None]
 
 
 def extract(plan: Any) -> list[Doc]:
@@ -129,13 +168,16 @@ def extract(plan: Any) -> list[Doc]:
 # --- applying the plan to an account export ------------------------------------------------------
 
 
-def _config_resources(module: dict[str, Any], prefix: str = "") -> dict[str, dict[str, Any]]:
-    out = {}
-    for r in module.get("resources") or []:
-        addr = r.get("address", "")
-        out[f"{prefix}{addr}"] = r
-    for name, call in (module.get("module_calls") or {}).items():
-        out.update(_config_resources(call.get("module") or {}, f"{prefix}module.{name}."))
+def _config_resources(module: Any, prefix: str = "", depth: int = 0) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    if not isinstance(module, dict) or depth > 20:
+        return out
+    resources = module.get("resources")
+    for r in resources if isinstance(resources, list) else []:
+        if isinstance(r, dict) and isinstance(r.get("address"), str):
+            out[f"{prefix}{r['address']}"] = r
+    for name, call in _dict(module.get("module_calls")).items():
+        out.update(_config_resources(_dict(call).get("module"), f"{prefix}module.{name}.", depth + 1))
     return out
 
 
@@ -145,12 +187,14 @@ class _Applier:
         self.notes: list[str] = []
         self.account = self._account()
         self.planned = {c["address"]: c for c in _changes(plan)}
-        self.config = _config_resources((plan.get("configuration") or {}).get("root_module") or {})
+        self.config = _config_resources(_dict(plan.get("configuration")).get("root_module"))
 
     def _account(self) -> str:
         for lst in ("RoleDetailList", "UserDetailList", "GroupDetailList"):
             for e in self.raw.get(lst) or []:
-                return str(e["Arn"].split(":")[4])
+                parts = str(e.get("Arn", "") if isinstance(e, dict) else "").split(":")
+                if len(parts) > 4 and parts[4]:
+                    return parts[4]
         return "111122223333"
 
     # -- values, resolving references to resources created in the same plan
@@ -158,10 +202,11 @@ class _Applier:
         after = (c.get("change") or {}).get("after") or {}
         if after.get(attr) not in (None, ""):
             return after[attr]
-        expr = ((self.config.get(c["address"]) or {}).get("expressions") or {}).get(attr) or {}
+        expr = _dict(_dict(_dict(self.config.get(c["address"])).get("expressions")).get(attr))
         if "constant_value" in expr:
             return expr["constant_value"]
-        for ref in expr.get("references") or []:
+        refs = expr.get("references")
+        for ref in [r for r in refs if isinstance(r, str)] if isinstance(refs, list) else []:
             parts = ref.split(".")
             target = ".".join(parts[:2]) if not ref.startswith("module.") else ".".join(parts[:4])
             planned = self.planned.get(target)
@@ -365,6 +410,10 @@ def _account_diff(before_raw: dict[str, Any], after_raw: dict[str, Any]) -> dict
 
 
 def review(plan: Any, catalog: Catalog, export: dict[str, Any] | None = None) -> dict[str, Any]:
+    if export is not None and not (
+        isinstance(export, dict) and any(k in export for k in ("UserDetailList", "RoleDetailList", "GroupDetailList"))
+    ):
+        raise TerraformError("the account export is not the output of aws iam get-account-authorization-details")
     docs = extract(plan)
     notes: list[str] = []
     documents: list[dict[str, Any]] = []
@@ -393,6 +442,10 @@ def review(plan: Any, catalog: Catalog, export: dict[str, Any] | None = None) ->
         )
     account = None
     if export is not None:
+        from iamtrace.escalate import Environment, clean_export
+
+        Environment.from_auth_details(export)  # a clear error for an export that is not usable
+        export = clean_export(export)
         applier = _Applier(plan, export)
         after = applier.apply()
         notes += applier.notes

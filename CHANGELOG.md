@@ -6,6 +6,20 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- One input reader for everything (`iamtrace.documents`): UTF-8, UTF-16 and UTF-32 with or without
+  a byte order mark; strict JSON with errors that name the line and column, show it, and guess
+  what the text is instead (YAML, CSV, HTML, a Python dict, comments, trailing commas); NaN and
+  Infinity refused; and policies found inside the output of the AWS CLI commands that return them
+  (get-policy-version, get-role-policy, get-role, get-bucket-policy, get-key-policy, Lambda
+  get-policy, SQS and SNS attributes, ECR, Secrets Manager, Organizations describe-policy).
+- Typed fields are checked the same way in the web app and the CLI (`iamtrace.fields`): principal
+  ARNs, one action rather than a pattern, resource ARNs, 12-digit account IDs, and dates, IP
+  addresses, booleans and numbers in the request context.
+- The web app unpacks `.gz` uploads and names what a refused file is (a ZIP, an image, not text).
+- Fuzz tests (`tests/property/test_input_fuzz.py`): random JSON and randomly damaged example files
+  in every input of every web app function and CLI command must give a result or a clear message.
+- Wrong case gets a hint: `"effect"`, `"allow"`, `"stringequals"` and a near miss like
+  `StringEqualz` name the right spelling.
 - Unused access: `iam-trace usage collect` gets IAM's last accessed data for every user and role
   (read-only), and `iam-trace unused` turns it into policy edits that remove services nobody who
   has the policy used for `--days` days (default 90), then analyses the account again to show
@@ -189,6 +203,23 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Fixed
 
+- On phones the fix plan's buttons ran 3px past the card, and at tablet widths the Settings tab
+  bar ran 6px past the page edge, so the page could be dragged sideways.
+- An account export with one policy iam-trace could not read failed as a whole; the policy is now
+  left out with a warning, and the web app shows the warnings.
+- A policy document stored as a JSON string with a `%` in it (a condition value like "100%") was
+  URL-decoded and corrupted; only URL-encoded documents are decoded now.
+- Found by the fuzz tests: a non-text Version, a group name that is not text, `null` entries in
+  policy lists, a Terraform plan with values of the wrong type, odd last accessed and inventory
+  entries, and short rows in a credential report crashed instead of giving a message.
+- Unexpected errors in the web app now come back as a message asking for a bug report instead of
+  a Python traceback.
+- After a refresh, the last analysis was sometimes not run again: it started before the account
+  had been checked. The unused-access window chosen is now restored too, and saved data that does
+  not have the expected shape is removed with a message instead of breaking the page.
+- Long names (up to 64 characters for a role, more with a path) widened screens on phones; they
+  wrap now, and long lines in an editor scroll inside it.
+- A pasted policy with a byte order mark was refused; it is read now.
 - Found by the property tests: iam:AddUserToGroup (iam-013) counted as admin whatever the group
   allowed. It now counts only for a group whose policies, added to the user's own under the
   user's boundary and SCPs, allow everything.

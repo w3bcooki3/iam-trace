@@ -2,20 +2,37 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Any
 
+from iamtrace.documents import load_json, unwrap_policy
 from iamtrace.model import Policy, PolicyError, PolicyType
+
+
+def read_file(path: str | Path) -> bytes:
+    p = Path(path)
+    try:
+        return p.read_bytes()
+    except OSError as e:
+        raise PolicyError(f"{p}: cannot read: {e.strerror}") from e
+
+
+def policy_from_text(text: str | bytes, policy_type: PolicyType, policy_id: str) -> Policy:
+    """A policy from JSON text: a policy document, or AWS CLI output that holds one."""
+    parsed = load_json(text, policy_id)
+    found = unwrap_policy(parsed.value, policy_id)
+    policy = Policy.parse(found.document, policy_id=policy_id, policy_type=policy_type)
+    warnings = [f"duplicate key {k!r}: the last value is used" for k in parsed.duplicates]
+    if found.source:
+        warnings.append(f"read the policy from the output of {found.source}")
+    if warnings:
+        policy = Policy(policy.id, policy.type, policy.version, policy.statements, policy.warnings + tuple(warnings))
+    return policy
 
 
 def load_policy(path: str | Path, policy_type: PolicyType, policy_id: str | None = None) -> Policy:
     p = Path(path)
-    try:
-        text = p.read_text(encoding="utf-8-sig")
-    except OSError as e:
-        raise PolicyError(f"{p}: cannot read: {e.strerror}") from e
-    return Policy.from_json(text, policy_id=policy_id or p.name, policy_type=policy_type)
+    return policy_from_text(read_file(p), policy_type, policy_id or p.name)
 
 
 def load_policies(paths: list[str] | None, policy_type: PolicyType) -> list[Policy]:
@@ -33,10 +50,7 @@ def parse_context(pairs: list[str] | None, json_file: str | None) -> dict[str, A
     """KEY=VALUE pairs; repeat a key to make it multivalued. KEY=[] sets an empty set."""
     ctx: dict[str, Any] = {}
     if json_file:
-        try:
-            data = json.loads(Path(json_file).read_text(encoding="utf-8-sig"))
-        except (OSError, json.JSONDecodeError) as e:
-            raise PolicyError(f"{json_file}: cannot read context: {e}") from e
+        data = load_json(read_file(json_file), json_file).value
         if not isinstance(data, dict):
             raise PolicyError(f"{json_file}: context must be a JSON object")
         ctx.update(data)
@@ -58,20 +72,14 @@ def load_any_policy(path: str | Path, policy_id: str | None = None) -> Policy:
     """Load a policy whose type is not known: resource-based if it names principals, otherwise
     identity-based, falling back to SCP rules (which allow statements without Resource)."""
     p = Path(path)
-    try:
-        text = p.read_text(encoding="utf-8-sig")
-    except OSError as e:
-        raise PolicyError(f"{p}: cannot read: {e.strerror}") from e
-    return parse_any_policy(text, policy_id or p.name)
+    return parse_any_policy(read_file(p), policy_id or p.name)
 
 
-def parse_any_policy(text: str, policy_id: str) -> Policy:
-    try:
-        doc = json.loads(text)
-    except json.JSONDecodeError as e:
-        raise PolicyError(f"{policy_id}: invalid JSON: {e}") from e
-    except RecursionError as e:
-        raise PolicyError(f"{policy_id}: JSON is nested too deeply") from e
+def parse_any_policy(text: str | bytes, policy_id: str) -> Policy:
+    found = unwrap_policy(load_json(text, policy_id).value, policy_id)
+    doc = found.document
+    if found.kind == "scp":
+        return policy_from_text(text, PolicyType.SCP, policy_id)
     statements = doc.get("Statement", []) if isinstance(doc, dict) else []
     if isinstance(statements, dict):
         statements = [statements]
@@ -79,8 +87,8 @@ def parse_any_policy(text: str, policy_id: str) -> Policy:
         statements = []
     names_principal = any(isinstance(s, dict) and ("Principal" in s or "NotPrincipal" in s) for s in statements)
     if names_principal:
-        return Policy.from_json(text, policy_id=policy_id, policy_type=PolicyType.RESOURCE)
+        return policy_from_text(text, PolicyType.RESOURCE, policy_id)
     try:
-        return Policy.from_json(text, policy_id=policy_id, policy_type=PolicyType.IDENTITY)
+        return policy_from_text(text, PolicyType.IDENTITY, policy_id)
     except PolicyError:
-        return Policy.from_json(text, policy_id=policy_id, policy_type=PolicyType.SCP)
+        return policy_from_text(text, PolicyType.SCP, policy_id)

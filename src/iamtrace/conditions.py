@@ -217,6 +217,18 @@ class ParsedOperator:
     if_exists: bool
 
 
+def _operator_hint(name: str) -> str:
+    """Suggest the operator meant: the same name in another case, or a close spelling."""
+    import difflib
+
+    names = [f"{q}{b}{e}" for q in ("", "ForAllValues:", "ForAnyValue:") for b in OPERATORS for e in ("", "IfExists")]
+    lower = {n.lower(): n for n in names}
+    if name.lower() in lower:
+        return f" (operator names are case-sensitive: use {lower[name.lower()]!r})"
+    close = difflib.get_close_matches(name.lower(), lower, n=1, cutoff=0.85)
+    return f" (did you mean {lower[close[0]]!r}?)" if close else ""
+
+
 def parse_operator(name: str) -> ParsedOperator:
     set_op = None
     rest = name
@@ -228,7 +240,7 @@ def parse_operator(name: str) -> ParsedOperator:
     base = rest[: -len("IfExists")] if if_exists else rest
     spec = OPERATORS.get(base)
     if spec is None:
-        raise PolicyError(f"unknown condition operator {name!r}")
+        raise PolicyError(f"unknown condition operator {name!r}{_operator_hint(name)}")
     if base == "Null" and (if_exists or set_op):
         raise PolicyError(f"{name!r}: Null cannot be combined with IfExists or a set operator")
     return ParsedOperator(name, base, spec, set_op, if_exists)

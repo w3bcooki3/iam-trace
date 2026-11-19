@@ -232,3 +232,15 @@ These are covered only by hand-written tests that quote the AWS docs
 - Edits to a policy are suggested only when every user and role that has it has a report. Groups
   count through their members.
 
+## Input
+
+- A policy in an account export that iam-trace cannot read is left out, with a warning. AWS
+  accepted it, so it is probably a form iam-trace does not know; until it is supported, results
+  can miss what that policy allows or denies. The web app lists such policies after an analysis.
+- Element names and the Effect value are case-sensitive, as AWS documents; a policy written with
+  `"effect": "allow"` is refused with a message saying so. Context key names are not
+  case-sensitive.
+- JSON is read strictly. Files with comments or trailing commas must be fixed first; the message
+  says where.
+- The web app reads uploads up to 50 MB (200 MB once a `.gz` is unpacked).
+

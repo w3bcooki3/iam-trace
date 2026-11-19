@@ -12,7 +12,6 @@ Normalization rules (all lossless for evaluation):
 
 from __future__ import annotations
 
-import json
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 from enum import StrEnum
@@ -91,27 +90,15 @@ class Policy:
     # -- constructors ---------------------------------------------------------
 
     @classmethod
-    def from_json(cls, text: str, *, policy_id: str, policy_type: PolicyType) -> Policy:
-        """Parse JSON text, recording duplicate keys (json.loads silently keeps the last one)."""
-        dupes: list[str] = []
+    def from_json(cls, text: str | bytes, *, policy_id: str, policy_type: PolicyType) -> Policy:
+        """Parse JSON text (see iamtrace.documents: strict JSON, any Unicode encoding, duplicate
+        keys recorded as warnings, since JSON parsers silently keep the last one)."""
+        from iamtrace.documents import load_json
 
-        def hook(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
-            out: dict[str, Any] = {}
-            for k, v in pairs:
-                if k in out:
-                    dupes.append(k)
-                out[k] = v
-            return out
-
-        try:
-            doc = json.loads(text, object_pairs_hook=hook)
-        except json.JSONDecodeError as e:
-            raise PolicyError(f"{policy_id}: invalid JSON: {e}") from e
-        except RecursionError as e:
-            raise PolicyError(f"{policy_id}: JSON is nested too deeply") from e
-        policy = cls.parse(doc, policy_id=policy_id, policy_type=policy_type)
-        if dupes:
-            warn = tuple(f"duplicate key {k!r}: the last value is used" for k in sorted(set(dupes)))
+        parsed = load_json(text, policy_id)
+        policy = cls.parse(parsed.value, policy_id=policy_id, policy_type=policy_type)
+        if parsed.duplicates:
+            warn = tuple(f"duplicate key {k!r}: the last value is used" for k in parsed.duplicates)
             policy = Policy(policy.id, policy.type, policy.version, policy.statements, policy.warnings + warn)
         return policy
 
@@ -123,13 +110,13 @@ class Policy:
             raise PolicyError(f"{policy_id}: policy must be a JSON object")
         warnings: list[str] = []
         version = doc.get("Version")
-        if version is not None and version not in _VERSIONS:
-            raise PolicyError(f"{policy_id}: unknown Version {version!r}")
+        if version is not None and (not isinstance(version, str) or version not in _VERSIONS):
+            raise PolicyError(f'{policy_id}: unknown Version {version!r} (use "2012-10-17")')
         if version is None:
             warnings.append("no Version element: policy variables are treated as literal text")
         raw = doc.get("Statement")
         if raw is None:
-            raise PolicyError(f"{policy_id}: missing Statement")
+            raise PolicyError(f"{policy_id}: missing Statement{_case_hint(doc, 'Statement')}")
         raw_list = [raw] if isinstance(raw, Mapping) else raw
         if not isinstance(raw_list, list) or not raw_list:
             raise PolicyError(f"{policy_id}: Statement must be an object or a non-empty list")
@@ -141,10 +128,19 @@ class Policy:
                 raise PolicyError(f"{where}: must be an object")
             unknown = set(s) - _KNOWN_STATEMENT_KEYS
             if unknown:
-                raise PolicyError(f"{where}: unknown element(s) {sorted(unknown)}")
+                fixes = [
+                    f"{k!r} should be {_KNOWN_LOWER[k.lower()]!r}" for k in sorted(unknown) if k.lower() in _KNOWN_LOWER
+                ]
+                hint = f" (element names are case-sensitive: {', '.join(fixes)})" if fixes else ""
+                raise PolicyError(f"{where}: unknown element(s) {sorted(unknown)}{hint}")
             effect = s.get("Effect")
             if effect not in ("Allow", "Deny"):
-                raise PolicyError(f"{where}: Effect must be Allow or Deny, got {effect!r}")
+                hint = (
+                    f" (the value is case-sensitive: use {str(effect).capitalize()!r})"
+                    if isinstance(effect, str) and effect.lower() in ("allow", "deny")
+                    else ""
+                )
+                raise PolicyError(f"{where}: Effect must be Allow or Deny, got {effect!r}{hint}")
             actions = _strings(s, "Action", where)
             not_actions = _strings(s, "NotAction", where)
             if (actions is None) == (not_actions is None):
@@ -201,15 +197,26 @@ class Policy:
         return cls(policy_id, PolicyType(policy_type), version, tuple(statements), tuple(warnings))
 
 
+_KNOWN_LOWER = {k.lower(): k for k in _KNOWN_STATEMENT_KEYS}
+
+
+def _case_hint(doc: Mapping[str, Any], name: str) -> str:
+    for k in doc:
+        if isinstance(k, str) and k.lower() == name.lower() and k != name:
+            return f" (found {k!r}: element names are case-sensitive)"
+    return ""
+
+
 def _strings(s: Mapping[str, Any], key: str, where: str) -> tuple[str, ...] | None:
     if key not in s:
         return None
     v = s[key]
-    if isinstance(v, str):
-        return (v,)
-    if isinstance(v, list) and v and all(isinstance(x, str) for x in v):
-        return tuple(v)
-    raise PolicyError(f"{where}: {key} must be a string or a non-empty list of strings")
+    values = (v,) if isinstance(v, str) else tuple(v) if isinstance(v, list) and v else None
+    if values is None or not all(isinstance(x, str) for x in values):
+        raise PolicyError(f"{where}: {key} must be a string or a non-empty list of strings")
+    if any(not x.strip() for x in values):
+        raise PolicyError(f"{where}: {key} has an empty value")
+    return values
 
 
 def _principal(v: Any, where: str) -> Any:

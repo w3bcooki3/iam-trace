@@ -26,6 +26,12 @@ function short(arn) {
   const s = String(arn ?? "");
   return s.startsWith("arn:") ? s.split(":").slice(5).join(":") || s : s;
 }
+// Long names are cut with an ellipsis where space is fixed (buttons, toggles); the full name goes
+// in a title attribute.
+function clip(text, max) {
+  const s = String(text ?? "");
+  return s.length > max ? s.slice(0, max - 1) + "\u2026" : s;
+}
 function nameOf(arn) {
   const s = String(arn ?? "");
   return s.startsWith("arn:") ? s.split("/").pop() : s;
@@ -407,25 +413,70 @@ $("run-reset").addEventListener("click", () => {
   validate();
 });
 
-const MAX_BYTES = 50 * 1024 * 1024;
-function readFile(file) {
-  if (file.size > MAX_BYTES) return toast("That file is larger than 50 MB");
-  const reader = new FileReader();
-  reader.onload = () => {
-    const text = String(reader.result);
-    input[input.src] = text;
-    if (input.src === "account") {
-      input.file = { name: file.name, size: file.size, when: new Date() };
-      input.example = false;
-    }
-    $("ed-name").textContent = file.name;
-    setEditor(text);
-    showFileRow();
-    validate();
-    toast(`Loaded ${file.name}`);
-  };
-  reader.onerror = () => toast("The file could not be read");
-  reader.readAsText(file);
+// Reading an uploaded file: every upload goes through readUpload, so the same rules apply to the
+// account export, the Terraform plan and policy check files.
+const MAX_BYTES = 50 * 1024 * 1024; // a file as uploaded
+const MAX_TEXT = 200 * 1024 * 1024; // after unpacking a .gz
+class UploadError extends Error {}
+function startsWith(bytes, ...sig) {
+  return sig.every((b, i) => bytes[i] === b);
+}
+async function gunzip(bytes) {
+  if (typeof DecompressionStream === "undefined") throw new UploadError("This browser can't unpack .gz files. Unpack it first (gunzip) and load the .json.");
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+  const out = new Uint8Array(await new Response(stream).arrayBuffer());
+  if (out.length > MAX_TEXT) throw new UploadError("The unpacked file is larger than 200 MB");
+  return out;
+}
+// Text from a file's bytes: UTF-8, UTF-16 or UTF-32, with or without a byte order mark.
+function decodeText(bytes, name) {
+  const boms = [[[0xff, 0xfe, 0, 0], "utf-32le"], [[0, 0, 0xfe, 0xff], "utf-32be"], [[0xef, 0xbb, 0xbf], "utf-8"], [[0xff, 0xfe], "utf-16le"], [[0xfe, 0xff], "utf-16be"]];
+  let enc = "utf-8", skip = 0;
+  const bom = boms.find(([sig]) => startsWith(bytes, ...sig));
+  if (bom) { enc = bom[1]; skip = bom[0].length; }
+  else if (bytes.length >= 4 && bytes[1] === 0 && bytes[3] === 0 && bytes[0] !== 0) enc = "utf-16le";
+  else if (bytes.length >= 4 && bytes[0] === 0 && bytes[2] === 0 && bytes[1] !== 0) enc = "utf-16be";
+  if (enc.startsWith("utf-32")) {
+    // TextDecoder has no UTF-32: decode by hand.
+    const le = enc === "utf-32le", view = new DataView(bytes.buffer, bytes.byteOffset + skip, bytes.length - skip - ((bytes.length - skip) % 4));
+    let out = "";
+    for (let i = 0; i < view.byteLength; i += 4) out += String.fromCodePoint(view.getUint32(i, le));
+    return out;
+  }
+  let text;
+  try { text = new TextDecoder(enc, { fatal: true }).decode(bytes.subarray(skip)); }
+  catch { throw new UploadError(`${name} is not a text file (it is not valid ${enc.toUpperCase()}). Load the JSON or CSV file itself.`); }
+  if (text.includes("\u0000")) throw new UploadError(`${name} is not a text file`);
+  return text;
+}
+async function readUpload(file) {
+  if (file.size > MAX_BYTES) throw new UploadError(`${file.name} is larger than 50 MB`);
+  if (file.size === 0) throw new UploadError(`${file.name} is empty`);
+  let bytes = new Uint8Array(await file.arrayBuffer());
+  if (startsWith(bytes, 0x1f, 0x8b)) bytes = await gunzip(bytes);
+  if (startsWith(bytes, 0x50, 0x4b, 0x03, 0x04)) throw new UploadError(`${file.name} is a ZIP archive. Unzip it and load the file inside.`);
+  if (startsWith(bytes, 0x89, 0x50, 0x4e, 0x47) || startsWith(bytes, 0xff, 0xd8, 0xff) || startsWith(bytes, 0x25, 0x50, 0x44, 0x46)) {
+    throw new UploadError(`${file.name} is an image or a PDF, not a JSON or CSV file`);
+  }
+  return decodeText(bytes, file.name);
+}
+async function readUploadOrToast(file) {
+  try { return await readUpload(file); }
+  catch (e) { toast(e instanceof UploadError ? e.message : `${file.name} could not be read`); return null; }
+}
+async function readFile(file) {
+  const text = await readUploadOrToast(file);
+  if (text === null) return;
+  input[input.src] = text;
+  if (input.src === "account") {
+    input.file = { name: file.name, size: file.size, when: new Date() };
+    input.example = false;
+  }
+  $("ed-name").textContent = file.name;
+  setEditor(text);
+  showFileRow();
+  validate();
+  toast(`Loaded ${file.name}`);
 }
 $("choose-file").addEventListener("click", () => $("file-input").click());
 $("file-input").addEventListener("change", (e) => { if (e.target.files[0]) readFile(e.target.files[0]); e.target.value = ""; });
@@ -553,6 +604,7 @@ function validateUsage(data, box, set) {
     <div class="check ok">${IC.info}<div>Used the next time you run an account analysis<small>Then open Unused access.</small></div></div>`;
   lastValid = { kind: "usage" };
 }
+let accountChecked = Promise.resolve();
 function validate() {
   persist(input.src);
   const text = input[input.src].trim();
@@ -618,7 +670,7 @@ function validate() {
     if (input.usage.trim()) checks.push(`<div class="check ok">${IC.ok}<div>Last accessed data will be used<small>From the Last accessed tab, for unused access</small></div></div>`);
     box.innerHTML = checks.join("");
     lastValid = { kind: "account" };
-    whenReady(async () => {
+    const checkAccount = async () => {
       const out = await call("account_principals", input.account);
       if (out.error) {
         set("crit", "Problem");
@@ -633,6 +685,12 @@ function validate() {
         renderPicker(out.principals);
       }
       updateRun();
+    };
+    // Anything that needs the account checked first (restoring the last analysis) awaits this.
+    let checked;
+    accountChecked = new Promise((resolve) => { checked = resolve; });
+    whenReady(async () => {
+      try { await checkAccount(); } finally { checked(); }
     });
     if (!api) set("warn", "Checking");
   } else if (input.src === "policy") {
@@ -761,6 +819,8 @@ function fromAccount(out) {
     entry: out.entry_points || { entries: [], summary: {} },
     data: out.data || { resources: [], collected: [], notes: [] },
     unused: out.unused || null,
+    warnings: out.warnings || [],
+    unreadable: out.unreadable || [],
     inputs: { account: input.account, scp: input.scp, inv: input.inv, cred: input.cred, usage: input.usage },
     fix: { scope: "start", plans: {}, state: "idle" },
   };
@@ -976,7 +1036,17 @@ function renderOverview() {
   const ranked = [...m.principals].sort((a, b) => (b.admin_equivalent - a.admin_equivalent) || ((a.path ? a.path.steps.length : 99) - (b.path ? b.path.steps.length : 99)) || (b.confirmed - a.confirmed) || a.arn.localeCompare(b.arn));
   const riskRows = ranked.slice(0, 12).map((p) => principalRow(p)).join("");
 
-  el.innerHTML = `${banner}
+  // Policies the export could not be read for, and other warnings about the input: shown before
+  // the result, since they limit what it can say.
+  const warns = m.warnings || [];
+  const inputNote = warns.length
+    ? `<div class="callout ${(m.unreadable || []).length ? "callout-warn" : ""} input-warnings"><div>${(m.unreadable || []).length
+      ? `<b>${plural(m.unreadable.length, "policy", "policies")} could not be read and ${m.unreadable.length === 1 ? "was" : "were"} left out.</b> The result can miss what ${m.unreadable.length === 1 ? "it allows or denies" : "they allow or deny"}.`
+      : `<b>${plural(warns.length, "note")} about the input.</b>`}
+      <details><summary>Show ${warns.length === 1 ? "it" : `all ${warns.length}`}</summary><ul>${warns.map((w) => `<li>${esc(w)}</li>`).join("")}</ul></details></div></div>`
+    : "";
+
+  el.innerHTML = `${banner}${inputNote}
     <div class="page-head"><div><h1>Overview</h1><p>Analysed <span class="mono">${esc(m.source)}</span> from <span class="mono">${who}</span> against ${TECHNIQUES} privilege-escalation techniques from pathfinding.cloud${m.scps ? `, with ${plural(m.scps, "SCP")} applied` : ""}${m.resources ? `, using a resource inventory of ${plural(Object.values(m.resources).reduce((a, b) => a + b, 0), "resource")}` : ""}.</p></div>
       <div class="actions"><button class="btn" data-go="input">Change input</button><button class="btn" data-report>Download report</button><button class="btn primary" data-go="graph">Open attack graph</button></div></div>
     <div class="posture glass p-${tone}"><div class="posture-main"><span class="sev-badge">${tone === "ok" ? IC.ok : IC.warn}</span><div><h2>${head}</h2><p>${body}</p>${startPaths.length ? `<div class="chain">${chainHtml(startPaths[0])}</div>` : ""}</div></div>
@@ -991,7 +1061,7 @@ function renderOverview() {
       <div class="glass"><div class="card-h"><h3>Paths to admin</h3><span class="sub">Select one to view it on the graph</span></div><div class="card-b" id="ov-paths">${pathItems}</div></div>
     </div>
     ${m.mode === "account" ? `<div class="glass fixplan" id="fixplan"><div class="card-h"><h3>Fix plan</h3><span class="sub">The fewest changes that remove every path to admin, proven by analysing again</span>
-        <div class="right"><div class="seg sm" id="fp-scope" role="group" aria-label="Fix paths from"><button data-scope="start">From ${esc(nameOf(m.start))}</button><button data-scope="all">Every principal</button></div></div></div>
+        <div class="right"><div class="seg sm" id="fp-scope" role="group" aria-label="Fix paths from"><button data-scope="start" title="${esc(m.start)}">From ${esc(clip(nameOf(m.start), 28))}</button><button data-scope="all">Every principal</button></div></div></div>
         <div class="card-b" id="fp-body"></div></div>` : ""}
     <div class="${m.mode === "account" ? "grid-2" : "grid-3"}">
       ${m.mode === "account" ? "" : `<div class="glass"><div class="card-h"><h3>Recommended fixes</h3><span class="sub">Ordered by paths broken</span></div><div class="card-b">${fixHtml}</div></div>`}
@@ -1235,6 +1305,7 @@ $("un-days").addEventListener("change", async () => {
   const r = await call("unused_query", m.inputs.account, m.inputs.usage, Number($("un-days").value), m.inputs.scp, m.inputs.inv);
   if (r.error) return toast(sentence(r.error));
   m.unused = r;
+  if (lastRun) { lastRun.days = r.days; persist("analysis"); }
   $("nav-unused").hidden = !r.edits.length;
   $("nav-unused").textContent = r.edits.length;
   renderUnused();
@@ -1262,10 +1333,10 @@ function setTf(text) {
 $("tf-text").addEventListener("input", () => setTf($("tf-text").value));
 $("tf-text").addEventListener("scroll", () => { $("tfg").scrollTop = $("tf-text").scrollTop; });
 $("tf-choose").addEventListener("click", () => $("tf-file").click());
-$("tf-file").addEventListener("change", async (e) => { const f = e.target.files[0]; if (f) setTf(await f.text()); e.target.value = ""; });
+$("tf-file").addEventListener("change", async (e) => { const f = e.target.files[0]; e.target.value = ""; const t = f && await readUploadOrToast(f); if (t !== null && t !== undefined) setTf(t); });
 ["dragenter", "dragover"].forEach((t) => $("tf-drop").addEventListener(t, (e) => { e.preventDefault(); $("tf-drop").classList.add("over"); }));
 ["dragleave", "drop"].forEach((t) => $("tf-drop").addEventListener(t, () => $("tf-drop").classList.remove("over")));
-$("tf-drop").addEventListener("drop", async (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) setTf(await f.text()); });
+$("tf-drop").addEventListener("drop", async (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; const t = f && await readUploadOrToast(f); if (t !== null && t !== undefined) setTf(t); });
 $("tf-example").addEventListener("click", async () => {
   const r = await fetch("examples/terraform-plan.json");
   if (r.ok) setTf(await r.text());
@@ -2257,10 +2328,21 @@ function pcList() {
   }));
 }
 async function pcAddFiles(list) {
-  for (const f of list) pc.files.push({ name: f.name, text: await f.text() });
+  const refused = [];
+  let added = 0;
+  for (const f of list) {
+    try {
+      pc.files.push({ name: f.name, text: await readUpload(f) });
+      added += 1;
+    } catch (e) {
+      refused.push(e instanceof UploadError ? e.message : `${f.name} could not be read`);
+    }
+  }
   pcList();
   persist("check");
-  toast(`${plural(list.length, "file")} added`);
+  if (!refused.length) toast(`${plural(added, "file")} added`);
+  else if (!added) toast(refused.length === 1 ? refused[0] : `None added: ${refused[0]}`);
+  else toast(`${plural(added, "file")} added; ${refused.length} not: ${refused[0]}`);
 }
 $("pc-choose").addEventListener("click", () => $("pc-files").click());
 $("pc-files").addEventListener("change", (e) => { pcAddFiles([...e.target.files]); e.target.value = ""; });
@@ -2339,7 +2421,8 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Unused access</b>: load IAM's last accessed data under the new Last accessed tab (or <code class='c'>iam-trace usage collect</code>), and a new screen lists the services each policy allows that nobody who has it used, the policies without them, and the paths to admin that removing them closes. Edits only take access away and keep <code class='c'>iam:PassRole</code>.",
+    ["Added", ["<b>Reads more kinds of input</b>: UTF-16 and UTF-32 files, <code class='c'>.gz</code> uploads, and policies inside AWS CLI output (get-policy-version, get-role-policy, get-bucket-policy, describe-policy and more). Errors name the line and column and say what the text looks like instead.",
+      "<b>Unused access</b>: load IAM's last accessed data under the new Last accessed tab (or <code class='c'>iam-trace usage collect</code>), and a new screen lists the services each policy allows that nobody who has it used, the policies without them, and the paths to admin that removing them closes. Edits only take access away and keep <code class='c'>iam:PassRole</code>.",
       "<b>Escalation benchmark</b>: all 91 AWS paths in pathfinding.cloud are checked on every change, each built from pathfinding.cloud's own description, together with 1,136 near misses that must not be reported. All 91 are found, 23 of them with a resource inventory, with no false alarms. The table is in <code class='c'>docs/coverage.md</code>.",
       "Resource inventory now also records Batch job definitions, running ECS tasks, EC2 launch templates and Bedrock AgentCore resources, so every existing-resource technique can be confirmed.",
       "<b>Terraform plan</b>: a new screen and <code class='c'>iam-trace terraform</code> review the IAM changes in a plan, and with an account loaded, the paths to admin and entry points it would open. The GitHub Action can post it on pull requests.",
@@ -2382,7 +2465,8 @@ const CHANGES = [
       "Workflows pin third-party actions to commit SHAs and pass inputs through environment variables.",
       "<code class='c'>catalog refresh</code> refuses to replace a directory holding anything but catalog files.",
       "The web app bundles its Python runtime, loads nothing from third parties, and allows neither eval nor inline styles."]],
-    ["Fixed", ["Adding yourself to a group counted as admin whatever the group allowed; it now counts only for a group that makes you admin. One target needing MFA no longer marks a whole technique as needing MFA when another target is open.",
+    ["Fixed", ["An account export with one unreadable policy no longer fails as a whole: the policy is left out with a warning. Long names no longer widen screens on phones, the last analysis always comes back after a refresh, and broken saved data is cleared with a message.",
+      "Adding yourself to a group counted as admin whatever the group allowed; it now counts only for a group that makes you admin. One target needing MFA no longer marks a whole technique as needing MFA when another target is open.",
       "A principal that could make itself admin without conditions, but was also allowed everything only with MFA, was shown as needing MFA. It is now shown as admin without conditions.",
       "Four techniques the benchmark found wrong: batch-001 and gamelift-001 were missed when the role trusted the service pathfinding.cloud names, cognitoidentity-001 was only possible, and cloudformation-005 was never reported.",
       "The access-level check accepts actions listed under several levels. Against AWS's reference: 21,484 actions, 0 mismatches."]],
@@ -2767,21 +2851,58 @@ $("delete-all").addEventListener("click", async () => {
   toast("All saved data deleted");
 });
 
+// What each saved entry must look like before it is applied.
+function savedShapeOk(key, v) {
+  const str = (x) => typeof x === "string";
+  const obj = (x) => x !== null && typeof x === "object" && !Array.isArray(x);
+  switch (key) {
+    case "account": return obj(v) && str(v.text) && (v.start === undefined || str(v.start)) && (v.file == null || obj(v.file));
+    case "policy": case "scp": case "inv": case "cred": case "usage": return str(v);
+    case "analysis": return obj(v) && (v.src === "account" || v.src === "policy") && (v.days === undefined || Number.isInteger(v.days));
+    case "evaluate": return obj(v) && ["principal", "action", "resource", "account", "context"].every((k) => str(v[k])) && obj(v.policies);
+    case "diff": return obj(v) && str(v.old) && str(v.new);
+    case "whocan": return obj(v) && str(v.action) && str(v.resource) && (v.policy == null || str(v.policy)) && (v.context == null || str(v.context));
+    case "check": return obj(v) && str(v.text) && (v.files === undefined || (Array.isArray(v.files) && v.files.every((f) => obj(f) && str(f.name) && str(f.text))));
+    default: return v !== undefined;
+  }
+}
 async function restoreSaved() {
   saving.available = await dataStore.available();
   if (!saving.available || !saving.on) { saving.ready = true; refreshSaveStatus(); return; }
   let entries = [];
   try { entries = await dataStore.all(); } catch { saving.failed = true; }
+  // Saved data written by an older version, or damaged, must not break the page: an entry that
+  // does not have the shape this version expects is removed, and the user is told once.
+  const broken = [];
   for (const e of entries) {
-    try { SAVED[e.key]?.apply(e.value); } catch (err) { console.warn("iam-trace: could not restore", e.key, err); }
+    if (!SAVED[e.key]) continue;
+    try {
+      if (!savedShapeOk(e.key, e.value)) throw new Error("unexpected shape");
+      SAVED[e.key].apply(e.value);
+    } catch (err) {
+      broken.push(e.key);
+      try { SAVED[e.key].clear(); } catch { /* nothing more to undo */ }
+      dataStore.del(e.key).catch(() => {});
+      console.warn("iam-trace: removed saved data that could not be read:", e.key, err);
+    }
   }
+  for (const k of ["account", "policy", "scp", "inv", "cred", "usage"]) if (typeof input[k] !== "string") input[k] = "";
+  if (broken.length) toast(`Some saved data could not be read and was removed (${broken.map((k) => SAVED[k].label).join(", ")})`);
+  entries = entries.filter((e) => !broken.includes(e.key));
   saving.ready = true;
   if (entries.some((e) => ["account", "policy", "scp", "inv", "cred", "usage"].includes(e.key))) setSource(lastRun?.src === "policy" ? "policy" : input.src);
   refreshSaveStatus();
   if (lastRun) {
     whenReady(async () => {
+      if (lastRun.src !== "policy") await accountChecked;
       if (lastRun.src === "policy" ? !input.policy.trim() : !(input.account.trim() && input.accountValid && input.start)) return;
+      const days = lastRun.days; // running again starts a new record
       await runAnalysis({ restoring: true, src: lastRun.src });
+      // The unused-access window chosen last time.
+      if (days && model?.unused && model.unused.days !== days) {
+        $("un-days").value = String(days);
+        $("un-days").dispatchEvent(new Event("change"));
+      }
       if (currentView === "input") go("overview");
     });
   }

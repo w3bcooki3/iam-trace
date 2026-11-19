@@ -105,7 +105,7 @@ def test_reads_the_example() -> None:
 @pytest.mark.parametrize(
     "text, message",
     [
-        ("nope", "not valid JSON"),
+        ("nope", "invalid JSON at line 1"),
         ("[]", "Reports"),
         ('{"Reports": {"x": {}}}', "not the output of get-service-last-accessed-details"),
         ('{"Reports": {"x": {"JobStatus": "IN_PROGRESS", "ServicesLastAccessed": []}}}', "IN_PROGRESS"),

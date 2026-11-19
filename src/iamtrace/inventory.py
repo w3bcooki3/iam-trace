@@ -31,7 +31,6 @@ through the account export.
 
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
@@ -161,8 +160,13 @@ def load_inventory(data: Any, env: Environment) -> Inventory:
         raise PolicyError('not a resource inventory: expected {"Collected": [...], "Resources": [...]}')
     warnings: list[str] = []
     collected: set[str] = set()
-    for k in data.get("Collected") or []:
-        if k in KINDS:
+    listed = data.get("Collected") or []
+    if not isinstance(listed, list):
+        raise PolicyError("inventory: Collected must be a list of resource kinds")
+    for k in listed:
+        if not isinstance(k, str):
+            warnings.append(f"inventory: {k!r} in Collected is not a kind name; ignored")
+        elif k in KINDS:
             collected.add(k)
         else:
             warnings.append(f"inventory: unknown kind {k!r} in Collected; ignored")
@@ -187,10 +191,9 @@ def load_inventory(data: Any, env: Environment) -> Inventory:
             role = resolved
         policy = item.get("Policy")
         if isinstance(policy, str):
-            try:
-                policy = json.loads(policy)
-            except json.JSONDecodeError as e:
-                raise PolicyError(f"inventory: {arn} Policy is not JSON") from e
+            from iamtrace.documents import document
+
+            policy = document(policy, f"inventory: {arn} Policy")
         if policy is not None and not isinstance(policy, dict):
             raise PolicyError(f"inventory: Resources[{i}] Policy must be a policy document")
         key = item.get("KmsKey")

@@ -13,8 +13,9 @@ import json
 import sys
 from collections.abc import Callable, Sequence
 from pathlib import Path
+from typing import Any
 
-from iamtrace import __version__
+from iamtrace import __version__, fields
 from iamtrace.catalog import ACCESS_LEVELS, Catalog, CatalogMissing, user_cache_dir
 from iamtrace.catalog.refresh import refresh
 from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
@@ -27,13 +28,14 @@ from iamtrace.credentials import (
 )
 from iamtrace.data import data_access, data_access_text, data_exposure, data_exposure_text
 from iamtrace.diff import diff_markdown, diff_policies, diff_sarif, diff_text
+from iamtrace.documents import decode, load_json
 from iamtrace.entry import entry_points, entry_points_text
 from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
 from iamtrace.expand import expand_patterns, expand_policies, expand_sarif, expand_text
 from iamtrace.fixplan import fix_plan, fix_plan_text, public
 from iamtrace.inventory import load_inventory
-from iamtrace.loader import load_any_policy, load_levels, load_policies, load_policy, parse_context
+from iamtrace.loader import load_any_policy, load_levels, load_policies, load_policy, parse_context, read_file
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.output import can_sarif, can_text, to_json
 from iamtrace.principals import Principal
@@ -50,11 +52,22 @@ def _add_format(p: argparse.ArgumentParser) -> None:
     p.add_argument("--format", choices=["text", "json", "sarif"], default="text", help="output format")
 
 
+def _read_json(path: str | Path) -> Any:
+    """A JSON file: any Unicode encoding, strict JSON, a clear message naming the file."""
+    return load_json(read_file(path), str(path)).value
+
+
+def _read_text(path: str | Path) -> str:
+    return decode(read_file(path), str(path))
+
+
 # --- can --------------------------------------------------------------------------
 
 
 def _principal(args: argparse.Namespace) -> Principal:
     spec: str = args.principal
+    if spec != "anonymous":
+        spec = fields.principal(spec)
     if spec.startswith("service:"):
         return Principal.service(spec.split(":", 1)[1])
     if spec == "anonymous":
@@ -75,12 +88,14 @@ def cmd_can(args: argparse.Namespace) -> int:
         rcp_exempt=args.management_account_resource,
         resource_is_aws_managed_key=args.aws_managed_key,
     )
+    ctx = parse_context(args.context, args.context_json)
+    fields.context(ctx)
     req = Request(
         principal=principal,
-        action=args.action,
-        resource=args.resource,
-        resource_account=args.resource_account,
-        context=parse_context(args.context, args.context_json),
+        action=fields.action(args.action),
+        resource=fields.resource(args.resource or "*"),
+        resource_account=fields.account_id(args.resource_account or "", "--resource-account"),
+        context=ctx,
     )
     result = evaluate(req, policies)
     if args.what_if and args.format == "json":
@@ -241,13 +256,13 @@ def cmd_escalate(args: argparse.Namespace) -> int:
         cat = _catalog(args)
     if args.auth_details:
         try:
-            data = json.loads(Path(args.auth_details).read_text(encoding="utf-8-sig"))
+            data = _read_json(args.auth_details)
         except (OSError, json.JSONDecodeError, RecursionError) as e:
             raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
         env = Environment.from_auth_details(data)
         if args.inventory:
             try:
-                inv_data = json.loads(Path(args.inventory).read_text(encoding="utf-8-sig"))
+                inv_data = _read_json(args.inventory)
             except (OSError, json.JSONDecodeError, RecursionError) as e:
                 raise PolicyError(f"{args.inventory}: cannot read: {e}") from e
             env.resources = load_inventory(inv_data, env)
@@ -336,7 +351,7 @@ def cmd_check(args: argparse.Namespace) -> int:
         raise PolicyError("give policy files or --auth-details, not both")
     if args.auth_details:
         try:
-            data = json.loads(Path(args.auth_details).read_text(encoding="utf-8-sig"))
+            data = _read_json(args.auth_details)
         except (OSError, json.JSONDecodeError, RecursionError) as e:
             raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
         report = check_auth_details(data, cat, include_aws_managed=args.include_aws_managed)
@@ -344,7 +359,7 @@ def cmd_check(args: argparse.Namespace) -> int:
         docs = []
         for f in args.files:
             try:
-                docs.append((f, Path(f).read_text(encoding="utf-8-sig")))
+                docs.append((f, _read_text(f)))
             except OSError as e:
                 raise PolicyError(f"{f}: cannot read: {e.strerror}") from e
         report = check_documents(docs, cat)
@@ -390,17 +405,17 @@ def _add_check(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None
 
 def cmd_who_can(args: argparse.Namespace) -> int:
     try:
-        data = json.loads(Path(args.auth_details).read_text(encoding="utf-8-sig"))
+        data = _read_json(args.auth_details)
     except (OSError, json.JSONDecodeError, RecursionError) as e:
         raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
     env = Environment.from_auth_details(data)
     if args.inventory:
-        env.resources = load_inventory(json.loads(Path(args.inventory).read_text(encoding="utf-8-sig")), env)
+        env.resources = load_inventory(_read_json(args.inventory), env)
     res_policy = load_policy(args.resource_policy, PolicyType.RESOURCE) if args.resource_policy else None
     report = who_can(
         env,
-        args.action,
-        args.resource,
+        fields.action(args.action),
+        fields.resource(args.resource or "*"),
         scps=load_levels(args.scp, PolicyType.SCP),
         resource_policy=res_policy,
         context=parse_context(args.context, None),
@@ -435,13 +450,13 @@ def _add_who_can(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> No
 
 def _load_account(path: str, inventory: str | None) -> Environment:
     try:
-        data = json.loads(Path(path).read_text(encoding="utf-8-sig"))
+        data = _read_json(path)
     except (OSError, json.JSONDecodeError, RecursionError) as e:
         raise PolicyError(f"{path}: cannot read: {e}") from e
     env = Environment.from_auth_details(data)
     if inventory:
         try:
-            inv_data = json.loads(Path(inventory).read_text(encoding="utf-8-sig"))
+            inv_data = _read_json(inventory)
         except (OSError, json.JSONDecodeError, RecursionError) as e:
             raise PolicyError(f"{inventory}: cannot read: {e}") from e
         env.resources = load_inventory(inv_data, env)
@@ -452,7 +467,7 @@ def _load_credentials(path: str | None) -> CredentialReport | None:
     if not path:
         return None
     try:
-        return parse_credential_report(Path(path).read_text(encoding="utf-8-sig"))
+        return parse_credential_report(_read_text(path))
     except OSError as e:
         raise PolicyError(f"{path}: cannot read: {e}") from e
     except CredentialError as e:
@@ -557,13 +572,13 @@ def _add_data(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
 
 def cmd_terraform(args: argparse.Namespace) -> int:
     try:
-        plan = json.loads(Path(args.plan).read_text(encoding="utf-8-sig"))
+        plan = _read_json(args.plan)
     except (OSError, json.JSONDecodeError, RecursionError) as e:
         raise PolicyError(f"{args.plan}: cannot read: {e}") from e
     export = None
     if args.auth_details:
         try:
-            export = json.loads(Path(args.auth_details).read_text(encoding="utf-8-sig"))
+            export = _read_json(args.auth_details)
         except (OSError, json.JSONDecodeError, RecursionError) as e:
             raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
     try:
@@ -801,7 +816,7 @@ def cmd_usage_collect(args: argparse.Namespace) -> int:
 def cmd_unused(args: argparse.Namespace) -> int:
     env = _load_account(args.auth_details, args.inventory)
     try:
-        usage = parse_usage(Path(args.usage).read_text(encoding="utf-8-sig"))
+        usage = parse_usage(_read_text(args.usage))
     except OSError as e:
         raise PolicyError(f"{args.usage}: cannot read: {e}") from e
     result = unused_access(env, usage, days=args.days, scps=load_levels(args.scp, PolicyType.SCP))

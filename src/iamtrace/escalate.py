@@ -42,13 +42,13 @@ told from one that needs, say, MFA. `analyze(..., conditions=False)` turns the r
 from __future__ import annotations
 
 import json
-import urllib.parse
 from collections import deque
 from dataclasses import dataclass, field, replace
 from functools import cache
 from importlib import resources
 from typing import Any
 
+from iamtrace import documents
 from iamtrace.arn import resource_matches
 from iamtrace.catalog import ACCESS_LEVELS, Catalog
 from iamtrace.context import Context
@@ -171,6 +171,42 @@ def _caller(arn: str) -> Principal:
     return Principal.from_arn(arn)
 
 
+_EXPORT_LISTS = ("UserDetailList", "GroupDetailList", "RoleDetailList", "Policies")
+_ENTITY_LISTS = (
+    "UserPolicyList",
+    "GroupPolicyList",
+    "RolePolicyList",
+    "AttachedManagedPolicies",
+    "PolicyVersionList",
+    "InstanceProfileList",
+    "Tags",
+)
+
+
+def clean_export(data: dict[str, Any]) -> dict[str, Any]:
+    """A copy of an account export that code editing it can rely on: every list is a list, of
+    objects (GroupList: of names). Validate it with Environment.from_auth_details first; this only
+    drops what that reports as ignored."""
+    out = dict(data)
+    for key in _EXPORT_LISTS:
+        entities = []
+        raw = data.get(key)
+        for e in raw if isinstance(raw, list) else []:
+            if not isinstance(e, dict):
+                continue
+            e = dict(e)
+            for sub in _ENTITY_LISTS:
+                if sub in e:
+                    e[sub] = [x for x in e[sub] if isinstance(x, dict)] if isinstance(e[sub], list) else []
+            if "GroupList" in e:
+                e["GroupList"] = (
+                    [g for g in e["GroupList"] if isinstance(g, str)] if isinstance(e["GroupList"], list) else []
+                )
+            entities.append(e)
+        out[key] = entities
+    return out
+
+
 def _tags(entity: dict[str, Any]) -> dict[str, str]:
     return {
         str(t["Key"]): str(t.get("Value", "")) for t in entity.get("Tags") or [] if isinstance(t, dict) and "Key" in t
@@ -178,13 +214,9 @@ def _tags(entity: dict[str, Any]) -> dict[str, str]:
 
 
 def _document(value: Any, where: str) -> Any:
-    if isinstance(value, str):
-        # The raw API returns URL-encoded JSON; the AWS CLI decodes it.
-        try:
-            return json.loads(urllib.parse.unquote(value))
-        except json.JSONDecodeError as e:
-            raise PolicyError(f"{where}: policy document is not JSON") from e
-    return value
+    """A policy document from the export: an object, a JSON string, or the URL-encoded JSON
+    string the raw API returns (see iamtrace.documents)."""
+    return documents.document(value, where)
 
 
 class Environment:
@@ -203,100 +235,185 @@ class Environment:
         self.inventory = inventory  # False for a single policy with no account export
         self.resources: Inventory | None = None  # existing resources and their roles, if given
         self.group_policies: dict[str, list[Policy]] = {}  # group ARN -> its own policies
+        self.unreadable: list[str] = []  # policies left out because they could not be read
 
     @classmethod
     def from_auth_details(cls, data: dict[str, Any]) -> Environment:
-        """Build from `aws iam get-account-authorization-details` output. Raises PolicyError, with
-        a message naming the problem, for anything that is not a well-formed export."""
+        """Build from `aws iam get-account-authorization-details` output.
+
+        A policy that cannot be read is left out with a warning (in `warnings` and `unreadable`),
+        so one odd document does not stop the whole account. Raises PolicyError, naming the entry,
+        for anything that is not a well-formed export.
+        """
         if not isinstance(data, dict) or not any(
             k in data for k in ("UserDetailList", "RoleDetailList", "GroupDetailList", "Policies")
         ):
-            raise PolicyError("not an account export: expected the output of aws iam get-account-authorization-details")
-        try:
-            return cls._from_auth_details(data)
-        except (KeyError, TypeError, AttributeError) as e:
-            raise PolicyError(f"malformed account export: missing or invalid field {e}") from e
+            hint = ""
+            if isinstance(data, (dict, list)):
+                kind = documents.detect(data)
+                if kind != "unknown":
+                    hint = f" (this is {documents.KIND_LABELS[kind]})"
+            raise PolicyError(
+                f"not an account export: expected the output of aws iam get-account-authorization-details{hint}"
+            )
+        return cls._from_auth_details(data)
 
     @classmethod
     def _from_auth_details(cls, data: dict[str, Any]) -> Environment:
         warnings: list[str] = []
-        managed: dict[str, Policy] = {}
-        for p in data.get("Policies", []):
-            versions = p.get("PolicyVersionList") or []
-            default = next((v for v in versions if v.get("IsDefaultVersion")), None)
-            if default is None:
-                warnings.append(f"{p['Arn']}: no default version in the export; ignored")
-                continue
-            managed[p["Arn"]] = Policy.parse(
-                _document(default["Document"], p["Arn"]), policy_id=p["Arn"], policy_type=PolicyType.IDENTITY
+        unreadable: list[str] = []
+        if data.get("IsTruncated"):
+            warnings.append(
+                "the export is only the first page (IsTruncated is true): run the command without "
+                "--max-items or --no-paginate to get the whole account"
             )
+
+        def items(key: str) -> list[dict[str, Any]]:
+            value = data.get(key) or []
+            if not isinstance(value, list):
+                raise PolicyError(f"{key} must be a list")
+            for i, x in enumerate(value):
+                if not isinstance(x, dict):
+                    raise PolicyError(f"{key}[{i}] must be an object")
+            return value
+
+        def need(entity: dict[str, Any], key: str, where: str) -> Any:
+            if key not in entity or entity[key] in (None, ""):
+                raise PolicyError(f"{where}: missing {key}")
+            return entity[key]
+
+        def text(entity: dict[str, Any], key: str, where: str) -> str:
+            value = need(entity, key, where)
+            if not isinstance(value, str):
+                raise PolicyError(f"{where}: {key} must be text, not {type(value).__name__}")
+            return value
+
+        def iam_arn(entity: dict[str, Any], kind: str, where: str) -> str:
+            """The entity's Arn, checked: arn:PARTITION:iam::ACCOUNT:KIND/..."""
+            value = text(entity, "Arn", where)
+            parts = value.split(":", 5)
+            ok = len(parts) == 6 and parts[0] == "arn" and parts[2] == "iam" and parts[4]
+            if not ok or not parts[5].startswith(f"{kind}/"):
+                raise PolicyError(f"{where}: {value!r} is not an IAM {kind} ARN")
+            return value
+
+        def listed(entity: dict[str, Any], key: str, where: str) -> list[dict[str, Any]]:
+            """A list of objects; anything else in it is skipped with a warning."""
+            value = entity.get(key) or []
+            if not isinstance(value, list):
+                raise PolicyError(f"{where}: {key} must be a list")
+            out = [x for x in value if isinstance(x, dict)]
+            if len(out) != len(value):
+                warnings.append(f"{where}: {len(value) - len(out)} entries of {key} are not objects; ignored")
+            return out
+
+        def read(doc: Any, policy_id: str, ptype: PolicyType, where: str) -> Policy | None:
+            try:
+                return Policy.parse(_document(doc, where), policy_id=policy_id, policy_type=ptype)
+            except PolicyError as e:
+                unreadable.append(policy_id)
+                warnings.append(f"{policy_id}: could not be read and is left out ({e})")
+                return None
+
+        managed: dict[str, Policy] = {}
+        for i, p in enumerate(items("Policies")):
+            parn = text(p, "Arn", f"Policies[{i}]")
+            versions = listed(p, "PolicyVersionList", parn)
+            default = next((v for v in versions if isinstance(v, dict) and v.get("IsDefaultVersion")), None)
+            if default is None:
+                warnings.append(f"{parn}: no default version in the export; ignored")
+                continue
+            pol = read(need(default, "Document", parn), parn, PolicyType.IDENTITY, parn)
+            if pol is not None:
+                managed[parn] = pol
 
         def attached(entity: dict[str, Any], label: str) -> tuple[list[Policy], list[str]]:
             pols, arns = [], []
-            for a in entity.get("AttachedManagedPolicies") or []:
-                arns.append(a["PolicyArn"])
-                if a["PolicyArn"] in managed:
-                    pols.append(managed[a["PolicyArn"]])
-                else:
-                    warnings.append(f"{label}: managed policy {a['PolicyArn']} is not in the export; ignored")
+            for a in listed(entity, "AttachedManagedPolicies", label):
+                parn = text(a, "PolicyArn", f"{label} AttachedManagedPolicies")
+                arns.append(parn)
+                if parn in managed:
+                    pols.append(managed[parn])
+                elif parn not in unreadable:
+                    warnings.append(f"{label}: managed policy {parn} is not in the export; ignored")
             return pols, arns
 
         def inline(entity: dict[str, Any], key: str, label: str) -> list[Policy]:
-            return [
-                Policy.parse(
-                    _document(i["PolicyDocument"], f"{label}/{i['PolicyName']}"),
-                    policy_id=f"{label} inline {i['PolicyName']}",
-                    policy_type=PolicyType.IDENTITY,
+            out = []
+            for i in listed(entity, key, label):
+                name = text(i, "PolicyName", f"{label} {key}")
+                pol = read(
+                    need(i, "PolicyDocument", f"{label} {key} {name}"),
+                    f"{label} inline {name}",
+                    PolicyType.IDENTITY,
+                    f"{label}/{name}",
                 )
-                for i in entity.get(key) or []
-            ]
+                if pol is not None:
+                    out.append(pol)
+            return out
 
         def boundary(entity: dict[str, Any], label: str) -> Policy | None:
             b = entity.get("PermissionsBoundary")
-            if not b:
+            if not b or not isinstance(b, dict):
                 return None
             arn = b.get("PermissionsBoundaryArn")
+            if not isinstance(arn, str):
+                warnings.append(f"{label}: PermissionsBoundaryArn is not text; boundary ignored")
+                return None
             if arn in managed:
                 pol = managed[arn]
                 return Policy(pol.id, PolicyType.BOUNDARY, pol.version, pol.statements, pol.warnings)
             warnings.append(f"{label}: permissions boundary {arn} is not in the export; boundary ignored")
             return None
 
+        seen: set[str] = set()
+
+        def unique(arn: str, where: str) -> bool:
+            if arn in seen:
+                warnings.append(f"{where}: {arn} appears more than once in the export; the first is used")
+                return False
+            seen.add(arn)
+            return True
+
         groups_by_name: dict[str, tuple[str, list[Policy], list[str]]] = {}
         group_arns: dict[str, str] = {}
-        for g in data.get("GroupDetailList", []):
-            label = g["Arn"]
+        for i, g in enumerate(items("GroupDetailList")):
+            label = iam_arn(g, "group", f"GroupDetailList[{i}]")
+            name = text(g, "GroupName", label)
+            if not unique(label, f"GroupDetailList[{i}]"):
+                continue
             pols, arns = attached(g, label)
-            groups_by_name[g["GroupName"]] = (g["Arn"], inline(g, "GroupPolicyList", label) + pols, arns)
-            group_arns[g["Arn"]] = g["GroupName"]
+            groups_by_name[name] = (label, inline(g, "GroupPolicyList", label) + pols, arns)
+            group_arns[label] = name
 
         nodes: dict[str, Node] = {}
-        for u in data.get("UserDetailList", []):
-            label = u["Arn"]
+        for i, u in enumerate(items("UserDetailList")):
+            label = iam_arn(u, "user", f"UserDetailList[{i}]")
+            if not unique(label, f"UserDetailList[{i}]"):
+                continue
             pols, arns = attached(u, label)
             policies = inline(u, "UserPolicyList", label) + pols
             gl = []
-            for gname in u.get("GroupList") or []:
-                if gname not in groups_by_name:
+            group_list = u.get("GroupList") or []
+            for gname in group_list if isinstance(group_list, list) else []:
+                if not isinstance(gname, str) or gname not in groups_by_name:
                     warnings.append(f"{label}: group {gname} is not in the export; ignored")
                     continue
                 garn, gpols, garns = groups_by_name[gname]
                 gl.append(garn)
                 policies += gpols
                 arns += garns
-            nodes[u["Arn"]] = Node(
-                u["Arn"], "user", policies, boundary(u, label), groups=gl, attached=arns, tags=_tags(u)
-            )
-        for r in data.get("RoleDetailList", []):
-            label = r["Arn"]
+            nodes[label] = Node(label, "user", policies, boundary(u, label), groups=gl, attached=arns, tags=_tags(u))
+        for i, r in enumerate(items("RoleDetailList")):
+            label = iam_arn(r, "role", f"RoleDetailList[{i}]")
+            if not unique(label, f"RoleDetailList[{i}]"):
+                continue
             pols, arns = attached(r, label)
-            trust = Policy.parse(
-                _document(r["AssumeRolePolicyDocument"], label),
-                policy_id=f"{label} trust policy",
-                policy_type=PolicyType.RESOURCE,
+            trust = read(
+                need(r, "AssumeRolePolicyDocument", label), f"{label} trust policy", PolicyType.RESOURCE, label
             )
-            nodes[r["Arn"]] = Node(
-                r["Arn"],
+            nodes[label] = Node(
+                label,
                 "role",
                 inline(r, "RolePolicyList", label) + pols,
                 boundary(r, label),
@@ -306,6 +423,7 @@ class Environment:
             )
         env = cls(nodes, group_arns, warnings, raw=data)
         env.group_policies = {garn: gpols for garn, gpols, _ in groups_by_name.values()}
+        env.unreadable = unreadable
         return env
 
     @classmethod

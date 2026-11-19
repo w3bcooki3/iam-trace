@@ -100,21 +100,35 @@ def _days(now: dt.datetime, value: str | None) -> int | None:
     return None if when is None else max(0, (now - when).days)
 
 
-def parse_credential_report(text: str, *, now: str | None = None) -> CredentialReport:
+def parse_credential_report(text: str | bytes, *, now: str | None = None) -> CredentialReport:
     """Parse the CSV, or the JSON that `aws iam get-credential-report` prints."""
-    raw = text.lstrip("﻿").strip()
+    from iamtrace.documents import DocumentError, decode
+
+    try:
+        raw = decode(text, "the credential report").strip()
+    except DocumentError as e:
+        raise CredentialError(str(e).removeprefix("the credential report: ")) from e
     generated: str | None = None
     if raw.startswith("{"):
         try:
             data = json.loads(raw)
             content = data["Content"]
             generated = data.get("GeneratedTime")
+            generated = generated if isinstance(generated, str) else None
             raw = base64.b64decode(content, validate=True).decode("utf-8").strip()
-        except (json.JSONDecodeError, KeyError, TypeError, binascii.Error, UnicodeDecodeError) as e:
+        except (json.JSONDecodeError, KeyError, TypeError, binascii.Error, UnicodeDecodeError, ValueError) as e:
             raise CredentialError(
                 "expected the CSV credential report, or the JSON `aws iam get-credential-report` prints"
             ) from e
-    rows = list(csv.DictReader(io.StringIO(raw)))
+    try:
+        # Missing cells (a short row) read as "", extra cells are dropped, so every row has
+        # every column as text.
+        rows = [
+            {k: (v if isinstance(v, str) else "") for k, v in row.items() if isinstance(k, str)}
+            for row in csv.DictReader(io.StringIO(raw), restval="")
+        ]
+    except csv.Error as e:
+        raise CredentialError(f"the CSV cannot be read: {e}") from e
     if not rows or not REQUIRED <= set(rows[0].keys()):
         raise CredentialError(
             "not a credential report: the header should start with user,arn,user_creation_time,password_enabled"
@@ -122,7 +136,9 @@ def parse_credential_report(text: str, *, now: str | None = None) -> CredentialR
     clock = _parse_time(now or generated) or dt.datetime.now(dt.UTC)
     users: dict[str, UserCredentials] = {}
     root = None
-    for r in rows:
+    for i, r in enumerate(rows):
+        if not r.get("user") or not r.get("arn"):
+            raise CredentialError(f"row {i + 2}: the user or arn column is empty")
         keys = []
         for n in (1, 2):
             if r.get(f"access_key_{n}_active", "").lower() != "true":
