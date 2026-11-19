@@ -211,7 +211,16 @@ def test_analyze_account_with_inventory() -> None:
     assert lambda_003(without)["confidence"] == "possible" and without["resources"] is None
     assert lambda_003(with_inv)["confidence"] == "confirmed"
     assert lambda_003(with_inv)["via"] == ["arn:aws:lambda:us-east-1:111122223333:function:nightly-report"]
-    assert with_inv["resources"] == {"ec2-instance": 1, "kms-key": 1, "lambda-function": 2, "s3-bucket": 2}
+    assert with_inv["resources"] == {
+        "dynamodb-table": 1,
+        "ec2-instance": 1,
+        "kms-key": 1,
+        "lambda-function": 2,
+        "s3-bucket": 2,
+        "secretsmanager-secret": 1,
+        "sns-topic": 1,
+        "sqs-queue": 1,
+    }
     bad = json.loads(web_api.analyze_account(ACCOUNT, dev, "", False, "{oops"))
     assert "inventory" in bad["error"]
 
@@ -281,8 +290,8 @@ def test_data_exposure_and_query() -> None:
     r = json.loads(web_api.data_query(text, "arn:aws:s3:::example-reports", "read", "", inv))
     assert r["requires"] == ["s3:GetObject", "kms:Decrypt"]
     assert [b["principal"] for b in r["blocked_by_key"]] == ["arn:aws:iam::111122223333:role/report-runner"]
-    bad = json.loads(web_api.data_query(text, "arn:aws:sqs:us-east-1:1:q", "read", "", inv))
-    assert "S3 buckets" in bad["error"]
+    bad = json.loads(web_api.data_query(text, "arn:aws:lambda:us-east-1:1:function:f", "read", "", inv))
+    assert "S3 buckets" in bad["error"] and "SQS queues" in bad["error"]
 
 
 def test_terraform_query() -> None:

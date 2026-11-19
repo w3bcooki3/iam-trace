@@ -408,7 +408,7 @@ def fix_plan_query(
 def data_query(
     auth_details_text: str, resource: str, access: str, scp_text: str = "", inventory_text: str = ""
 ) -> dict[str, Any]:
-    """Who can read (write, delete) one bucket or key (iamtrace.data), reusing the last analysis."""
+    """Who can read (write, delete) one data resource or key (iamtrace.data), reusing the last analysis."""
     key = _key(auth_details_text, scp_text, inventory_text)
     if _LAST.get("key") == key:
         env, everyone, scps = _LAST["env"], _LAST["everyone"], _LAST["scps"]

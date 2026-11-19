@@ -89,7 +89,15 @@ html { font-size: clamp(14px, 13px + 0.1vw, 15.5px); -webkit-text-size-adjust: 1
 /* Names can be long and unbroken (role names up to 64 characters, ARNs with paths): they wrap
    instead of widening the page. Headers, buttons and tags keep normal wrapping. */
 body { overflow-wrap: anywhere; }
-th, .btn, button, .tag, .nav-item, kbd, .seg { overflow-wrap: normal; }
+th, .btn, button, .tag, .nav-item, kbd, .seg, .sev, .count, .chip { overflow-wrap: normal; }
+/* "anywhere" also lets a table column or a flex item shrink until ordinary words break letter by
+   letter. Table cells and headings use break-word (a long value still wraps when it has to, but
+   the column keeps the width of its longest word); names users control may still break anywhere. */
+td { overflow-wrap: break-word; }
+.card-h h3 { flex: none; }
+td .who small, td .who b, td .mono, td.td-break { overflow-wrap: anywhere; }
+td .who { min-width: 10.5rem; }
+td .tech-id { overflow-wrap: normal; }
 body {
   font: 400 1rem/1.5 "Plex Sans", system-ui, sans-serif; color: var(--text);
   background: var(--bg);
@@ -502,7 +510,8 @@ select { max-width: 100%; }
 .file-row .tag { margin-left: auto; }
 .editor { margin-top: 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--sunk); overflow: hidden; display: flex; flex-direction: column; }
 .editor-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--raise); font-size: 0.8929rem; color: var(--muted); }
-.editor-bar .fname { font: 500 0.8929rem "Plex Mono"; color: var(--text); }
+.editor-bar .fname { font: 500 0.8929rem "Plex Mono"; color: var(--text); flex: none; max-width: 60%; }
+#ed-type, #ed-lines { flex: none; white-space: nowrap; }
 .editor-bar .right { margin-left: auto; display: flex; gap: 14px; }
 .editor-body { display: grid; grid-template-columns: 52px minmax(0, 1fr); height: 420px; }
 .gutter { padding: 14px 10px 14px 0; text-align: right; font: 0.8929rem/1.65 "Plex Mono"; color: var(--faint); overflow: hidden; border-right: 1px solid var(--line); user-select: none; }
@@ -884,7 +893,7 @@ td.td-break { min-width: 16rem; overflow-wrap: anywhere; }
   table.mtable { display: table; overflow: visible; table-layout: fixed; }
   table.mtable tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px 14px; padding: 14px 16px; border-bottom: 1px solid var(--line); }
   table.mtable td { display: block; padding: 0; border: 0; min-width: 0; overflow-wrap: anywhere; background: none !important; }
-  table.mtable td:first-child, table.mtable td:nth-child(2) { grid-column: 1 / -1; }
+  table.mtable td:first-child, table.mtable td:nth-child(2), table.mtable td.td-mono { grid-column: 1 / -1; }
   table.mtable td[data-label]::before { content: attr(data-label); display: block; margin-bottom: 2px; font: 500 0.7857rem "Plex Sans"; color: var(--faint); }
 }
 

@@ -1,55 +1,162 @@
-"""Data paths: who can read, write or delete the data in an S3 bucket, or use a KMS key.
+"""Data paths: who can read, write or delete the data in an S3 bucket, a Secrets Manager secret,
+a DynamoDB table, an SNS topic or an SQS queue, or use a KMS key.
 
 Escalation analysis asks who can become admin. For data, the question is narrower and often the
-one that matters: who can read the customer bucket, by any route?
+one that matters: who can read the customer bucket, or the database password, by any route?
 
-Reading an object takes every permission involved, from every policy involved:
+Getting at the data takes every permission involved, from every policy involved:
 
-- s3:GetObject on the object, allowed by the principal's policies and not denied by the bucket
-  policy (or allowed by the bucket policy alone, for a principal in the same account);
-- if the bucket encrypts with a customer managed KMS key, kms:Decrypt on that key, which the
-  key policy has to allow (directly, or by trusting the account so IAM policies can grant it).
+- the service's own action on the resource (s3:GetObject on an object, secretsmanager:GetSecretValue,
+  dynamodb:GetItem or Query or Scan, ...), allowed by the principal's policies and not denied by
+  the resource policy (or allowed by the resource policy alone, for a principal in the same account);
+- if the data is encrypted with a KMS key, the KMS actions the service calls on the caller's
+  behalf, which the key policy has to allow (directly, or by trusting the account so IAM policies
+  can grant them). Which ones depends on the service:
 
-So a role with s3:GetObject but no use of the key can fetch the objects and still not read them;
-it is listed as blocked by the key. A bucket policy that is public with objects encrypted under a
-key outsiders cannot use is not public in practice, and S3 Block Public Access
-(RestrictPublicBuckets) stops a public bucket policy altogether. Both are reported.
+  ==================  ===========================  ==============================================
+  resource            read                         write
+  ==================  ===========================  ==============================================
+  S3 bucket           kms:Decrypt                  kms:GenerateDataKey
+  Secrets Manager     kms:Decrypt                  kms:GenerateDataKey
+  DynamoDB table      kms:Decrypt                  kms:Decrypt
+  SNS topic           none (subscribing)           kms:GenerateDataKey and kms:Decrypt
+  SQS queue           kms:Decrypt                  kms:GenerateDataKey and kms:Decrypt
+  ==================  ===========================  ==============================================
+
+  Those KMS requests carry kms:ViaService (the service and region) and kms:CallerAccount, which key
+  policies often require; both are set when checking them.
+
+An AWS managed key (aws/secretsmanager, aws/sqs, ...) lets any principal in the account use it
+through its service, and nobody outside the account. A secret with no key of its own uses
+aws/secretsmanager, so it can never be read from another account, whatever its resource policy
+says. Data encrypted with a key outsiders cannot use is not public in practice, and S3 Block
+Public Access (RestrictPublicBuckets) stops a public bucket policy altogether. Both are reported.
 
 Each principal is checked with the same evaluator as `can`; principals that can reach one with
 access through a confirmed escalation route are listed with the route (iamtrace.whocan). Outside
 principals are probed as `entry` does: a principal in an unrelated account with allow-all
-identity policies (its account controls those), and each account the bucket policy names.
+identity policies (its account controls those), and each account the resource policy names.
 
-Resources come from the inventory (iamtrace.inventory: `iam-trace inventory collect` records
-buckets with their policy, default encryption key and Block Public Access, and keys with their
-key policy). A bucket or key that is not in the inventory is analysed without a resource policy.
+Resources come from the inventory (iamtrace.inventory: `iam-trace inventory collect` records each
+resource with its resource policy and encryption key). A resource that is not in the inventory is
+analysed without a resource policy.
 """
 
 from __future__ import annotations
 
+import re
+from dataclasses import dataclass
 from typing import Any
 
 from iamtrace.escalate import Environment, analyze
 from iamtrace.evaluate import PolicySet, Request, evaluate
-from iamtrace.inventory import DATA_KINDS, Resource, kind_of
+from iamtrace.inventory import DATA_KINDS, KINDS, Resource, kind_of
 from iamtrace.model import Policy, PolicyError, PolicyType
 from iamtrace.principals import Principal
-from iamtrace.whocan import escalation_routes, who_can
+from iamtrace.whocan import account_of, allowed_principals, escalation_routes, outside_principals
 
-# access -> (action on an S3 object, action on the bucket's KMS key, action on a KMS key itself)
-ACCESS: dict[str, tuple[str, str | None, str]] = {
-    "read": ("s3:GetObject", "kms:Decrypt", "kms:Decrypt"),
-    "write": ("s3:PutObject", "kms:GenerateDataKey", "kms:Encrypt"),
-    "delete": ("s3:DeleteObject", None, "kms:ScheduleKeyDeletion"),
+ACCESSES = ("read", "write", "delete")
+
+
+@dataclass(frozen=True)
+class Service:
+    name: str  # the ARN's service field, and the start of kms:ViaService
+    noun: str  # what is read or written, for messages: "the objects"
+    # access -> (actions, any one of which gives it; KMS actions the caller also needs, all of them)
+    access: dict[str, tuple[tuple[str, ...], tuple[str, ...]]]
+    default_aws_key: bool = False  # data with no key of its own is encrypted with the AWS managed key
+
+
+SERVICES: dict[str, Service] = {
+    "s3-bucket": Service(
+        "s3",
+        "the objects",
+        {
+            "read": (("s3:GetObject",), ("kms:Decrypt",)),
+            "write": (("s3:PutObject",), ("kms:GenerateDataKey",)),
+            "delete": (("s3:DeleteObject",), ()),
+        },
+    ),
+    "secretsmanager-secret": Service(
+        "secretsmanager",
+        "the secret",
+        {
+            "read": (("secretsmanager:GetSecretValue",), ("kms:Decrypt",)),
+            "write": (("secretsmanager:PutSecretValue", "secretsmanager:UpdateSecret"), ("kms:GenerateDataKey",)),
+            "delete": (("secretsmanager:DeleteSecret",), ()),
+        },
+        default_aws_key=True,
+    ),
+    "dynamodb-table": Service(
+        "dynamodb",
+        "the table",
+        {
+            "read": (
+                ("dynamodb:GetItem", "dynamodb:BatchGetItem", "dynamodb:Query", "dynamodb:Scan"),
+                ("kms:Decrypt",),
+            ),
+            "write": (("dynamodb:PutItem", "dynamodb:UpdateItem", "dynamodb:BatchWriteItem"), ("kms:Decrypt",)),
+            "delete": (("dynamodb:DeleteItem", "dynamodb:BatchWriteItem", "dynamodb:DeleteTable"), ()),
+        },
+    ),
+    "sns-topic": Service(
+        "sns",
+        "the messages",
+        {
+            "read": (("sns:Subscribe",), ()),
+            "write": (("sns:Publish",), ("kms:GenerateDataKey", "kms:Decrypt")),
+            "delete": (("sns:DeleteTopic",), ()),
+        },
+    ),
+    "sqs-queue": Service(
+        "sqs",
+        "the messages",
+        {
+            "read": (("sqs:ReceiveMessage",), ("kms:Decrypt",)),
+            "write": (("sqs:SendMessage",), ("kms:GenerateDataKey", "kms:Decrypt")),
+            "delete": (("sqs:DeleteMessage", "sqs:PurgeQueue", "sqs:DeleteQueue"), ()),
+        },
+    ),
 }
+_NONE = Service("", "", {})
+SINGULAR = ("the secret", "the table")
+# Using a KMS key itself.
+KEY_ACCESS = {"read": "kms:Decrypt", "write": "kms:Encrypt", "delete": "kms:ScheduleKeyDeletion"}
+# Every action an AWS managed key's policy allows through its service.
+_AWS_KEY_ACTIONS = ["kms:Encrypt", "kms:Decrypt", "kms:ReEncrypt*", "kms:GenerateDataKey*", "kms:DescribeKey"]
+
 PROBE_OBJECT = "iam-trace-probe-object"
 STRANGER = "arn:aws:iam::999999999999:role/iam-trace-probe"
+_AWS_ALIAS = re.compile(r"(?:^|:)alias/aws/([a-z0-9-]+)$")
 
 _ALLOW_ALL = Policy.parse(
     {"Version": "2012-10-17", "Statement": [{"Effect": "Allow", "Action": "*", "Resource": "*"}]},
     policy_id="probe identity",
     policy_type=PolicyType.IDENTITY,
 )
+
+
+@dataclass(frozen=True)
+class Need:
+    """One permission an access takes: any one of `actions` on `resource`, under `policy`."""
+
+    actions: tuple[str, ...]
+    resource: str
+    policy: Policy | None
+    via: str | None = None  # kms:ViaService, for a KMS call a service makes for the caller
+    key: bool = False  # a KMS permission on the encryption key, not the data itself
+
+    @property
+    def label(self) -> str:
+        return " or ".join(self.actions)
+
+    def context(self, caller_account: str) -> dict[str, Any]:
+        if not self.actions[0].startswith("kms:"):
+            return {}
+        ctx: dict[str, Any] = {"kms:CallerAccount": caller_account}
+        if self.via:
+            ctx["kms:ViaService"] = self.via
+        return ctx
 
 
 def _resource_policy(res: Resource | None) -> Policy | None:
@@ -65,47 +172,119 @@ def _account(env: Environment) -> str:
     return next(iter(env.nodes.values())).account if env.nodes else "111122223333"
 
 
-def requirements(env: Environment, arn: str, access: str) -> tuple[list[tuple[str, str, Policy | None]], list[str]]:
-    """The (action, resource, resource policy) checks one access needs, and notes."""
-    if access not in ACCESS:
-        raise ValueError(f"access must be one of {', '.join(ACCESS)}")
-    s3_action, key_action, own_action = ACCESS[access]
+def _region(*arns: str) -> str:
+    for a in arns:
+        parts = a.split(":")
+        if len(parts) > 4 and parts[0] == "arn" and parts[3]:
+            return parts[3]
+    return "us-east-1"  # S3 bucket ARNs have none; it only has to match on both sides
+
+
+def aws_managed_key(service: str, region: str, account: str) -> tuple[str, Policy]:
+    """The ARN iam-trace uses for a service's AWS managed key, and that key's policy: any
+    principal in the account, through the service, and nobody else."""
+    doc = {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": f"Allow access through {service} for all principals in the account",
+                "Effect": "Allow",
+                "Principal": {"AWS": "*"},
+                "Action": _AWS_KEY_ACTIONS,
+                "Resource": "*",
+                "Condition": {
+                    "StringEquals": {
+                        "kms:CallerAccount": account,
+                        "kms:ViaService": f"{service}.{region}.amazonaws.com",
+                    }
+                },
+            }
+        ],
+    }
+    pol = Policy.parse(doc, policy_id=f"aws/{service} (AWS managed key)", policy_type=PolicyType.RESOURCE)
+    return f"arn:aws:kms:{region}:{account}:key/aws-managed-{service}", pol
+
+
+@dataclass
+class Requirements:
+    needs: list[Need]
+    notes: list[str]
+    aws_managed_key: str | None = None  # the service, when the data uses its AWS managed key
+
+
+def requirements(env: Environment, arn: str, access: str) -> Requirements:
+    """The permissions one access needs, and notes on what could not be checked."""
+    if access not in ACCESSES:
+        raise ValueError(f"access must be one of {', '.join(ACCESSES)}")
     kind = kind_of(arn)
+    if kind not in DATA_KINDS:
+        raise ValueError(
+            "data paths cover S3 buckets, KMS keys, Secrets Manager secrets, DynamoDB tables, SNS topics "
+            "and SQS queues (give the resource's ARN)"
+        )
     inv = env.resources
     res = inv.find(arn) if inv is not None else None
-    notes: list[str] = []
-    if kind not in DATA_KINDS:
-        raise ValueError("data paths cover S3 buckets (arn:aws:s3:::name) and KMS keys (arn:aws:kms:...:key/id)")
+    out = Requirements([], [])
     if res is None:
-        notes.append(
+        out.notes.append(
             "The resource is not in the inventory, so its resource policy is unknown and only identity "
             "policies were checked."
         )
     if kind == "kms-key":
-        return [(own_action, arn, _resource_policy(res))], notes
-    reqs: list[tuple[str, str, Policy | None]] = [(s3_action, f"{arn}/{PROBE_OBJECT}", _resource_policy(res))]
-    if res is not None and res.kms_key and key_action:
-        key = res.kms_key
-        key_res = inv.find(key) if inv is not None else None
-        if not key.startswith("arn:"):
-            notes.append(
-                f"The bucket encrypts with {key}, which is not a key ARN (an alias or the AWS managed key); "
-                "its key policy is not checked."
-            )
-        else:
-            if key_res is None:
-                notes.append(f"The bucket's KMS key {key} is not in the inventory; its key policy is unknown.")
-            reqs.append((key_action, key, _resource_policy(key_res)))
-    return reqs, notes
-
-
-def _probe(env: Environment, caller: str, reqs: list[tuple[str, str, Policy | None]]) -> list[bool]:
-    who = Principal.from_arn(caller)
-    out = []
-    for action, resource, pol in reqs:
-        req = Request(who, action, resource, resource_account=_account(env))
-        out.append(evaluate(req, PolicySet(identity=[_ALLOW_ALL], resource=[pol] if pol else [])).allowed)
+        out.needs.append(Need((KEY_ACCESS[access],), arn, _resource_policy(res)))
+        return out
+    svc = SERVICES[kind]
+    actions, key_actions = svc.access[access]
+    target = f"{arn}/{PROBE_OBJECT}" if kind == "s3-bucket" else arn
+    out.needs.append(Need(actions, target, _resource_policy(res)))
+    if not key_actions:
+        return out
+    key = res.kms_key if res is not None else None
+    if key is None and not (svc.default_aws_key and res is not None):
+        return out
+    own = _account(env)
+    managed = _AWS_ALIAS.search(key) if key else None
+    if key is None or managed:
+        # The service's AWS managed key: its policy is fixed, so it is known without the inventory.
+        region = _region(arn, key or "")
+        key_arn, pol = aws_managed_key(svc.name, region, own)
+        out.aws_managed_key = svc.name
+        via = f"{svc.name}.{region}.amazonaws.com"
+        out.needs += [Need((a,), key_arn, pol, via=via, key=True) for a in key_actions]
+        return out
+    if not key.startswith("arn:") or ":key/" not in key:
+        out.notes.append(
+            f"{kind_label(kind, cap=True)} is encrypted with {key}, which is not a key ARN (a key ID or an alias); "
+            "its key policy is not checked."
+        )
+        return out
+    key_res = inv.find(key) if inv is not None else None
+    if key_res is None:
+        out.notes.append(f"The KMS key {key} is not in the inventory; its key policy is unknown.")
+    via = f"{svc.name}.{_region(key, arn)}.amazonaws.com"
+    out.needs += [Need((a,), key, _resource_policy(key_res), via=via, key=True) for a in key_actions]
     return out
+
+
+def kind_label(kind: str, cap: bool = False) -> str:
+    """'S3 buckets' -> 'the S3 bucket'."""
+    label = KINDS[kind].label[:-1] if kind in KINDS else "resource"
+    return f"{'The' if cap else 'the'} {label}"
+
+
+def _allowed(env: Environment, caller: str, need: Need) -> bool:
+    who = Principal.from_arn(caller)
+    acct = caller.split(":")[4]
+    ps = PolicySet(identity=[_ALLOW_ALL], resource=[need.policy] if need.policy else [])
+    res_acct = account_of(need.resource, _account(env))
+    return any(
+        evaluate(Request(who, a, need.resource, resource_account=res_acct, context=need.context(acct)), ps).allowed
+        for a in need.actions
+    )
+
+
+def _probe(env: Environment, caller: str, needs: list[Need]) -> list[bool]:
+    return [_allowed(env, caller, n) for n in needs]
 
 
 def data_access(
@@ -116,28 +295,49 @@ def data_access(
     scps: list[list[Policy]] | None = None,
     report: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Who can read (write, delete) the data in a bucket or use a key: directly, through
+    """Who can read (write, delete) the data in a resource or use a key: directly, through
     escalation, and from outside the account."""
-    reqs, notes = requirements(env, arn, access)
+    req = requirements(env, arn, access)
+    needs, notes = req.needs, list(req.notes)
+    kind = kind_of(arn) or ""
     report = report or analyze(env, scps=scps)
-    per = [
-        who_can(env, action, resource, scps=scps, resource_policy=pol, report=report) for action, resource, pol in reqs
+
+    per: list[dict[str, dict[str, Any]]] = []
+    for need in needs:
+        merged: dict[str, dict[str, Any]] = {}
+        for action in need.actions:
+            found = allowed_principals(
+                env, action, need.resource, scps=scps, resource_policy=need.policy, context_for=need.context
+            )
+            for a, d in found.items():
+                if a in merged:
+                    merged[a]["granted_by"] = sorted(set(merged[a]["granted_by"]) | set(d["granted_by"]))
+                else:
+                    merged[a] = dict(d)
+        per.append(merged)
+    common = set(per[0]).intersection(*per[1:]) if per else set()
+    direct = [{**per[0][a], "granted_by": sorted({g for s in per for g in s[a]["granted_by"]})} for a in sorted(common)]
+    blocked = [
+        {**per[0][a], "missing": [n.label for n, s in zip(needs, per, strict=True) if a not in s]}
+        for a in sorted(set(per[0]) - common)
     ]
-    sets = [{d["principal"]: d for d in r["direct"]} for r in per]
-    common = set(sets[0]).intersection(*sets[1:]) if sets else set()
-    direct = [
-        {**sets[0][a], "granted_by": sorted({g for s in sets for g in s[a]["granted_by"]})} for a in sorted(common)
-    ]
-    blocked = [sets[0][a] for a in sorted(set(sets[0]) - common)] if len(sets) > 1 else []
     via = escalation_routes(env, report, common)
     admins = {p["arn"] for p in report["principals"] if p["admin_equivalent"] and not p.get("admin_requires")}
 
+    # Who the resource policy names outside the export, for any of the actions.
+    named: dict[str, dict[str, Any]] = {}
+    for action in needs[0].actions:
+        for o in outside_principals(env, needs[0].policy, action):
+            named.setdefault(o["principal"], o)
+    named_list = list(named.values())
+
     # Outside the account: anyone, and each account the resource policy names.
-    stranger = _probe(env, STRANGER, reqs)
+    stranger = _probe(env, STRANGER, needs)
     res = env.resources.find(arn) if env.resources is not None else None
     pab = (res.public_access_block or {}) if res is not None else {}
     outside: list[dict[str, Any]] = []
     public = all(stranger)
+    noun = SERVICES[kind].noun if kind in SERVICES else "the data"
     if stranger[0] and pab.get("RestrictPublicBuckets"):
         notes.append(
             "The bucket policy grants public access, but S3 Block Public Access (RestrictPublicBuckets) "
@@ -145,21 +345,24 @@ def data_access(
         )
         public = False
     elif stranger[0] and not public:
+        which = f"the AWS managed KMS key aws/{req.aws_managed_key}" if req.aws_managed_key else "a KMS key"
+        verb = "is" if noun in SINGULAR else "are"
         notes.append(
-            "The bucket policy grants public access, but the objects are encrypted with a KMS key that "
-            "principals outside the account cannot use. Objects stored without that key would still be public."
+            f"The resource policy grants public access, but {noun} {verb} encrypted with {which}, which "
+            "principals outside the account cannot use."
+            + (" Objects stored without that key would still be public." if kind == "s3-bucket" else "")
         )
     if public:
         outside.append(
             {
                 "principal": "*",
                 "what": "anyone: the resource policy allows principals in any AWS account",
-                "statement": next((o["statement"] for o in per[0]["outside"] if o["principal"] == "*"), ""),
+                "statement": next((o["statement"] for o in named_list if o["principal"] == "*"), ""),
             }
         )
     restricted = bool(pab.get("RestrictPublicBuckets")) and stranger[0]
     own = _account(env)
-    for o in per[0]["outside"]:
+    for o in named_list:
         if o["kind"] != "AWS" or o["principal"] == "*" or restricted:
             continue
         acct = o["principal"].split(":")[4] if o["principal"].startswith("arn:") else o["principal"]
@@ -170,16 +373,26 @@ def data_access(
             if ":root" not in o["principal"] and o["principal"].startswith("arn:")
             else (f"arn:aws:iam::{acct}:role/iam-trace-probe")
         )
-        if all(_probe(env, caller, reqs)):
+        result = _probe(env, caller, needs)
+        if all(result):
             outside.append({"principal": o["principal"], "what": o["what"], "statement": o["statement"]})
+        elif result[0]:
+            if req.aws_managed_key:
+                why = (
+                    f"{noun} {'is' if noun in SINGULAR else 'are'} encrypted with the AWS managed KMS key "
+                    f"aws/{req.aws_managed_key}, which cannot be used from another account"
+                )
+            else:
+                why = "the KMS key's policy does not let it use the key"
+            notes.append(f"The resource policy allows {o['principal']}, but {why}.")
     services = [
-        {"principal": o["principal"], "statement": o["statement"]} for o in per[0]["outside"] if o["kind"] == "Service"
+        {"principal": o["principal"], "statement": o["statement"]} for o in named_list if o["kind"] == "Service"
     ]
     return {
         "resource": arn,
-        "kind": kind_of(arn),
+        "kind": kind,
         "access": access,
-        "requires": [a for a, _, _ in reqs],
+        "requires": [n.label for n in needs],
         "direct": direct,
         "direct_admins": sum(1 for d in direct if d["principal"] in admins),
         "via": via,
@@ -205,7 +418,7 @@ def _rating(read: dict[str, Any], write: dict[str, Any]) -> str:
 def data_exposure(
     env: Environment, *, scps: list[list[Policy]] | None = None, report: dict[str, Any] | None = None
 ) -> dict[str, Any]:
-    """Every bucket and key in the inventory: who can read and write it, worst first."""
+    """Every data resource in the inventory: who can read and write it, worst first."""
     inv = env.resources
     if inv is None:
         return {"resources": [], "collected": [], "notes": ["No inventory: run iam-trace inventory collect."]}
@@ -230,7 +443,8 @@ def data_exposure(
             {
                 "resource": res.arn,
                 "kind": res.kind,
-                "encrypted_with": res.kms_key,
+                "encrypted_with": res.kms_key
+                or ("alias/aws/secretsmanager" if SERVICES.get(res.kind, _NONE).default_aws_key else None),
                 "has_policy": res.policy is not None,
                 "read": counts(read),
                 "write": counts(write),
@@ -245,7 +459,14 @@ def data_exposure(
 
     rows.sort(key=rank)
     collected = sorted(k for k in inv.collected if k in DATA_KINDS)
-    notes = [] if collected else ["The inventory has no S3 buckets or KMS keys: collect them with inventory collect."]
+    notes = (
+        []
+        if collected
+        else [
+            "The inventory has no data resources (S3 buckets, KMS keys, secrets, tables, topics, queues): "
+            "collect them with inventory collect."
+        ]
+    )
     return {"resources": rows, "collected": collected, "notes": notes}
 
 
@@ -253,10 +474,15 @@ def _short(arn: str) -> str:
     return arn.split(":", 5)[-1] if arn.startswith("arn:") else arn
 
 
+def _needs(requires: list[str]) -> str:
+    """'a or b' is one permission with alternatives; bracket it when there are others."""
+    return " and ".join(f"({n})" if " or " in n and len(requires) > 1 else n for n in requires)
+
+
 def data_access_text(r: dict[str, Any]) -> str:
     lines = [
         f"Who can {r['access']} {r['resource']}",
-        f"Needs: {' and '.join(r['requires'])}. Checked {r['checked']} principals: {len(r['direct'])} directly"
+        f"Needs: {_needs(r['requires'])}. Checked {r['checked']} principals: {len(r['direct'])} directly"
         f" ({r['direct_admins']} admin-equivalent), {len(r['via'])} through escalation.",
     ]
     if r["public"]:
@@ -280,9 +506,9 @@ def data_access_text(r: dict[str, Any]) -> str:
             lines.append(f"  {chain}")
     if r["blocked_by_key"]:
         lines.append("")
-        lines.append(f"Allowed {r['requires'][0]} but not {r['requires'][1]} on the bucket's KMS key")
+        lines.append(f"Allowed {r['requires'][0]}, but not every KMS action on the encryption key")
         for d in r["blocked_by_key"]:
-            lines.append(f"  {_short(d['principal'])}")
+            lines.append(f"  {_short(d['principal'])}: missing {' and '.join(d['missing'])}")
     if r["outside"]:
         lines.append("")
         lines.append("Outside the account")
@@ -294,13 +520,13 @@ def data_access_text(r: dict[str, Any]) -> str:
 def data_exposure_text(x: dict[str, Any]) -> str:
     rows = x["resources"]
     if not rows:
-        return "\n".join(x["notes"] or ["No S3 buckets or KMS keys in the inventory."]) + "\n"
+        return "\n".join(x["notes"] or ["No data resources in the inventory."]) + "\n"
     lines = [f"{len(rows)} data resource{'s' if len(rows) != 1 else ''}, worst first.", ""]
     for r in rows:
         rd, wr = r["read"], r["write"]
         who = f"read: {rd['direct']} directly, {rd['via']} through escalation; write: {wr['direct']} + {wr['via']}"
         out = rd["outside"] or wr["outside"]
-        lines.append(f"{r['rating']:<8} {_short(r['resource'])}")
+        lines.append(f"{r['rating']:<8} {_short(r['resource'])} ({KINDS[r['kind']].label[:-1]})")
         lines.append(f"         {who}" + (f"; outside: {', '.join(out)}" if out else ""))
         if r["encrypted_with"]:
             lines.append(f"         encrypted with {r['encrypted_with']}")

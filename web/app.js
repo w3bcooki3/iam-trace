@@ -368,6 +368,8 @@ const INV_KINDS = {
   "state-machine": "Step Functions state machines", "apprunner-service": "App Runner services",
   "batch-job-definition": "Batch job definitions", "ecs-task": "ECS tasks", "ec2-launch-template": "EC2 launch templates",
   "agentcore-resource": "Bedrock AgentCore resources",
+  "s3-bucket": "S3 buckets", "kms-key": "KMS keys", "secretsmanager-secret": "Secrets Manager secrets",
+  "dynamodb-table": "DynamoDB tables", "sns-topic": "SNS topics", "sqs-queue": "SQS queues",
 };
 function setSource(src) {
   input.src = src;
@@ -1143,15 +1145,47 @@ async function analyseFrom(arn) {
 
 // ------------------------------------------------------------------------------------- data access
 
-// Buckets and keys from the inventory, rated by who can reach their data (iamtrace.data). A row
+// Data resources from the inventory, rated by who can reach their data (iamtrace.data). A row
 // opens the detail in the result sheet: who can read, write or delete it, and by which route.
 const DATA_RATING = { Critical: "c-crit", High: "c-high", Medium: "c-warn", Low: "c-ok" };
 const BUCKET_ICON = '<svg class="i" viewBox="0 0 24 24"><path d="M4 6l1.6 13a2 2 0 0 0 2 1.8h8.8a2 2 0 0 0 2-1.8L20 6"/><ellipse cx="12" cy="6" rx="8" ry="2.5"/></svg>';
 const KEY_ICON = '<svg class="i" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l2 2M14 9l2 2"/></svg>';
+const SECRET_ICON = '<svg class="i" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+const TABLE_ICON = '<svg class="i" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 10h16M4 14.5h16M10 10v9"/></svg>';
+const TOPIC_ICON = '<svg class="i" viewBox="0 0 24 24"><path d="M4 10v4h3l6 4V6L7 10H4z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
+const QUEUE_ICON = '<svg class="i" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="4" rx="1"/><rect x="4" y="10" width="16" height="4" rx="1"/><rect x="4" y="15" width="16" height="4" rx="1"/></svg>';
+// Data resources (mirrors iamtrace.data.SERVICES): what people call them, and an icon.
+const DATA_KIND = {
+  "s3-bucket": ["S3 bucket", BUCKET_ICON], "kms-key": ["KMS key", KEY_ICON],
+  "secretsmanager-secret": ["Secrets Manager secret", SECRET_ICON], "dynamodb-table": ["DynamoDB table", TABLE_ICON],
+  "sns-topic": ["SNS topic", TOPIC_ICON], "sqs-queue": ["SQS queue", QUEUE_ICON],
+};
 function dataName(arn) {
-  if (arn.startsWith("arn:aws:s3:::")) return arn.slice(13);
-  const id = arn.split("/").pop();
-  return `key ${id.length > 13 ? id.slice(0, 8) + "…" + id.slice(-4) : id}`;
+  const parts = String(arn).split(":");
+  const rest = parts.slice(5).join(":");
+  if (parts[2] === "s3") return rest;
+  if (parts[2] === "kms") {
+    const id = rest.split("/").pop();
+    return `key ${id.length > 13 ? id.slice(0, 8) + "…" + id.slice(-4) : id}`;
+  }
+  if (parts[2] === "secretsmanager") return rest.replace(/^secret:/, "");
+  if (parts[2] === "dynamodb") return rest.replace(/^table\//, "");
+  return rest || arn;
+}
+// "a or b" is one permission with alternatives: shown in brackets, so "and" reads unambiguously.
+function needsHtml(requires) {
+  const one = (n) => {
+    const alts = n.split(" or ").map((a) => `<code class="c">${esc(a)}</code>`);
+    return alts.length > 1 && requires.length > 1 ? `(${alts.join(" or ")})` : alts.join(" or ");
+  };
+  return requires.map(one).join(" and ");
+}
+// An action that may break after its service prefix, never inside the name: "iam:<wbr>PassRole".
+function actionWbr(a) { return esc(a).replace(":", ":<wbr>"); }
+function dataKind(kind) { return DATA_KIND[kind] || ["Resource", BUCKET_ICON]; }
+function encryptedWith(key) {
+  if (!key) return "";
+  return /(^|:)alias\/aws\//.test(key) ? ", AWS managed KMS key" : ", encrypted with a KMS key";
 }
 function accessCell(c) {
   if (c.public) return '<span class="tag crit">Public</span>';
@@ -1161,15 +1195,15 @@ function accessCell(c) {
   return `<div class="dx-access">${counts}${out}${key}</div>`;
 }
 function dataEmpty() {
-  return `<div class="glass empty-card"><h3>No buckets or keys to check yet</h3>
-    <p>The account export says who has which permissions, but not which buckets and keys exist or what their own policies say. Collect them, read-only, and load the file under <b>Resource inventory</b> in Data input:</p>
+  return `<div class="glass empty-card"><h3>No data resources to check yet</h3>
+    <p>The account export says who has which permissions, but not which buckets, keys, secrets, tables, topics and queues exist or what their own policies say. Collect them, read-only, and load the file under <b>Resource inventory</b> in Data input:</p>
     <div class="cmd">iam-trace inventory collect --out inventory.json<button class="icon-btn copy" data-copy="iam-trace inventory collect --out inventory.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
     <div class="row-actions"><button class="btn primary" id="dx-example">Try the example inventory</button><button class="btn" data-go="input">Open Data input</button></div></div>`;
 }
 function renderData() {
   const body = $("data-body"), m = model;
   if (!m || m.mode !== "account") {
-    body.innerHTML = `<div class="glass empty-card"><h3>Run an account analysis first</h3><p>Data access uses the account export, and a resource inventory with your buckets and keys.</p><div class="row-actions"><button class="btn primary" data-go="input">Open Data input</button></div></div>`;
+    body.innerHTML = `<div class="glass empty-card"><h3>Run an account analysis first</h3><p>Data access uses the account export, and a resource inventory with your buckets, keys, secrets, tables, topics and queues.</p><div class="row-actions"><button class="btn primary" data-go="input">Open Data input</button></div></div>`;
     return;
   }
   const rows = m.data.resources;
@@ -1185,9 +1219,9 @@ function renderData() {
     return;
   }
   const counts = ["Critical", "High", "Medium", "Low"].map((r) => [r, rows.filter((x) => x.rating === r).length]).filter(([, n]) => n);
-  body.innerHTML = `<div class="glass"><div class="card-h"><h3>Buckets and keys</h3><span class="sub">${plural(rows.length, "resource")}, worst first: ${counts.map(([r, n]) => `${n} ${r.toLowerCase()}`).join(", ")}</span></div>
+  body.innerHTML = `<div class="glass"><div class="card-h"><h3>Data resources</h3><span class="sub">${plural(rows.length, "resource")}, worst first: ${counts.map(([r, n]) => `${n} ${r.toLowerCase()}`).join(", ")}</span></div>
     <table class="mtable dx-table"><thead><tr><th>Resource</th><th>Rating</th><th>Who can read</th><th>Who can write</th><th></th></tr></thead><tbody>${rows.map((r, i) => `<tr>
-      <td><div class="who" data-kind="resource"><span class="wi">${r.kind === "kms-key" ? KEY_ICON : BUCKET_ICON}</span><div><b>${esc(dataName(r.resource))}</b><small>${r.kind === "kms-key" ? "KMS key" : "S3 bucket"}${r.encrypted_with ? ", encrypted with a KMS key" : ""}${r.has_policy ? "" : ", no resource policy"}</small></div></div></td>
+      <td><div class="who" data-kind="resource"><span class="wi">${dataKind(r.kind)[1]}</span><div><b title="${esc(r.resource)}">${esc(dataName(r.resource))}</b><small>${dataKind(r.kind)[0]}${encryptedWith(r.encrypted_with)}${r.has_policy ? "" : ", no resource policy"}</small></div></div></td>
       <td data-label="Rating"><span class="sev ${DATA_RATING[r.rating]}"><i></i>${r.rating}</span></td>
       <td data-label="Who can read">${accessCell(r.read)}</td>
       <td data-label="Who can write">${accessCell(r.write)}</td>
@@ -1202,20 +1236,20 @@ async function openData(arn, access) {
   const seg = `<div class="seg sm" role="group" aria-label="Access">${["read", "write", "delete"].map((a) => `<button data-dx-access="${a}" class="${a === access ? "on" : ""}" aria-pressed="${a === access}">${a[0].toUpperCase() + a.slice(1)}</button>`).join("")}</div>`;
   const chain = (v) => `<div class="dx-chain"><span class="mono">${esc(short(v.principal))}</span>${v.steps.map((s) => `<span class="dx-tech" title="${esc(s.name)}">${esc(s.technique)}</span><span class="mono">${esc(short(s.to))}</span>`).join("")}${v.requires ? ` <span class="tag warn">Needs ${esc(gateShort(v.requires))}</span>` : ""}</div>`;
   const sec = (title, items, empty = "") => items.length || empty ? `<section class="dx-sec"><h3>${title} <span class="t-faint">${items.length || ""}</span></h3>${items.length ? items.join("") : `<p class="muted">${empty}</p>`}</section>` : "";
-  const html = `<div class="dx-head">${seg}<p class="muted">Needs ${r.requires.map((a) => `<code class="c">${esc(a)}</code>`).join(" and ")}. ${plural(r.checked, "principal")} checked.</p></div>
+  const html = `<div class="dx-head">${seg}<p class="muted">Needs ${needsHtml(r.requires)}. ${plural(r.checked, "principal")} checked.</p></div>
     ${r.public ? `<div class="callout callout-crit"><b>Public.</b> Principals in any AWS account can ${esc(access)} this.</div>` : ""}
     ${r.notes.map((n) => `<div class="callout">${esc(n)}</div>`).join("")}
     ${sec("Outside the account", r.outside.map((o) => `<div class="dx-row"><span class="mono">${esc(o.principal)}</span><small>${esc(sentence(o.what))} ${o.statement ? `(${esc(o.statement)})` : ""}</small></div>`))}
     ${sec("By escalating", r.via.map(chain))}
     ${sec("Directly", r.direct.map((d) => `<div class="dx-row"><span class="mono">${esc(short(d.principal))}</span><small>${esc(d.granted_by.map((g) => short(g.split(" / ")[0]) + ", " + (g.split(" / ")[1] || "")).join("; "))}</small></div>`), "Nobody in the export.")}
-    ${sec(access === "write" ? "Can upload objects but not encrypt them" : "Can fetch the objects but not decrypt them", r.blocked_by_key.map((d) => `<div class="dx-row"><span class="mono">${esc(short(d.principal))}</span><small>Not allowed ${esc(r.requires[1] || "")} on the bucket's KMS key, by its own policies or the key policy.</small></div>`))}`;
+    ${sec("Allowed, but blocked by the encryption key", r.blocked_by_key.map((d) => `<div class="dx-row"><span class="mono">${esc(short(d.principal))}</span><small>Not allowed ${(d.missing || []).map((a) => `<code class="c">${esc(a)}</code>`).join(" and ")} on the KMS key, by its own policies or the key policy.</small></div>`))}`;
   openSheet(`Who can ${access} ${dataName(arn)}`, html, "", "Back to Data access");
   $("sheet-body").querySelectorAll("[data-dx-access]").forEach((b) => b.addEventListener("click", () => openData(arn, b.dataset.dxAccess)));
 }
 function dataCard(m) {
   const rows = m.data.resources.slice(0, 3);
-  return `<div class="glass" id="data-card"><div class="card-h"><h3>Data exposure</h3><span class="sub">Buckets and keys from the inventory, worst first</span><div class="right"><button class="btn" data-go="data">Open Data access</button></div></div>
-    <table class="mtable dx-table"><tbody>${rows.map((r) => `<tr><td><b>${esc(dataName(r.resource))}</b><small class="t-faint"> ${r.kind === "kms-key" ? "KMS key" : "S3 bucket"}</small></td><td data-label="Rating"><span class="sev ${DATA_RATING[r.rating]}"><i></i>${r.rating}</span></td><td data-label="Who can read">${accessCell(r.read)}</td></tr>`).join("")}</tbody></table></div>`;
+  return `<div class="glass" id="data-card"><div class="card-h"><h3>Data exposure</h3><span class="sub">Data resources from the inventory, worst first</span><div class="right"><button class="btn" data-go="data">Open Data access</button></div></div>
+    <table class="mtable dx-table"><tbody>${rows.map((r) => `<tr><td><b>${esc(dataName(r.resource))}</b><small class="t-faint"> ${dataKind(r.kind)[0]}</small></td><td data-label="Rating"><span class="sev ${DATA_RATING[r.rating]}"><i></i>${r.rating}</span></td><td data-label="Who can read">${accessCell(r.read)}</td></tr>`).join("")}</tbody></table></div>`;
 }
 
 // ------------------------------------------------------------------------------------- unused access
@@ -1895,10 +1929,10 @@ function drawFindings(rows) {
     body.innerHTML = list.length
       ? `<div class="ptable-wrap"><table class="mtable"><thead><tr><th>Confidence</th><th>Technique</th><th>Principal</th><th>Leads to</th><th>Permissions</th><th>Reference</th></tr></thead><tbody>${list.slice(0, findState.limit).map(({ p, t }) => `<tr>
           <td><span class="sev ${t.confidence === "confirmed" ? "c-crit" : "c-warn"}"><i></i>${t.confidence === "confirmed" ? "Confirmed" : "Possible"}</span></td>
-          <td data-label="Technique"><b class="mono">${esc(t.id)}</b><div class="cat-note">${esc(CATEGORY[t.category] || t.category)}</div></td>
+          <td data-label="Technique"><b class="mono tech-id">${esc(t.id)}</b><div class="cat-note">${esc(CATEGORY[t.category] || t.category)}</div></td>
           <td><div class="who" data-kind="${k(p.arn)}"><span class="wi">${ICON[k(p.arn)] || ICON.resource}</span><div><b>${esc(nameOf(p.arn))}</b><small>${esc(short(p.arn))}</small></div></div></td>
           <td class="td-mono" data-label="Leads to">${t.targets.map((x) => esc(short(x))).join("<br>")}${t.via ? `<div class="t-muted">through ${t.via.map((x) => esc(short(x))).join(", ")}</div>` : ""}${t.requires ? `<div class="gate-note">Only with ${esc(gateShort(t.requires))}</div>` : ""}</td>
-          <td class="td-mono" data-label="Permissions">${t.permissions.map(esc).join("<br>")}</td>
+          <td class="td-mono" data-label="Permissions">${t.permissions.map(actionWbr).join("<br>")}</td>
           <td data-label="Reference"><a href="${esc(t.source?.pathfinding || "#")}" target="_blank" rel="noopener">pathfinding.cloud</a></td></tr>`).join("")}</tbody></table></div>`
       : '<p class="list-empty">Nothing matches.</p>';
     $("find-count").textContent = plural(list.length, "finding");
@@ -2426,6 +2460,7 @@ const CHANGES = [
       "<b>Escalation benchmark</b>: all 91 AWS paths in pathfinding.cloud are checked on every change, each built from pathfinding.cloud's own description, together with 1,136 near misses that must not be reported. All 91 are found, 23 of them with a resource inventory, with no false alarms. The table is in <code class='c'>docs/coverage.md</code>.",
       "Resource inventory now also records Batch job definitions, running ECS tasks, EC2 launch templates and Bedrock AgentCore resources, so every existing-resource technique can be confirmed.",
       "<b>Terraform plan</b>: a new screen and <code class='c'>iam-trace terraform</code> review the IAM changes in a plan, and with an account loaded, the paths to admin and entry points it would open. The GitHub Action can post it on pull requests.",
+      "<b>Data access for secrets, tables, topics and queues</b>: Secrets Manager secrets, DynamoDB tables, SNS topics and SQS queues are rated alongside buckets and keys, each with the KMS permissions its service needs from the caller. A secret on the default key shared with another account is shown as unreadable there.",
       "<b>Data access</b>: a new screen and <code class='c'>iam-trace data</code> rate every S3 bucket and KMS key by who can read and write it, directly, by escalating or from outside the account. Encrypted buckets need the key too; public policies are checked against the key and Block Public Access.",
       "<b>Apply as</b> in the Fix plan: besides Deny statements, the same fix as narrowed Allow statements (with anything else they stop allowing named) or as one SCP. Each is verified by analysing again.",
       "<b>Credential report</b>: a new Data input tab and <code class='c'>iam-trace credentials collect</code>. Entry points then leave out users with no password and no active key, rank old or unused keys and passwords without MFA higher, and flag root user access keys as critical.",

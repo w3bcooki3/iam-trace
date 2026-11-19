@@ -156,8 +156,25 @@ These are covered only by hand-written tests that quote the AWS docs
 
 ## Data access
 
-- Covers S3 buckets and KMS keys from the inventory. Object ACLs, access points, S3 Object
-  Ownership, VPC endpoint policies and KMS grants are not modelled.
+- Covers S3 buckets, KMS keys, Secrets Manager secrets, DynamoDB tables, SNS topics and SQS
+  queues from the inventory. Object ACLs, access points, S3 Object Ownership, VPC endpoint
+  policies and KMS grants are not modelled. Other data stores (RDS, EFS, Kinesis, ECR, ...) are
+  not covered.
+- Each access is a fixed set of actions (for example, reading a table is any of GetItem,
+  BatchGetItem, Query or Scan). Other ways to reach the data, such as exporting a table to S3,
+  restoring a backup, reading a DynamoDB stream or replicating a secret, are not followed.
+- Which KMS permissions a caller needs comes from each service's documentation. For DynamoDB, the
+  documentation says the table key is fetched per caller but doesn't list the caller's
+  permissions; iam-trace requires `kms:Decrypt` for reads and writes on a table with a customer
+  managed key. This is not yet confirmed against AWS.
+- An AWS managed key is modelled by its documented key policy (anyone in the account, through the
+  service). Its real policy is not read. Keys given as a key ID or a customer alias (not an ARN)
+  can't be matched to the inventory, so their key policy isn't checked, and a note says so.
+- A secret with no KmsKey in a hand-written inventory is taken to use aws/secretsmanager, which is
+  what AWS does.
+- SNS topic access is subscribing; whether the subscription endpoint actually receives messages
+  (confirmation, delivery policy) is not checked. SQS and SNS conditions on `aws:SourceArn` or
+  `aws:SourceAccount` are not met by the probes, so such statements are not counted as public.
 - Object access is checked on one probe object in the bucket. A bucket policy that treats key
   prefixes differently (for example `reports/*` and `public/*`) is judged on that object only.
 - The bucket's default encryption key is assumed for every object. Objects uploaded with another

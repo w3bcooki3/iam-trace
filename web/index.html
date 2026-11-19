@@ -172,7 +172,7 @@
 
     <!-- ============================================================== who can -->
     <section class="view" id="v-data"><div class="page">
-      <div class="page-head"><div><h1>Data access</h1><p>Who can read, write or delete the data in your S3 buckets and KMS keys: directly, by escalating, or from outside the account. Reading an encrypted bucket takes the key too.</p></div></div>
+      <div class="page-head"><div><h1>Data access</h1><p>Who can read, write or delete the data in your S3 buckets, secrets, DynamoDB tables, SNS topics and SQS queues, or use your KMS keys: directly, by escalating, or from outside the account. Encrypted data takes the key too.</p></div></div>
       <div id="data-body"></div>
     </div></section>
 
@@ -474,7 +474,8 @@
           </ul>
           <div class="callout callout-warn"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg><div>The export does not include your organization's SCPs. If the account is in AWS Organizations, add them under <strong>Organization SCPs</strong> in Data input. SCPs can block a path, so results without them may overstate the risk.</div></div>
           <h3>Buckets and keys</h3>
-          <p>The same inventory also records your S3 buckets (with their bucket policy, default encryption key and Block Public Access settings) and customer managed KMS keys (with their key policy). <a href="#data">Data access</a> then rates each one by who can read and write its data, directly, by escalating or from outside the account. Reading an encrypted bucket takes <code class="c">kms:Decrypt</code> on its key too, so a role that can fetch objects but can't decrypt them is listed separately.</p>
+          <p>The same inventory also records your S3 buckets (with their bucket policy, default encryption key and Block Public Access settings), customer managed KMS keys (with their key policy), Secrets Manager secrets, DynamoDB tables, SNS topics and SQS queues (each with its resource policy and encryption key). <a href="#data">Data access</a> then rates each one by who can read and write its data, directly, by escalating or from outside the account.</p>
+          <p>Encrypted data takes the key too, and which KMS permissions depends on the service: reading a bucket, a secret, a table or a queue takes <code class="c">kms:Decrypt</code>; writing to a table takes <code class="c">kms:Decrypt</code>; publishing to a topic or sending to a queue takes <code class="c">kms:GenerateDataKey</code> and <code class="c">kms:Decrypt</code>; subscribing to a topic takes none. A principal allowed the first permission but not the key is listed separately. Data under an AWS managed key (such as <code class="c">aws/secretsmanager</code>, which every secret without a key of its own uses) can't be read from another account, whatever the resource policy says.</p>
           <h3>Optional: a credential report</h3>
           <p>The account export doesn't say which users have access keys or a password, so Entry points lists every user. The IAM credential report says, with dates. Get it read-only:</p>
           <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>iam-trace credentials collect --out credentials.json</pre></div>

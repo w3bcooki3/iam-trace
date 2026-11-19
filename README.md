@@ -63,7 +63,7 @@ to do is contribute it there too.
 ## Status
 
 <!-- counts:start -->
-Offline tests: **1130 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
+Offline tests: **1189 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
 
 Live differential run: **not run yet**. See "Differential testing" below.
 <!-- counts:end -->
@@ -269,7 +269,9 @@ it:
 enough) for Lambda functions, EC2 instances and launch templates, CodeBuild projects,
 CloudFormation stacks, Glue dev endpoints, SageMaker notebooks, Step Functions state machines,
 App Runner services, Batch job definitions, running ECS tasks and Bedrock AgentCore runtimes,
-code interpreters and browsers, in every enabled region or the ones you pass with `--regions`. Each finding then names the resource it
+code interpreters and browsers, in every enabled region or the ones you pass with `--regions`.
+For [data access](#data) it also records S3 buckets, KMS keys, Secrets Manager secrets, DynamoDB
+tables, SNS topics and SQS queues, each with its resource policy and encryption key. Each finding then names the resource it
 goes through, permissions are checked against that resource's ARN, and a technique with no
 reachable resource is dropped. A kind whose collection failed in any region stays "possible";
 it's never treated as empty. iam-trace itself still makes no network calls: it runs the `aws`
@@ -369,25 +371,42 @@ are analysed:
 
 ### data
 
-    iam-trace data --auth-details auth.json --inventory inventory.json [--resource arn:aws:s3:::name] [--access read]
+    iam-trace data --auth-details auth.json --inventory inventory.json [--resource ARN] [--access read]
 
-Who can read, write or delete the data in your S3 buckets and KMS keys: directly, by escalating,
-or from outside the account. Without `--resource`, every bucket and key in the inventory is rated,
-worst first:
+Who can read, write or delete the data in your S3 buckets, Secrets Manager secrets, DynamoDB
+tables, SNS topics and SQS queues, or use your KMS keys: directly, by escalating, or from outside
+the account. Without `--resource`, every one of them in the inventory is rated, worst first:
 
-    Critical example-public-assets
+    Critical example-public-assets (S3 bucket)
              read: 6 directly, 0 through escalation; write: 2 + 3; outside: *
-    High     example-reports
+    High     example-reports (S3 bucket)
              read: 2 directly, 3 through escalation; write: 2 + 3; outside: arn:aws:iam::444455556666:root
              encrypted with arn:aws:kms:us-east-1:111122223333:key/0f1e...
+    Medium   secret:example-db-password-Q1w2E3 (Secrets Manager secret)
+             read: 2 directly, 3 through escalation; write: 2 + 3
+             encrypted with alias/aws/secretsmanager
+             The resource policy allows arn:aws:iam::444455556666:root, but the secret is encrypted
+             with the AWS managed KMS key aws/secretsmanager, which cannot be used from another account.
 
-Every permission involved counts. Reading an object in an SSE-KMS bucket takes `s3:GetObject`
-(identity and bucket policy) and `kms:Decrypt` on its key (which the key policy has to allow), so
-a role with only the first is listed as able to fetch the objects but not read them. A public
-bucket policy is reported as public only if outsiders can also use the key and S3 Block Public
-Access doesn't stop it; both cases are explained. `inventory collect` records each bucket's
-policy, default encryption key and Block Public Access settings, and each customer managed key's
-key policy.
+Every permission involved counts: the service's own action, allowed by the principal's policies
+and the resource policy, and the KMS permissions the service uses on the caller's behalf when the
+data is encrypted, allowed by the key policy. Those differ by service:
+
+| Resource | Read | Write | KMS for read | KMS for write |
+|---|---|---|---|---|
+| S3 bucket | `s3:GetObject` | `s3:PutObject` | `kms:Decrypt` | `kms:GenerateDataKey` |
+| Secrets Manager secret | `GetSecretValue` | `PutSecretValue` or `UpdateSecret` | `kms:Decrypt` | `kms:GenerateDataKey` |
+| DynamoDB table | `GetItem`, `BatchGetItem`, `Query` or `Scan` | `PutItem`, `UpdateItem` or `BatchWriteItem` | `kms:Decrypt` | `kms:Decrypt` |
+| SNS topic | `Subscribe` | `Publish` | none | `kms:GenerateDataKey` and `kms:Decrypt` |
+| SQS queue | `ReceiveMessage` | `SendMessage` | `kms:Decrypt` | `kms:GenerateDataKey` and `kms:Decrypt` |
+
+A principal with the first permission but not the key is listed separately, with what it's
+missing. The KMS requests are checked with `kms:ViaService` and `kms:CallerAccount` set, because
+key policies often require them. An AWS managed key (`aws/secretsmanager`, `aws/sqs`, ...) can be
+used by anyone in the account through its service and by nobody outside it, so a secret shared
+with another account but left on the default key is reported as unreadable there. A resource
+policy open to everyone counts as public only if outsiders can also use the key and, for a
+bucket, S3 Block Public Access doesn't stop it.
 
 ### unused
 
@@ -496,8 +515,8 @@ and what each changed document now allows.
   step to see whether another route to admin remains.
 - **Who can**: every principal that can perform an action on a resource, directly or through
   escalation, drawn as an access graph.
-- **Data access**: every bucket and key in the inventory rated by who can read and write it,
-  public and shared ones first, with the routes.
+- **Data access**: every bucket, key, secret, table, topic and queue in the inventory rated by
+  who can read and write it, public and shared ones first, with the routes.
 - **Unused access**: with IAM's last accessed data loaded, the services each policy allows that
   nobody who has it used, the trimmed policies to copy, and the paths to admin that closes.
 - **Terraform plan**: the IAM changes in a plan, and with an account loaded, the new paths to
@@ -594,6 +613,24 @@ search for bugs with thousands of new random cases (about an hour):
     HYPOTHESIS_PROFILE=deep pytest tests/property
 
 A failing case is shrunk to the smallest policy or account that still breaks the rule.
+
+### Mutation testing
+
+Mutation testing changes the engine's code one small step at a time (`>=` to `>`, `and` to
+`or`, a dropped argument) and checks that some test fails. A change no test notices points at
+behaviour nothing pins down.
+
+    python3 -m venv /tmp/mut && /tmp/mut/bin/pip install pytest hypothesis mutmut
+    /tmp/mut/bin/python -m mutmut run && /tmp/mut/bin/python -m mutmut results
+
+The first partial run covered 405 of the 705 changes in the condition, matching, ARN, variable
+and context code: 277 caught, 120 not, 8 in code no test reaches. The changes no test caught were
+mostly in error-message wording and in code that runs only at import time (the operator table),
+which mutmut can't switch on. The rest were real gaps, now covered by
+`tests/unit/test_conditions_edges.py`: `...Equals` operators with equal values, dates with a
+time zone offset or negative epoch seconds, invalid base64 and IP addresses, ARNs with colons in
+the resource part, unresolved policy variables, and ForAnyValue with negated operators and
+missing keys. The evaluator itself (`evaluate.py`) has not been through a mutation run yet.
 
 ### Escalation benchmark
 

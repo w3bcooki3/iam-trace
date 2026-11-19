@@ -203,11 +203,57 @@ class FakeAws:
             }
         if (service, op) == ("s3api", "get-public-access-block"):
             return {"PublicAccessBlockConfiguration": {"BlockPublicPolicy": True, "RestrictPublicBuckets": True}}
+        # Secrets, tables, topics and queues: one of each in us-east-1, none in other regions.
+        here = region == "us-east-1"
+        sm = f"arn:aws:secretsmanager:{region}:{ACCT}:secret"
+        if (service, op) == ("secretsmanager", "list-secrets"):
+            return {
+                "SecretList": [{"ARN": f"{sm}:db-AbCdEf", "KmsKeyId": "k1"}, {"ARN": f"{sm}:plain-123456"}]
+                if here
+                else []
+            }
+        if (service, op) == ("secretsmanager", "get-resource-policy"):
+            secret = args[args.index("--secret-id") + 1]
+            return {
+                "ARN": secret,
+                **({"ResourcePolicy": '{"Version":"2012-10-17","Statement":[]}'} if "db-" in secret else {}),
+            }
+        if (service, op) == ("dynamodb", "list-tables"):
+            return {"TableNames": ["orders", "cache"] if here else []}
+        if (service, op) == ("dynamodb", "describe-table"):
+            name = args[args.index("--table-name") + 1]
+            table: dict[str, Any] = {"TableArn": f"arn:aws:dynamodb:{region}:{ACCT}:table/{name}"}
+            if name == "orders":
+                table["SSEDescription"] = {
+                    "Status": "ENABLED",
+                    "SSEType": "KMS",
+                    "KMSMasterKeyArn": f"arn:aws:kms:{region}:{ACCT}:key/k1",
+                }
+            return {"Table": table}
+        if (service, op) == ("dynamodb", "get-resource-policy"):
+            if args[args.index("--resource-arn") + 1].endswith("/cache"):
+                raise CollectError("An error occurred (PolicyNotFoundException) when calling GetResourcePolicy")
+            return {"Policy": '{"Version":"2012-10-17","Statement":[]}', "RevisionId": "1"}
+        if (service, op) == ("sns", "list-topics"):
+            return {"Topics": [{"TopicArn": f"arn:aws:sns:{region}:{ACCT}:alerts"}] if here else []}
+        if (service, op) == ("sns", "get-topic-attributes"):
+            return {"Attributes": {"Policy": '{"Version":"2012-10-17","Statement":[]}', "KmsMasterKeyId": "aws1"}}
+        if (service, op) == ("sqs", "list-queues"):
+            return {"QueueUrls": [f"https://sqs.{region}.amazonaws.com/{ACCT}/jobs"] if here else []}
+        if (service, op) == ("sqs", "get-queue-attributes"):
+            return {
+                "Attributes": {
+                    "QueueArn": f"arn:aws:sqs:{region}:{ACCT}:jobs",
+                    "KmsMasterKeyId": "alias/aws/sqs",
+                    "SqsManagedSseEnabled": "false",
+                }
+            }
         if (service, op) == ("kms", "list-keys"):
             return {"Keys": [{"KeyId": "k1"}, {"KeyId": "aws1"}] if region == "us-east-1" else []}
         if (service, op) == ("kms", "describe-key"):
             key_id = args[args.index("--key-id") + 1]
-            manager = "CUSTOMER" if key_id == "k1" else "AWS"
+            manager = "CUSTOMER" if key_id.rsplit("/", 1)[-1] == "k1" else "AWS"
+            key_id = key_id.rsplit("/", 1)[-1]
             return {"KeyMetadata": {"Arn": f"arn:aws:kms:{region}:{ACCT}:key/{key_id}", "KeyManager": manager}}
         if (service, op) == ("kms", "get-key-policy"):
             return {"Policy": '{"Version":"2012-10-17","Statement":[]}'}
@@ -334,3 +380,58 @@ def test_collects_buckets_and_keys_with_their_policies() -> None:
     )
     loaded = load_inventory(inv, env)
     assert loaded.find("arn:aws:s3:::reports").kms_key.endswith("key/k1")  # type: ignore[union-attr]
+
+
+def test_collects_secrets_tables_topics_and_queues() -> None:
+    from iamtrace.escalate import Environment
+    from iamtrace.inventory import load_inventory
+
+    kinds = ["secretsmanager-secret", "dynamodb-table", "sns-topic", "sqs-queue"]
+    aws = FakeAws()
+    inv = collect(aws, regions=["us-east-1", "eu-west-1"], kinds=kinds)
+    assert inv["Collected"] == kinds
+    assert inv["Errors"] == []
+    by_arn = {r["Arn"]: r for r in inv["Resources"]}
+    key = f"arn:aws:kms:us-east-1:{ACCT}:key/k1"
+    secret = by_arn[f"arn:aws:secretsmanager:us-east-1:{ACCT}:secret:db-AbCdEf"]
+    assert secret["KmsKey"] == key and "Policy" in secret
+    plain = by_arn[f"arn:aws:secretsmanager:us-east-1:{ACCT}:secret:plain-123456"]
+    assert plain == {"Arn": plain["Arn"]}  # no key of its own: the AWS managed key; no policy
+    orders = by_arn[f"arn:aws:dynamodb:us-east-1:{ACCT}:table/orders"]
+    assert orders["KmsKey"] == key and "Policy" in orders
+    assert set(by_arn[f"arn:aws:dynamodb:us-east-1:{ACCT}:table/cache"]) == {"Arn"}
+    assert by_arn[f"arn:aws:sns:us-east-1:{ACCT}:alerts"]["KmsKey"] == "alias/aws/sns"  # an AWS managed key
+    assert by_arn[f"arn:aws:sqs:us-east-1:{ACCT}:jobs"]["KmsKey"] == "alias/aws/sqs"
+    # Each key is described once, however many resources use it.
+    described = [c for c in aws.calls if c[:2] == ["kms", "describe-key"]]
+    assert len(described) == len({tuple(c) for c in described})
+    for call in aws.calls:
+        assert call[1].split("-")[0] in ("list", "describe", "get"), call
+    env = Environment.from_auth_details(
+        {"UserDetailList": [], "GroupDetailList": [], "RoleDetailList": [], "Policies": []}
+    )
+    loaded = load_inventory(inv, env)
+    assert loaded.warnings == []
+    assert {r.kind for r in loaded.resources} == set(kinds)
+
+
+def test_queue_with_sqs_managed_encryption_has_no_key() -> None:
+    from iamtrace.collect import _queues
+
+    def run(args: list[str]) -> Any:
+        if args[1] == "list-queues":
+            return {"QueueUrls": ["https://sqs.us-east-1.amazonaws.com/1/q"]}
+        return {"Attributes": {"QueueArn": f"arn:aws:sqs:us-east-1:{ACCT}:q", "SqsManagedSseEnabled": "true"}}
+
+    assert _queues(run, "us-east-1", ACCT, "aws") == [{"Arn": f"arn:aws:sqs:us-east-1:{ACCT}:q"}]
+
+
+def test_a_key_that_cannot_be_described_is_kept_as_given() -> None:
+    from iamtrace.collect import _key_ref
+
+    def run(args: list[str]) -> Any:
+        raise CollectError("An error occurred (AccessDeniedException) when calling DescribeKey")
+
+    other = "arn:aws:kms:us-east-1:444455556666:key/x"
+    assert _key_ref(run, "us-east-1", other, "sqs", {}) == other
+    assert _key_ref(run, "us-east-1", "alias/aws/sqs", "sqs", {}) == "alias/aws/sqs"

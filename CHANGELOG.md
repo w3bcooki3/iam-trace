@@ -6,6 +6,19 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- Data access covers Secrets Manager secrets, DynamoDB tables, SNS topics and SQS queues, as well
+  as S3 buckets and KMS keys. Each service's read, write and delete actions are checked, with the
+  KMS permissions it needs from the caller (for example `kms:GenerateDataKey` and `kms:Decrypt` to
+  send to an encrypted queue, none to subscribe to a topic). `inventory collect` records them with
+  their resource policy and encryption key. AWS managed keys are modelled by their documented key
+  policy, so a secret on aws/secretsmanager shared with another account is reported as unreadable
+  there.
+- Mutation testing setup (mutmut) and tests for the condition edge cases it found unpinned:
+  `...Equals` with equal values, time zone offsets, negative epoch seconds, invalid base64 and IP
+  values, ARNs with extra colons, unresolved variables, and ForAnyValue with negated operators.
+- KMS requests in data access carry `kms:ViaService` and `kms:CallerAccount`, so key policies that
+  require them (as AWS managed keys do) are met.
+
 - One input reader for everything (`iamtrace.documents`): UTF-8, UTF-16 and UTF-32 with or without
   a byte order mark; strict JSON with errors that name the line and column, show it, and guess
   what the text is instead (YAML, CSV, HTML, a Python dict, comments, trailing commas); NaN and

@@ -70,3 +70,11 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
+
+# Mutation testing (see README, Testing). Run in a virtual environment where iam-trace is not
+# installed in editable mode, or the tests import the original code instead of the mutants.
+[tool.mutmut]
+source_paths = ["src"]
+only_mutate = ["src/iamtrace/matching.py", "src/iamtrace/wildcard.py", "src/iamtrace/arn.py", "src/iamtrace/variables.py", "src/iamtrace/context.py", "src/iamtrace/conditions.py"]
+pytest_add_cli_args_test_selection = ["tests/"]
+also_copy = ["examples", "scripts", "web", "action", "docs", "README.md", "CHANGELOG.md"]

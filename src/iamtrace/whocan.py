@@ -15,6 +15,7 @@ A principal is evaluated with the same engine as `can`; nothing is approximated.
 from __future__ import annotations
 
 from collections import deque
+from collections.abc import Callable, Mapping
 from typing import Any
 
 from iamtrace.escalate import Environment, analyze
@@ -23,12 +24,12 @@ from iamtrace.matching import any_action_matches
 from iamtrace.model import Policy
 
 
-def _account_of(resource: str, default: str | None) -> str | None:
+def account_of(resource: str, default: str | None) -> str | None:
     parts = resource.split(":", 5)
     return parts[4] if len(parts) > 4 and parts[0] == "arn" and parts[4] else default
 
 
-def _outside(env: Environment, policy: Policy | None, action: str) -> list[dict[str, Any]]:
+def outside_principals(env: Environment, policy: Policy | None, action: str) -> list[dict[str, Any]]:
     """Principals named by Allow statements of the resource policy that the export does not have."""
     if policy is None:
         return []
@@ -124,7 +125,7 @@ def escalation_routes(env: Environment, report: dict[str, Any], direct: set[str]
     return via
 
 
-def who_can(
+def allowed_principals(
     env: Environment,
     action: str,
     resource: str,
@@ -132,13 +133,17 @@ def who_can(
     scps: list[list[Policy]] | None = None,
     resource_policy: Policy | None = None,
     context: dict[str, Any] | None = None,
-    report: dict[str, Any] | None = None,
-) -> dict[str, Any]:
+    context_for: Callable[[str], Mapping[str, Any]] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Every principal in the export whose own policies (with SCPs, its boundary and the resource
+    policy) allow the request, with the statements that granted it.
+
+    `context_for`, given a caller's account ID, adds context keys that depend on the caller (such
+    as kms:CallerAccount); `context` is the same for every caller."""
     direct: dict[str, dict[str, Any]] = {}
     for arn, node in env.nodes.items():
-        req = Request(
-            node.caller(), action, resource, resource_account=_account_of(resource, node.account), context=context or {}
-        )
+        ctx = {**(context or {}), **(context_for(node.account) if context_for else {})}
+        req = Request(node.caller(), action, resource, resource_account=account_of(resource, node.account), context=ctx)
         ps = PolicySet(
             identity=node.policies,
             boundary=node.boundary,
@@ -155,11 +160,27 @@ def who_can(
                 if m.effect == "Allow" and m.policy_type in ("identity", "resource")
             ]
             direct[arn] = {"principal": arn, "kind": node.kind, "granted_by": sorted(set(grants))}
+    return direct
 
+
+def who_can(
+    env: Environment,
+    action: str,
+    resource: str,
+    *,
+    scps: list[list[Policy]] | None = None,
+    resource_policy: Policy | None = None,
+    context: dict[str, Any] | None = None,
+    context_for: Callable[[str], Mapping[str, Any]] | None = None,
+    report: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    direct = allowed_principals(
+        env, action, resource, scps=scps, resource_policy=resource_policy, context=context, context_for=context_for
+    )
     report = report or analyze(env, scps=scps)
     via = escalation_routes(env, report, set(direct))
 
-    outside = _outside(env, resource_policy, action)
+    outside = outside_principals(env, resource_policy, action)
     total = len(env.nodes)
     return {
         "action": action,

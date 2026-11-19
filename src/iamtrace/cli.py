@@ -544,17 +544,20 @@ def cmd_data(args: argparse.Namespace) -> int:
 def _add_data(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
     p = sub.add_parser(
         "data",
-        help="who can read, write or delete the data in S3 buckets and KMS keys, by any route",
-        description="Without --resource, rates every bucket and key in the inventory, worst first. With it, lists "
-        "who can read (write, delete) that resource: directly, through escalation, and from outside the account. "
-        "Reading an SSE-KMS bucket needs kms:Decrypt on its key too. Collect buckets and keys with "
-        "`iam-trace inventory collect`.",
+        help="who can read, write or delete the data in buckets, secrets, tables, topics and queues, by any route",
+        description="Without --resource, rates every data resource in the inventory (S3 buckets, KMS keys, "
+        "Secrets Manager secrets, DynamoDB tables, SNS topics, SQS queues), worst first. With it, lists who can "
+        "read (write, delete) that resource: directly, through escalation, and from outside the account. "
+        "Encrypted data needs the service's KMS permissions on its key too (kms:Decrypt to read an SSE-KMS "
+        "bucket, for example). Collect them with `iam-trace inventory collect`.",
     )
     p.add_argument(
         "--auth-details", required=True, metavar="FILE", help="aws iam get-account-authorization-details output"
     )
-    p.add_argument("--inventory", metavar="FILE", help="resource inventory with buckets and keys")
-    p.add_argument("--resource", metavar="ARN", help="one bucket (arn:aws:s3:::name) or KMS key ARN")
+    p.add_argument("--inventory", metavar="FILE", help="resource inventory (iam-trace inventory collect)")
+    p.add_argument(
+        "--resource", metavar="ARN", help="one bucket (arn:aws:s3:::name), key, secret, table, topic or queue ARN"
+    )
     p.add_argument("--access", choices=["read", "write", "delete"], default="read")
     p.add_argument("--scp", action="append", metavar="FILES", help="SCPs for one level (root first), like `can`")
     p.add_argument(

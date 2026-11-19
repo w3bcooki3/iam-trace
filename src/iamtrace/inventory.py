@@ -24,6 +24,12 @@ File format (written by `iam-trace inventory collect`, or by hand):
       ]
     }
 
+Data resources (S3 buckets, KMS keys, Secrets Manager secrets, DynamoDB tables, SNS topics and
+SQS queues) have no Role; they may have "Policy" (the resource policy, as an object or a JSON
+string), "KmsKey" (the encryption key ARN, or alias/aws/SERVICE for the service's AWS managed key)
+and, for a bucket, "PublicAccessBlock". A secret with no KmsKey uses aws/secretsmanager. See
+iamtrace.data.
+
 "Collected" lists the kinds that were collected completely; a kind missing from it is treated
 as unknown, never as empty. "Role" may be an instance profile ARN; it is resolved to its role
 through the account export.
@@ -64,8 +70,12 @@ KINDS: dict[str, Kind] = {
     # encryption key and Block Public Access settings).
     "s3-bucket": Kind("s3", "", "S3 buckets"),
     "kms-key": Kind("kms", "key/", "KMS keys"),
+    "secretsmanager-secret": Kind("secretsmanager", "secret:", "Secrets Manager secrets"),
+    "dynamodb-table": Kind("dynamodb", "table/", "DynamoDB tables"),
+    "sns-topic": Kind("sns", "", "SNS topics"),
+    "sqs-queue": Kind("sqs", "", "SQS queues"),
 }
-DATA_KINDS = ("s3-bucket", "kms-key")
+DATA_KINDS = ("s3-bucket", "kms-key", "secretsmanager-secret", "dynamodb-table", "sns-topic", "sqs-queue")
 
 # Existing-resource techniques and the kind of resource they act on. Every permission is checked
 # against that resource's ARN. Some also touch a second resource that is not checked (a Batch job
@@ -105,16 +115,28 @@ AGENTCORE_PREFIX = {
 }
 
 
+KIND_BY_SERVICE = {"sns": "sns-topic", "sqs": "sqs-queue"}
+
+
 def kind_of(arn: str) -> str | None:
     parts = arn.split(":", 5)
     if len(parts) < 6 or parts[0] != "arn":
         return None
     if parts[2] == "s3":
         return "s3-bucket" if parts[5] and "/" not in parts[5] else None
+    if parts[2] in ("sns", "sqs"):
+        # arn:aws:sns:region:account:topic and arn:aws:sqs:region:account:queue; a subscription
+        # (topic:id) is not a topic.
+        name = parts[5]
+        return KIND_BY_SERVICE[parts[2]] if name and ":" not in name and "/" not in name else None
+    if parts[2] == "dynamodb":
+        # A table, not one of its indexes or streams (table/name/index/x, table/name/stream/t).
+        rest = parts[5]
+        return "dynamodb-table" if rest.startswith("table/") and rest.count("/") == 1 and rest != "table/" else None
     if parts[2] == "bedrock-agentcore":
         return "agentcore-resource" if parts[5].startswith(tuple(AGENTCORE_PREFIX.values())) else None
     for name, k in KINDS.items():
-        if parts[2] == k.service and k.prefix and parts[5].startswith(k.prefix):
+        if parts[2] == k.service and k.prefix and parts[5].startswith(k.prefix) and parts[5] != k.prefix:
             return name
     return None
 

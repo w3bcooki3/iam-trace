@@ -309,7 +309,117 @@ def _keys(run: Runner, region: str) -> list[dict[str, Any]]:
     return out
 
 
-DATA_KINDS = ("s3-bucket", "kms-key")
+def _key_ref(run: Runner, region: str, ref: str | None, service: str, cache: dict[str, str]) -> str | None:
+    """How the inventory records a resource's encryption key: the key ARN, or alias/aws/SERVICE
+    for the service's AWS managed key (whose policy is fixed). A key that cannot be described
+    (another account's, or no permission) is kept as given."""
+    if not ref:
+        return None
+    if re.search(r"(?:^|:)alias/aws/", ref):
+        return ref
+    if ref not in cache:
+        try:
+            meta = run(["kms", "describe-key", "--key-id", ref, "--region", region])["KeyMetadata"]
+            cache[ref] = f"alias/aws/{service}" if meta.get("KeyManager") == "AWS" else meta["Arn"]
+        except (CollectError, KeyError, TypeError):
+            cache[ref] = ref
+    return cache[ref]
+
+
+def _policy_text(value: Any) -> str | None:
+    return value if isinstance(value, str) and value.strip() else None
+
+
+def _secrets(run: Runner, region: str, account: str, partition: str) -> list[dict[str, Any]]:
+    """Secrets with their resource policy and key. A secret with no KmsKeyId uses the AWS managed
+    key aws/secretsmanager; the inventory leaves KmsKey out for it."""
+    keys: dict[str, str] = {}
+    out = []
+    for sec in run(["secretsmanager", "list-secrets", "--region", region]).get("SecretList", []):
+        item: dict[str, Any] = {"Arn": sec["ARN"]}
+        pol = _policy_text(
+            run(["secretsmanager", "get-resource-policy", "--secret-id", sec["ARN"], "--region", region]).get(
+                "ResourcePolicy"
+            )
+        )
+        if pol:
+            item["Policy"] = pol
+        key = _key_ref(run, region, sec.get("KmsKeyId"), "secretsmanager", keys)
+        if key and key != "alias/aws/secretsmanager":
+            item["KmsKey"] = key
+        out.append(item)
+    return out
+
+
+def _tables(run: Runner, region: str, account: str, partition: str) -> list[dict[str, Any]]:
+    """Tables with their resource policy and key. A table without SSEDescription uses an AWS owned
+    key, which needs no KMS permission from callers."""
+    keys: dict[str, str] = {}
+    out = []
+    for name in run(["dynamodb", "list-tables", "--region", region]).get("TableNames", []):
+        table = run(["dynamodb", "describe-table", "--table-name", name, "--region", region])["Table"]
+        item: dict[str, Any] = {"Arn": table["TableArn"]}
+        try:
+            pol = _policy_text(
+                run(["dynamodb", "get-resource-policy", "--resource-arn", table["TableArn"], "--region", region]).get(
+                    "Policy"
+                )
+            )
+            if pol:
+                item["Policy"] = pol
+        except CollectError as e:
+            if not _missing(e, "PolicyNotFoundException"):
+                raise
+        sse = table.get("SSEDescription") or {}
+        if sse.get("SSEType") == "KMS" and sse.get("Status") in ("ENABLED", "UPDATING"):
+            key = _key_ref(run, region, sse.get("KMSMasterKeyArn"), "dynamodb", keys)
+            if key:
+                item["KmsKey"] = key
+        out.append(item)
+    return out
+
+
+def _topics(run: Runner, region: str, account: str, partition: str) -> list[dict[str, Any]]:
+    keys: dict[str, str] = {}
+    out = []
+    for t in run(["sns", "list-topics", "--region", region]).get("Topics", []):
+        attrs = run(["sns", "get-topic-attributes", "--topic-arn", t["TopicArn"], "--region", region]).get(
+            "Attributes", {}
+        )
+        item: dict[str, Any] = {"Arn": t["TopicArn"]}
+        if pol := _policy_text(attrs.get("Policy")):
+            item["Policy"] = pol
+        if key := _key_ref(run, region, attrs.get("KmsMasterKeyId"), "sns", keys):
+            item["KmsKey"] = key
+        out.append(item)
+    return out
+
+
+def _queues(run: Runner, region: str, account: str, partition: str) -> list[dict[str, Any]]:
+    """Queues with their policy and key. SQS managed encryption (SSE-SQS) needs no KMS permission."""
+    keys: dict[str, str] = {}
+    out = []
+    for url in run(["sqs", "list-queues", "--region", region]).get("QueueUrls", []) or []:
+        attrs = run(
+            ["sqs", "get-queue-attributes", "--queue-url", url, "--attribute-names", "All", "--region", region]
+        ).get("Attributes", {})
+        item: dict[str, Any] = {"Arn": attrs["QueueArn"]}
+        if pol := _policy_text(attrs.get("Policy")):
+            item["Policy"] = pol
+        if key := _key_ref(run, region, attrs.get("KmsMasterKeyId"), "sqs", keys):
+            item["KmsKey"] = key
+        out.append(item)
+    return out
+
+
+# Data kinds collected region by region, after buckets (global) and keys.
+REGIONAL_DATA: dict[str, Callable[[Runner, str, str, str], list[dict[str, Any]]]] = {
+    "secretsmanager-secret": _secrets,
+    "dynamodb-table": _tables,
+    "sns-topic": _topics,
+    "sqs-queue": _queues,
+}
+DATA_KINDS = ("s3-bucket", "kms-key", *REGIONAL_DATA)
 
 
 def collect(
@@ -359,6 +469,20 @@ def collect(
             log(f"kms-key in {region}: {len(keys)}")
         if ok:
             collected.append("kms-key")
+    for kind in [k for k in wanted if k in REGIONAL_DATA]:
+        ok = True
+        for region in regions:
+            try:
+                found = REGIONAL_DATA[kind](run, region, account, partition)
+            except (CollectError, KeyError, TypeError, ValueError) as e:
+                ok = False
+                errors.append({"kind": kind, "region": region, "error": str(e)[:300]})
+                log(f"{kind} in {region}: {e}")
+                continue
+            resources += found
+            log(f"{kind} in {region}: {len(found)}")
+        if ok:
+            collected.append(kind)
     for kind in [k for k in wanted if k in COLLECTORS]:
         ok = True
         for region in regions:
