@@ -35,6 +35,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "AddInferenceGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-inference-gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "AddTags": {
    "access_level": "Tagging",
    "flags": {
@@ -71,8 +86,10 @@
     "experiment",
     "experiment-trial",
     "experiment-trial-component",
+    "extension",
     "feature-group",
     "flow-definition",
+    "global-inference-gateway",
     "hub",
     "hub-content",
     "human-task-ui",
@@ -80,6 +97,7 @@
     "image",
     "inference-component",
     "inference-recommendations-job",
+    "inference-router",
     "job",
     "labeling-job",
     "mlflow-app",
@@ -100,6 +118,7 @@
     "processing-job",
     "project",
     "reserved-capacity",
+    "sm-capacity-reservation",
     "space",
     "studio-lifecycle-config",
     "training-job",
@@ -573,6 +592,25 @@
    ],
    "data_plane": false
   },
+  "CreateClusterExtension": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "extension"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateClusterSchedulerConfig": {
    "access_level": "Write",
    "flags": {
@@ -895,6 +933,24 @@
    ],
    "data_plane": false
   },
+  "CreateGlobalInferenceGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-inference-gateway"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateHub": {
    "access_level": "Write",
    "flags": {
@@ -1078,6 +1134,24 @@
    },
    "resource_types": [
     "inference-recommendations-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateInferenceRouter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-router"
    ],
    "condition_keys": [
     "aws:RequestTag/${TagKey}",
@@ -2018,6 +2092,22 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DeleteClusterExtension": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "extension"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DeleteClusterSchedulerConfig": {
    "access_level": "Write",
    "flags": {
@@ -2195,6 +2285,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DeleteEndpointPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DeleteExperiment": {
    "access_level": "Write",
    "flags": {
@@ -2236,6 +2341,21 @@
    },
    "resource_types": [
     "flow-definition"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteGlobalInferenceGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-inference-gateway"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -2388,6 +2508,21 @@
    },
    "resource_types": [
     "inference-experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteInferenceRouter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-router"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -2785,8 +2920,10 @@
     "experiment",
     "experiment-trial",
     "experiment-trial-component",
+    "extension",
     "feature-group",
     "flow-definition",
+    "global-inference-gateway",
     "hub",
     "hub-content",
     "human-task-ui",
@@ -2794,6 +2931,7 @@
     "image",
     "inference-component",
     "inference-recommendations-job",
+    "inference-router",
     "job",
     "labeling-job",
     "mlflow-app",
@@ -2814,6 +2952,7 @@
     "processing-job",
     "project",
     "reserved-capacity",
+    "sm-capacity-reservation",
     "space",
     "studio-lifecycle-config",
     "training-job",
@@ -3112,6 +3251,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DescribeCapacityReservation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "sm-capacity-reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DescribeCluster": {
    "access_level": "Read",
    "flags": {
@@ -3138,6 +3292,22 @@
    },
    "resource_types": [
     "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeClusterExtension": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "extension"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -3422,6 +3592,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DescribeGlobalInferenceGateway": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-inference-gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DescribeHub": {
    "access_level": "Read",
    "flags": {
@@ -3569,6 +3754,21 @@
    },
    "resource_types": [
     "inference-recommendations-job"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeInferenceRouter": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "inference-router"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -3867,6 +4067,7 @@
     "pipeline"
    ],
    "condition_keys": [
+    "sagemaker:PipelineVersionAlias",
     "sagemaker:PipelineVersionId"
    ],
    "data_plane": false
@@ -3883,7 +4084,10 @@
    "resource_types": [
     "pipeline-execution"
    ],
-   "condition_keys": [],
+   "condition_keys": [
+    "sagemaker:PipelineVersionAlias",
+    "sagemaker:PipelineVersionId"
+   ],
    "data_plane": false
   },
   "DescribePipelineExecution": {
@@ -3942,6 +4146,21 @@
    },
    "resource_types": [
     "reserved-capacity"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeResourceAssociations": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "sm-capacity-reservation"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -4256,6 +4475,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetCapacityReservationUsage": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "sm-capacity-reservation"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "GetDeployments": {
    "access_level": "Read",
    "flags": {
@@ -4297,6 +4531,21 @@
    ],
    "condition_keys": [],
    "data_plane": null
+  },
+  "GetEndpointPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   },
   "GetLineageGroupPolicy": {
    "access_level": "Read",
@@ -4457,6 +4706,7 @@
     "inference-component"
    ],
    "condition_keys": [
+    "sagemaker:SourceInferenceRouterArn",
     "sagemaker:TargetModel"
    ],
    "data_plane": true
@@ -4473,7 +4723,9 @@
    "resource_types": [
     "endpoint"
    ],
-   "condition_keys": [],
+   "condition_keys": [
+    "sagemaker:SourceInferenceRouterArn"
+   ],
    "data_plane": true
   },
   "InvokeEndpointWithResponseStream": {
@@ -4487,6 +4739,62 @@
    "resource_types": [
     "endpoint",
     "inference-component"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeGlobalInferenceGateway": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-inference-gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeGlobalInferenceGatewayWithResponseStream": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-inference-gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeInferenceRouter": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "inference-router"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "InvokeInferenceRouterAsync": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "inference-router"
    ],
    "condition_keys": [],
    "data_plane": null
@@ -4650,7 +4958,48 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListCapacityReservations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListClusterEvents": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListClusterExtensionVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListClusterExtensions": {
    "access_level": "List",
    "flags": {
     "IsDataPlane": false,
@@ -4897,6 +5246,19 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListGlobalInferenceGateways": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListHubContentVersions": {
    "access_level": "List",
    "flags": {
@@ -5034,6 +5396,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListInferenceGateways": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "global-inference-gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListInferenceRecommendationsJobSteps": {
    "access_level": "List",
    "flags": {
@@ -5048,6 +5425,19 @@
    "data_plane": false
   },
   "ListInferenceRecommendationsJobs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListInferenceRouters": {
    "access_level": "List",
    "flags": {
     "IsDataPlane": false,
@@ -5420,7 +5810,10 @@
    "resource_types": [
     "pipeline"
    ],
-   "condition_keys": [],
+   "condition_keys": [
+    "sagemaker:PipelineVersionAlias",
+    "sagemaker:PipelineVersionId"
+   ],
    "data_plane": false
   },
   "ListPipelineParametersForExecution": {
@@ -5645,8 +6038,10 @@
     "experiment",
     "experiment-trial",
     "experiment-trial-component",
+    "extension",
     "feature-group",
     "flow-definition",
+    "global-inference-gateway",
     "hub",
     "hub-content",
     "human-task-ui",
@@ -5654,6 +6049,7 @@
     "image",
     "inference-component",
     "inference-recommendations-job",
+    "inference-router",
     "job",
     "labeling-job",
     "mlflow-app",
@@ -5675,6 +6071,7 @@
     "processing-job",
     "project",
     "reserved-capacity",
+    "sm-capacity-reservation",
     "space",
     "studio-lifecycle-config",
     "training-job",
@@ -5833,6 +6230,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "PutEndpointPolicy": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "PutLineageGroupPolicy": {
    "access_level": "Write",
    "flags": {
@@ -5919,6 +6331,21 @@
     "aws:TagKeys"
    ],
    "data_plane": null
+  },
+  "RemoveInferenceGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-inference-gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   },
   "RenderUiTemplate": {
    "access_level": "Read",
@@ -6211,6 +6638,7 @@
     "pipeline"
    ],
    "condition_keys": [
+    "sagemaker:PipelineVersionAlias",
     "sagemaker:PipelineVersionId"
    ],
    "data_plane": false
@@ -6480,7 +6908,10 @@
    "resource_types": [
     "pipeline-execution"
    ],
-   "condition_keys": [],
+   "condition_keys": [
+    "sagemaker:PipelineVersionAlias",
+    "sagemaker:PipelineVersionId"
+   ],
    "data_plane": false
   },
   "StopProcessingJob": {
@@ -6622,6 +7053,22 @@
     "sagemaker:VpcSecurityGroupIds",
     "sagemaker:VpcSubnets"
    ],
+   "data_plane": false
+  },
+  "UpdateClusterExtension": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "extension"
+   ],
+   "condition_keys": [],
    "data_plane": false
   },
   "UpdateClusterInference": {
@@ -6841,6 +7288,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "UpdateGlobalInferenceGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-inference-gateway"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "UpdateHub": {
    "access_level": "Write",
    "flags": {
@@ -6959,6 +7421,21 @@
    },
    "resource_types": [
     "inference-experiment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateInferenceRouter": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "inference-router"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -7165,6 +7642,7 @@
     "pipeline"
    ],
    "condition_keys": [
+    "sagemaker:PipelineVersionAlias",
     "sagemaker:PipelineVersionId"
    ],
    "data_plane": false
@@ -7421,11 +7899,17 @@
   "experiment-trial-component": [
    "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}"
   ],
+  "extension": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:extension/${ClusterIdentifier}/${ExtensionName}/${ExtensionId}"
+  ],
   "feature-group": [
    "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}"
   ],
   "flow-definition": [
    "arn:${Partition}:sagemaker:${Region}:${Account}:flow-definition/${FlowDefinitionName}"
+  ],
+  "global-inference-gateway": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:global-inference-gateway/${GlobalInferenceGatewayId}"
   ],
   "hub": [
    "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}"
@@ -7456,6 +7940,9 @@
   ],
   "inference-recommendations-job": [
    "arn:${Partition}:sagemaker:${Region}:${Account}:inference-recommendations-job/${InferenceRecommendationsJobName}"
+  ],
+  "inference-router": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:inference-router/${InferenceRouterName}"
   ],
   "job": [
    "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}"
@@ -7537,6 +8024,9 @@
   ],
   "shared-model-event": [
    "arn:${Partition}:sagemaker:${Region}:${Account}:shared-model-event/${EventId}"
+  ],
+  "sm-capacity-reservation": [
+   "arn:${Partition}:sagemaker:${Region}:${Account}:sm-capacity-reservation/${CapacityReservationId}"
   ],
   "space": [
    "arn:${Partition}:sagemaker:${Region}:${Account}:space/${DomainId}/${SpaceName}"
@@ -7711,6 +8201,9 @@
   "sagemaker:OwnerUserProfileArn": [
    "ARN"
   ],
+  "sagemaker:PipelineVersionAlias": [
+   "String"
+  ],
   "sagemaker:PipelineVersionId": [
    "String"
   ],
@@ -7734,6 +8227,9 @@
   ],
   "sagemaker:ServerlessMemorySize": [
    "Numeric"
+  ],
+  "sagemaker:SourceInferenceRouterArn": [
+   "ARN"
   ],
   "sagemaker:SpaceSharingType": [
    "String"

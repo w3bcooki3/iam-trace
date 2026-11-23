@@ -255,7 +255,13 @@
    ],
    "condition_keys": [
     "aws:RequestTag/${TagKey}",
-    "aws:TagKeys"
+    "aws:TagKeys",
+    "iam:EnableIdentityCenterAssociation",
+    "iam:EnableIdentityPropagation",
+    "iam:RequestIdentityCenterInstanceArn",
+    "iam:RequestIdentityProviderIssuers",
+    "iam:ResourceIdentityCenterInstanceArn",
+    "iam:ResourceIdentityProviderIssuers"
    ],
    "data_plane": false
   },
@@ -326,7 +332,13 @@
    ],
    "condition_keys": [
     "aws:RequestTag/${TagKey}",
-    "aws:TagKeys"
+    "aws:TagKeys",
+    "iam:EnableIdentityCenterAssociation",
+    "iam:EnableIdentityPropagation",
+    "iam:RequestIdentityCenterInstanceArn",
+    "iam:RequestIdentityProviderIssuers",
+    "iam:ResourceIdentityCenterInstanceArn",
+    "iam:ResourceIdentityProviderIssuers"
    ],
    "data_plane": false
   },
@@ -1299,6 +1311,32 @@
    "resource_types": [
     "policy"
    ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRequestAuthorizationDetails": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRequestAuthorizationPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
    "condition_keys": [],
    "data_plane": false
   },
@@ -2696,6 +2734,27 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "UpdateOpenIDConnectProvider": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "oidc-provider"
+   ],
+   "condition_keys": [
+    "iam:EnableIdentityCenterAssociation",
+    "iam:EnableIdentityPropagation",
+    "iam:RequestIdentityCenterInstanceArn",
+    "iam:ResourceIdentityCenterInstanceArn",
+    "iam:ResourceIdentityProviderIssuers"
+   ],
+   "data_plane": false
+  },
   "UpdateOpenIDConnectProviderThumbprint": {
    "access_level": "Write",
    "flags": {
@@ -2757,7 +2816,14 @@
    "resource_types": [
     "saml-provider"
    ],
-   "condition_keys": [],
+   "condition_keys": [
+    "iam:EnableIdentityCenterAssociation",
+    "iam:EnableIdentityPropagation",
+    "iam:RequestIdentityCenterInstanceArn",
+    "iam:RequestIdentityProviderIssuers",
+    "iam:ResourceIdentityCenterInstanceArn",
+    "iam:ResourceIdentityProviderIssuers"
+   ],
    "data_plane": false
   },
   "UpdateSSHPublicKey": {
@@ -2970,6 +3036,12 @@
   "iam:DelegationRequestOwner": [
    "ARN"
   ],
+  "iam:EnableIdentityCenterAssociation": [
+   "Bool"
+  ],
+  "iam:EnableIdentityPropagation": [
+   "Bool"
+  ],
   "iam:FIDO-FIPS-140-2-certification": [
    "String"
   ],
@@ -2996,6 +3068,18 @@
   ],
   "iam:RegisterSecurityKey": [
    "String"
+  ],
+  "iam:RequestIdentityCenterInstanceArn": [
+   "ARN"
+  ],
+  "iam:RequestIdentityProviderIssuers": [
+   "ArrayOfString"
+  ],
+  "iam:ResourceIdentityCenterInstanceArn": [
+   "ARN"
+  ],
+  "iam:ResourceIdentityProviderIssuers": [
+   "ArrayOfString"
   ],
   "iam:ResourceTag/${TagKey}": [
    "String"

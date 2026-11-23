@@ -48,6 +48,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "CreateAgentBasicProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateAgentContext": {
    "access_level": "Write",
    "flags": {
@@ -80,6 +96,35 @@
    "condition_keys": [
     "aws:ResourceTag/${TagKey}"
    ],
+   "data_plane": false
+  },
+  "CreateAgentOrganizationalProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateAgentOrganizationalReport": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
    "data_plane": false
   },
   "CreateAgentProfile": {
@@ -283,6 +328,19 @@
    ],
    "data_plane": false
   },
+  "DeleteAgentOrganizationalReport": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DeleteAgentProfile": {
    "access_level": "Write",
    "flags": {
@@ -294,6 +352,40 @@
    },
    "resource_types": [
     "agent-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteAgentProfilePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "DeleteAgentRecommendationPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-recommendation"
    ],
    "condition_keys": [
     "aws:ResourceTag/${TagKey}"
@@ -521,7 +613,63 @@
    ],
    "data_plane": false
   },
+  "GetAgentOrganizationalReport": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgentOrganizationalReportData": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetAgentPreferences": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "GetAgentProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetAgentProfilePolicy": {
    "access_level": "Read",
    "flags": {
     "IsDataPlane": false,
@@ -566,6 +714,23 @@
    },
    "resource_types": [
     "agent-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetAgentRecommendationPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "agent-recommendation"
    ],
    "condition_keys": [
     "aws:ResourceTag/${TagKey}"
@@ -815,10 +980,10 @@
    "data_plane": false
   },
   "ListAgentContexts": {
-   "access_level": "Read",
+   "access_level": "List",
    "flags": {
     "IsDataPlane": false,
-    "IsList": false,
+    "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": false
@@ -832,10 +997,10 @@
    "data_plane": false
   },
   "ListAgentGoals": {
-   "access_level": "Read",
+   "access_level": "List",
    "flags": {
     "IsDataPlane": false,
-    "IsList": false,
+    "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": false
@@ -848,11 +1013,24 @@
    ],
    "data_plane": false
   },
-  "ListAgentProfiles": {
-   "access_level": "Read",
+  "ListAgentOrganizationalReports": {
+   "access_level": "List",
    "flags": {
     "IsDataPlane": false,
-    "IsList": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAgentProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": false
@@ -862,10 +1040,10 @@
    "data_plane": false
   },
   "ListAgentRecommendationGenerations": {
-   "access_level": "Read",
+   "access_level": "List",
    "flags": {
     "IsDataPlane": false,
-    "IsList": false,
+    "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": false
@@ -879,10 +1057,10 @@
    "data_plane": false
   },
   "ListAgentRecommendationItems": {
-   "access_level": "Read",
+   "access_level": "List",
    "flags": {
     "IsDataPlane": false,
-    "IsList": false,
+    "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": false
@@ -896,10 +1074,10 @@
    "data_plane": false
   },
   "ListAgentRecommendations": {
-   "access_level": "Read",
+   "access_level": "List",
    "flags": {
     "IsDataPlane": false,
-    "IsList": false,
+    "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": false
@@ -1212,6 +1390,36 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "PutAgentPreferences": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "PutAgentProfilePolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
   "PutAgentRecommendationFeedback": {
    "access_level": "Write",
    "flags": {
@@ -1228,6 +1436,36 @@
     "aws:ResourceTag/${TagKey}"
    ],
    "data_plane": true
+  },
+  "PutAgentRecommendationPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-recommendation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "SendAgentOrganizationalReportDataToS3": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
   },
   "StartAgentRecommendationGeneration": {
    "access_level": "Write",
@@ -1309,6 +1547,23 @@
    "data_plane": false
   },
   "UpdateAgentGoal": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agent-profile"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "UpdateAgentOrganizationalProfile": {
    "access_level": "Write",
    "flags": {
     "IsDataPlane": false,

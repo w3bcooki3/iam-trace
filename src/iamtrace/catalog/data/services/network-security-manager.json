@@ -438,6 +438,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListEntityCoverages": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "policy"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListPolicies": {
    "access_level": "List",
    "flags": {
@@ -464,6 +479,21 @@
     "policy"
    ],
    "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProtectedResourceCoverages": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "network-security-manager:ProtectedResourceArn"
+   ],
    "data_plane": false
   },
   "ListResourceAssociations": {
@@ -815,6 +845,9 @@
   ],
   "aws:TagKeys": [
    "ArrayOfString"
+  ],
+  "network-security-manager:ProtectedResourceArn": [
+   "ARN"
   ]
  }
 }

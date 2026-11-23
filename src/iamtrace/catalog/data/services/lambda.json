@@ -35,6 +35,36 @@
    ],
    "data_plane": false
   },
+  "AssociateRuntimeAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtimeAlias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "AssociateRuntimeVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtimeVersion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "CheckpointDurableExecution": {
    "access_level": "Write",
    "flags": {
@@ -237,6 +267,54 @@
    ],
    "data_plane": false
   },
+  "CreateRuntime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateRuntimeAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtimeAlias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateRuntimeVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtimeVersion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "CreateWebFunction": {
    "access_level": "Write",
    "flags": {
@@ -332,6 +410,20 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "DeleteDurableExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "DeleteEventSourceMapping": {
    "access_level": "Write",
@@ -515,11 +607,57 @@
    },
    "resource_types": [
     "function",
+    "runtime",
     "webFunction"
    ],
    "condition_keys": [
     "lambda:Principal"
    ],
+   "data_plane": false
+  },
+  "DeleteRuntime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRuntimeAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtimeAlias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteRuntimeVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtimeVersion"
+   ],
+   "condition_keys": [],
    "data_plane": false
   },
   "DeleteWebFunction": {
@@ -987,7 +1125,38 @@
    },
    "resource_types": [
     "function",
+    "runtime",
     "webFunction"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRuntime": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRuntimeAlias": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "runtimeAlias"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -1003,6 +1172,21 @@
    },
    "resource_types": [
     "function"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetRuntimeVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "runtimeVersion"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -1430,6 +1614,49 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListRuntimeAliases": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRuntimeVersions": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListRuntimes": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListTags": {
    "access_level": "Read",
    "flags": {
@@ -1446,6 +1673,7 @@
     "function",
     "microvmImage",
     "networkConnector",
+    "runtime",
     "webFunction"
    ],
    "condition_keys": [],
@@ -1536,6 +1764,20 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": true
+  },
+  "PauseDurableExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "PublishLayerVersion": {
    "access_level": "Write",
@@ -1672,6 +1914,7 @@
    },
    "resource_types": [
     "function",
+    "runtime",
     "webFunction"
    ],
    "condition_keys": [
@@ -1726,6 +1969,35 @@
     "lambda:Principal"
    ],
    "data_plane": false
+  },
+  "RestoreRuntime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ResumeDurableExecution": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "durable execution"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "ResumeMicrovm": {
    "access_level": "Write",
@@ -1848,6 +2120,7 @@
     "function",
     "microvmImage",
     "networkConnector",
+    "runtime",
     "webFunction"
    ],
    "condition_keys": [
@@ -1887,6 +2160,7 @@
     "function",
     "microvmImage",
     "networkConnector",
+    "runtime",
     "webFunction"
    ],
    "condition_keys": [
@@ -2084,6 +2358,51 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "UpdateRuntime": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtime"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRuntimeAlias": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtimeAlias"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateRuntimeVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "runtimeVersion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "UpdateWebFunctionEndpoint": {
    "access_level": "Write",
    "flags": {
@@ -2136,6 +2455,15 @@
   ],
   "networkConnector": [
    "arn:${Partition}:lambda:${Region}:${Account}:network-connector:${NetworkConnectorId}"
+  ],
+  "runtime": [
+   "arn:${Partition}:lambda:${Region}:${Account}:runtime/${RuntimeName}"
+  ],
+  "runtimeAlias": [
+   "arn:${Partition}:lambda:${Region}:${Account}:runtime/${RuntimeName}/alias/${Name}"
+  ],
+  "runtimeVersion": [
+   "arn:${Partition}:lambda:${Region}:${Account}:runtime/${RuntimeName}/version/${Name}"
   ],
   "webFunction": [
    "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}"

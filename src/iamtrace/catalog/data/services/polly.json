@@ -2,6 +2,24 @@
  "prefix": "polly",
  "name": "Polly",
  "actions": {
+  "CreateVoice": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "voice"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "DeleteLexicon": {
    "access_level": "Write",
    "flags": {
@@ -13,6 +31,21 @@
    },
    "resource_types": [
     "lexicon"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteVoice": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "voice"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -58,6 +91,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetVoice": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "voice"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListLexicons": {
    "access_level": "List",
    "flags": {
@@ -94,7 +142,8 @@
     "IsWrite": false
    },
    "resource_types": [
-    "lexicon"
+    "lexicon",
+    "voice"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -127,7 +176,8 @@
     "IsWrite": false
    },
    "resource_types": [
-    "lexicon"
+    "lexicon",
+    "voice"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -142,7 +192,8 @@
     "IsWrite": true
    },
    "resource_types": [
-    "lexicon"
+    "lexicon",
+    "voice"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -157,7 +208,8 @@
     "IsWrite": false
    },
    "resource_types": [
-    "lexicon"
+    "lexicon",
+    "voice"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -172,7 +224,8 @@
     "IsWrite": true
    },
    "resource_types": [
-    "lexicon"
+    "lexicon",
+    "voice"
    ],
    "condition_keys": [
     "aws:RequestTag/${TagKey}",
@@ -190,7 +243,8 @@
     "IsWrite": true
    },
    "resource_types": [
-    "lexicon"
+    "lexicon",
+    "voice"
    ],
    "condition_keys": [
     "aws:TagKeys"
@@ -201,6 +255,9 @@
  "resources": {
   "lexicon": [
    "arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"
+  ],
+  "voice": [
+   "arn:${Partition}:polly:${Region}:${Account}:voice/${VoiceId}"
   ]
  },
  "condition_keys": {

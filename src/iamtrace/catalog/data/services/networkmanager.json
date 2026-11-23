@@ -33,6 +33,24 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "AssociateContextStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "networkmanager:tgwArn"
+   ],
+   "data_plane": false
+  },
   "AssociateCustomerGateway": {
    "access_level": "Write",
    "flags": {
@@ -126,6 +144,24 @@
    "data_plane": false
   },
   "CreateConnection": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "global-network"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateContextStore": {
    "access_level": "Write",
    "flags": {
     "IsDataPlane": false,
@@ -390,6 +426,23 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DeleteContextStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
   "DeleteCoreNetwork": {
    "access_level": "Write",
    "flags": {
@@ -575,6 +628,24 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DisassociateContextStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "networkmanager:tgwArn"
+   ],
+   "data_plane": false
+  },
   "DisassociateCustomerGateway": {
    "access_level": "Write",
    "flags": {
@@ -700,6 +771,58 @@
     "global-network"
    ],
    "condition_keys": [],
+   "data_plane": false
+  },
+  "GetContextStore": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "GetContextStoreAssociation": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "networkmanager:tgwArn"
+   ],
+   "data_plane": false
+  },
+  "GetContextVersion": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
    "data_plane": false
   },
   "GetCoreNetwork": {
@@ -1112,6 +1235,72 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListContextChanges": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListContextStoreAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
+  "ListContextStores": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListContexts": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": false
+  },
   "ListCoreNetworkPolicyVersions": {
    "access_level": "List",
    "flags": {
@@ -1209,10 +1398,12 @@
     "attachment",
     "connect-peer",
     "connection",
+    "context-store",
     "core-network",
     "device",
     "global-network",
     "link",
+    "network-scope",
     "peering",
     "site"
    ],
@@ -1371,10 +1562,12 @@
     "attachment",
     "connect-peer",
     "connection",
+    "context-store",
     "core-network",
     "device",
     "global-network",
     "link",
+    "network-scope",
     "peering",
     "site"
    ],
@@ -1398,10 +1591,12 @@
     "attachment",
     "connect-peer",
     "connection",
+    "context-store",
     "core-network",
     "device",
     "global-network",
     "link",
+    "network-scope",
     "peering",
     "site"
    ],
@@ -1439,6 +1634,23 @@
     "global-network"
    ],
    "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateContextStore": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "context-store"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
    "data_plane": false
   },
   "UpdateCoreNetwork": {
@@ -1583,6 +1795,9 @@
   "connection": [
    "arn:${Partition}:networkmanager::${Account}:connection/${GlobalNetworkId}/${ResourceId}"
   ],
+  "context-store": [
+   "arn:${Partition}:networkmanager::${Account}:context-store/${ResourceId}"
+  ],
   "core-network": [
    "arn:${Partition}:networkmanager::${Account}:core-network/${ResourceId}"
   ],
@@ -1594,6 +1809,9 @@
   ],
   "link": [
    "arn:${Partition}:networkmanager::${Account}:link/${GlobalNetworkId}/${ResourceId}"
+  ],
+  "network-scope": [
+   "arn:${Partition}:networkmanager:${Region}:${Account}:network-scope/${ResourceId}"
   ],
   "peering": [
    "arn:${Partition}:networkmanager::${Account}:peering/${ResourceId}"
@@ -1611,6 +1829,9 @@
   ],
   "aws:TagKeys": [
    "ArrayOfString"
+  ],
+  "networkmanager:ManagedBy": [
+   "String"
   ],
   "networkmanager:cgwArn": [
    "ARN"

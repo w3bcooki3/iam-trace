@@ -32,6 +32,25 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "CreateAssessment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "assessment",
+    "cluster"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateChannel": {
    "access_level": "Write",
    "flags": {
@@ -154,6 +173,21 @@
    ],
    "data_plane": false
   },
+  "DeleteAssessment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "assessment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DeleteChannel": {
    "access_level": "Write",
    "flags": {
@@ -255,6 +289,21 @@
    },
    "resource_types": [
     "vpc-connection"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeAssessment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "assessment"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -404,6 +453,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "DescribeTopicReassignment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster",
+    "topic-reassignment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DescribeVpcConnection": {
    "access_level": "Read",
    "flags": {
@@ -457,6 +522,36 @@
     "IsWrite": false
    },
    "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAssessmentFindings": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "assessment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListAssessments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "cluster"
+   ],
    "condition_keys": [],
    "data_plane": false
   },
@@ -640,6 +735,22 @@
     "IsWrite": false
    },
    "resource_types": [
+    "assessment",
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListTopicReassignments": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
     "cluster"
    ],
    "condition_keys": [],
@@ -718,6 +829,38 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "StartTopicReassignment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "topic-reassignment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "StopTopicReassignment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster",
+    "topic-reassignment"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "TagResource": {
    "access_level": "Tagging",
    "flags": {
@@ -728,6 +871,7 @@
     "IsWrite": true
    },
    "resource_types": [
+    "assessment",
     "cluster",
     "vpc-connection"
    ],
@@ -747,6 +891,7 @@
     "IsWrite": true
    },
    "resource_types": [
+    "assessment",
     "cluster",
     "vpc-connection"
    ],
@@ -970,6 +1115,9 @@
   }
  },
  "resources": {
+  "assessment": [
+   "arn:${Partition}:kafka:${Region}:${Account}:assessment/${ClusterUuid}/${Uuid}"
+  ],
   "channel": [
    "arn:${Partition}:kafka:${Region}:${Account}:channel/${ClusterName}/${ClusterUuid}/${ChannelName}/${Uuid}"
   ],
@@ -987,6 +1135,9 @@
   ],
   "topic": [
    "arn:${Partition}:kafka:${Region}:${Account}:topic/${ClusterName}/${ClusterUuid}/${TopicName}"
+  ],
+  "topic-reassignment": [
+   "arn:${Partition}:kafka:${Region}:${Account}:topic-reassignment/${ClusterName}/${ClusterUuid}/${Uuid}"
   ],
   "transactional-id": [
    "arn:${Partition}:kafka:${Region}:${Account}:transactional-id/${ClusterName}/${ClusterUuid}/${TransactionalId}"

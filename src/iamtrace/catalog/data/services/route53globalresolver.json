@@ -104,6 +104,24 @@
    ],
    "data_plane": false
   },
+  "CreateCoreNetworkEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network-endpoint"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateDNSView": {
    "access_level": "Write",
    "flags": {
@@ -200,6 +218,21 @@
    },
    "resource_types": [
     "access-token"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteCoreNetworkEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network-endpoint"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -335,6 +368,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetCoreNetworkEndpoint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "core-network-endpoint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "GetDNSView": {
    "access_level": "Read",
    "flags": {
@@ -460,6 +508,19 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListCoreNetworkEndpoints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListDNSViews": {
    "access_level": "List",
    "flags": {
@@ -555,6 +616,19 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListSharedDNSViews": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListTagsForResource": {
    "access_level": "Write",
    "flags": {
@@ -567,6 +641,7 @@
    "resource_types": [
     "access-source",
     "access-token",
+    "core-network-endpoint",
     "dns-view",
     "firewall-domain-list",
     "global-resolver"
@@ -586,6 +661,7 @@
    "resource_types": [
     "access-source",
     "access-token",
+    "core-network-endpoint",
     "dns-view",
     "firewall-domain-list",
     "global-resolver"
@@ -608,6 +684,7 @@
    "resource_types": [
     "access-source",
     "access-token",
+    "core-network-endpoint",
     "dns-view",
     "firewall-domain-list",
     "global-resolver"
@@ -643,6 +720,21 @@
    },
    "resource_types": [
     "access-token"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateCoreNetworkEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "core-network-endpoint"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -725,6 +817,9 @@
   ],
   "access-token": [
    "arn:${Partition}:route53globalresolver::${Account}:access-token/${Id}"
+  ],
+  "core-network-endpoint": [
+   "arn:${Partition}:route53globalresolver::${Account}:core-network-endpoint/${Id}"
   ],
   "dns-view": [
    "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}"

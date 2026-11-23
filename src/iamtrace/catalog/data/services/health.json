@@ -2,6 +2,38 @@
  "prefix": "health",
  "name": "Health",
  "actions": {
+  "ConfigureTags": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "health:TagChannel",
+    "health:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "ConfigureTagsForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "health:TagChannel",
+    "health:TagKeys"
+   ],
+   "data_plane": false
+  },
   "DescribeAffectedAccountsForOrganization": {
    "access_level": "Read",
    "flags": {
@@ -12,7 +44,10 @@
     "IsWrite": false
    },
    "resource_types": [],
-   "condition_keys": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
    "data_plane": false
   },
   "DescribeAffectedEntities": {
@@ -28,6 +63,8 @@
     "event"
    ],
    "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys",
     "health:eventTypeCode",
     "health:service"
    ],
@@ -43,7 +80,10 @@
     "IsWrite": false
    },
    "resource_types": [],
-   "condition_keys": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
    "data_plane": false
   },
   "DescribeEntityAggregates": {
@@ -56,7 +96,10 @@
     "IsWrite": false
    },
    "resource_types": [],
-   "condition_keys": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
    "data_plane": false
   },
   "DescribeEntityAggregatesForOrganization": {
@@ -69,7 +112,10 @@
     "IsWrite": false
    },
    "resource_types": [],
-   "condition_keys": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
    "data_plane": false
   },
   "DescribeEventAggregates": {
@@ -82,7 +128,10 @@
     "IsWrite": false
    },
    "resource_types": [],
-   "condition_keys": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
    "data_plane": false
   },
   "DescribeEventDetails": {
@@ -139,7 +188,10 @@
     "IsWrite": false
    },
    "resource_types": [],
-   "condition_keys": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
    "data_plane": false
   },
   "DescribeEventsForOrganization": {
@@ -152,10 +204,91 @@
     "IsWrite": false
    },
    "resource_types": [],
-   "condition_keys": [],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
    "data_plane": false
   },
   "DescribeHealthServiceStatusForOrganization": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTagKeys": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTagKeysForOrganization": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTags": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTagsForOrganization": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTagsOnboardingStatus": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeTagsOnboardingStatusForOrganization": {
    "access_level": "Read",
    "flags": {
     "IsDataPlane": false,
@@ -181,12 +314,64 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DisableTags": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisableTagsForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "EnableHealthServiceAccessForOrganization": {
    "access_level": "Permissions management",
    "flags": {
     "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EnableTags": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EnableTagsForOrganization": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": true
    },
@@ -201,6 +386,18 @@
   ]
  },
  "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "health:TagChannel": [
+   "ArrayOfString"
+  ],
+  "health:TagKeys": [
+   "ArrayOfString"
+  ],
   "health:eventTypeCode": [
    "String"
   ],

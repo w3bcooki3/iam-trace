@@ -31,6 +31,80 @@
    ],
    "data_plane": false
   },
+  "BatchCreateAccessProfileAssignment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-profile",
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "BatchDeleteAccessProfileAssignment": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-profile",
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "BatchDeleteAccessProfileEntitlement": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-profile",
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "BatchPutAccessProfileEntitlement": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-profile",
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreateAccessProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "CreateAccessToken": {
    "access_level": "Write",
    "flags": {
@@ -179,6 +253,21 @@
     "IsWrite": true
    },
    "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteAccessProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-profile",
     "agentspace"
    ],
    "condition_keys": [],
@@ -407,6 +496,21 @@
     "IsWrite": true
    },
    "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetAccessProfile": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "access-profile",
     "agentspace"
    ],
    "condition_keys": [],
@@ -679,6 +783,50 @@
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAccessProfileAssignments": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "access-profile",
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAccessProfileEntitlements": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "access-profile",
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListAccessProfiles": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
    },
    "resource_types": [
     "agentspace"
@@ -1215,6 +1363,35 @@
    ],
    "data_plane": false
   },
+  "UpdateAccessProfile": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "access-profile",
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateAccessProfilesOrder": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "agentspace"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "UpdateAgentSpace": {
    "access_level": "Write",
    "flags": {
@@ -1430,6 +1607,9 @@
   }
  },
  "resources": {
+  "access-profile": [
+   "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/access-profile/${AccessProfileId}"
+  ],
   "agentspace": [
    "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}"
   ],

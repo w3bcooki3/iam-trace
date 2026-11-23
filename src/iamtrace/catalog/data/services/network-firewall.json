@@ -70,7 +70,6 @@
   "AttachRuleGroupsToProxyConfiguration": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -81,7 +80,7 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "CreateContainerAssociation": {
    "access_level": "Write",
@@ -166,7 +165,6 @@
   "CreateProxy": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -180,12 +178,11 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
-   "data_plane": false
+   "data_plane": null
   },
   "CreateProxyConfiguration": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -199,12 +196,11 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
-   "data_plane": false
+   "data_plane": null
   },
   "CreateProxyRuleGroup": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -217,12 +213,11 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
-   "data_plane": false
+   "data_plane": null
   },
   "CreateProxyRules": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -232,7 +227,7 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "CreateRuleGroup": {
    "access_level": "Write",
@@ -385,7 +380,6 @@
   "DeleteProxyConfiguration": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -395,12 +389,11 @@
     "ProxyConfiguration"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "DeleteProxyRuleGroup": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -410,12 +403,11 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "DeleteProxyRules": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -425,7 +417,7 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "DeleteResourcePolicy": {
    "access_level": "Write",
@@ -625,7 +617,6 @@
   "DescribeProxyConfiguration": {
    "access_level": "Read",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -635,12 +626,11 @@
     "ProxyConfiguration"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "DescribeProxyRule": {
    "access_level": "Read",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -650,12 +640,11 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "DescribeProxyRuleGroup": {
    "access_level": "Read",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -665,7 +654,7 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "DescribeResourcePolicy": {
    "access_level": "Read",
@@ -775,7 +764,6 @@
   "DetachRuleGroupsFromProxyConfiguration": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -786,7 +774,7 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "DisassociateAvailabilityZones": {
    "access_level": "Write",
@@ -849,6 +837,19 @@
    "data_plane": false
   },
   "ListContainerAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListContextStores": {
    "access_level": "List",
    "flags": {
     "IsDataPlane": false,
@@ -939,7 +940,6 @@
   "ListProxies": {
    "access_level": "List",
    "flags": {
-    "IsDataPlane": false,
     "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -949,12 +949,11 @@
     "Proxy"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "ListProxyConfigurations": {
    "access_level": "List",
    "flags": {
-    "IsDataPlane": false,
     "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -964,12 +963,11 @@
     "ProxyConfiguration"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "ListProxyRuleGroups": {
    "access_level": "List",
    "flags": {
-    "IsDataPlane": false,
     "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -978,6 +976,19 @@
    "resource_types": [
     "ProxyRuleGroup"
    ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListResourcesInContextStore": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
    "condition_keys": [],
    "data_plane": false
   },
@@ -1347,7 +1358,6 @@
   "UpdateProxy": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1357,12 +1367,11 @@
     "Proxy"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "UpdateProxyConfiguration": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1372,12 +1381,11 @@
     "ProxyConfiguration"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "UpdateProxyRule": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1387,12 +1395,11 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "UpdateProxyRuleGroupPriorities": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1402,12 +1409,11 @@
     "ProxyConfiguration"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "UpdateProxyRulePriorities": {
    "access_level": "Write",
    "flags": {
-    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1417,7 +1423,7 @@
     "ProxyRuleGroup"
    ],
    "condition_keys": [],
-   "data_plane": false
+   "data_plane": null
   },
   "UpdateRuleGroup": {
    "access_level": "Write",

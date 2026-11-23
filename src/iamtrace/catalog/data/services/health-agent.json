@@ -63,6 +63,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "CreateDataset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Dataset",
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "CreateDomain": {
    "access_level": "Write",
    "flags": {
@@ -157,6 +173,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "DeleteDataset": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Dataset",
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DeleteDomain": {
    "access_level": "Write",
    "flags": {
@@ -217,6 +249,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "GetDataset": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Dataset",
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "GetDomain": {
    "access_level": "Read",
    "flags": {
@@ -260,6 +308,22 @@
    ],
    "condition_keys": [],
    "data_plane": null
+  },
+  "GetMedicalCodingJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain",
+    "MedicalCodingJob"
+   ],
+   "condition_keys": [],
+   "data_plane": true
   },
   "GetMedicalScribeListeningSession": {
    "access_level": "Read",
@@ -397,6 +461,21 @@
    ],
    "condition_keys": [],
    "data_plane": null
+  },
+  "ListDatasets": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "Domain"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   },
   "ListDomains": {
    "access_level": "List",
@@ -619,6 +698,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "StartMedicalCodingJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain",
+    "MedicalCodingJob"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
   "StartMedicalScribeListeningSession": {
    "access_level": "Write",
    "flags": {
@@ -647,6 +742,21 @@
    "resource_types": [
     "Domain",
     "PatientInsightsJob"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "SubmitFeedback": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Domain"
    ],
    "condition_keys": [],
    "data_plane": true
@@ -751,11 +861,17 @@
   "Agent": [
    "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/agent/${AgentId}"
   ],
+  "Dataset": [
+   "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/dataset/${DatasetId}"
+  ],
   "Domain": [
    "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}"
   ],
   "Integration": [
    "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/integration/${IntegrationId}"
+  ],
+  "MedicalCodingJob": [
+   "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/medical-coding-job/${JobId}"
   ],
   "PatientInsightsJob": [
    "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/patient-insights-job/${JobId}"

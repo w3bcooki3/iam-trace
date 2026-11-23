@@ -33,6 +33,23 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "ApproveTimeOff": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": null
+  },
   "AssociateAnalyticsDataSet": {
    "access_level": "Write",
    "flags": {
@@ -561,6 +578,24 @@
     "connect:ExpressionValue",
     "connect:InstanceId",
     "connect:PrimaryAttribute/${PrimaryAttribute}"
+   ],
+   "data_plane": false
+  },
+  "CancelTimeOff": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
    ],
    "data_plane": false
   },
@@ -1186,6 +1221,24 @@
     "task-template"
    ],
    "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateTimeOff": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
    "data_plane": false
   },
   "CreateTrafficDistributionGroup": {
@@ -3313,6 +3366,24 @@
    ],
    "data_plane": false
   },
+  "GetTimeOff": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
   "GetTrafficDistribution": {
    "access_level": "List",
    "flags": {
@@ -4633,6 +4704,24 @@
    ],
    "data_plane": false
   },
+  "PutTimeOffBalance": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": false
+  },
   "PutUserStatus": {
    "access_level": "Write",
    "flags": {
@@ -4652,6 +4741,23 @@
     "connect:InstanceId"
    ],
    "data_plane": false
+  },
+  "RejectTimeOff": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "user"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "connect:InstanceId"
+   ],
+   "data_plane": null
   },
   "ReleasePhoneNumber": {
    "access_level": "Write",

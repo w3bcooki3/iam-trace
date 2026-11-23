@@ -2,6 +2,22 @@
  "prefix": "config",
  "name": "Config",
  "actions": {
+  "AllowVendedLogDeliveryForResource": {
+   "access_level": "Permissions management",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "ConfigurationRecorder"
+   ],
+   "condition_keys": [
+    "config:ConfigurationRecorderServicePrincipal"
+   ],
+   "data_plane": null
+  },
   "AssociateResourceTypes": {
    "access_level": "Write",
    "flags": {
@@ -117,7 +133,9 @@
    "resource_types": [
     "ConformancePack"
    ],
-   "condition_keys": [],
+   "condition_keys": [
+    "config:ConformancePackType"
+   ],
    "data_plane": false
   },
   "DeleteConnector": {
@@ -1153,7 +1171,9 @@
    "resource_types": [
     "ConformancePack"
    ],
-   "condition_keys": [],
+   "condition_keys": [
+    "config:ConformancePackType"
+   ],
    "data_plane": false
   },
   "PutConnector": {
@@ -1547,6 +1567,9 @@
    "ArrayOfString"
   ],
   "config:ConfigurationRecorderServicePrincipal": [
+   "String"
+  ],
+  "config:ConformancePackType": [
    "String"
   ]
  }

@@ -35,6 +35,19 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "BatchRevokeSessions": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "CreateAccount": {
    "access_level": "Write",
    "flags": {
@@ -94,7 +107,9 @@
     "oauth2-public-client-remote",
     "oauth2-resource-service-principal"
    ],
-   "condition_keys": [],
+   "condition_keys": [
+    "signin:PutSignInDurationBlock"
+   ],
    "data_plane": false
   },
   "CreateTrustedIdentityPropagationApplicationForConsole": {
@@ -161,6 +176,19 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetSession": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "IntrospectOAuth2Token": {
    "access_level": "Read",
    "flags": {
@@ -181,6 +209,19 @@
    "data_plane": null
   },
   "ListResourcePermissionStatements": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListSessions": {
    "access_level": "List",
    "flags": {
     "IsDataPlane": false,
@@ -285,6 +326,9 @@
   ],
   "signin:PrincipalArn": [
    "ARN"
+  ],
+  "signin:PutSignInDurationBlock": [
+   "Bool"
   ]
  }
 }

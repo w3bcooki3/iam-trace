@@ -79,6 +79,7 @@
    },
    "resource_types": [
     "healthcheck",
+    "healthchecksource",
     "hostedzone"
    ],
    "condition_keys": [],
@@ -110,6 +111,24 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "CreateHealthCheckSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "healthchecksource"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateHostedZone": {
    "access_level": "Write",
    "flags": {
@@ -124,6 +143,18 @@
     "route53:VPCs"
    ],
    "data_plane": false
+  },
+  "CreateIpGuardrailPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
   },
   "CreateKeySigningKey": {
    "access_level": "Write",
@@ -141,6 +172,21 @@
    "data_plane": false
   },
   "CreateQueryLoggingConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateResourceRecordSetProtections": {
    "access_level": "Write",
    "flags": {
     "IsDataPlane": false,
@@ -274,6 +320,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DeleteHealthCheckSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "healthchecksource"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DeleteHostedZone": {
    "access_level": "Write",
    "flags": {
@@ -288,6 +349,18 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "DeleteIpGuardrailPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
   },
   "DeleteKeySigningKey": {
    "access_level": "Write",
@@ -315,6 +388,21 @@
    },
    "resource_types": [
     "queryloggingconfig"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteResourceRecordSetProtections": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -540,6 +628,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetHealthCheckSource": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "healthchecksource"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "GetHealthCheckStatus": {
    "access_level": "List",
    "flags": {
@@ -556,6 +659,21 @@
    "data_plane": false
   },
   "GetHostedZone": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetHostedZoneChangeBatch": {
    "access_level": "List",
    "flags": {
     "IsDataPlane": false,
@@ -597,6 +715,18 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "GetIpGuardrailPolicy": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
   },
   "GetQueryLoggingConfig": {
    "access_level": "Read",
@@ -742,6 +872,19 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListHealthCheckSources": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListHealthChecks": {
    "access_level": "Read",
    "flags": {
@@ -752,6 +895,36 @@
     "IsWrite": false
    },
    "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHealthChecksBySource": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "healthchecksource"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListHostedZoneChangeBatches": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
    "condition_keys": [],
    "data_plane": false
   },
@@ -796,7 +969,34 @@
    ],
    "data_plane": false
   },
+  "ListIpGuardrailPolicies": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "ListQueryLoggingConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListResourceRecordSetProtections": {
    "access_level": "List",
    "flags": {
     "IsDataPlane": false,
@@ -850,6 +1050,7 @@
    },
    "resource_types": [
     "healthcheck",
+    "healthchecksource",
     "hostedzone"
    ],
    "condition_keys": [],
@@ -866,6 +1067,7 @@
    },
    "resource_types": [
     "healthcheck",
+    "healthchecksource",
     "hostedzone"
    ],
    "condition_keys": [],
@@ -1015,6 +1217,33 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "UpdateHostedZoneTier": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "hostedzone"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateIpGuardrailPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "UpdateTrafficPolicyComment": {
    "access_level": "Write",
    "flags": {
@@ -1059,6 +1288,9 @@
   "healthcheck": [
    "arn:${Partition}:route53:::healthcheck/${Id}"
   ],
+  "healthchecksource": [
+   "arn:${Partition}:route53:::healthchecksource/${Id}"
+  ],
   "hostedzone": [
    "arn:${Partition}:route53:::hostedzone/${Id}"
   ],
@@ -1076,6 +1308,15 @@
   ]
  },
  "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
   "route53:ChangeResourceRecordSetsActions": [
    "ArrayOfString"
   ],

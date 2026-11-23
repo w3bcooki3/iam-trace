@@ -166,6 +166,20 @@
    ],
    "data_plane": false
   },
+  "CreateOmniAgentAsset": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cloudwatch:HasAccessGrant"
+   ],
+   "data_plane": null
+  },
   "CreateOmniDashboard": {
    "access_level": "Write",
    "flags": {
@@ -471,6 +485,7 @@
   "DeleteMetricDataQueryDefinition": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -480,7 +495,7 @@
     "metric-query-definition"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "DeleteMetricStream": {
    "access_level": "Write",
@@ -496,6 +511,22 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "DeleteOmniAgentAsset": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "omni-agent-asset"
+   ],
+   "condition_keys": [
+    "cloudwatch:HasAccessGrant"
+   ],
+   "data_plane": null
   },
   "DeleteOmniDashboard": {
    "access_level": "Write",
@@ -1035,6 +1066,7 @@
   "GetMetricDataQueryDefinition": {
    "access_level": "Read",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1044,7 +1076,7 @@
     "metric-query-definition"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "GetMetricStatistics": {
    "access_level": "Read",
@@ -1087,6 +1119,18 @@
    "condition_keys": [],
    "data_plane": true
   },
+  "GetMonitoringAssessment": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "GetOTelEnrichment": {
    "access_level": "Read",
    "flags": {
@@ -1099,6 +1143,22 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": false
+  },
+  "GetOmniAgentAsset": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "omni-agent-asset"
+   ],
+   "condition_keys": [
+    "cloudwatch:HasAccessGrant"
+   ],
+   "data_plane": null
   },
   "GetOmniDashboard": {
    "access_level": "Read",
@@ -1546,6 +1606,7 @@
   "ListMetricDataQueryDefinitions": {
    "access_level": "List",
    "flags": {
+    "IsDataPlane": false,
     "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1553,7 +1614,7 @@
    },
    "resource_types": [],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "ListMetricStreams": {
    "access_level": "List",
@@ -1584,6 +1645,44 @@
     "cloudwatch:HasAccessGrant"
    ],
    "data_plane": true
+  },
+  "ListMonitoringAssessmentResults": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListMonitoringAssessments": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListOmniAgentAssets": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "cloudwatch:HasAccessGrant"
+   ],
+   "data_plane": null
   },
   "ListOmniDashboards": {
    "access_level": "List",
@@ -1934,6 +2033,7 @@
   "PutMetricDataQueryDefinition": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1946,7 +2046,7 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
-   "data_plane": null
+   "data_plane": false
   },
   "PutMetricStream": {
    "access_level": "Write",
@@ -2064,6 +2164,18 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "StartMonitoringAssessment": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
   },
   "StartOTelEnrichment": {
    "access_level": "Write",
@@ -2366,6 +2478,22 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "UpdateOmniAgentAsset": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "omni-agent-asset"
+   ],
+   "condition_keys": [
+    "cloudwatch:HasAccessGrant"
+   ],
+   "data_plane": null
+  },
   "UpdateOmniDashboard": {
    "access_level": "Write",
    "flags": {
@@ -2514,6 +2642,9 @@
   ],
   "metric-stream": [
    "arn:${Partition}:cloudwatch:${Region}:${Account}:metric-stream/${MetricStreamName}"
+  ],
+  "omni-agent-asset": [
+   "arn:${Partition}:cloudwatch:${Region}:${Account}:omni-agent-asset/${AssetId}"
   ],
   "omni-dashboard": [
    "arn:${Partition}:cloudwatch:${Region}:${Account}:omni-dashboard/${DashboardId}"

@@ -14,6 +14,18 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "BatchGetFinancialRecord": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "CreateConnectedAccount": {
    "access_level": "Write",
    "flags": {
@@ -82,6 +94,18 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "GetAccountBalance": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "GetConnectedAccount": {
    "access_level": "Read",
    "flags": {
@@ -93,6 +117,18 @@
    "resource_types": [
     "connectedaccount"
    ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetFinancialRecord": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
    "condition_keys": [],
    "data_plane": null
   },
@@ -145,9 +181,10 @@
    "data_plane": null
   },
   "GetPaymentInstrument": {
-   "access_level": "List",
+   "access_level": "Read",
    "flags": {
-    "IsList": true,
+    "IsDataPlane": false,
+    "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": false
@@ -156,11 +193,12 @@
     "payment-instrument"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "GetPaymentStatus": {
    "access_level": "Read",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -168,7 +206,7 @@
    },
    "resource_types": [],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "ListConnectedAccounts": {
    "access_level": "List",
@@ -181,6 +219,19 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": null
+  },
+  "ListFinancialRecords": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
   },
   "ListFinancingApplications": {
    "access_level": "List",

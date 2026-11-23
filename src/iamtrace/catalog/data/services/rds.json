@@ -377,6 +377,7 @@
     "rds:Piops",
     "rds:StorageEncrypted",
     "rds:StorageSize",
+    "rds:VpcNetworkingEnabled",
     "rds:req-tag/${TagKey}"
    ],
    "data_plane": false
@@ -1815,6 +1816,36 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DisableInternetAccessGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DisableVpcNetworking": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DownloadCompleteDBLogFile": {
    "access_level": "Read",
    "flags": {
@@ -1845,6 +1876,36 @@
    "data_plane": false
   },
   "EnableHttpEndpoint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EnableInternetAccessGateway": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "EnableVpcNetworking": {
    "access_level": "Write",
    "flags": {
     "IsDataPlane": false,
@@ -2015,7 +2076,8 @@
     "cluster",
     "cluster-pg",
     "og",
-    "pg"
+    "pg",
+    "subgrp"
    ],
    "condition_keys": [
     "rds:DatabaseClass",
@@ -2583,6 +2645,7 @@
     "rds:DatabaseName",
     "rds:ManageMasterUserPassword",
     "rds:StorageEncrypted",
+    "rds:VpcNetworkingEnabled",
     "rds:req-tag/${TagKey}"
    ],
    "data_plane": false
@@ -2610,6 +2673,7 @@
     "rds:DatabaseClass",
     "rds:Piops",
     "rds:StorageSize",
+    "rds:VpcNetworkingEnabled",
     "rds:req-tag/${TagKey}"
    ],
    "data_plane": false
@@ -2636,6 +2700,7 @@
     "rds:DatabaseClass",
     "rds:Piops",
     "rds:StorageSize",
+    "rds:VpcNetworkingEnabled",
     "rds:req-tag/${TagKey}"
    ],
    "data_plane": false
@@ -3061,6 +3126,9 @@
    "String"
   ],
   "rds:Vpc": [
+   "Bool"
+  ],
+  "rds:VpcNetworkingEnabled": [
    "Bool"
   ],
   "rds:cluster-pg-tag/${TagKey}": [

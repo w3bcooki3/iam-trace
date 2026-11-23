@@ -2,6 +2,54 @@
  "prefix": "agent-registry",
  "name": "Agent Registry",
  "actions": {
+  "AssociatePublisher": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "publisher",
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CompleteRegistryRecordTokenAuth": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "CreatePublisher": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "publisher"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateRegistry": {
    "access_level": "Write",
    "flags": {
@@ -34,6 +82,21 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
+   "data_plane": false
+  },
+  "DeletePublisher": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "publisher"
+   ],
+   "condition_keys": [],
    "data_plane": false
   },
   "DeleteRegistry": {
@@ -75,10 +138,26 @@
     "IsWrite": true
    },
    "resource_types": [
+    "publisher",
     "registry"
    ],
    "condition_keys": [],
    "data_plane": null
+  },
+  "DisassociatePublisher": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   },
   "GetDiscoverableRegistryRecord": {
    "access_level": "Read",
@@ -94,6 +173,21 @@
    ],
    "condition_keys": [],
    "data_plane": true
+  },
+  "GetPublisher": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "publisher"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   },
   "GetRegistry": {
    "access_level": "Read",
@@ -134,6 +228,7 @@
     "IsWrite": false
    },
    "resource_types": [
+    "publisher",
     "registry"
    ],
    "condition_keys": [],
@@ -167,6 +262,34 @@
    ],
    "condition_keys": [],
    "data_plane": true
+  },
+  "ListPublisherAssociations": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "publisher"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListPublishers": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
   },
   "ListRegistries": {
    "access_level": "List",
@@ -206,6 +329,7 @@
     "IsWrite": false
    },
    "resource_types": [
+    "publisher",
     "registry",
     "registry-record"
    ],
@@ -221,6 +345,7 @@
     "IsWrite": true
    },
    "resource_types": [
+    "publisher",
     "registry"
    ],
    "condition_keys": [],
@@ -266,6 +391,7 @@
     "IsWrite": true
    },
    "resource_types": [
+    "publisher",
     "registry",
     "registry-record"
    ],
@@ -285,12 +411,28 @@
     "IsWrite": true
    },
    "resource_types": [
+    "publisher",
     "registry",
     "registry-record"
    ],
    "condition_keys": [
     "aws:TagKeys"
    ],
+   "data_plane": false
+  },
+  "UpdatePublisherAssociationApprovalStatus": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "registry-record"
+   ],
+   "condition_keys": [],
    "data_plane": false
   },
   "UpdateRegistry": {
@@ -337,9 +479,27 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "ValidatePublisher": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "publisher"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   }
  },
  "resources": {
+  "publisher": [
+   "arn:${Partition}:agent-registry::${Account}:publisher/${PublisherType}/${PublisherValue}/${PublisherId}"
+  ],
   "registry": [
    "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}"
   ],

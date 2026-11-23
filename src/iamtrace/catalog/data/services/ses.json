@@ -2580,6 +2580,21 @@
    ],
    "data_plane": false
   },
+  "PutAccountDeliveryAttributes": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [],
+   "condition_keys": [
+    "ses:ApiVersion"
+   ],
+   "data_plane": false
+  },
   "PutAccountDetails": {
    "access_level": "Write",
    "flags": {
@@ -3078,6 +3093,7 @@
   "SendBulkTemplatedEmail": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": true,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -3095,7 +3111,7 @@
     "ses:FromDisplayName",
     "ses:Recipients"
    ],
-   "data_plane": null
+   "data_plane": true
   },
   "SendCustomVerificationEmail": {
    "access_level": "Write",
@@ -3122,6 +3138,7 @@
   "SendEmail": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": true,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -3141,11 +3158,12 @@
     "ses:Recipients",
     "ses:TenantName"
    ],
-   "data_plane": null
+   "data_plane": true
   },
   "SendRawEmail": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": true,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -3162,7 +3180,7 @@
     "ses:FromDisplayName",
     "ses:Recipients"
    ],
-   "data_plane": null
+   "data_plane": true
   },
   "SendTemplatedEmail": {
    "access_level": "Write",

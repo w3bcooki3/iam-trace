@@ -505,6 +505,24 @@
    ],
    "data_plane": false
   },
+  "CreateDataQualityEvaluationConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityEvaluationConfig"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateDataQualityRuleset": {
    "access_level": "Write",
    "flags": {
@@ -1074,6 +1092,21 @@
     "IsWrite": true
    },
    "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteDataQualityEvaluationConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityEvaluationConfig"
+   ],
    "condition_keys": [],
    "data_plane": false
   },
@@ -1920,6 +1953,21 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": null
+  },
+  "GetDataQualityEvaluationConfig": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityEvaluationConfig"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   },
   "GetDataQualityModel": {
    "access_level": "Read",
@@ -2920,6 +2968,7 @@
     "connectionType",
     "crawler",
     "customEntityType",
+    "dataQualityEvaluationConfig",
     "database",
     "devendpoint",
     "job",
@@ -3195,6 +3244,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListDataQualityEvaluationConfigs": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "dataQualityEvaluationConfig"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListDataQualityResults": {
    "access_level": "List",
    "flags": {
@@ -3300,6 +3364,19 @@
     "database",
     "integrationResourceProperty"
    ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListIntegrationTableProperties": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
    "condition_keys": [],
    "data_plane": false
   },
@@ -4244,6 +4321,7 @@
     "connectionType",
     "crawler",
     "customEntityType",
+    "dataQualityEvaluationConfig",
     "dataQualityRuleset",
     "database",
     "devendpoint",
@@ -4309,6 +4387,7 @@
     "connectionType",
     "crawler",
     "customEntityType",
+    "dataQualityEvaluationConfig",
     "dataQualityRuleset",
     "database",
     "devendpoint",
@@ -4478,6 +4557,21 @@
     "IsWrite": true
    },
    "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateDataQualityEvaluationConfig": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "dataQualityEvaluationConfig"
+   ],
    "condition_keys": [],
    "data_plane": false
   },
@@ -4859,6 +4953,9 @@
   ],
   "customEntityType": [
    "arn:${Partition}:glue:${Region}:${Account}:customEntityType/${CustomEntityTypeId}"
+  ],
+  "dataQualityEvaluationConfig": [
+   "arn:${Partition}:glue:${Region}:${Account}:dataQualityEvaluationConfig/${EvaluationConfigName}"
   ],
   "dataQualityRuleset": [
    "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}"

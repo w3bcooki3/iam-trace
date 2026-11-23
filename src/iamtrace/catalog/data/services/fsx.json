@@ -130,6 +130,24 @@
    ],
    "data_plane": false
   },
+  "CreateClusterPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-peer",
+    "file-system"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
   "CreateDataRepositoryAssociation": {
    "access_level": "Write",
    "flags": {
@@ -224,6 +242,44 @@
    ],
    "data_plane": false
   },
+  "CreateSnapmirrorPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system",
+    "snapmirror-policy",
+    "storage-virtual-machine"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateSnapmirrorRelationship": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapmirror-policy",
+    "snapmirror-relationship",
+    "volume"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
   "CreateSnapshot": {
    "access_level": "Write",
    "flags": {
@@ -243,6 +299,25 @@
    ],
    "data_plane": false
   },
+  "CreateSnapshotPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "file-system",
+    "snapshot-policy",
+    "storage-virtual-machine"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
   "CreateStorageVirtualMachine": {
    "access_level": "Write",
    "flags": {
@@ -261,6 +336,24 @@
     "aws:TagKeys"
    ],
    "data_plane": false
+  },
+  "CreateStorageVirtualMachinePeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "storage-virtual-machine",
+    "svm-peer"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
   },
   "CreateVolume": {
    "access_level": "Write",
@@ -314,6 +407,20 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "DeleteClusterPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-peer"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "DeleteDataRepositoryAssociation": {
    "access_level": "Write",
@@ -376,6 +483,34 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "DeleteSnapmirrorPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapmirror-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DeleteSnapmirrorRelationship": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapmirror-relationship"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "DeleteSnapshot": {
    "access_level": "Write",
    "flags": {
@@ -391,6 +526,20 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DeleteSnapshotPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapshot-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "DeleteStorageVirtualMachine": {
    "access_level": "Write",
    "flags": {
@@ -405,6 +554,20 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "DeleteStorageVirtualMachinePeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "svm-peer"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "DeleteVolume": {
    "access_level": "Write",
@@ -448,6 +611,18 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": false
+  },
+  "DescribeClusterPeers": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
   },
   "DescribeDataRepositoryAssociations": {
    "access_level": "Read",
@@ -542,6 +717,42 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DescribeSnapmirrorPolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeSnapmirrorRelationships": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "DescribeSnapshotPolicies": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "DescribeSnapshots": {
    "access_level": "Read",
    "flags": {
@@ -554,6 +765,18 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": false
+  },
+  "DescribeStorageVirtualMachinePeers": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
   },
   "DescribeStorageVirtualMachines": {
    "access_level": "Read",
@@ -651,10 +874,15 @@
    "resource_types": [
     "association",
     "backup",
+    "cluster-peer",
     "file-cache",
     "file-system",
+    "snapmirror-policy",
+    "snapmirror-relationship",
     "snapshot",
+    "snapshot-policy",
     "storage-virtual-machine",
+    "svm-peer",
     "task",
     "volume"
    ],
@@ -747,10 +975,15 @@
    "resource_types": [
     "association",
     "backup",
+    "cluster-peer",
     "file-cache",
     "file-system",
+    "snapmirror-policy",
+    "snapmirror-relationship",
     "snapshot",
+    "snapshot-policy",
     "storage-virtual-machine",
+    "svm-peer",
     "task",
     "volume"
    ],
@@ -772,10 +1005,15 @@
    "resource_types": [
     "association",
     "backup",
+    "cluster-peer",
     "file-cache",
     "file-system",
+    "snapmirror-policy",
+    "snapmirror-relationship",
     "snapshot",
+    "snapshot-policy",
     "storage-virtual-machine",
+    "svm-peer",
     "task",
     "volume"
    ],
@@ -783,6 +1021,20 @@
     "aws:TagKeys"
    ],
    "data_plane": false
+  },
+  "UpdateClusterPeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "cluster-peer"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "UpdateDataRepositoryAssociation": {
    "access_level": "Write",
@@ -842,6 +1094,35 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "UpdateSnapmirrorPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapmirror-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "UpdateSnapmirrorRelationship": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapmirror-policy",
+    "snapmirror-relationship"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "UpdateSnapshot": {
    "access_level": "Write",
    "flags": {
@@ -857,6 +1138,20 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "UpdateSnapshotPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "snapshot-policy"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "UpdateStorageVirtualMachine": {
    "access_level": "Write",
    "flags": {
@@ -871,6 +1166,20 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "UpdateStorageVirtualMachinePeer": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "svm-peer"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "UpdateVolume": {
    "access_level": "Write",
@@ -898,17 +1207,32 @@
   "backup": [
    "arn:${Partition}:fsx:${Region}:${Account}:backup/${BackupId}"
   ],
+  "cluster-peer": [
+   "arn:${Partition}:fsx:${Region}:${Account}:cluster-peer/${FileSystemId}/${ClusterPeerId}"
+  ],
   "file-cache": [
    "arn:${Partition}:fsx:${Region}:${Account}:file-cache/${FileCacheId}"
   ],
   "file-system": [
    "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}"
   ],
+  "snapmirror-policy": [
+   "arn:${Partition}:fsx:${Region}:${Account}:snapmirror-policy/${FileSystemIdOrStorageVirtualMachineId}/${SnapmirrorPolicyId}"
+  ],
+  "snapmirror-relationship": [
+   "arn:${Partition}:fsx:${Region}:${Account}:snapmirror-relationship/${FileSystemId}/${VolumeId}/${SnapmirrorRelationshipId}"
+  ],
   "snapshot": [
    "arn:${Partition}:fsx:${Region}:${Account}:snapshot/${VolumeId}/${SnapshotId}"
   ],
+  "snapshot-policy": [
+   "arn:${Partition}:fsx:${Region}:${Account}:snapshot-policy/${FileSystemIdOrStorageVirtualMachineId}/${SnapshotPolicyId}"
+  ],
   "storage-virtual-machine": [
    "arn:${Partition}:fsx:${Region}:${Account}:storage-virtual-machine/${FileSystemId}/${StorageVirtualMachineId}"
+  ],
+  "svm-peer": [
+   "arn:${Partition}:fsx:${Region}:${Account}:svm-peer/${FileSystemId}/${StorageVirtualMachineId}/${StorageVirtualMachinePeerId}"
   ],
   "task": [
    "arn:${Partition}:fsx:${Region}:${Account}:task/${TaskId}"
@@ -940,6 +1264,9 @@
    "Bool"
   ],
   "fsx:ParentVolumeId": [
+   "String"
+  ],
+  "fsx:SnapmirrorSourcePath": [
    "String"
   ],
   "fsx:StorageVirtualMachineId": [

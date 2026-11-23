@@ -2,6 +2,34 @@
  "prefix": "kinesis",
  "name": "Kinesis",
  "actions": {
+  "AcknowledgeDeadLetterQueueRecords": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "AcknowledgeQueueRecords": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "AddTagsToStream": {
    "access_level": "Tagging",
    "flags": {
@@ -33,17 +61,47 @@
    "condition_keys": [],
    "data_plane": false
   },
-  "CreateChannel": {
-   "access_level": "Tagging",
+  "AssociateStreamsWithQueue": {
+   "access_level": "Write",
    "flags": {
     "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
-    "IsTaggingOnly": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "stream"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateChannel": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
     "IsWrite": true
    },
    "resource_types": [
     "channel"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -93,6 +151,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "DeleteQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "DeleteResourcePolicy": {
    "access_level": "Write",
    "flags": {
@@ -104,6 +177,7 @@
    },
    "resource_types": [
     "consumer",
+    "queue",
     "stream"
    ],
    "condition_keys": [],
@@ -177,6 +251,21 @@
     "IsWrite": false
    },
    "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeQueue": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queue"
+   ],
    "condition_keys": [],
    "data_plane": false
   },
@@ -277,6 +366,7 @@
    },
    "resource_types": [
     "consumer",
+    "queue",
     "stream"
    ],
    "condition_keys": [],
@@ -329,6 +419,19 @@
    "data_plane": null
   },
   "ListChannels": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListQueues": {
    "access_level": "List",
    "flags": {
     "IsDataPlane": false,
@@ -396,6 +499,7 @@
    "resource_types": [
     "channel",
     "consumer",
+    "queue",
     "stream"
    ],
    "condition_keys": [],
@@ -472,10 +576,40 @@
    },
    "resource_types": [
     "consumer",
+    "queue",
     "stream"
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "ReceiveDeadLetterQueueRecords": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ReceiveQueueRecords": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": true
   },
   "RegisterStreamConsumer": {
    "access_level": "Write",
@@ -506,6 +640,20 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "RestoreDeadLetterQueueRecords": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "SplitShard": {
    "access_level": "Write",
@@ -581,6 +729,7 @@
    "resource_types": [
     "channel",
     "consumer",
+    "queue",
     "stream"
    ],
    "condition_keys": [],
@@ -598,6 +747,7 @@
    "resource_types": [
     "channel",
     "consumer",
+    "queue",
     "stream"
    ],
    "condition_keys": [],
@@ -631,6 +781,20 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "UpdateDeadLetterQueueRecordsVisibility": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "UpdateMaxRecordSize": {
    "access_level": "Write",
    "flags": {
@@ -645,6 +809,35 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "UpdateQueue": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateQueueRecordsVisibility": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "queue"
+   ],
+   "condition_keys": [],
+   "data_plane": null
   },
   "UpdateShardCount": {
    "access_level": "Write",
@@ -712,6 +905,9 @@
   ],
   "kmsKey": [
    "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"
+  ],
+  "queue": [
+   "arn:${Partition}:kinesis:${Region}:${Account}:queue/${QueueId}"
   ],
   "stream": [
    "arn:${Partition}:kinesis:${Region}:${Account}:stream/${StreamName}"

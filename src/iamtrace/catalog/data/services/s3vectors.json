@@ -367,6 +367,23 @@
     "s3vectors:VectorBucketTag/${TagKey}"
    ],
    "data_plane": null
+  },
+  "UpdateMetadataConfiguration": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "Index"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}",
+    "s3vectors:VectorBucketTag/${TagKey}"
+   ],
+   "data_plane": null
   }
  },
  "resources": {

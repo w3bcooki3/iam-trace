@@ -102,6 +102,7 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys",
     "cloudformation:ChangeSetName",
+    "cloudformation:DisableValidation",
     "cloudformation:ImportResourceTypes",
     "cloudformation:ResourceTypes",
     "cloudformation:RoleArn",
@@ -151,6 +152,7 @@
    "condition_keys": [
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys",
+    "cloudformation:DisableValidation",
     "cloudformation:ResourceTypes",
     "cloudformation:RoleArn",
     "cloudformation:StackPolicyUrl",
@@ -1247,6 +1249,7 @@
   "RemoveAlias": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1256,7 +1259,7 @@
     "stack"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "RollbackStack": {
    "access_level": "Write",
@@ -1278,6 +1281,7 @@
   "SetAlias": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1287,7 +1291,7 @@
     "stack"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "SetStackPolicy": {
    "access_level": "Permissions management",
@@ -1470,6 +1474,7 @@
    "condition_keys": [
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys",
+    "cloudformation:DisableValidation",
     "cloudformation:ResourceTypes",
     "cloudformation:RoleArn",
     "cloudformation:StackPolicyUrl",
@@ -1591,6 +1596,9 @@
   ],
   "cloudformation:CreateAction": [
    "String"
+  ],
+  "cloudformation:DisableValidation": [
+   "Bool"
   ],
   "cloudformation:ImportResourceTypes": [
    "String"

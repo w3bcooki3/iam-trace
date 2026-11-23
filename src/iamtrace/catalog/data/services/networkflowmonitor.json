@@ -20,6 +20,24 @@
    ],
    "data_plane": false
   },
+  "CreatePerformanceMonitor": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "performancemonitor"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "CreateScope": {
    "access_level": "Write",
    "flags": {
@@ -47,6 +65,21 @@
    },
    "resource_types": [
     "monitor"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeletePerformanceMonitor": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "performancemonitor"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -81,6 +114,36 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetMonitorScopeSuggestions": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "performancemonitor"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "GetPerformanceMonitor": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "performancemonitor"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "GetQueryResultsMonitorTopContributors": {
    "access_level": "Read",
    "flags": {
@@ -92,6 +155,21 @@
    },
    "resource_types": [
     "monitor"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetQueryResultsPerformanceMonitor": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "performancemonitor"
    ],
    "condition_keys": [],
    "data_plane": true
@@ -137,6 +215,21 @@
    },
    "resource_types": [
     "monitor"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "GetQueryStatusPerformanceMonitor": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "performancemonitor"
    ],
    "condition_keys": [],
    "data_plane": true
@@ -199,6 +292,19 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListPerformanceMonitors": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListScopes": {
    "access_level": "List",
    "flags": {
@@ -223,6 +329,7 @@
    },
    "resource_types": [
     "monitor",
+    "performancemonitor",
     "scope"
    ],
    "condition_keys": [],
@@ -251,6 +358,21 @@
    },
    "resource_types": [
     "monitor"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
+  "StartQueryPerformanceMonitor": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "performancemonitor"
    ],
    "condition_keys": [],
    "data_plane": true
@@ -300,6 +422,21 @@
    "condition_keys": [],
    "data_plane": true
   },
+  "StopQueryPerformanceMonitor": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "performancemonitor"
+   ],
+   "condition_keys": [],
+   "data_plane": true
+  },
   "StopQueryWorkloadInsightsTopContributors": {
    "access_level": "Write",
    "flags": {
@@ -341,6 +478,7 @@
    },
    "resource_types": [
     "monitor",
+    "performancemonitor",
     "scope"
    ],
    "condition_keys": [
@@ -360,6 +498,7 @@
    },
    "resource_types": [
     "monitor",
+    "performancemonitor",
     "scope"
    ],
    "condition_keys": [
@@ -378,6 +517,21 @@
    },
    "resource_types": [
     "monitor"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdatePerformanceMonitor": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "performancemonitor"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -401,6 +555,9 @@
  "resources": {
   "monitor": [
    "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}"
+  ],
+  "performancemonitor": [
+   "arn:${Partition}:networkflowmonitor:${Region}:${Account}:performancemonitor/${MonitorName}"
   ],
   "scope": [
    "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}"

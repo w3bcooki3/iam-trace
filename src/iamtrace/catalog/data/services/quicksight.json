@@ -71,6 +71,22 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "BatchDeletePolicyAssignmentByPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custompermissions",
+    "limitsProfile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "BatchDeleteTopicReviewedAnswer": {
    "access_level": "Write",
    "flags": {
@@ -116,6 +132,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "BatchPutPolicyAssignmentByPolicy": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custompermissions",
+    "limitsProfile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "BatchUpdatePreferences": {
    "access_level": "Write",
    "flags": {
@@ -149,6 +181,7 @@
   "CreateAccessControlApplication": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -161,11 +194,12 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
-   "data_plane": null
+   "data_plane": false
   },
   "CreateAccessControlApplicationSecret": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -175,7 +209,7 @@
     "accessControlApplication"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "CreateAccountCustomization": {
    "access_level": "Write",
@@ -542,6 +576,7 @@
   "CreateInboundConnector": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -554,7 +589,7 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
-   "data_plane": null
+   "data_plane": false
   },
   "CreateIngestion": {
    "access_level": "Write",
@@ -591,6 +626,21 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
+   "data_plane": false
+  },
+  "CreateKnowledgeBaseRefreshSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledgeBase"
+   ],
+   "condition_keys": [],
    "data_plane": false
   },
   "CreateLimitsProfile": {
@@ -851,6 +901,7 @@
   "DeleteAccessControlApplication": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -860,11 +911,12 @@
     "accessControlApplication"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "DeleteAccessControlApplicationSecret": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -874,7 +926,7 @@
     "accessControlApplication"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "DeleteAccountCustomPermission": {
    "access_level": "Write",
@@ -1280,6 +1332,7 @@
   "DeleteInboundConnector": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1289,9 +1342,24 @@
     "inboundConnector"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "DeleteKnowledgeBase": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledgeBase"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteKnowledgeBaseRefreshSchedule": {
    "access_level": "Write",
    "flags": {
     "IsDataPlane": false,
@@ -1352,6 +1420,22 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
+   "data_plane": false
+  },
+  "DeletePolicyAssignment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custompermissions",
+    "limitsProfile"
+   ],
+   "condition_keys": [],
    "data_plane": false
   },
   "DeleteRefreshSchedule": {
@@ -1571,6 +1655,7 @@
   "DescribeAccessControlApplication": {
    "access_level": "Read",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -1580,7 +1665,7 @@
     "accessControlApplication"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "DescribeAccountCustomPermission": {
    "access_level": "Read",
@@ -2254,6 +2339,7 @@
   "DescribeInboundConnector": {
    "access_level": "Read",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -2263,7 +2349,7 @@
     "inboundConnector"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "DescribeIngestion": {
    "access_level": "Read",
@@ -2332,6 +2418,21 @@
     "IsPermissionManagement": true,
     "IsTaggingOnly": false,
     "IsWrite": true
+   },
+   "resource_types": [
+    "knowledgeBase"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DescribeKnowledgeBaseRefreshSchedule": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
    },
    "resource_types": [
     "knowledgeBase"
@@ -2807,6 +2908,18 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetEffectiveCustomPermissions": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "GetFlowMetadata": {
    "access_level": "Read",
    "flags": {
@@ -2865,6 +2978,22 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetPolicyAssignment": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "custompermissions",
+    "limitsProfile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "GetSessionEmbedUrl": {
    "access_level": "Read",
    "flags": {
@@ -2881,6 +3010,7 @@
   "ListAccessControlApplications": {
    "access_level": "List",
    "flags": {
+    "IsDataPlane": false,
     "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -2888,7 +3018,7 @@
    },
    "resource_types": [],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "ListActionConnectors": {
    "access_level": "List",
@@ -3295,6 +3425,7 @@
   "ListInboundConnectorApplicationAssociations": {
    "access_level": "List",
    "flags": {
+    "IsDataPlane": false,
     "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -3304,11 +3435,12 @@
     "inboundConnector"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "ListInboundConnectors": {
    "access_level": "List",
    "flags": {
+    "IsDataPlane": false,
     "IsList": true,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -3316,7 +3448,7 @@
    },
    "resource_types": [],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "ListIngestions": {
    "access_level": "List",
@@ -3345,6 +3477,21 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": null
+  },
+  "ListKnowledgeBaseRefreshSchedules": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "knowledgeBase"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   },
   "ListKnowledgeBases": {
    "access_level": "List",
@@ -3401,6 +3548,22 @@
     "aws:RequestTag/${TagKey}",
     "aws:TagKeys"
    ],
+   "data_plane": false
+  },
+  "ListPrincipalsForPolicy": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "custompermissions",
+    "limitsProfile"
+   ],
+   "condition_keys": [],
    "data_plane": false
   },
   "ListRefreshSchedules": {
@@ -3497,6 +3660,7 @@
     "flow",
     "folder",
     "inboundConnector",
+    "knowledgeBase",
     "namespace",
     "oauthClientApplication",
     "template",
@@ -3787,6 +3951,22 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "PutPolicyAssignment": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "custompermissions",
+    "limitsProfile"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "QuickSuiteUsageMetrics": {
    "access_level": "Read",
    "flags": {
@@ -4051,9 +4231,7 @@
     "IsTaggingOnly": false,
     "IsWrite": false
    },
-   "resource_types": [
-    "knowledgeBase"
-   ],
+   "resource_types": [],
    "condition_keys": [],
    "data_plane": false
   },
@@ -4255,6 +4433,7 @@
     "folder",
     "inboundConnector",
     "ingestion",
+    "knowledgeBase",
     "namespace",
     "oauthClientApplication",
     "template",
@@ -4322,6 +4501,7 @@
     "folder",
     "inboundConnector",
     "ingestion",
+    "knowledgeBase",
     "namespace",
     "oauthClientApplication",
     "template",
@@ -4338,6 +4518,7 @@
   "UpdateAccessControlApplication": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -4347,11 +4528,12 @@
     "accessControlApplication"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "UpdateAccessControlApplicationSecret": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -4361,7 +4543,7 @@
     "accessControlApplication"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "UpdateAccountCustomPermission": {
    "access_level": "Write",
@@ -4943,6 +5125,7 @@
   "UpdateInboundConnector": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -4952,11 +5135,12 @@
     "inboundConnector"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "UpdateInboundConnectorApplicationAssociations": {
    "access_level": "Write",
    "flags": {
+    "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": false,
     "IsTaggingOnly": false,
@@ -4966,7 +5150,7 @@
     "inboundConnector"
    ],
    "condition_keys": [],
-   "data_plane": null
+   "data_plane": false
   },
   "UpdateIpRestriction": {
    "access_level": "Write",
@@ -5015,6 +5199,21 @@
     "IsDataPlane": false,
     "IsList": false,
     "IsPermissionManagement": true,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "knowledgeBase"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateKnowledgeBaseRefreshSchedule": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
     "IsTaggingOnly": false,
     "IsWrite": true
    },

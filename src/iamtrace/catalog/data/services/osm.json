@@ -1,0 +1,355 @@
+{
+ "prefix": "osm",
+ "name": "OpenSearch Memory",
+ "actions": {
+  "BatchGetEvent": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:sessionId"
+   ],
+   "data_plane": null
+  },
+  "CreateEvent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:sessionId"
+   ],
+   "data_plane": null
+  },
+  "CreateMemory": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:strategyName"
+   ],
+   "data_plane": null
+  },
+  "CreateSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "DeleteEvent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:sessionId"
+   ],
+   "data_plane": null
+  },
+  "DeleteMemory": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:strategyName"
+   ],
+   "data_plane": null
+  },
+  "DeleteSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "GetEvent": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:sessionId"
+   ],
+   "data_plane": null
+  },
+  "GetMemory": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:strategyName"
+   ],
+   "data_plane": null
+  },
+  "GetSpace": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListEvents": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:sessionId"
+   ],
+   "data_plane": null
+  },
+  "ListMemories": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:strategyName"
+   ],
+   "data_plane": null
+  },
+  "ListSpaces": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListTagsForResource": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "SearchEvents": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:sessionId"
+   ],
+   "data_plane": null
+  },
+  "SearchMemories": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:strategyName"
+   ],
+   "data_plane": null
+  },
+  "TagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "UntagResource": {
+   "access_level": "Tagging",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": true,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "UpdateMemory": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [
+    "osm:actorId",
+    "osm:strategyName"
+   ],
+   "data_plane": null
+  },
+  "UpdateSpace": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "space"
+   ],
+   "condition_keys": [],
+   "data_plane": null
+  }
+ },
+ "resources": {
+  "space": [
+   "arn:${Partition}:osm:${Region}:${Account}:space/${SpaceId}"
+  ]
+ },
+ "condition_keys": {
+  "aws:RequestTag/${TagKey}": [
+   "String"
+  ],
+  "aws:ResourceTag/${TagKey}": [
+   "String"
+  ],
+  "aws:TagKeys": [
+   "ArrayOfString"
+  ],
+  "osm:actorId": [
+   "ArrayOfString"
+  ],
+  "osm:sessionId": [
+   "ArrayOfString"
+  ],
+  "osm:strategyName": [
+   "ArrayOfString"
+  ]
+ }
+}

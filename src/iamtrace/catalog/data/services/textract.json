@@ -75,6 +75,58 @@
    ],
    "data_plane": false
   },
+  "CreateBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
+  "CreateBlueprintVersion": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "CreateProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "project"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": false
+  },
   "DeleteAdapter": {
    "access_level": "Write",
    "flags": {
@@ -101,6 +153,36 @@
    },
    "resource_types": [
     "adapterversion"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "DeleteProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "project"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -148,6 +230,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetBlueprint": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "GetDocumentAnalysis": {
    "access_level": "Read",
    "flags": {
@@ -160,6 +257,21 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": false
+  },
+  "GetDocumentInsights": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "job"
+   ],
+   "condition_keys": [],
+   "data_plane": true
   },
   "GetDocumentTextDetection": {
    "access_level": "Read",
@@ -213,6 +325,21 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "GetProject": {
+   "access_level": "Read",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListAdapterVersions": {
    "access_level": "Read",
    "flags": {
@@ -239,6 +366,38 @@
    "condition_keys": [],
    "data_plane": false
   },
+  "ListBlueprints": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint",
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "ListProjects": {
+   "access_level": "List",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "blueprint",
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
   "ListTagsForResource": {
    "access_level": "Read",
    "flags": {
@@ -250,7 +409,10 @@
    },
    "resource_types": [
     "adapter",
-    "adapterversion"
+    "adapterversion",
+    "blueprint",
+    "job",
+    "project"
    ],
    "condition_keys": [],
    "data_plane": false
@@ -267,6 +429,26 @@
    "resource_types": [],
    "condition_keys": [],
    "data_plane": false
+  },
+  "StartDocumentInsights": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": true,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "job",
+    "project"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": true
   },
   "StartDocumentTextDetection": {
    "access_level": "Write",
@@ -318,7 +500,10 @@
    },
    "resource_types": [
     "adapter",
-    "adapterversion"
+    "adapterversion",
+    "blueprint",
+    "job",
+    "project"
    ],
    "condition_keys": [
     "aws:RequestTag/${TagKey}",
@@ -337,7 +522,10 @@
    },
    "resource_types": [
     "adapter",
-    "adapterversion"
+    "adapterversion",
+    "blueprint",
+    "job",
+    "project"
    ],
    "condition_keys": [
     "aws:TagKeys"
@@ -358,6 +546,37 @@
    ],
    "condition_keys": [],
    "data_plane": false
+  },
+  "UpdateBlueprint": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint"
+   ],
+   "condition_keys": [],
+   "data_plane": false
+  },
+  "UpdateProject": {
+   "access_level": "Write",
+   "flags": {
+    "IsDataPlane": false,
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "blueprint",
+    "project"
+   ],
+   "condition_keys": [],
+   "data_plane": false
   }
  },
  "resources": {
@@ -366,6 +585,15 @@
   ],
   "adapterversion": [
    "arn:${Partition}:textract:${Region}:${Account}:/adapters/${AdapterId}/versions/${AdapterVersion}"
+  ],
+  "blueprint": [
+   "arn:${Partition}:textract:${Region}:${Account}:blueprint/${BlueprintId}"
+  ],
+  "job": [
+   "arn:${Partition}:textract:${Region}:${Account}:job/${JobId}"
+  ],
+  "project": [
+   "arn:${Partition}:textract:${Region}:${Account}:project/${ProjectId}"
   ]
  },
  "condition_keys": {

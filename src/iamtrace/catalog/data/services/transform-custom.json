@@ -30,6 +30,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "CancelSkillCreationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "skill-creation-job"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
   "CompleteTransformationPackageUpload": {
    "access_level": "Write",
    "flags": {
@@ -40,6 +56,22 @@
    },
    "resource_types": [
     "package"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "ConnectSource": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "source"
    ],
    "condition_keys": [
     "aws:ResourceTag/${TagKey}"
@@ -120,6 +152,24 @@
    },
    "resource_types": [
     "remediation"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
+  "CreateRemediationPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "remediation-plan"
    ],
    "condition_keys": [
     "aws:RequestTag/${TagKey}",
@@ -256,6 +306,22 @@
    },
    "resource_types": [
     "remediation"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "DeleteRemediationPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "remediation-plan"
    ],
    "condition_keys": [
     "aws:ResourceTag/${TagKey}"
@@ -418,6 +484,22 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "GetIssueGroup": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "issue-group"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
   "GetKnowledgeItem": {
    "access_level": "Read",
    "flags": {
@@ -450,6 +532,22 @@
    ],
    "data_plane": null
   },
+  "GetRemediationPlan": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "remediation-plan"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
   "GetRepository": {
    "access_level": "Read",
    "flags": {
@@ -476,6 +574,22 @@
    },
    "resource_types": [
     "package"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "GetSkillCreationJob": {
+   "access_level": "Read",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [
+    "skill-creation-job"
    ],
    "condition_keys": [
     "aws:ResourceTag/${TagKey}"
@@ -582,7 +696,31 @@
    "condition_keys": [],
    "data_plane": null
   },
+  "ListIssueGroups": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
   "ListKnowledgeItems": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListRemediationPlans": {
    "access_level": "List",
    "flags": {
     "IsList": true,
@@ -607,6 +745,18 @@
    "data_plane": null
   },
   "ListRepositories": {
+   "access_level": "List",
+   "flags": {
+    "IsList": true,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": false
+   },
+   "resource_types": [],
+   "condition_keys": [],
+   "data_plane": null
+  },
+  "ListSkillCreationJobs": {
    "access_level": "List",
    "flags": {
     "IsList": true,
@@ -686,6 +836,22 @@
    ],
    "data_plane": null
   },
+  "ReadRepositoryContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "repository"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
   "SendTelemetryEvent": {
    "access_level": "Write",
    "flags": {
@@ -714,6 +880,24 @@
    ],
    "data_plane": null
   },
+  "StartSkillCreationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "skill-creation-job"
+   ],
+   "condition_keys": [
+    "aws:RequestTag/${TagKey}",
+    "aws:ResourceTag/${TagKey}",
+    "aws:TagKeys"
+   ],
+   "data_plane": null
+  },
   "TagResource": {
    "access_level": "Tagging",
    "flags": {
@@ -726,10 +910,13 @@
     "analysis",
     "campaign",
     "finding",
+    "issue-group",
     "knowledge-item",
     "package",
     "remediation",
+    "remediation-plan",
     "repository",
+    "skill-creation-job",
     "source"
    ],
    "condition_keys": [
@@ -767,10 +954,13 @@
     "analysis",
     "campaign",
     "finding",
+    "issue-group",
     "knowledge-item",
     "package",
     "remediation",
+    "remediation-plan",
     "repository",
+    "skill-creation-job",
     "source"
    ],
    "condition_keys": [
@@ -826,6 +1016,22 @@
    ],
    "data_plane": null
   },
+  "UpdateIssueGroup": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "issue-group"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
   "UpdateKnowledgeItemConfiguration": {
    "access_level": "Write",
    "flags": {
@@ -874,6 +1080,22 @@
    ],
    "data_plane": null
   },
+  "UpdateRemediationPlan": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "remediation-plan"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
   "UpdateRepository": {
    "access_level": "Write",
    "flags": {
@@ -884,6 +1106,22 @@
    },
    "resource_types": [
     "repository"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
+  },
+  "UpdateSkillCreationJob": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "skill-creation-job"
    ],
    "condition_keys": [
     "aws:ResourceTag/${TagKey}"
@@ -905,6 +1143,22 @@
     "aws:ResourceTag/${TagKey}"
    ],
    "data_plane": null
+  },
+  "WriteRepositoryContent": {
+   "access_level": "Write",
+   "flags": {
+    "IsList": false,
+    "IsPermissionManagement": false,
+    "IsTaggingOnly": false,
+    "IsWrite": true
+   },
+   "resource_types": [
+    "repository"
+   ],
+   "condition_keys": [
+    "aws:ResourceTag/${TagKey}"
+   ],
+   "data_plane": null
   }
  },
  "resources": {
@@ -917,6 +1171,9 @@
   "finding": [
    "arn:${Partition}:transform-custom:${Region}:${Account}:finding/${FindingId}"
   ],
+  "issue-group": [
+   "arn:${Partition}:transform-custom:${Region}:${Account}:issue-group/${IssueGroupId}"
+  ],
   "knowledge-item": [
    "arn:${Partition}:transform-custom:${Region}:${Account}:package/${TransformationPackageName}/knowledge-item/${Id}"
   ],
@@ -926,8 +1183,14 @@
   "remediation": [
    "arn:${Partition}:transform-custom:${Region}:${Account}:remediation/${RemediationId}"
   ],
+  "remediation-plan": [
+   "arn:${Partition}:transform-custom:${Region}:${Account}:remediation-plan/${RemediationPlanId}"
+  ],
   "repository": [
    "arn:${Partition}:transform-custom:${Region}:${Account}:repository/${RepositoryId}"
+  ],
+  "skill-creation-job": [
+   "arn:${Partition}:transform-custom:${Region}:${Account}:skill-creation-job/${SkillCreationJobId}"
   ],
   "source": [
    "arn:${Partition}:transform-custom:${Region}:${Account}:source/${Name}"
