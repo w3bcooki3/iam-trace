@@ -85,11 +85,10 @@ def main() -> int:
     shutil.copytree(WEB / "fonts", DIST / "fonts")
     shutil.copy2(WEB / "og.png", DIST / "og.png")  # the link-preview image named in index.html
     (DIST / "examples").mkdir()
-    shutil.copy2(ROOT / "examples" / "account" / "auth-details.json", DIST / "examples" / "auth-details.json")
-    shutil.copy2(ROOT / "examples" / "account" / "inventory.json", DIST / "examples" / "inventory.json")
-    shutil.copy2(ROOT / "examples" / "account" / "credential-report.csv", DIST / "examples" / "credential-report.csv")
-    shutil.copy2(ROOT / "examples" / "account" / "last-accessed.json", DIST / "examples" / "last-accessed.json")
-    shutil.copy2(ROOT / "examples" / "terraform" / "plan.json", DIST / "examples" / "terraform-plan.json")
+    # The sample account (scripts/build_sample.py): one made-up account with something for
+    # every screen.
+    for f in sorted((ROOT / "examples" / "sample").iterdir()):
+        shutil.copy2(f, DIST / "examples" / f.name)
     n = zip_dir(PKG, DIST / "iamtrace.zip", "iamtrace", skip_catalog=True)
     print(f"iamtrace.zip: {n} files")
     if (CATALOG / "services").is_dir():

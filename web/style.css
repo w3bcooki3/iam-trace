@@ -98,6 +98,7 @@ td { overflow-wrap: break-word; }
 td .who small, td .who b, td .mono, td.td-break { overflow-wrap: anywhere; }
 td .who { min-width: 10.5rem; }
 td .tech-id { overflow-wrap: normal; }
+td[data-label="Who has it"] .mono { overflow-wrap: break-word; }
 body {
   font: 400 1rem/1.5 "Plex Sans", system-ui, sans-serif; color: var(--text);
   background: var(--bg);
@@ -152,7 +153,7 @@ html.focus .side { visibility: hidden; }
 .save-status { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 4px 6px; border-radius: 6px; font-size: 0.8929rem; color: var(--muted); white-space: nowrap; }
 .save-status:hover { color: var(--text); background: var(--raise); }
 .save-status svg { width: 14px; height: 14px; }
-.save-status[data-state="off"], .save-status[data-state="error"] { color: var(--warn); }
+.save-status[data-state="off"], .save-status[data-state="error"], .save-status[data-state="low"] { color: var(--warn); }
 
 .side { grid-area: side; display: flex; flex-direction: column; gap: 4px; padding: 16px 12px; border-right: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 55%, transparent); overflow: hidden; }
 .side h4 { margin: 14px 10px 6px; font-size: 0.8214rem; font-weight: 500; color: var(--faint); }
@@ -658,7 +659,10 @@ button.n, button.elabel { font: inherit; }
 .empty-state .row { display: flex; gap: 10px; justify-content: center; }
 .banner { display: flex; align-items: center; gap: 12px; padding: 11px 16px; margin-bottom: 16px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); background: color-mix(in srgb, var(--accent) 8%, var(--panel)); font-size: 0.9286rem; }
 .banner svg { color: var(--accent-2); }
-.banner .btn { margin-left: auto; height: 30px; }
+.banner .btn { height: 30px; }
+.banner > span:first-of-type { flex: 1; min-width: 0; }
+.banner-btns { display: flex; flex-wrap: wrap; gap: 8px; flex: none; }
+@media (max-width: 640px) { .banner { flex-wrap: wrap; } .banner-btns { width: 100%; } }
 .dropzone.over { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--sunk)); }
 .err { display: flex; gap: 10px; padding: 11px 14px; margin-top: 12px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--crit) 35%, transparent); background: color-mix(in srgb, var(--crit) 8%, transparent); color: var(--text); font-size: 0.9286rem; }
 .err svg { color: var(--crit); margin-top: 2px; }
@@ -671,6 +675,10 @@ button.n, button.elabel { font: inherit; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .toast { position: fixed; z-index: 120; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px); opacity: 0; transition: 0.25s; padding: 10px 16px; border-radius: 10px; background: var(--text); color: var(--bg); font-size: 0.9286rem; pointer-events: none; }
 .toast.on { opacity: 1; transform: translateX(-50%); }
+.toast.has-action { display: flex; align-items: center; gap: 14px; max-width: min(560px, calc(100vw - 32px)); }
+.toast.has-action.on { pointer-events: auto; }
+.toast-btn { flex: none; background: none; border: 0; padding: 4px 2px; color: inherit; font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.toast-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 4px; }
 .chip i.loading { background: var(--warn); box-shadow: none; animation: pulse2 1.2s ease-in-out infinite; }
 .chip i.error { background: var(--crit); box-shadow: none; }
 .chip i.off { background: var(--faint); box-shadow: none; }
@@ -898,7 +906,7 @@ td.td-break { min-width: 16rem; overflow-wrap: anywhere; }
 }
 
 /* ---------------------------------------------------------------------------- saved data */
-.saved { display: grid; gap: 14px; max-width: 620px; }
+.saved { display: grid; gap: 14px; max-width: 760px; }
 .saved-list { display: grid; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .saved-row { display: flex; align-items: center; gap: 14px; padding: 10px 14px; }
 .saved-row + .saved-row { border-top: 1px solid var(--line); }
@@ -906,6 +914,28 @@ td.td-break { min-width: 16rem; overflow-wrap: anywhere; }
 .saved-row b { display: block; font-weight: 500; font-size: 0.9286rem; }
 .saved-row span { display: block; font-size: 0.8214rem; color: var(--muted); overflow-wrap: anywhere; }
 .saved-note { margin: 0; padding: 12px 14px; font-size: 0.8929rem; color: var(--muted); }
+.saved-row .row-btns { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; flex: none; }
+.saved-row .tag { display: inline-flex; margin-left: 8px; vertical-align: 0.08em; font-size: 0.75rem; color: var(--muted); border-color: var(--line-2); }
+
+/* Storage: one bar for the site's share of the browser's limit. */
+.storage, .sample-ctl, .trash { display: grid; gap: 12px; max-width: 760px; }
+.storage > *, .sample-ctl > *, .trash > *, .trash-list > * { min-width: 0; }
+.meter { height: 8px; border-radius: 999px; background: var(--raise); border: 1px solid var(--line); overflow: hidden; }
+.meter > i { display: block; height: 100%; min-width: 2px; background: var(--accent); border-radius: inherit; }
+.meter.low > i { background: var(--warn); }
+.storage-nums { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin: 0; font-size: 0.8929rem; }
+.storage-nums dt { color: var(--muted); }
+.storage-nums dd { margin: 0; font-variant-numeric: tabular-nums; }
+.storage .callout { margin: 0; }
+.storage-keep { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-size: 0.8929rem; color: var(--muted); }
+.sample-ctl p { margin: 0; font-size: 0.8929rem; color: var(--muted); }
+.sample-ctl .row-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+.trash-list { display: grid; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+@media (max-width: 560px) {
+  .saved-row { flex-wrap: wrap; gap: 10px; }
+  .saved-row > div:first-child { flex-basis: 100%; }
+  .saved-row .row-btns { justify-content: flex-start; }
+}
 .saved-note.warn { color: var(--warn); }
 .saved-note + .saved-row { border-top: 1px solid var(--line); }
 .btn.danger { color: var(--crit); border-color: var(--crit); }
@@ -1093,9 +1123,11 @@ td.td-break { min-width: 16rem; overflow-wrap: anywhere; }
 
 
 /* ---------------------------------------------------------------- reading pages: settings, changelog */
-.pg2 { max-width: 1080px; margin: 0 auto; }
+.pg2 { max-width: 1600px; }
 .pg2-grid { display: grid; grid-template-columns: 184px minmax(0, 1fr); gap: clamp(24px, 3.5vw, 48px); align-items: start; }
-.pg2-body { min-width: 0; max-width: 760px; }
+.pg2-body { min-width: 0; }
+/* The changelog is reading text: its lines stay a readable length inside a full-width card. */
+#timeline li, #timeline p { max-width: 92ch; }
 .pg2-nav { position: sticky; top: 0; display: grid; gap: 2px; padding-top: 2px; }
 .pg2-nav button, .pg2-nav a { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; width: 100%; padding: 7px 12px; border: 0; border-radius: 8px; background: none; color: var(--muted); font-size: 0.9286rem; text-align: left; cursor: pointer; text-decoration: none; }
 .pg2-nav button:hover, .pg2-nav a:hover { color: var(--text); background: var(--raise); text-decoration: none; }
@@ -1123,6 +1155,11 @@ td.td-break { min-width: 16rem; overflow-wrap: anywhere; }
 .set-row .lab span { display: block; margin-top: 2px; font-size: 0.875rem; line-height: 1.5; color: var(--muted); max-width: 60ch; }
 .set-row .toggle { max-width: 460px; justify-content: flex-start; gap: 12px; color: var(--text); }
 .set-row .toggle .switch { order: -1; }
+/* On a wide screen each setting reads across: what it is on the left, the control on the right. */
+@media (min-width: 1100px) {
+  .set-row { grid-template-columns: minmax(220px, 30%) minmax(0, 1fr); column-gap: clamp(28px, 3vw, 56px); align-items: start; }
+  .set-row .lab span { max-width: none; }
+}
 .opt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; max-width: 560px; }
 .opt { position: relative; display: grid; gap: 7px; padding: 6px 6px 8px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel); text-align: center; font-size: 0.875rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: border-color 0.15s, color 0.15s; }
 .opt:hover { border-color: var(--line-2); color: var(--text); }

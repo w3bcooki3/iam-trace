@@ -16,10 +16,12 @@ from __future__ import annotations
 
 from collections import deque
 from collections.abc import Callable, Mapping
+from itertools import product
 from typing import Any
 
 from iamtrace.escalate import Environment, analyze
 from iamtrace.evaluate import PolicySet, Request, evaluate
+from iamtrace.gates import ATTACKER, condition_values, describe, find_gates
 from iamtrace.matching import any_action_matches
 from iamtrace.model import Policy
 
@@ -134,23 +136,52 @@ def allowed_principals(
     resource_policy: Policy | None = None,
     context: dict[str, Any] | None = None,
     context_for: Callable[[str], Mapping[str, Any]] | None = None,
+    try_context: bool = True,
 ) -> dict[str, dict[str, Any]]:
     """Every principal in the export whose own policies (with SCPs, its boundary and the resource
     policy) allow the request, with the statements that granted it.
 
     `context_for`, given a caller's account ID, adds context keys that depend on the caller (such
-    as kms:CallerAccount); `context` is the same for every caller."""
+    as kms:CallerAccount); `context` is the same for every caller.
+
+    A real request carries context this check does not have (the region, the transport, MFA). With
+    `try_context`, a denied check is tried again with the values the policies' conditions name
+    (iamtrace.gates, as the escalation analysis does): one that passes with values the caller
+    chooses (such as a region an SCP allows) is allowed; one that needs MFA, a network location or
+    a time window is allowed with "requires" naming it. Without, the empty context decides."""
     direct: dict[str, dict[str, Any]] = {}
     for arn, node in env.nodes.items():
         ctx = {**(context or {}), **(context_for(node.account) if context_for else {})}
-        req = Request(node.caller(), action, resource, resource_account=account_of(resource, node.account), context=ctx)
+        caller = node.caller()
+        res_acct = account_of(resource, node.account)
         ps = PolicySet(
             identity=node.policies,
             boundary=node.boundary,
             scps=scps,
             resource=[resource_policy] if resource_policy else [],
         )
-        r = evaluate(req, ps)
+        r = evaluate(Request(caller, action, resource, resource_account=res_acct, context=ctx), ps)
+        requires: list[dict[str, str]] = []
+        if not r.allowed and try_context:
+            involved = [
+                *node.policies,
+                *([node.boundary] if node.boundary else []),
+                *(p for level in scps or [] for p in level),
+                *([resource_policy] if resource_policy else []),
+            ]
+
+            def allowed_in(
+                c: dict[str, Any], caller: Any = caller, res_acct: str | None = res_acct, ps: PolicySet = ps
+            ) -> bool:
+                return evaluate(Request(caller, action, resource, resource_account=res_acct, context=c), ps).allowed
+
+            found = find_gates(allowed_in, ctx, involved)
+            if found is not None:
+                # Re-run with values that work, for the trace of what granted it.
+                attacker = _attacker_values(involved, {**ctx, **{k: v for _, k, v in found}}, allowed_in)
+                if attacker is not None:
+                    r = evaluate(Request(caller, action, resource, resource_account=res_acct, context=attacker), ps)
+                    requires = describe(found)
         if r.allowed:
             grants = [
                 f"{m.policy_id} / {m.statement}"
@@ -160,7 +191,28 @@ def allowed_principals(
                 if m.effect == "Allow" and m.policy_type in ("identity", "resource")
             ]
             direct[arn] = {"principal": arn, "kind": node.kind, "granted_by": sorted(set(grants))}
+            if requires:
+                direct[arn]["requires"] = requires
     return direct
+
+
+def _attacker_values(
+    policies: list[Policy], context: dict[str, Any], allowed: Callable[[dict[str, Any]], bool]
+) -> dict[str, Any] | None:
+    """The context (with caller-chosen values filled in) under which `allowed` is true, given the
+    gated values already in `context`. find_gates proves one exists but does not return it."""
+    if allowed(context):
+        return context
+    cands = condition_values(policies)
+    free = [k for k, (kind, _) in cands.items() if kind == ATTACKER and k not in context]
+    options = [[None, *cands[k][1]] for k in free]
+    for i, values in enumerate(product(*options)):
+        if i > 256:
+            break
+        ctx = {**context, **{k: v for k, v in zip(free, values, strict=True) if v is not None}}
+        if allowed(ctx):
+            return ctx
+    return None
 
 
 def who_can(

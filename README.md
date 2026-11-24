@@ -63,7 +63,7 @@ to do is contribute it there too.
 ## Status
 
 <!-- counts:start -->
-Offline tests: **1189 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
+Offline tests: **1196 passed**, 0 failed, 0 expected failures (open differential disagreements), 1 skipped.
 
 Live differential run: **not run yet**. See "Differential testing" below.
 <!-- counts:end -->
@@ -544,8 +544,18 @@ and what each changed document now allows.
 
 ![Fix plan: one verified Deny statement removes every open path to admin](docs/images/fix-plan.png)
 
-Your data is kept in the browser's IndexedDB so it survives a refresh. Settings lists what is
-saved and deletes any of it.
+Your data is kept in the browser's IndexedDB, so a refresh, a closed tab or a later visit
+(which opens the screen you were on) does not lose it. Settings, Saved data lists what is saved
+and how much of the browser's space it uses, warns when space runs low, and can ask the browser
+not to clear it when the disk fills up. Deleting moves data to a trash, where it can be restored
+for 30 days or deleted for good. Turning saving off deletes everything, trash included.
+
+**Load the sample account** on the Overview fills every screen with a made-up account
+(`examples/sample`, written by `scripts/build_sample.py`): paths of one and two steps, an
+MFA-gated path, a technique an SCP blocks, entry points from GitHub, SAML, a partner account and
+old access keys, every kind of data resource, unused access and a Terraform plan that opens a
+path. Remove it from the banner or Settings when you load your own data, and bring it back any
+time. Loading it never loses your data: anything it replaces goes to the trash first.
 
 Why Pyodide rather than a TypeScript port: the app runs the exact code the CLI and the tests run,
 so the two can't drift apart. The cost is a one-time download of about 13 MB, which the browser

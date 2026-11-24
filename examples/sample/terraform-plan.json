@@ -1,0 +1,86 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.9.5",
+  "resource_changes": [
+    {
+      "address": "aws_iam_role.release",
+      "type": "aws_iam_role",
+      "name": "release",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "name": "release",
+          "path": "/",
+          "assume_role_policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Federated\": \"arn:aws:iam::111122223333:oidc-provider/token.actions.githubusercontent.com\"}, \"Action\": \"sts:AssumeRoleWithWebIdentity\", \"Condition\": {\"StringEquals\": {\"token.actions.githubusercontent.com:aud\": \"sts.amazonaws.com\"}}}]}",
+          "tags": {
+            "team": "platform"
+          }
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_iam_role_policy.release",
+      "type": "aws_iam_role_policy",
+      "name": "release",
+      "change": {
+        "actions": [
+          "create"
+        ],
+        "before": null,
+        "after": {
+          "role": "release",
+          "name": "deploy",
+          "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"lambda:CreateFunction\", \"lambda:InvokeFunction\"], \"Resource\": \"*\"}, {\"Effect\": \"Allow\", \"Action\": \"iam:PassRole\", \"Resource\": \"arn:aws:iam::111122223333:role/lambda-admin\"}]}"
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_iam_role_policy.report_runner",
+      "type": "aws_iam_role_policy",
+      "name": "report_runner",
+      "change": {
+        "actions": [
+          "update"
+        ],
+        "before": {
+          "role": "report-runner",
+          "name": "read-reports",
+          "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"s3:GetObject\", \"s3:PutObject\"], \"Resource\": \"arn:aws:s3:::example-reports/*\"}]}"
+        },
+        "after": {
+          "role": "report-runner",
+          "name": "read-reports",
+          "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": [\"s3:GetObject\", \"s3:PutObject\"], \"Resource\": \"arn:aws:s3:::example-reports/*\"}, {\"Effect\": \"Allow\", \"Action\": \"kms:Decrypt\", \"Resource\": \"arn:aws:kms:us-east-1:111122223333:key/5d1c3b2a-7e6f-4a8b-9c0d-1e2f3a4b5c6d\"}]}"
+        },
+        "after_unknown": {}
+      }
+    },
+    {
+      "address": "aws_iam_user_policy.bob",
+      "type": "aws_iam_user_policy",
+      "name": "bob",
+      "change": {
+        "actions": [
+          "delete"
+        ],
+        "before": {
+          "user": "bob",
+          "name": "everything-in-iam",
+          "policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Action\": \"iam:*\", \"Resource\": \"*\"}]}"
+        },
+        "after": null,
+        "after_unknown": {}
+      }
+    }
+  ],
+  "configuration": {
+    "root_module": {
+      "resources": []
+    }
+  }
+}

@@ -5,12 +5,12 @@
 // the CLI and the test suite run.
 //
 // Network use: only this site. The published build bundles Pyodide, the package, the catalog,
-// fonts and the example account; the Content-Security-Policy in index.html blocks everything else.
+// fonts and the sample account; the Content-Security-Policy in index.html blocks everything else.
 // Inline style attributes are blocked too, so styling goes through classes and element.style.
 
 import { Graph, ICON, KIND_COLOR, KIND_NAME, gateShort } from "./graph.js";
 import { EVALUATE_EXAMPLES, DIFF_EXAMPLE, ATTACK_POLICY_EXAMPLE, CHECK_EXAMPLE } from "./examples.js";
-import { store as dataStore } from "./store.js";
+import { store as dataStore, storageInfo, askPersist, isLow, isQuotaError, TRASH_DAYS } from "./store.js";
 import { buildReport } from "./report.js";
 
 const PYODIDE_URL = new URL(document.querySelector('meta[name="pyodide-url"]').content, location.href).href;
@@ -54,15 +54,30 @@ function kindOf(arn) {
   return "resource";
 }
 function bytes(n) {
-  return n < 1024 ? `${n} B` : n < 1048576 ? `${(n / 1024).toFixed(1)} KB` : `${(n / 1048576).toFixed(1)} MB`;
+  if (n < 1024) return `${n} B`;
+  if (n < 1048576) return `${(n / 1024).toFixed(1)} KB`;
+  if (n < 1073741824) return `${(n / 1048576).toFixed(1)} MB`;
+  return `${(n / 1073741824).toFixed(1)} GB`;
 }
 let toastTimer = null;
-function toast(text) {
+// A short notice at the bottom. With `action`, it carries one button (such as Undo) and stays
+// longer, so there is time to use it.
+function toast(text, action = null) {
   const t = $("toast");
-  t.textContent = text;
+  t.textContent = "";
+  t.append(document.createTextNode(text));
+  t.classList.toggle("has-action", Boolean(action));
+  if (action) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "toast-btn";
+    b.textContent = action.label;
+    b.addEventListener("click", () => { t.classList.remove("on"); action.run(); });
+    t.append(b);
+  }
   t.classList.add("on");
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove("on"), 2200);
+  toastTimer = setTimeout(() => t.classList.remove("on"), action ? 8000 : 2200);
 }
 // A "working" notice over the page. With `cancellable`, it offers Cancel, which stops the engine.
 // The engine runs in a worker, so the page itself never freezes while it waits.
@@ -187,6 +202,7 @@ function go(path) {
   // Docs keep their topic in the address; other screens are just their name.
   const address = view === "docs" && sub.length ? [view, ...sub].join("/") : view;
   if (location.hash !== "#" + address) history.replaceState(null, "", "#" + address);
+  store.set("view", address); // a later visit without an address opens here
   root.classList.remove("nav-open");
   requestAnimationFrame(() => graphs.forEach((g) => g.fit()));
 }
@@ -490,34 +506,123 @@ dz.addEventListener("drop", (e) => { e.preventDefault(); if (e.dataTransfer.file
 window.addEventListener("dragover", (e) => e.preventDefault());
 window.addEventListener("drop", (e) => e.preventDefault());
 
-let exampleText = null;
-async function loadExampleAccount() {
-  if (!exampleText) {
-    const r = await fetch("examples/auth-details.json");
-    if (!r.ok) throw new Error("the example account is missing from this site");
-    exampleText = await r.text();
+// ------------------------------------------------------------------------------------- sample account
+
+// One made-up account (examples/sample, written by scripts/build_sample.py) with something for
+// every screen. Whether a part of the saved data "is the sample" is decided by comparing it with
+// the sample files, so editing a field makes it the user's own.
+const SAMPLE_FILES = {
+  account: "auth-details.json", scp: "scps.json", inv: "inventory.json", cred: "credential-report.csv",
+  usage: "last-accessed.json", terraform: "terraform-plan.json", queries: "queries.json",
+};
+let sampleCache = null;
+async function sampleTexts() {
+  if (!sampleCache) {
+    const pairs = await Promise.all(Object.entries(SAMPLE_FILES).map(async ([k, f]) => {
+      const r = await fetch(`examples/${f}`);
+      if (!r.ok) throw new Error("The sample account is missing from this site");
+      return [k, await r.text()];
+    }));
+    const s = Object.fromEntries(pairs);
+    s.q = JSON.parse(s.queries);
+    sampleCache = s;
   }
-  input.account = exampleText;
-  input.file = { name: "example-account.json", size: exampleText.length, when: new Date() };
-  input.example = true;
+  return sampleCache;
 }
+// The saved parts that hold the sample now.
+const SAMPLE_KEYS = ["account", "analysis", "scp", "inv", "cred", "usage", "terraform", "whocan"];
+function sampleKeys(s) {
+  if (!s) return [];
+  const keys = [];
+  const same = (a, b) => typeof a === "string" && a.trim() !== "" && a.trim() === b.trim(); // saving trims text
+  if (same(input.account, s.account)) {
+    keys.push("account");
+    if (lastRun && lastRun.src !== "policy") keys.push("analysis");
+  }
+  for (const k of ["scp", "inv", "cred", "usage"]) if (same(input[k], s[k])) keys.push(k);
+  if (same(tfText, s.terraform)) keys.push("terraform");
+  if ($("wc-action").value === s.q.whocan.action && $("wc-resource").value === s.q.whocan.resource) keys.push("whocan");
+  return keys;
+}
+let sampleConfirm = false;
+// Loads every part of the sample. Parts of the user's own data it would replace go to the trash
+// first, so loading the sample never loses anything.
+async function loadSample({ run = true } = {}) {
+  let s;
+  try { s = await sampleTexts(); } catch (e) { toast(e.message); return false; }
+  const mine = new Set(sampleKeys(s));
+  const own = SAMPLE_KEYS.filter((k) => !mine.has(k) && SAVED[k].read() != null);
+  let movedId = null;
+  if (own.length) {
+    if (!canTrash()) {
+      if (!sampleConfirm) {
+        sampleConfirm = true;
+        setTimeout(() => { sampleConfirm = false; }, 6000);
+        toast("The sample replaces the data you loaded, and saving is off, so it can't go to the trash. Load the sample again to continue.");
+        return false;
+      }
+    } else {
+      try { movedId = await moveToTrash(own, "Your data, replaced by the sample"); } catch (e) { toast(saveErrorText(e)); return false; }
+    }
+  }
+  sampleConfirm = false;
+  input.account = s.account;
+  input.file = { name: "sample-account.json", size: s.account.length, when: new Date() };
+  input.example = true;
+  input.start = s.q.start;
+  input.scp = s.scp; input.inv = s.inv; input.cred = s.cred; input.usage = s.usage;
+  tfText = s.terraform; tfState();
+  $("wc-action").value = s.q.whocan.action; $("wc-resource").value = s.q.whocan.resource;
+  $("wc-policy").value = ""; $("wc-context").value = ""; $("wc-result").innerHTML = "";
+  for (const k of ["account", "scp", "inv", "cred", "usage", "terraform", "whocan"]) persist(k);
+  setSource("account");
+  refreshSaveStatus();
+  if (currentView === "settings") renderSaved();
+  const done = () => toast(own.length ? "Sample account loaded. The data it replaced is in the trash." : "Sample account loaded",
+    movedId ? { label: "Undo", run: () => restoreTrash(movedId) } : null);
+  if (!run) { done(); return true; }
+  whenReady(async () => {
+    const out = await call("account_principals", input.account);
+    input.principals = out.principals || [];
+    if (!input.principals.includes(input.start)) input.start = input.principals[0];
+    renderPicker(input.principals);
+    updateRun();
+    await runAnalysis();
+    done();
+  });
+  if (!api) overlay("Starting the analysis engine");
+  return true;
+}
+async function removeSample() {
+  let s;
+  try { s = await sampleTexts(); } catch (e) { return toast(e.message); }
+  const keys = sampleKeys(s);
+  if (!keys.length) return toast("No sample data is loaded");
+  let id = null;
+  if (canTrash()) {
+    try { id = await moveToTrash(keys, "Sample account"); } catch (e) { return toast(saveErrorText(e)); }
+  }
+  clearKeys(keys);
+  toast("Sample data removed", id ? { label: "Undo", run: () => restoreTrash(id) } : null);
+}
+
 $("ed-example").addEventListener("click", async () => {
-  if (input.src === "account") await loadExampleAccount();
-  else if (input.src === "policy") input.policy = JSON.stringify(ATTACK_POLICY_EXAMPLE, null, 2);
-  else if (input.src === "inv") {
-    const r = await fetch("examples/inventory.json");
-    input.inv = r.ok ? await r.text() : "";
-    if (!input.account.trim()) await loadExampleAccount();
-  } else if (input.src === "cred") {
-    const r = await fetch("examples/credential-report.csv");
-    input.cred = r.ok ? await r.text() : "";
-    if (!input.account.trim()) await loadExampleAccount();
-  } else if (input.src === "usage") {
-    const r = await fetch("examples/last-accessed.json");
-    input.usage = r.ok ? await r.text() : "";
-    if (!input.account.trim()) await loadExampleAccount();
-  } else input.scp = JSON.stringify([{ Version: "2012-10-17", Statement: [{ Sid: "AllowAll", Effect: "Allow", Action: "*", Resource: "*" }] },
-    { Version: "2012-10-17", Statement: [{ Sid: "DenyLeavingOrg", Effect: "Deny", Action: "organizations:LeaveOrganization", Resource: "*" }] }], null, 2);
+  if (input.src === "policy") {
+    input.policy = JSON.stringify(ATTACK_POLICY_EXAMPLE, null, 2);
+    setSource("policy");
+    return;
+  }
+  let s;
+  try { s = await sampleTexts(); } catch (e) { return toast(e.message); }
+  // The other inputs belong to an account: with no account, or the sample's, the whole sample
+  // loads; next to the user's own account only this one file does.
+  if (input.src === "account" || !input.account.trim() || input.account.trim() === s.account.trim()) {
+    await loadSample({ run: false });
+    setSource(input.src);
+    return;
+  }
+  input[input.src] = s[input.src];
+  persist(input.src);
   setSource(input.src);
 });
 
@@ -930,7 +1035,7 @@ function emptyOverview() {
   return `<div class="glass empty-state"><span class="es-ic">${IC.upload}</span>
     <h2>No account analysed yet</h2>
     <p>Load the output of <span class="mono">aws iam get-account-authorization-details</span>, pick who the attacker starts as, and iam-trace shows every path to admin.</p>
-    <div class="row"><button class="btn primary lg" data-go="input">Load your data</button><button class="btn lg" id="try-example">Try the example account</button></div></div>`;
+    <div class="row"><button class="btn primary lg" data-go="input">Load your data</button><button class="btn lg" id="try-example">Load the sample account</button></div></div>`;
 }
 
 function renderOverview() {
@@ -985,7 +1090,7 @@ function renderOverview() {
   const inv = m.inventory;
   const blast = m.report.blast_radius;
 
-  const banner = m.example ? `<div class="banner">${IC.info}<span>You are looking at the example account. Load your own export to analyse your account.</span><button class="btn" data-go="input">Load your data</button></div>` : "";
+  const banner = m.example ? `<div class="banner">${IC.info}<span>You are looking at the sample account, a made-up one. Load your own export to analyse your account.</span><span class="banner-btns"><button class="btn" data-go="input">Load your data</button><button class="btn" id="banner-remove-sample">Remove sample data</button></span></div>` : "";
 
   const kpi = (cls, icon, label, value, sub, stack, key) => `<div class="kpi glass ${cls}"><div class="kh"><span class="ki">${icon}</span>${label}</div>
     <div class="kv"><b>${value}</b><span>${sub}</span></div>${stack ? `<div class="stack">${stack}</div>` : ""}${key ? `<div class="stack-key">${key}</div>` : ""}</div>`;
@@ -1073,6 +1178,7 @@ function renderOverview() {
     <div class="glass"><div class="card-h"><h3>Principals at risk</h3><span class="sub">Every principal, most exposed first</span><div class="right"><button class="btn" data-go="findings">All findings</button></div></div>
       <table><thead><tr><th>Principal</th><th>Status</th><th>Shortest path to admin</th><th>Confirmed</th><th>Possible</th><th>Policies</th></tr></thead><tbody>${riskRows}</tbody></table>
       ${ranked.length > 12 ? `<div class="more"><button class="btn" data-go="findings">Show all ${ranked.length} principals in Findings</button></div>` : ""}</div>`;
+  $("banner-remove-sample")?.addEventListener("click", removeSample);
   applyWidths(el);
   hydrateWho(el);
   el.querySelectorAll("#ov-paths .path-item").forEach((p) => p.addEventListener("click", () => { go("graph"); focusPath(Number(p.dataset.path)); }));
@@ -1180,6 +1286,10 @@ function needsHtml(requires) {
   };
   return requires.map(one).join(" and ");
 }
+// Access that only works with MFA, from a network location or in a time window.
+function needsTag(d) {
+  return d.requires && d.requires.length ? ` <span class="tag warn" title="${esc(d.requires.map((g) => g.text).join("; "))}">Needs ${esc(gateShort(d.requires))}</span>` : "";
+}
 // An action that may break after its service prefix, never inside the name: "iam:<wbr>PassRole".
 function actionWbr(a) { return esc(a).replace(":", ":<wbr>"); }
 function dataKind(kind) { return DATA_KIND[kind] || ["Resource", BUCKET_ICON]; }
@@ -1198,7 +1308,7 @@ function dataEmpty() {
   return `<div class="glass empty-card"><h3>No data resources to check yet</h3>
     <p>The account export says who has which permissions, but not which buckets, keys, secrets, tables, topics and queues exist or what their own policies say. Collect them, read-only, and load the file under <b>Resource inventory</b> in Data input:</p>
     <div class="cmd">iam-trace inventory collect --out inventory.json<button class="icon-btn copy" data-copy="iam-trace inventory collect --out inventory.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
-    <div class="row-actions"><button class="btn primary" id="dx-example">Try the example inventory</button><button class="btn" data-go="input">Open Data input</button></div></div>`;
+    <div class="row-actions"><button class="btn primary" id="dx-example">Load the sample account</button><button class="btn" data-go="input">Open Data input</button></div></div>`;
 }
 function renderData() {
   const body = $("data-body"), m = model;
@@ -1209,13 +1319,7 @@ function renderData() {
   const rows = m.data.resources;
   if (!rows.length) {
     body.innerHTML = dataEmpty();
-    $("dx-example")?.addEventListener("click", async () => {
-      const r = await fetch("examples/inventory.json");
-      input.inv = r.ok ? await r.text() : "";
-      persist("inv");
-      await runAnalysis();
-      go("data");
-    });
+    $("dx-example")?.addEventListener("click", () => loadSample());
     return;
   }
   const counts = ["Critical", "High", "Medium", "Low"].map((r) => [r, rows.filter((x) => x.rating === r).length]).filter(([, n]) => n);
@@ -1241,7 +1345,7 @@ async function openData(arn, access) {
     ${r.notes.map((n) => `<div class="callout">${esc(n)}</div>`).join("")}
     ${sec("Outside the account", r.outside.map((o) => `<div class="dx-row"><span class="mono">${esc(o.principal)}</span><small>${esc(sentence(o.what))} ${o.statement ? `(${esc(o.statement)})` : ""}</small></div>`))}
     ${sec("By escalating", r.via.map(chain))}
-    ${sec("Directly", r.direct.map((d) => `<div class="dx-row"><span class="mono">${esc(short(d.principal))}</span><small>${esc(d.granted_by.map((g) => short(g.split(" / ")[0]) + ", " + (g.split(" / ")[1] || "")).join("; "))}</small></div>`), "Nobody in the export.")}
+    ${sec("Directly", r.direct.map((d) => `<div class="dx-row"><span class="mono">${esc(short(d.principal))}${needsTag(d)}</span><small>${esc(d.granted_by.map((g) => short(g.split(" / ")[0]) + ", " + (g.split(" / ")[1] || "")).join("; "))}</small></div>`), "Nobody in the export.")}
     ${sec("Allowed, but blocked by the encryption key", r.blocked_by_key.map((d) => `<div class="dx-row"><span class="mono">${esc(short(d.principal))}</span><small>Not allowed ${(d.missing || []).map((a) => `<code class="c">${esc(a)}</code>`).join(" and ")} on the KMS key, by its own policies or the key policy.</small></div>`))}`;
   openSheet(`Who can ${access} ${dataName(arn)}`, html, "", "Back to Data access");
   $("sheet-body").querySelectorAll("[data-dx-access]").forEach((b) => b.addEventListener("click", () => openData(arn, b.dataset.dxAccess)));
@@ -1265,7 +1369,7 @@ function unusedEmpty() {
   return `<div class="glass empty-card"><h3>Add last accessed data</h3>
     <p>IAM records when each user and role last used each service it is allowed, over the last 400 days. Collect it, read-only, and load the file under <b>Last accessed</b> in Data input. Unused access then shows which allowed services nobody uses, the policies without them, and which paths to admin that closes.</p>
     <div class="cmd">${esc(USAGE_CMD)}<button class="icon-btn copy" data-copy="${esc(USAGE_CMD)}" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
-    <div class="row-actions"><button class="btn primary" id="un-example">Try the example</button><button class="btn" id="un-open-input">Open Last accessed</button></div></div>`;
+    <div class="row-actions"><button class="btn primary" id="un-example">Load the sample account</button><button class="btn" id="un-open-input">Open Last accessed</button></div></div>`;
 }
 function renderUnused() {
   const body = $("unused-body"), m = model;
@@ -1277,15 +1381,7 @@ function renderUnused() {
   const u = m.unused;
   if (!u) {
     body.innerHTML = unusedEmpty();
-    $("un-example").addEventListener("click", async () => {
-      const r = await fetch("examples/last-accessed.json");
-      if (!r.ok) return toast("The example is missing from this site");
-      if (m.example || !input.account.trim()) { await loadExampleAccount(); persist("account"); }
-      input.usage = await r.text();
-      persist("usage");
-      await runAnalysis();
-      go("unused");
-    });
+    $("un-example").addEventListener("click", () => loadSample());
     $("un-open-input").addEventListener("click", () => { go("input"); setSource("usage"); });
     return;
   }
@@ -1350,7 +1446,6 @@ $("un-days").addEventListener("change", async () => {
 // The IAM changes in a Terraform plan (iamtrace.terraform). With an account loaded, the plan is
 // applied to a copy of it and the review says what the change does to the account.
 let tfText = "";
-try { tfText = sessionStorage.getItem("iamtrace.tf") || ""; } catch { /* storage may be unavailable */ }
 function tfState() {
   $("tf-text").value = tfText;
   $("tf-run").disabled = !tfText.trim();
@@ -1361,7 +1456,7 @@ function tfState() {
 }
 function setTf(text) {
   tfText = text;
-  try { sessionStorage.setItem("iamtrace.tf", text.length < 4_000_000 ? text : ""); } catch { /* full or unavailable */ }
+  persist("terraform");
   tfState();
 }
 $("tf-text").addEventListener("input", () => setTf($("tf-text").value));
@@ -1372,9 +1467,11 @@ $("tf-file").addEventListener("change", async (e) => { const f = e.target.files[
 ["dragleave", "drop"].forEach((t) => $("tf-drop").addEventListener(t, () => $("tf-drop").classList.remove("over")));
 $("tf-drop").addEventListener("drop", async (e) => { e.preventDefault(); const f = e.dataTransfer.files[0]; const t = f && await readUploadOrToast(f); if (t !== null && t !== undefined) setTf(t); });
 $("tf-example").addEventListener("click", async () => {
-  const r = await fetch("examples/terraform-plan.json");
-  if (r.ok) setTf(await r.text());
-  if (!input.account.trim()) { await loadExampleAccount(); persist("account"); tfState(); }
+  let s;
+  try { s = await sampleTexts(); } catch (e) { return toast(e.message); }
+  // The plan changes the sample account, so without an account of your own the sample loads too.
+  if (!input.account.trim() || input.account.trim() === s.account.trim()) await loadSample({ run: false });
+  else setTf(s.terraform);
 });
 $("tf-run").addEventListener("click", async () => {
   const useAccount = $("tf-account").checked && input.account.trim();
@@ -1598,18 +1695,8 @@ function hydrateWho(el) {
   el.querySelectorAll(".who[data-kind], .d-head[data-kind]").forEach((w) => w.style.setProperty("--kind", KIND_COLOR[w.dataset.kind] || KIND_COLOR.resource));
 }
 
-async function runExample() {
-  await loadExampleAccount();
-  setSource("account");
-  whenReady(async () => {
-    const out = await call("account_principals", input.account);
-    input.principals = out.principals || [];
-    input.start = input.principals.find((p) => p.endsWith(":user/dev")) || input.principals[0];
-    renderPicker(input.principals);
-    updateRun();
-    await runAnalysis();
-  });
-  if (!api) overlay("Starting the analysis engine");
+function runExample() {
+  return loadSample();
 }
 
 // ------------------------------------------------------------------------------------- graph
@@ -1655,7 +1742,7 @@ function renderGraphView() {
   if (!model) {
     main.setData(null);
     $("g-summary").className = "";
-    $("g-summary").textContent = "No analysis yet. Load an account export in Data input, or try the example account from the Overview.";
+    $("g-summary").textContent = "No analysis yet. Load an account export in Data input, or load the sample account from the Overview.";
     $("g-paths").innerHTML = "";
     return;
   }
@@ -2194,9 +2281,10 @@ $("d-run").addEventListener("click", async () => {
 // Uses the account export (and SCPs and inventory) from Data input. Each principal is evaluated
 // with the same engine as Evaluate; escalation paths come from the attack-path analysis.
 const WC_EXAMPLES = [
-  ["s3:PutObject", "arn:aws:s3:::example-reports/out.csv"],
-  ["iam:PassRole", "arn:aws:iam::111122223333:role/ec2-admin"],
-  ["lambda:UpdateFunctionCode", "arn:aws:lambda:us-east-1:111122223333:function:nightly-report"],
+  ["secretsmanager:GetSecretValue", "arn:aws:secretsmanager:us-east-1:111122223333:secret:example-api-token-R4t5Y6"],
+  ["s3:GetObject", "arn:aws:s3:::example-reports/q3.csv"],
+  ["iam:PassRole", "arn:aws:iam::111122223333:role/lambda-admin"],
+  ["lambda:UpdateFunctionCode", "arn:aws:lambda:us-east-1:111122223333:function:payments-api"],
 ];
 function wcState() {
   const ready = Boolean(api && input.account.trim() && input.accountValid);
@@ -2213,7 +2301,7 @@ function wcState() {
   }));
   if (!ready && !$("wc-result").innerHTML.includes("wc-sum")) {
     $("wc-result").innerHTML = `<div class="glass empty-state"><span class="es-ic">${IC.info}</span><h2>Load an account first</h2>
-      <p>Who can answers for every user and role in an account export. Load yours in Data input, or open the example account from the Overview.</p>
+      <p>Who can answers for every user and role in an account export. Load yours in Data input, or load the sample account from the Overview.</p>
       <div class="es-actions"><button class="btn primary" data-go="input">Open Data input</button></div></div>`;
     bindGo($("wc-result"));
   } else if (ready && !$("wc-result").innerHTML.includes("wc-sum")) {
@@ -2309,7 +2397,7 @@ async function runWhoCan() {
   }
   const r = out.result;
   const n = r.direct.length + r.via.length;
-  const direct = r.direct.map((d) => `<tr data-arn="${esc(d.principal)}"><td data-label="Principal">${whoCell(d.principal)}</td><td data-label="Granted by" class="td-mono">${d.granted_by.map((g) => esc(short(g))).join("<br>") || '<span class="t-faint">Resource policy</span>'}</td></tr>`).join("");
+  const direct = r.direct.map((d) => `<tr data-arn="${esc(d.principal)}"><td data-label="Principal">${whoCell(d.principal)}${needsTag(d)}</td><td data-label="Granted by" class="td-mono">${d.granted_by.map((g) => esc(short(g))).join("<br>") || '<span class="t-faint">Resource policy</span>'}</td></tr>`).join("");
   const via = r.via.map((v) => `<li class="wc-via" data-arn="${esc(v.principal)}"><div class="wc-via-h">${whoCell(v.principal)}${v.requires ? `<span class="tag warn" title="${esc(v.requires.map((r) => r.text).join("; "))}">Needs ${esc(gateShort(v.requires))}</span>` : ""}<span class="tag high">${plural(v.steps.length, "step")}</span></div>
       ${stepsHtml({ start: v.principal, steps: v.steps })}</li>`).join("");
   const outside = r.outside.map((o) => `<li data-arn="outside:${esc(o.principal)}"><b class="mono">${esc(o.principal)}</b><span>${esc(o.what)}, ${esc(o.statement)}${o.conditional ? ", with a condition" : ""}</span></li>`).join("");
@@ -2460,6 +2548,8 @@ const CHANGES = [
       "<b>Escalation benchmark</b>: all 91 AWS paths in pathfinding.cloud are checked on every change, each built from pathfinding.cloud's own description, together with 1,136 near misses that must not be reported. All 91 are found, 23 of them with a resource inventory, with no false alarms. The table is in <code class='c'>docs/coverage.md</code>.",
       "Resource inventory now also records Batch job definitions, running ECS tasks, EC2 launch templates and Bedrock AgentCore resources, so every existing-resource technique can be confirmed.",
       "<b>Terraform plan</b>: a new screen and <code class='c'>iam-trace terraform</code> review the IAM changes in a plan, and with an account loaded, the paths to admin and entry points it would open. The GitHub Action can post it on pull requests.",
+      "<b>Sample account, trash and storage</b>: <b>Load the sample account</b> fills every screen with a made-up account, and can be removed and brought back in Settings. Deleted data goes to a trash you can restore from for 30 days. Settings shows how much space your data uses and warns when the browser is running low.",
+      "<b>Saved across visits</b>: the Terraform plan is now saved with the rest of your data, and opening iam-trace again returns to the screen you were on.",
       "<b>Data access for secrets, tables, topics and queues</b>: Secrets Manager secrets, DynamoDB tables, SNS topics and SQS queues are rated alongside buckets and keys, each with the KMS permissions its service needs from the caller. A secret on the default key shared with another account is shown as unreadable there.",
       "<b>Data access</b>: a new screen and <code class='c'>iam-trace data</code> rate every S3 bucket and KMS key by who can read and write it, directly, by escalating or from outside the account. Encrypted buckets need the key too; public policies are checked against the key and Block Public Access.",
       "<b>Apply as</b> in the Fix plan: besides Deny statements, the same fix as narrowed Allow statements (with anything else they stop allowing named) or as one SCP. Each is verified by analysing again.",
@@ -2500,7 +2590,8 @@ const CHANGES = [
       "Workflows pin third-party actions to commit SHAs and pass inputs through environment variables.",
       "<code class='c'>catalog refresh</code> refuses to replace a directory holding anything but catalog files.",
       "The web app bundles its Python runtime, loads nothing from third parties, and allows neither eval nor inline styles."]],
-    ["Fixed", ["An account export with one unreadable policy no longer fails as a whole: the policy is left out with a warning. Long names no longer widen screens on phones, the last analysis always comes back after a refresh, and broken saved data is cleared with a message.",
+    ["Fixed", ["Who can and Data access no longer report nobody when an SCP allows only some regions: like the attack paths, they try the region and other values the conditions name, and mark access that needs MFA. Settings now uses the full width of wide screens.",
+      "An account export with one unreadable policy no longer fails as a whole: the policy is left out with a warning. Long names no longer widen screens on phones, the last analysis always comes back after a refresh, and broken saved data is cleared with a message.",
       "Adding yourself to a group counted as admin whatever the group allowed; it now counts only for a group that makes you admin. One target needing MFA no longer marks a whole technique as needing MFA when another target is open.",
       "A principal that could make itself admin without conditions, but was also allowed everything only with MFA, was shown as needing MFA. It is now shown as admin without conditions.",
       "Four techniques the benchmark found wrong: batch-001 and gamelift-001 were missed when the role trusted the service pathfinding.cloud names, cognitoidentity-001 was only possible, and cloudformation-005 was never reported.",
@@ -2735,6 +2826,12 @@ const SAVED = {
     apply: (v) => { $("wc-action").value = v.action; $("wc-resource").value = v.resource; $("wc-policy").value = v.policy || ""; $("wc-context").value = v.context || ""; },
     clear: () => { for (const id of ["wc-action", "wc-resource", "wc-policy", "wc-context"]) $(id).value = ""; $("wc-result").innerHTML = ""; },
   },
+  terraform: {
+    label: "Terraform plan", where: "terraform",
+    read: () => (tfText.trim() ? tfText : null),
+    apply: (v) => { tfText = v; tfState(); },
+    clear: () => { tfText = ""; tfState(); },
+  },
   check: {
     label: "Policy check", where: "check",
     read: () => ($("pc-text").value.trim() || pc.files.length ? { text: $("pc-text").value, files: pc.files, aws: $("pc-aws").checked } : null),
@@ -2757,26 +2854,103 @@ function persist(key) {
   if (!saving.ready) return;
   if (!saving.on || !saving.available) { refreshSaveStatus(); return; }
   clearTimeout(saving.timers.get(key));
-  saving.timers.set(key, setTimeout(async () => {
-    const value = SAVED[key].read();
-    try {
-      if (value == null) await dataStore.del(key);
-      else await dataStore.set(key, value);
-      saving.failed = false;
-    } catch (e) {
-      saving.failed = true;
-      if (!saving.warned) {
-        saving.warned = true;
-        toast("This browser refused to save your data. It will be lost when you close the tab.");
-      }
-      console.warn("iam-trace: could not save", key, e);
-    }
-    saving.timers.delete(key);
-    refreshSaveStatus();
-    if (currentView === "settings") renderSaved();
-  }, 400));
+  saving.timers.set(key, setTimeout(() => { saving.timers.delete(key); writeSaved(key); }, 400));
   refreshSaveStatus();
 }
+async function writeSaved(key) {
+  const value = SAVED[key].read();
+  try {
+    if (value == null) await dataStore.del(key);
+    else await dataStore.set(key, value);
+    saving.failed = false;
+    checkSpace();
+  } catch (e) {
+    saving.failed = true;
+    if (!saving.warned || isQuotaError(e)) {
+      saving.warned = true;
+      saveErrorToast(e);
+    }
+    console.warn("iam-trace: could not save", key, e);
+  }
+  refreshSaveStatus();
+  if (currentView === "settings") renderSaved();
+}
+// Writes what is waiting to be saved now, so a move to the trash takes the latest version.
+async function flushSaves() {
+  const keys = [...saving.timers.keys()];
+  for (const k of keys) clearTimeout(saving.timers.get(k));
+  saving.timers.clear();
+  await Promise.all(keys.map(writeSaved));
+}
+function saveErrorText(e) {
+  if (isQuotaError(e)) return `Not saved: this browser's storage for iam-trace is full${space.info?.supported ? ` (${bytes(space.info.free)} free)` : ""}. Empty the trash or delete saved data you no longer need.`;
+  return `This browser refused to save your data (${e?.message || "unknown error"}). It will be lost when you close the tab.`;
+}
+function saveErrorToast(e) {
+  toast(saveErrorText(e), { label: "Open Settings", run: openSavedSettings });
+}
+function openSavedSettings(sec = "set-saved") {
+  go("settings");
+  requestAnimationFrame(() => $("set-nav").querySelector(`[data-sec=${sec}]`)?.click());
+}
+
+// --- space left -----------------------------------------------------------------------------------
+
+// The browser decides how much this site may store. Low space is checked after saves (at most
+// once a minute) and when Settings opens; the warning shows once per visit, and in Settings.
+const space = { info: null, checkedAt: 0, warned: false };
+async function checkSpace(force = false) {
+  if (!force && Date.now() - space.checkedAt < 60000) return space.info;
+  space.checkedAt = Date.now();
+  space.info = await storageInfo();
+  if (isLow(space.info) && !space.warned && saving.on && saving.available) {
+    space.warned = true;
+    toast(`This browser is low on storage for iam-trace: ${bytes(space.info.free)} left. Saving may stop working.`, { label: "Manage storage", run: openSavedSettings });
+  }
+  refreshSaveStatus();
+  return space.info;
+}
+
+// --- the trash ------------------------------------------------------------------------------------
+
+function canTrash() {
+  return saving.on && saving.available;
+}
+// Moves saved data to the trash as one item. Values not yet written (or never written) go with it.
+async function moveToTrash(keys, label) {
+  await flushSaves();
+  const extra = keys.map((k) => ({ key: k, value: SAVED[k].read() })).filter((e) => e.value != null);
+  const id = await dataStore.trash(keys, label, extra);
+  if (currentView === "settings") renderSaved();
+  return id;
+}
+// Empties the in-app state for these keys (after they were moved to the trash or deleted).
+function clearKeys(keys) {
+  for (const k of keys) {
+    clearTimeout(saving.timers.get(k));
+    saving.timers.delete(k);
+    SAVED[k].clear();
+  }
+  if (keys.includes("account") || keys.includes("analysis")) clearModel();
+  if (keys.some((k) => SAVED[k].where === "input")) setSource(input.src);
+  refreshSaveStatus();
+  if (currentView === "settings") renderSaved();
+}
+async function restoreTrash(id) {
+  let entries;
+  try {
+    await flushSaves();
+    entries = await dataStore.restore(id, "Replaced when restoring from the trash");
+  } catch (e) {
+    return toast(saveErrorText(e));
+  }
+  if (!entries) return toast("That item is no longer in the trash");
+  const restored = applyEntries(entries);
+  if (currentView === "settings") renderSaved();
+  toast(`Restored ${restored.map((k) => SAVED[k].label).join(", ") || "nothing"}`);
+  await resumeAnalysis({ rerun: restored.includes("account") || restored.includes("analysis") });
+}
+
 const SAVE_IC = {
   ok: '<svg class="i" viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg>',
   warn: '<svg class="i" viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.5"/></svg>',
@@ -2790,9 +2964,11 @@ function refreshSaveStatus() {
   if (!saving.on) [state, text, title] = ["off", "Not saved", "Saving is turned off in Settings. Your data is lost when you close or refresh this tab."];
   else if (!saving.available || saving.failed) [state, text, title] = ["error", "Not saved", "This browser is not letting iam-trace save (private browsing or storage full). Your data is lost when you close or refresh this tab."];
   else if (saving.timers.size) [state, text] = ["saving", "Saving"];
+  else if (isLow(space.info)) [state, text, title] = ["low", "Storage low", `Saved, but this browser has only ${bytes(space.info.free)} left for iam-trace. Free some in Settings, Saved data.`];
   el.dataset.state = state;
   el.title = title;
   el.innerHTML = `${state === "ok" || state === "saving" ? SAVE_IC.ok : SAVE_IC.warn}<span>${text}</span>`;
+  if (state === "low") el.addEventListener("click", () => openSavedSettings(), { once: true });
 }
 // Leaving with data that is not saved asks first; the browser shows its own wording.
 window.addEventListener("beforeunload", (e) => {
@@ -2824,17 +3000,39 @@ function clearModel() {
   renderFindings();
 }
 async function deleteSaved(key) {
-  SAVED[key].clear();
-  if (key === "account" || key === "analysis") {
-    if (key === "account") { SAVED.analysis.clear(); await dataStore.del("analysis").catch(() => {}); }
-    clearModel();
+  // The analysis belongs to the account it was run on.
+  const keys = key === "account" ? ["account", "analysis"] : [key];
+  const label = SAVED[key].label;
+  let id = null;
+  if (canTrash()) {
+    try { id = await moveToTrash(keys, label); } catch (e) { return toast(saveErrorText(e)); }
   }
-  if (SAVED[key].where === "input") setSource(input.src);
-  await dataStore.del(key).catch(() => {});
-  refreshSaveStatus();
-  renderSaved();
+  clearKeys(keys);
+  toast(id ? `${label} moved to the trash` : `${label} deleted`, id ? { label: "Undo", run: () => restoreTrash(id) } : null);
 }
-let confirmAll = false;
+// Two clicks, so a single misclick cannot do it. No browser dialog.
+function twoStep(button, again, done, ms = 4000) {
+  if (button.dataset.armed) {
+    delete button.dataset.armed;
+    button.classList.remove("danger");
+    done();
+    return;
+  }
+  const label = button.textContent;
+  button.dataset.armed = "1";
+  button.textContent = again;
+  button.classList.add("danger");
+  setTimeout(() => {
+    if (!button.dataset.armed) return;
+    delete button.dataset.armed;
+    button.textContent = label;
+    button.classList.remove("danger");
+  }, ms);
+}
+const ago = (t) => {
+  const d = Math.floor((Date.now() - t) / 86400000);
+  return d <= 0 ? `today, ${new Date(t).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : d === 1 ? "yesterday" : `${d} days ago`;
+};
 async function renderSaved() {
   const list = $("saved-list");
   if (!list) return;
@@ -2842,11 +3040,14 @@ async function renderSaved() {
   let entries = [];
   if (saving.available) entries = await dataStore.all().catch(() => []);
   const byKey = new Map(entries.map((e) => [e.key, e]));
+  let sample = null;
+  try { sample = await sampleTexts(); } catch { /* the sample controls say it is missing */ }
+  const isSample = new Set(sampleKeys(sample));
   const rows = Object.entries(SAVED).filter(([k]) => byKey.has(k)).map(([k, s]) => {
     const e = byKey.get(k);
     const detail = s.detail ? s.detail(e.value) : bytes(e.bytes);
-    return `<div class="saved-row"><div><b>${esc(s.label)}</b><span>${esc(detail)}, saved ${esc(new Date(e.savedAt).toLocaleString())}</span></div>
-      <button class="btn" data-del="${k}" aria-label="Delete saved ${esc(s.label)}">Delete</button></div>`;
+    return `<div class="saved-row"><div><b>${esc(s.label)}${isSample.has(k) ? '<span class="tag">Sample</span>' : ""}</b><span>${esc(detail)}, saved ${esc(new Date(e.savedAt).toLocaleString())}</span></div>
+      <div class="row-btns"><button class="btn" data-del="${k}" aria-label="Move saved ${esc(s.label)} to the trash">${canTrash() ? "Move to trash" : "Delete"}</button></div></div>`;
   });
   let note = "";
   if (!saving.available) note = '<p class="saved-note warn">This browser is not letting iam-trace save (private browsing, or storage turned off). Your data lasts until you close the tab.</p>';
@@ -2855,35 +3056,115 @@ async function renderSaved() {
   list.querySelectorAll("[data-del]").forEach((b) => b.addEventListener("click", () => deleteSaved(b.dataset.del)));
   const all = $("delete-all");
   all.disabled = !rows.length;
-  confirmAll = false;
-  all.textContent = "Delete all saved data";
+  all.textContent = canTrash() ? "Move all saved data to the trash" : "Delete all saved data";
+  delete all.dataset.armed;
+  all.classList.remove("danger");
+  renderSample(sample, isSample);
+  await renderTrash();
+  await renderStorage(entries);
+}
+function renderSample(sample, isSample) {
+  const el = $("sample-ctl");
+  if (!el) return;
+  if (!sample) {
+    el.innerHTML = '<p>The sample account is missing from this copy of the site.</p>';
+    return;
+  }
+  const parts = [...isSample].filter((k) => k !== "analysis").map((k) => SAVED[k].label);
+  el.innerHTML = parts.length
+    ? `<p>Loaded: ${esc(parts.join(", "))}.</p><div class="row-btns"><button class="btn" id="sample-remove">Remove sample data</button><button class="btn" id="sample-reload">Load it again</button></div>`
+    : `<p>Not loaded.</p><div class="row-btns"><button class="btn primary" id="sample-load">Load the sample account</button></div>`;
+  $("sample-remove")?.addEventListener("click", removeSample);
+  $("sample-reload")?.addEventListener("click", () => { go("overview"); loadSample(); });
+  $("sample-load")?.addEventListener("click", () => { go("overview"); loadSample(); });
+}
+async function renderTrash() {
+  const list = $("trash-list");
+  if (!list) return;
+  const empty = $("trash-empty");
+  if (!saving.available || !saving.on) {
+    list.innerHTML = `<p class="saved-note">${saving.available ? "Saving is off, so deleted data is not kept." : "This browser is not letting iam-trace save, so there is no trash."}</p>`;
+    empty.disabled = true;
+    return;
+  }
+  const items = await dataStore.trashList().catch(() => []);
+  list.innerHTML = items.length
+    ? items.map((t) => {
+      const left = Math.max(0, TRASH_DAYS - Math.floor((Date.now() - t.deletedAt) / 86400000));
+      const what = t.entries.map((e) => SAVED[e.key]?.label || e.key).join(", ");
+      return `<div class="saved-row"><div><b>${esc(t.label)}</b><span>${esc(what)}; ${bytes(t.bytes || 0)}, deleted ${esc(ago(t.deletedAt))}; removed in ${plural(left, "day")}</span></div>
+        <div class="row-btns"><button class="btn" data-restore="${t.id}" aria-label="Restore ${esc(t.label)}">Restore</button><button class="btn" data-forget="${t.id}" aria-label="Delete ${esc(t.label)} for good">Delete for good</button></div></div>`;
+    }).join("")
+    : '<p class="saved-note">The trash is empty.</p>';
+  list.querySelectorAll("[data-restore]").forEach((b) => b.addEventListener("click", () => restoreTrash(Number(b.dataset.restore))));
+  list.querySelectorAll("[data-forget]").forEach((b) => b.addEventListener("click", () => twoStep(b, "Click again to delete", async () => {
+    await dataStore.trashDelete(Number(b.dataset.forget)).catch((e) => toast(saveErrorText(e)));
+    renderSaved();
+  })));
+  empty.disabled = !items.length;
+  empty.textContent = "Empty trash";
+  delete empty.dataset.armed;
+  empty.classList.remove("danger");
+}
+async function renderStorage(entries) {
+  const el = $("storage");
+  if (!el) return;
+  const info = await checkSpace(true);
+  const trash = saving.available ? await dataStore.trashList().catch(() => []) : [];
+  const mine = entries.reduce((n, e) => n + (e.bytes || 0), 0);
+  const binned = trash.reduce((n, t) => n + (t.bytes || 0), 0);
+  const low = isLow(info);
+  let html = "";
+  if (info.supported) {
+    const share = info.quota ? Math.min(1, info.usage / info.quota) : 0;
+    html += `<div class="meter${low ? " low" : ""}" role="meter" aria-label="Storage used" aria-valuemin="0" aria-valuemax="${info.quota}" aria-valuenow="${info.usage}" aria-valuetext="${bytes(info.usage)} of ${bytes(info.quota)}"><i style="width:${(share * 100).toFixed(2)}%"></i></div>`;
+  }
+  html += `<dl class="storage-nums"><dt>Saved data</dt><dd>${bytes(mine)}</dd><dt>Trash</dt><dd>${bytes(binned)}</dd>`
+    + (info.supported
+      ? `<dt>This site in total</dt><dd>${bytes(info.usage)}, with the engine's files</dd><dt>Free for this site</dt><dd>${bytes(info.free)} of ${bytes(info.quota)}</dd>`
+      : "<dt>Free for this site</dt><dd>This browser does not say</dd>")
+    + "</dl>";
+  if (low) {
+    html += `<div class="callout callout-warn"><div><b>Storage is nearly full.</b> ${bytes(info.free)} left for this site. Saving can fail when it runs out. Empty the trash or delete saved data you no longer need; the browser may also free space if you clear other sites' data.</div></div>`;
+  }
+  if (info.supported) {
+    html += `<div class="storage-keep"><span>${info.persisted ? "The browser will keep this data when the disk is low." : "When the disk is low, the browser may clear this site's data without asking."}</span>${info.persisted ? "" : '<button class="btn" id="storage-persist">Ask the browser to keep it</button>'}</div>`;
+  }
+  el.innerHTML = html;
+  $("storage-persist")?.addEventListener("click", async () => {
+    const ok = await askPersist();
+    toast(ok ? "The browser will keep iam-trace's data" : "The browser declined. It decides by itself, often after you bookmark or install the site.");
+    renderSaved();
+  });
 }
 $("save-on").addEventListener("change", async (e) => {
   saving.on = e.target.checked;
   try { localStorage.setItem("iam-trace-save", saving.on ? "on" : "off"); } catch { /* the choice still applies to this tab */ }
+  // Off means nothing stays in this browser: saved data and the trash are deleted.
   if (!saving.on) await dataStore.clear().catch(() => {});
   else for (const k of Object.keys(SAVED)) persist(k);
   refreshSaveStatus();
   renderSaved();
 });
-// Two clicks, so a single misclick cannot wipe everything. No browser dialog.
-$("delete-all").addEventListener("click", async () => {
+$("delete-all").addEventListener("click", () => {
   const b = $("delete-all");
-  if (!confirmAll) {
-    confirmAll = true;
-    b.textContent = "Click again to delete everything";
-    b.classList.add("danger");
-    setTimeout(() => { if (confirmAll) { confirmAll = false; b.textContent = "Delete all saved data"; b.classList.remove("danger"); } }, 4000);
-    return;
-  }
-  b.classList.remove("danger");
-  for (const k of Object.keys(SAVED)) SAVED[k].clear();
-  await dataStore.clear().catch(() => {});
-  clearModel();
-  setSource("account");
-  refreshSaveStatus();
-  renderSaved();
-  toast("All saved data deleted");
+  twoStep(b, canTrash() ? "Click again to move everything to the trash" : "Click again to delete everything", async () => {
+    const keys = Object.keys(SAVED).filter((k) => SAVED[k].read() != null);
+    let id = null;
+    if (canTrash()) {
+      try { id = await moveToTrash(Object.keys(SAVED), "All saved data"); } catch (e) { return toast(saveErrorText(e)); }
+    } else await dataStore.clear().catch(() => {});
+    clearKeys(keys);
+    setSource("account");
+    toast(id ? "All saved data moved to the trash" : "All saved data deleted", id ? { label: "Undo", run: () => restoreTrash(id) } : null);
+  });
+});
+$("trash-empty").addEventListener("click", () => {
+  twoStep($("trash-empty"), "Click again to delete everything in the trash for good", async () => {
+    await dataStore.trashEmpty().catch((e) => toast(saveErrorText(e)));
+    toast("Trash emptied");
+    renderSaved();
+  });
 });
 
 // What each saved entry must look like before it is applied.
@@ -2892,7 +3173,7 @@ function savedShapeOk(key, v) {
   const obj = (x) => x !== null && typeof x === "object" && !Array.isArray(x);
   switch (key) {
     case "account": return obj(v) && str(v.text) && (v.start === undefined || str(v.start)) && (v.file == null || obj(v.file));
-    case "policy": case "scp": case "inv": case "cred": case "usage": return str(v);
+    case "policy": case "scp": case "inv": case "cred": case "usage": case "terraform": return str(v);
     case "analysis": return obj(v) && (v.src === "account" || v.src === "policy") && (v.days === undefined || Number.isInteger(v.days));
     case "evaluate": return obj(v) && ["principal", "action", "resource", "account", "context"].every((k) => str(v[k])) && obj(v.policies);
     case "diff": return obj(v) && str(v.old) && str(v.new);
@@ -2901,19 +3182,18 @@ function savedShapeOk(key, v) {
     default: return v !== undefined;
   }
 }
-async function restoreSaved() {
-  saving.available = await dataStore.available();
-  if (!saving.available || !saving.on) { saving.ready = true; refreshSaveStatus(); return; }
-  let entries = [];
-  try { entries = await dataStore.all(); } catch { saving.failed = true; }
-  // Saved data written by an older version, or damaged, must not break the page: an entry that
-  // does not have the shape this version expects is removed, and the user is told once.
+// Applies saved entries to the page. An entry that does not have the shape this version expects
+// (written by an older version, or damaged) is removed, and the user is told once. Returns the
+// keys applied.
+function applyEntries(entries) {
   const broken = [];
+  const applied = [];
   for (const e of entries) {
     if (!SAVED[e.key]) continue;
     try {
       if (!savedShapeOk(e.key, e.value)) throw new Error("unexpected shape");
       SAVED[e.key].apply(e.value);
+      applied.push(e.key);
     } catch (err) {
       broken.push(e.key);
       try { SAVED[e.key].clear(); } catch { /* nothing more to undo */ }
@@ -2923,24 +3203,43 @@ async function restoreSaved() {
   }
   for (const k of ["account", "policy", "scp", "inv", "cred", "usage"]) if (typeof input[k] !== "string") input[k] = "";
   if (broken.length) toast(`Some saved data could not be read and was removed (${broken.map((k) => SAVED[k].label).join(", ")})`);
-  entries = entries.filter((e) => !broken.includes(e.key));
-  saving.ready = true;
-  if (entries.some((e) => ["account", "policy", "scp", "inv", "cred", "usage"].includes(e.key))) setSource(lastRun?.src === "policy" ? "policy" : input.src);
+  if (applied.some((k) => SAVED[k].where === "input")) setSource(lastRun?.src === "policy" ? "policy" : input.src);
   refreshSaveStatus();
-  if (lastRun) {
-    whenReady(async () => {
-      if (lastRun.src !== "policy") await accountChecked;
-      if (lastRun.src === "policy" ? !input.policy.trim() : !(input.account.trim() && input.accountValid && input.start)) return;
-      const days = lastRun.days; // running again starts a new record
-      await runAnalysis({ restoring: true, src: lastRun.src });
-      // The unused-access window chosen last time.
-      if (days && model?.unused && model.unused.days !== days) {
-        $("un-days").value = String(days);
-        $("un-days").dispatchEvent(new Event("change"));
-      }
-      if (currentView === "input") go("overview");
-    });
-  }
+  return applied;
+}
+// Runs the saved analysis again (results are not stored, only how to get them).
+async function resumeAnalysis({ rerun = true } = {}) {
+  if (!lastRun || !rerun) return;
+  whenReady(async () => {
+    if (lastRun.src !== "policy") await accountChecked;
+    if (lastRun.src === "policy" ? !input.policy.trim() : !(input.account.trim() && input.accountValid && input.start)) return;
+    const days = lastRun.days; // running again starts a new record
+    await runAnalysis({ restoring: true, src: lastRun.src });
+    // The unused-access window chosen last time.
+    if (days && model?.unused && model.unused.days !== days) {
+      $("un-days").value = String(days);
+      $("un-days").dispatchEvent(new Event("change"));
+    }
+    if (currentView === "input") go("overview");
+  });
+}
+async function restoreSaved() {
+  saving.available = await dataStore.available();
+  if (!saving.available || !saving.on) { saving.ready = true; refreshSaveStatus(); return; }
+  let entries = [];
+  try { entries = await dataStore.all(); } catch { saving.failed = true; }
+  applyEntries(entries);
+  saving.ready = true;
+  // A Terraform plan from before it was saved here lived in sessionStorage.
+  try {
+    const old = sessionStorage.getItem("iamtrace.tf");
+    if (old && !tfText) setTf(old);
+    sessionStorage.removeItem("iamtrace.tf");
+  } catch { /* storage may be unavailable */ }
+  refreshSaveStatus();
+  dataStore.trashPurge().catch(() => {});
+  checkSpace(true);
+  await resumeAnalysis();
 }
 
 // ------------------------------------------------------------------------------------- command palette
@@ -2964,13 +3263,15 @@ function palItems() {
   const items = [];
   const add = (group, title, run, o = {}) => items.push({ group, title, run, icon: o.icon || PI.run, hint: o.hint || "", keys: (o.keys || "").toLowerCase(), top: o.top !== false });
   for (const [view, [grp, name]] of Object.entries(VIEWS)) add("Screens", name, () => go(view), { icon: PI.screen, hint: grp, keys: view });
-  add("Commands", "Load the example account", () => { go("overview"); runExample(); }, { keys: "demo sample try" });
+  add("Commands", "Load the sample account", () => { go("overview"); loadSample(); }, { keys: "demo example try" });
+  if (input.example) add("Commands", "Remove sample data", removeSample, { keys: "demo example clear reset" });
+  add("Commands", "Open the trash", () => openSavedSettings("set-trash"), { keys: "deleted restore undo bin recycle" });
   add("Commands", "Load your own data", () => go("input"), { keys: "upload import export file account" });
   if (model) add("Commands", "Download report", downloadReport, { keys: "export html pdf share print" });
   if (model && whatIf.size) add("Commands", "Restore every cut step", () => { go("graph"); whatIf.clear(); setCut([], false); }, { keys: "what-if reset" });
   const dark = root.dataset.mode === "dark";
   add("Commands", dark ? "Switch to light mode" : "Switch to dark mode", () => document.querySelector(`[data-set=mode] [data-v=${dark ? "light" : "dark"}]`)?.click(), { keys: "theme appearance colour color" });
-  add("Commands", "Delete saved data", () => { go("settings"); requestAnimationFrame(() => $("set-nav").querySelector("[data-sec=set-saved]")?.click()); }, { keys: "clear reset privacy indexeddb storage" });
+  add("Commands", "Delete saved data", () => openSavedSettings(), { keys: "clear reset privacy indexeddb storage space quota" });
   add("Commands", "Report a problem on GitHub", () => window.open(ISSUES, "_blank", "noopener"), { keys: "bug issue feedback" });
   if (model) {
     const rank = (p) => (p.admin_equivalent ? 0 : p.path ? 1 : 2);
@@ -3100,6 +3401,6 @@ renderOverview();
 renderFindings();
 setSource("account");
 loadEvExample(EVALUATE_EXAMPLES[0]);
-go(location.hash.slice(1) || "overview");
+go(location.hash.slice(1) || store.get("view", "overview"));
 whenReady(() => { validate(); updateRun(); });
 restoreSaved();

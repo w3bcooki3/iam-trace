@@ -6,6 +6,21 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- A new sample account (`examples/sample`, written by `scripts/build_sample.py`) with something on
+  every screen: paths of one and two steps, an MFA-gated path, a technique an SCP blocks, entry
+  points from GitHub, SAML, a partner account and old access keys, every kind of data resource,
+  unused access and a Terraform plan that opens a path. `tests/unit/test_sample.py` checks each.
+- In the web app, the sample can be removed and brought back (Settings, Saved data, or the
+  banner on the Overview). Removing it moves only the sample's parts to the trash; loading it over
+  your own data moves yours to the trash first.
+- A trash for saved data. Deleting saved data moves it there, with Undo; it can be restored or
+  deleted for good, and items older than 30 days are removed.
+- Storage in Settings: how much iam-trace saves, the trash, and the space the browser allows,
+  with a warning when space runs low and a clear message when the browser's storage is full. A
+  button asks the browser to keep the data when the disk is low.
+- The Terraform plan is saved with the rest of your data (it was kept for the tab only), and a
+  visit without an address opens the screen you were on.
+
 - Data access covers Secrets Manager secrets, DynamoDB tables, SNS topics and SQS queues, as well
   as S3 buckets and KMS keys. Each service's read, write and delete actions are checked, with the
   KMS permissions it needs from the caller (for example `kms:GenerateDataKey` and `kms:Decrypt` to
@@ -215,6 +230,13 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
   Content-Security-Policy allows neither `unsafe-eval` nor inline styles.
 
 ### Fixed
+
+- Who can and Data access checked requests with no context, so a common SCP that allows only
+  some regions denied everything and both said nobody had access. Like the escalation analysis,
+  they now try the values the conditions name: a region or transport the caller chooses counts,
+  and access that needs MFA or a network location is shown with "Needs MFA" (or the location).
+- The Settings page was held in a narrow centred column on wide screens; it now uses the width,
+  with each setting's description beside its control.
 
 - On phones the fix plan's buttons ran 3px past the card, and at tablet widths the Settings tab
   bar ran 6px past the page edge, so the page could be dragged sideways.

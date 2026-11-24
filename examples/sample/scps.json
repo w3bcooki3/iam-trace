@@ -1,0 +1,54 @@
+[
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "FullAWSAccess",
+        "Effect": "Allow",
+        "Action": "*",
+        "Resource": "*"
+      }
+    ]
+  },
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "ApprovedRegionsOnly",
+        "Effect": "Deny",
+        "NotAction": [
+          "iam:*",
+          "sts:*",
+          "organizations:*",
+          "support:*",
+          "cloudfront:*",
+          "route53:*"
+        ],
+        "Resource": "*",
+        "Condition": {
+          "StringNotEquals": {
+            "aws:RequestedRegion": [
+              "us-east-1",
+              "eu-west-1"
+            ]
+          }
+        }
+      },
+      {
+        "Sid": "NoGlueDevEndpoints",
+        "Effect": "Deny",
+        "Action": [
+          "glue:CreateDevEndpoint",
+          "glue:UpdateDevEndpoint"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "StayInTheOrganization",
+        "Effect": "Deny",
+        "Action": "organizations:LeaveOrganization",
+        "Resource": "*"
+      }
+    ]
+  }
+]

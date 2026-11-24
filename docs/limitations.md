@@ -156,6 +156,9 @@ These are covered only by hand-written tests that quote the AWS docs
 
 ## Data access
 
+- A denied check is tried again with the values the policies' conditions name (regions, MFA,
+  source IPs, ...), as in the escalation analysis. Values that appear in no condition are not
+  invented, and at most 256 combinations are tried per check.
 - Covers S3 buckets, KMS keys, Secrets Manager secrets, DynamoDB tables, SNS topics and SQS
   queues from the inventory. Object ACLs, access points, S3 Object Ownership, VPC endpoint
   policies and KMS grants are not modelled. Other data stores (RDS, EFS, Kinesis, ECR, ...) are

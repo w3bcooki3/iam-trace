@@ -136,7 +136,7 @@
           </div>
           <div class="file-row" id="file-row" hidden><span class="fi"><svg class="i" viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg></span><div><b class="mono" id="file-name"></b><small id="file-meta"></small></div><span class="tag ok" id="file-tag">Loaded</span><button class="icon-btn" id="file-clear" title="Clear" aria-label="Clear"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
           <div class="editor">
-            <div class="editor-bar"><span class="fname" id="ed-name">auth-details.json</span><span id="ed-type">JSON</span><div class="right"><button class="link-like btn" id="ed-example">Load example</button><span id="ed-lines"></span></div></div>
+            <div class="editor-bar"><span class="fname" id="ed-name">auth-details.json</span><span id="ed-type">JSON</span><div class="right"><button class="link-like btn" id="ed-example">Load sample</button><span id="ed-lines"></span></div></div>
             <div class="editor-body"><div class="gutter" id="gutter" aria-hidden="true"></div><textarea id="editor" spellcheck="false" aria-label="Input JSON" placeholder="Paste JSON here"></textarea></div>
           </div>
         </div>
@@ -261,7 +261,7 @@
     <section class="view" id="v-terraform"><div class="page workspace">
       <div class="page-head">
         <div><h1>Terraform plan</h1><p>Review the IAM changes in a plan before you apply it: new escalation techniques, risky patterns, and with an account loaded, new paths to admin and new entry points.</p></div>
-        <div class="actions"><button class="btn" id="tf-example">Load example</button><button class="btn primary" id="tf-run" disabled>Review plan</button></div>
+        <div class="actions"><button class="btn" id="tf-example">Load sample</button><button class="btn primary" id="tf-run" disabled>Review plan</button></div>
       </div>
       <div class="pc-grid">
         <div>
@@ -362,7 +362,7 @@
             <li><strong>Explore.</strong> Open the Attack graph to see each step, and Findings for the full list.</li>
           </ol>
           <div class="codeblock"><div class="cb-h">terminal<button class="copy">Copy</button></div><pre>aws iam get-account-authorization-details --output json &gt; auth-details.json</pre></div>
-          <p>No account handy? Press <strong>Load example</strong> in Data input to try a small sample account.</p>
+          <p>No account handy? Press <strong>Load the sample account</strong> on the Overview (or <strong>Load sample</strong> in Data input). It is a made-up account with something on every screen, and you can remove it, or bring it back, in Settings, Saved data.</p>
           <h3>Finding your way around</h3>
           <p>Press <kbd>Ctrl</kbd> <kbd>K</kbd> (<kbd>⌘</kbd> <kbd>K</kbd> on a Mac), or <kbd>/</kbd> when you are not typing in a field, to search every screen, principal, documentation topic and heading, and run common commands such as Download report. On a phone, use the search button at the top. Choosing a principal opens it on the attack graph, or in Findings if it has no route to admin.</p>
         </section>
@@ -391,10 +391,10 @@
           <p>Each change says what the principal can no longer do and names the statement that grants the permission, if you would rather narrow that statement than add a Deny. <strong>Show on graph</strong> cuts the steps so you can see the result; <strong>Download policies</strong> saves them as JSON.</p>
           <p><strong>Apply as</strong> switches between three forms of the same fix, each verified separately: Deny statements; <strong>Narrow the Allow</strong>, which rewrites the statements that grant the permissions (removing an action, or limiting it to the resources that should keep it) and names anything else the edit stops allowing; and <strong>One SCP</strong> for AWS Organizations, limited to each principal with <code class="c">aws:PrincipalArn</code>. Paths that need MFA or a network location are left alone unless you choose <em>Cut them too</em>: access like that is usually intended, such as break-glass admin with MFA.</p>
           <h3>Example</h3>
-          <p>In the sample account, the user <code class="c">dev</code> can assume the role <code class="c">ops</code> (technique sts-001). <code class="c">ops</code> can launch an EC2 instance with the <code class="c">ec2-admin</code> role attached and read its credentials (ec2-001). <code class="c">ec2-admin</code> has full access. So dev reaches admin in two steps:</p>
-          <div class="codeblock"><div class="cb-h">result</div><pre>user/dev --[<span class="r">sts-001</span>]--> role/ops --[<span class="r">ec2-001</span>]--> role/ec2-admin
+          <p>In the sample account, people who sign in through the company's SAML identity provider get the role <code class="c">sso-readonly</code>, which can assume <code class="c">app-support</code> (technique sts-001). <code class="c">app-support</code> can change the code of the <code class="c">payments-api</code> Lambda function, which runs as <code class="c">lambda-admin</code> (lambda-003). <code class="c">lambda-admin</code> has full access. So a read-only sign-in reaches admin in two steps:</p>
+          <div class="codeblock"><div class="cb-h">result</div><pre>role/sso-readonly --[<span class="r">sts-001</span>]--> role/app-support --[<span class="r">lambda-003</span>]--> role/lambda-admin
          allowed every action on every resource</pre></div>
-          <p>Removing either step breaks the path. Narrowing <code class="c">iam:PassRole</code> on <code class="c">ops</code> is usually the least disruptive fix.</p>
+          <p>Removing either step breaks the path. Limiting who can update <code class="c">payments-api</code>, or giving the function a role with only what it needs, is usually the least disruptive fix.</p>
           <h3>What if I remove this step?</h3>
           <p>Select a technique label on the graph and choose <strong>Cut this step</strong>, or use <strong>Simulate</strong> next to a recommended fix on the Overview. iam-trace searches every confirmed step in the analysis again and tells you whether the attacker still reaches admin. If another route exists, it is drawn on the graph so you can cut that too. Cuts only change the view: the analysis and your saved data stay as they are. Run the analysis again after you change the policies to confirm the fix.</p>
           <h3>Sharing the result</h3>
@@ -651,7 +651,7 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
       <div class="page-head"><div><h1>Settings</h1><p>Saved in this browser only. Nothing is sent anywhere.</p></div></div>
       <div class="pg2-grid">
       <nav class="pg2-nav" id="set-nav" aria-label="Settings sections">
-        <button data-sec="set-appearance" class="on">Appearance</button><button data-sec="set-graph">Attack graph</button><button data-sec="set-saved">Saved data</button><button data-sec="set-privacy">Privacy</button><button data-sec="set-about">About</button>
+        <button data-sec="set-appearance" class="on">Appearance</button><button data-sec="set-graph">Attack graph</button><button data-sec="set-saved">Saved data</button><button data-sec="set-trash">Trash</button><button data-sec="set-privacy">Privacy</button><button data-sec="set-about">About</button>
       </nav>
       <div class="pg2-body">
       <div class="glass set-card" id="set-appearance">
@@ -688,14 +688,26 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
       </div>
       <div class="glass set-card" id="set-saved">
         <div class="card-h"><h2>Saved data</h2></div>
-        <div class="set-row" id="saved-data"><div class="lab"><b>Remember my work</b><span>Kept in this browser's storage (IndexedDB) so a refresh or a closed tab does not lose your work. Turn it off on a shared computer.</span></div>
+        <div class="set-row" id="saved-data"><div class="lab"><b>Remember my work</b><span>Kept in this browser's storage (IndexedDB) so a refresh, a closed tab or a later visit does not lose your work. Turn it off on a shared computer.</span></div>
           <div class="saved">
             <label class="toggle">Remember my data in this browser<input type="checkbox" id="save-on" checked><span class="switch"></span></label>
             <div class="saved-list" id="saved-list"></div>
-            <div><button class="btn" id="delete-all">Delete all saved data</button></div>
+            <div><button class="btn" id="delete-all">Move all saved data to the trash</button></div>
           </div></div>
+        <div class="set-row" id="storage-row"><div class="lab"><b>Storage</b><span>How much of this browser's space iam-trace uses. The browser sets the limit and its numbers are estimates.</span></div>
+          <div class="storage" id="storage"></div></div>
+        <div class="set-row" id="sample-row"><div class="lab"><b>Sample account</b><span>A made-up account with something on every screen: attack paths, entry points, data access, unused access, a Terraform plan and filled-in tools. Remove it when you load your own data; bring it back any time.</span></div>
+          <div class="sample-ctl" id="sample-ctl"></div></div>
         <div class="set-row"><div class="lab"><b>Saved settings</b><span>Mode, style, colour and graph options.</span></div>
           <div><button class="btn" id="reset-settings">Reset to defaults</button></div></div>
+      </div>
+      <div class="glass set-card" id="set-trash">
+        <div class="card-h"><h2>Trash</h2></div>
+        <div class="set-row"><div class="lab"><b>Deleted data</b><span>What you delete goes here first. Restore it, or delete it for good. Items are removed automatically after 30 days.</span></div>
+          <div class="trash">
+            <div class="trash-list" id="trash-list"></div>
+            <div><button class="btn" id="trash-empty">Empty trash</button></div>
+          </div></div>
       </div>
       <div class="glass set-card" id="set-privacy">
         <div class="card-h"><h2>Privacy</h2></div>

@@ -312,11 +312,29 @@ def data_access(
             for a, d in found.items():
                 if a in merged:
                     merged[a]["granted_by"] = sorted(set(merged[a]["granted_by"]) | set(d["granted_by"]))
+                    # Any one action will do: one that needs nothing extra beats one that needs MFA.
+                    if "requires" not in d:
+                        merged[a].pop("requires", None)
                 else:
                     merged[a] = dict(d)
         per.append(merged)
     common = set(per[0]).intersection(*per[1:]) if per else set()
-    direct = [{**per[0][a], "granted_by": sorted({g for s in per for g in s[a]["granted_by"]})} for a in sorted(common)]
+
+    def needs_of(a: str) -> list[dict[str, str]]:
+        # What the request must carry for every permission to pass (MFA, a network location).
+        seen: dict[tuple[str, str, str], dict[str, str]] = {}
+        for s in per:
+            for g in s[a].get("requires", []):
+                seen.setdefault((g["kind"], g["key"], g["value"]), g)
+        return list(seen.values())
+
+    direct = []
+    for a in sorted(common):
+        d = {**per[0][a], "granted_by": sorted({g for s in per for g in s[a]["granted_by"]})}
+        d.pop("requires", None)
+        if req_ := needs_of(a):
+            d["requires"] = req_
+        direct.append(d)
     blocked = [
         {**per[0][a], "missing": [n.label for n, s in zip(needs, per, strict=True) if a not in s]}
         for a in sorted(set(per[0]) - common)

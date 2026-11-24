@@ -1,0 +1,157 @@
+{
+  "Version": 1,
+  "Collected": [
+    "dynamodb-table",
+    "ec2-instance",
+    "kms-key",
+    "lambda-function",
+    "s3-bucket",
+    "secretsmanager-secret",
+    "sns-topic",
+    "sqs-queue"
+  ],
+  "Resources": [
+    {
+      "Arn": "arn:aws:lambda:us-east-1:111122223333:function:nightly-report",
+      "Role": "arn:aws:iam::111122223333:role/report-runner"
+    },
+    {
+      "Arn": "arn:aws:lambda:us-east-1:111122223333:function:payments-api",
+      "Role": "arn:aws:iam::111122223333:role/lambda-admin"
+    },
+    {
+      "Arn": "arn:aws:ec2:us-east-1:111122223333:instance/i-0123456789abcdef0",
+      "Role": "arn:aws:iam::111122223333:instance-profile/ec2-admin"
+    },
+    {
+      "Arn": "arn:aws:s3:::example-reports",
+      "KmsKey": "arn:aws:kms:us-east-1:111122223333:key/5d1c3b2a-7e6f-4a8b-9c0d-1e2f3a4b5c6d",
+      "Policy": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "PartnerRead",
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::444455556666:root"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::example-reports/*"
+          }
+        ]
+      },
+      "PublicAccessBlock": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+      }
+    },
+    {
+      "Arn": "arn:aws:s3:::example-public-assets",
+      "Policy": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "PublicRead",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::example-public-assets/*"
+          }
+        ]
+      }
+    },
+    {
+      "Arn": "arn:aws:kms:us-east-1:111122223333:key/5d1c3b2a-7e6f-4a8b-9c0d-1e2f3a4b5c6d",
+      "Policy": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "Account",
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::111122223333:root"
+            },
+            "Action": "kms:*",
+            "Resource": "*"
+          },
+          {
+            "Sid": "PartnerDecrypt",
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::444455556666:root"
+            },
+            "Action": "kms:Decrypt",
+            "Resource": "*"
+          }
+        ]
+      }
+    },
+    {
+      "Arn": "arn:aws:secretsmanager:us-east-1:111122223333:secret:example-db-password-Q1w2E3",
+      "Policy": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "PartnerRead",
+            "Effect": "Allow",
+            "Principal": {
+              "AWS": "arn:aws:iam::444455556666:root"
+            },
+            "Action": "secretsmanager:GetSecretValue",
+            "Resource": "*"
+          }
+        ]
+      }
+    },
+    {
+      "Arn": "arn:aws:secretsmanager:us-east-1:111122223333:secret:example-api-token-R4t5Y6",
+      "KmsKey": "arn:aws:kms:us-east-1:111122223333:key/5d1c3b2a-7e6f-4a8b-9c0d-1e2f3a4b5c6d"
+    },
+    {
+      "Arn": "arn:aws:dynamodb:us-east-1:111122223333:table/example-orders",
+      "KmsKey": "arn:aws:kms:us-east-1:111122223333:key/5d1c3b2a-7e6f-4a8b-9c0d-1e2f3a4b5c6d"
+    },
+    {
+      "Arn": "arn:aws:sns:us-east-1:111122223333:example-alerts",
+      "Policy": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "EventsPublish",
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "events.amazonaws.com"
+            },
+            "Action": "sns:Publish",
+            "Resource": "arn:aws:sns:us-east-1:111122223333:example-alerts"
+          }
+        ]
+      }
+    },
+    {
+      "Arn": "arn:aws:sqs:us-east-1:111122223333:example-jobs",
+      "KmsKey": "alias/aws/sqs",
+      "Policy": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Sid": "FromAlerts",
+            "Effect": "Allow",
+            "Principal": {
+              "Service": "sns.amazonaws.com"
+            },
+            "Action": "sqs:SendMessage",
+            "Resource": "arn:aws:sqs:us-east-1:111122223333:example-jobs",
+            "Condition": {
+              "ArnEquals": {
+                "aws:SourceArn": "arn:aws:sns:us-east-1:111122223333:example-alerts"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
