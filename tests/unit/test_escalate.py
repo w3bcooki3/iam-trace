@@ -349,3 +349,30 @@ def test_prefilter_never_changes_results() -> None:
         finally:
             esc._Analyzer.may_allow = original  # type: ignore[method-assign]
         assert fast == slow, f"seed {seed}"
+
+
+def test_cli_single_policy_counts_user_only_techniques(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    # Without --principal a policy may belong to a user: iam:AttachUserPolicy must fail the gate.
+    new = tmp_path / "new.json"
+    old = tmp_path / "old.json"
+    new.write_text(
+        json.dumps(
+            {
+                "Version": "2012-10-17",
+                "Statement": [{"Effect": "Allow", "Action": "iam:AttachUserPolicy", "Resource": "*"}],
+            }
+        )
+    )
+    old.write_text(
+        json.dumps(
+            {"Version": "2012-10-17", "Statement": [{"Effect": "Allow", "Action": "s3:GetObject", "Resource": "*"}]}
+        )
+    )
+    assert main(["escalate", "--policy", str(new), "--baseline", str(old), "--fail-on", "new"]) == 1
+    assert "iam-008" in capsys.readouterr().out
+    assert main(["escalate", "--policy", str(new), "--fail-on", "admin"]) == 1
+    # Naming a role keeps the old meaning: a role cannot escalate with it.
+    assert (
+        main(["escalate", "--policy", str(new), "--principal", "arn:aws:iam::111122223333:role/r", "--fail-on", "any"])
+        == 0
+    )

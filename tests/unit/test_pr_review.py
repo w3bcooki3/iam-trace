@@ -223,3 +223,46 @@ def test_review_reports_only_new_check_findings(repo: Path, tmp_path: Path) -> N
     assert "<code>passrole-any-role</code>" in comment
     assert "unknown-action" not in comment
     assert pr_review.main(args) == 0
+
+
+def test_review_catches_techniques_that_only_work_for_users(repo: Path, catalog_dir: Path, tmp_path: Path) -> None:
+    # iam:AttachUserPolicy escalates a user (it attaches AdministratorAccess to itself) but not a role. A
+    # policy file in a pull request may be attached to users, so the review must not analyse it as a role only.
+    base = git(repo, "rev-parse", "HEAD")
+    write(repo, "policies/app.json", policy("s3:GetObject", "iam:AttachUserPolicy"))
+    git(repo, "add", "-A")
+    git(repo, "commit", "-q", "-m", "user escalation")
+    head = git(repo, "rev-parse", "HEAD")
+    out = tmp_path / "comment.md"
+    code = pr_review.main(
+        [
+            "--base",
+            base,
+            "--head",
+            head,
+            "--repo",
+            str(repo),
+            "--catalog",
+            str(catalog_dir),
+            "--comment-file",
+            str(out),
+            "--fail-on-escalation",
+            "--paths",
+            "policies/**/*.json",
+        ]
+    )
+    assert code == 1
+    assert "iam-008" in out.read_text()
+
+
+def test_escalation_techniques_lists_each_technique_once() -> None:
+    from iamtrace.model import Policy, PolicyType
+
+    pol = Policy.parse(
+        policy("iam:PutRolePolicy", "iam:AttachUserPolicy", "iam:CreateAccessKey"),
+        policy_id="p",
+        policy_type=PolicyType.IDENTITY,
+    )
+    ids = [t["id"] for t in pr_review.escalation_techniques(pol)]
+    assert len(ids) == len(set(ids))
+    assert {"iam-005", "iam-008", "iam-002"} <= set(ids)

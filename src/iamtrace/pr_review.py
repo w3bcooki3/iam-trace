@@ -32,7 +32,12 @@ from iamtrace.loader import parse_any_policy
 from iamtrace.model import Policy, PolicyError, PolicyType
 
 MARKER = "<!-- iamtrace-pr-review -->"
-PRINCIPAL = "arn:aws:iam::111122223333:role/policy-under-review"
+# A changed policy can be attached to roles or to users, and some techniques only work for one of them
+# (iam:AttachUserPolicy and iam:AddUserToGroup escalate a user, not a role). It is analysed as both.
+PRINCIPALS = (
+    "arn:aws:iam::111122223333:role/policy-under-review",
+    "arn:aws:iam::111122223333:user/policy-under-review",
+)
 
 
 @dataclass
@@ -83,6 +88,17 @@ def _identity(policy: Policy | None) -> Policy | None:
     return policy
 
 
+def escalation_techniques(policy: Policy) -> list[dict[str, Any]]:
+    """Techniques the policy allows when attached to a role or to a user, each listed once."""
+    seen: dict[str, dict[str, Any]] = {}
+    for arn in PRINCIPALS:
+        report = analyze(Environment.single([policy], arn), start=arn)
+        for p in report["principals"]:
+            for t in p["techniques"]:
+                seen.setdefault(t["id"], t)
+    return list(seen.values())
+
+
 def review_file(path: str, status: str, old_text: str | None, new_text: str | None, cat: Catalog) -> FileReport | None:
     if not looks_like_policy(old_text) and not looks_like_policy(new_text):
         return None  # a JSON file that is not a policy document
@@ -93,13 +109,11 @@ def review_file(path: str, status: str, old_text: str | None, new_text: str | No
         rep.diff = diff_policies(old, new, cat)
         new_id = _identity(new)
         if new_id is not None:
-            now = analyze(Environment.single([new_id], PRINCIPAL), start=PRINCIPAL)
             before_ids: set[str] = set()
             old_id = _identity(old)
             if old_id is not None:
-                before = analyze(Environment.single([old_id], PRINCIPAL), start=PRINCIPAL)
-                before_ids = {t["id"] for p in before["principals"] for t in p["techniques"]}
-            rep.new_escalations = [t for p in now["principals"] for t in p["techniques"] if t["id"] not in before_ids]
+                before_ids = {t["id"] for t in escalation_techniques(old_id)}
+            rep.new_escalations = [t for t in escalation_techniques(new_id) if t["id"] not in before_ids]
         if new is not None and new_text is not None:
             rep.new_checks = new_check_findings(path, old_text if old is not None else None, new_text, cat)
     except PolicyError as e:

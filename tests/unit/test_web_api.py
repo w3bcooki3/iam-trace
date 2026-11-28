@@ -93,6 +93,20 @@ def test_escalate() -> None:
     assert "iam-005" in out["text"]
 
 
+def test_escalate_single_policy_also_as_a_user() -> None:
+    user_only = json.dumps(
+        {"Version": "2012-10-17", "Statement": [{"Effect": "Allow", "Action": "iam:AttachUserPolicy", "Resource": "*"}]}
+    )
+    out = json.loads(web_api.escalate(user_only))
+    assert "iam-008" in out["text"]
+    assert [p["kind"] for p in out["result"]["principals"]] == ["role", "user"]
+    assert any("Attached to a user" in w for w in out["result"]["warnings"])
+    plain = json.dumps(
+        {"Version": "2012-10-17", "Statement": [{"Effect": "Allow", "Action": "s3:GetObject", "Resource": "*"}]}
+    )
+    assert len(json.loads(web_api.escalate(plain))["result"]["principals"]) == 1
+
+
 def test_escalate_graph_for_single_policy() -> None:
     p = json.dumps(
         {

@@ -270,25 +270,68 @@ def cmd_escalate(args: argparse.Namespace) -> int:
     elif args.policy:
         if args.inventory:
             raise PolicyError("--inventory needs --auth-details: roles are resolved through the account export")
-        principal = args.principal or "arn:aws:iam::111122223333:role/policy-under-test"
-        boundary = load_policy(args.boundary, PolicyType.BOUNDARY) if args.boundary else None
-        env = Environment.single([load_policy(f, PolicyType.IDENTITY) for f in args.policy], principal, boundary)
-        report = analyze(env, start=principal, catalog=cat, scps=scps, conditions=not args.strict_context)
-        if args.baseline:
-            base_env = Environment.single([load_policy(args.baseline, PolicyType.IDENTITY)], principal, boundary)
-            base = analyze(base_env, start=principal, scps=scps)
-            old_ids = {t["id"] for p in base["principals"] for t in p["techniques"]}
-            report["new_findings"] = [
-                t for p in report["principals"] for t in p["techniques"] if t["id"] not in old_ids
+        # Without --principal the policy could be attached to a role or to a user, and some techniques
+        # only work for one of them (iam:AttachUserPolicy escalates a user, not a role): analyse both.
+        principals = (
+            [args.principal]
+            if args.principal
+            else [
+                "arn:aws:iam::111122223333:role/policy-under-test",
+                "arn:aws:iam::111122223333:user/policy-under-test",
             ]
+        )
+        boundary = load_policy(args.boundary, PolicyType.BOUNDARY) if args.boundary else None
+        docs = [load_policy(f, PolicyType.IDENTITY) for f in args.policy]
+        report = analyze(
+            Environment.single(docs, principals[0], boundary),
+            start=principals[0],
+            catalog=cat,
+            scps=scps,
+            conditions=not args.strict_context,
+        )
+        for extra_arn in principals[1:]:
+            more = analyze(
+                Environment.single(docs, extra_arn, boundary),
+                start=extra_arn,
+                catalog=cat,
+                scps=scps,
+                conditions=not args.strict_context,
+            )
+            have = {t["id"] for p in report["principals"] for t in p["techniques"]}
+            added = sorted({t["id"] for p in more["principals"] for t in p["techniques"]} - have)
+            if added:
+                report["principals"] = [*report["principals"], *more["principals"]]
+                report["paths"] = [*report["paths"], *more["paths"]]
+                report["warnings"] = [
+                    *report["warnings"],
+                    f"Attached to a user, this policy also allows {', '.join(added)} (listed under the user).",
+                ]
+        if args.baseline:
+            base_doc = load_policy(args.baseline, PolicyType.IDENTITY)
+            old_ids = {
+                t["id"]
+                for arn in principals
+                for p in analyze(Environment.single([base_doc], arn, boundary), start=arn, scps=scps)["principals"]
+                for t in p["techniques"]
+            }
+            seen: set[str] = set()
+            report["new_findings"] = []
+            for p in report["principals"]:
+                for t in p["techniques"]:
+                    if t["id"] not in old_ids and t["id"] not in seen:
+                        seen.add(t["id"])
+                        report["new_findings"].append(t)
     else:
         raise PolicyError("give --auth-details FILE (an account export) or --policy FILE")
 
     out = {"text": escalate_text, "json": to_json, "sarif": escalate_sarif}[args.format](report)
     sys.stdout.write(out)
     any_finding = bool(report["paths"]) or any(p["techniques"] for p in report["principals"])
+    hypothetical = report["start"].endswith("/policy-under-test")
     admin = bool(report["paths"]) or any(
-        p["admin_equivalent"] for p in report["principals"] if p["arn"] == report["start"]
+        p["admin_equivalent"]
+        for p in report["principals"]
+        if p["arn"] == report["start"] or (hypothetical and p["arn"].endswith("/policy-under-test"))
     )
     if args.fail_on == "any" and any_finding:
         return 1

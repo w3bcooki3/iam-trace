@@ -222,6 +222,19 @@ def escalate(policy_text: str) -> dict[str, Any]:
     pol = policy_from_text(policy_text, PolicyType.IDENTITY, "the policy")
     arn = "arn:aws:iam::111122223333:role/policy-under-test"
     report = analyze(Environment.single([pol], arn), start=arn)
+    # Some techniques only work for a user (iam:AttachUserPolicy, iam:AddUserToGroup ...). The policy may
+    # be attached to users, so it is analysed as a user too and the user is listed when that adds anything.
+    user = "arn:aws:iam::111122223333:user/policy-under-test"
+    as_user = analyze(Environment.single([pol], user), start=user)
+    role_ids = {t["id"] for p in report["principals"] for t in p["techniques"]}
+    extra = sorted({t["id"] for p in as_user["principals"] for t in p["techniques"]} - role_ids)
+    if extra:
+        report["principals"] = [*report["principals"], *as_user["principals"]]
+        report["paths"] = [*report["paths"], *as_user["paths"]]
+        report["warnings"] = [
+            *report["warnings"],
+            f"Attached to a user, this policy also allows {', '.join(extra)}; the user is listed second.",
+        ]
     return {"text": escalate_text(report), "result": report, "graph": escalation_graph(report)}
 
 
