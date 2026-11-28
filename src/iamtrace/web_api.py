@@ -20,6 +20,7 @@ from iamtrace.credentials import CredentialError, parse_credential_report
 from iamtrace.data import data_access, data_exposure
 from iamtrace.diff import diff_policies, diff_text
 from iamtrace.documents import DocumentError, decode, load_json, looks_like_policy, unwrap_policy, wrong_kind
+from iamtrace.drift import drift, drift_markdown
 from iamtrace.entry import entry_points
 from iamtrace.escalate import AnalysisCache, Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
@@ -464,6 +465,19 @@ def terraform_query(plan_text: str, auth_details_text: str = "") -> dict[str, An
     export = _json(auth_details_text, "the account export", "account") if auth_details_text.strip() else None
     out = terraform_review(plan, cat, export=export)
     out["markdown"] = review_markdown(out)
+    return out
+
+
+@_safe
+def drift_query(old_text: str, new_text: str) -> dict[str, Any]:
+    """What changed between two account exports (iamtrace.drift)."""
+    cat = _catalog()
+    if cat is None:
+        raise ValueError("the action catalog is not available")
+    old = _json(old_text, "the earlier export", "account")
+    new = _json(new_text, "the account export", "account")
+    out = drift(old, new, cat)
+    out["markdown"] = drift_markdown(out)
     return out
 
 

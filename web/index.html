@@ -10,7 +10,7 @@
   attributes. Pyodide compiles WebAssembly, which needs 'wasm-unsafe-eval'; 'unsafe-eval' is not
   allowed. Nothing you load into the page can be sent anywhere, and the page has no forms.
 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; connect-src 'self' https://cdn.jsdelivr.net; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self' blob:; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://cdn.jsdelivr.net/pyodide/v0.29.3/full/ 'wasm-unsafe-eval'; connect-src 'self' https://cdn.jsdelivr.net/pyodide/v0.29.3/full/; style-src 'self'; font-src 'self'; img-src 'self' data:; worker-src 'self' blob:; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="pyodide-url" content="https://cdn.jsdelivr.net/pyodide/v0.29.3/full/">
 <meta name="description" content="See how an attacker could escalate in your AWS account, why a request is allowed or denied, and what a policy change grants. Runs entirely in your browser.">
@@ -65,6 +65,7 @@
     <button class="nav-item" data-go="evaluate"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Evaluate a request</button>
     <button class="nav-item" data-go="diff"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M4 8h6M14 16h6M17 13v6"/></svg>Policy diff</button>
     <button class="nav-item" data-go="terraform"><svg class="i" viewBox="0 0 24 24"><path d="M9 3.5l6 3.5v7l-6-3.5zM16 7.5l5-3v7l-5 3zM3 7.5l5 3v7l-5-3zM9 14.5l6 3.5v3l-6-3.5z"/></svg>Terraform plan</button>
+    <button class="nav-item" data-go="drift"><svg class="i" viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h5v5"/></svg>Account drift</button>
     <h4>Help</h4>
     <button class="nav-item" data-go="docs"><svg class="i" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h6M8 11h6"/></svg>Documentation</button>
     <button class="nav-item" data-go="changelog"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Changelog</button>
@@ -284,6 +285,37 @@
           <div class="glass"><div class="card-h"><h3>Get the plan</h3></div><div class="card-b">
             <div class="cmd">terraform plan -out plan.out &amp;&amp; terraform show -json plan.out &gt; plan.json<button class="icon-btn copy" data-copy="terraform plan -out plan.out && terraform show -json plan.out > plan.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
             <p class="cmd-note">The plan can contain secrets from your configuration. It is read in this tab and never leaves it.</p>
+          </div></div>
+        </div>
+      </div>
+    </div></section>
+
+    <section class="view" id="v-drift"><div class="page workspace">
+      <div class="page-head">
+        <div><h1>Account drift</h1><p>Compare an earlier export of the account with the one loaded now: new paths to admin, new admins and entry points, users and roles added or removed, and the access each one gained or lost.</p></div>
+        <div class="actions"><button class="btn" id="dr-example">Load sample</button><button class="btn primary" id="dr-run" disabled>Compare</button></div>
+      </div>
+      <div class="pc-grid">
+        <div class="side-stack">
+          <div class="dropzone glass pc-drop" id="dr-drop">
+            <span class="dz-ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>
+            <div><b>Drop the earlier export here</b><span>An older output of aws iam get-account-authorization-details for the same account.</span></div>
+            <button class="btn" id="dr-choose">Choose file</button>
+            <input type="file" id="dr-file" class="hidden-input" accept=".json,application/json" tabindex="-1">
+          </div>
+          <div class="glass"><div class="card-h"><h3>The two exports</h3></div><div class="card-b dr-files">
+            <div class="dx-row"><span><b>Earlier</b></span><small id="dr-old-note">Not loaded yet.</small></div>
+            <div class="dx-row"><span><b>Now</b></span><small id="dr-new-note"></small></div>
+          </div></div>
+        </div>
+        <div class="side-stack">
+          <div class="glass"><div class="card-h"><h3>Keep an export to compare with</h3></div><div class="card-b">
+            <div class="cmd">aws iam get-account-authorization-details &gt; account-$(date +%F).json<button class="icon-btn copy" data-copy="aws iam get-account-authorization-details > account-$(date +%F).json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
+            <p class="cmd-note">Save one each week or month. On the command line, <code class="c">iam-trace drift OLD NEW --fail-on worse</code> does the same comparison and exits 1 when the account got worse.</p>
+          </div></div>
+          <div class="glass"><div class="card-h"><h3>What counts as worse</h3></div><div class="card-b">
+            <p class="cmd-note">A new path to admin, a new admin-equivalent user or role, or a new or worse entry point. New access that a permission boundary blocks is listed but not counted.</p>
+            <p class="cmd-note">Both exports are read in this tab and never leave it.</p>
           </div></div>
         </div>
       </div>

@@ -29,6 +29,7 @@ from iamtrace.credentials import (
 from iamtrace.data import data_access, data_access_text, data_exposure, data_exposure_text
 from iamtrace.diff import diff_markdown, diff_policies, diff_sarif, diff_text
 from iamtrace.documents import decode, load_json
+from iamtrace.drift import drift, drift_markdown, drift_text
 from iamtrace.entry import entry_points, entry_points_text
 from iamtrace.escalate import Environment, analyze, escalate_sarif, escalate_text
 from iamtrace.evaluate import PolicySet, Request, evaluate
@@ -670,6 +671,56 @@ def _add_terraform(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> 
     p.set_defaults(func=cmd_terraform)
 
 
+# --- drift ------------------------------------------------------------------------------
+
+
+def cmd_drift(args: argparse.Namespace) -> int:
+    exports = []
+    for path in (args.old, args.new):
+        try:
+            exports.append(_read_json(path))
+        except (OSError, json.JSONDecodeError, RecursionError) as e:
+            raise PolicyError(f"{path}: cannot read: {e}") from e
+    r = drift(exports[0], exports[1], Catalog.load(args.catalog))
+    if args.format == "text":
+        sys.stdout.write(drift_text(r))
+    elif args.format == "markdown":
+        sys.stdout.write(drift_markdown(r))
+    else:
+        sys.stdout.write(to_json(r))
+    s = r["summary"]
+    fail = {
+        "never": False,
+        "worse": r["verdict"] == "worse",
+        "sensitive": r["verdict"] == "worse" or s["sensitive_grants"] > 0 or s["trust_changed"] > 0,
+        "any": r["verdict"] != "unchanged",
+    }[args.fail_on]
+    return 1 if fail else 0
+
+
+def _add_drift(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "drift",
+        help="what changed in an account between two exports: new paths to admin, new access",
+        description="Compares two outputs of aws iam get-account-authorization-details. Reports new and closed "
+        "paths to admin, new admin-equivalent principals, new or worse entry points, users and roles added or "
+        "removed, and for every other user and role the access it gained or lost, its boundary and who can "
+        "assume it. Run it on a schedule to see what got worse since last time.",
+    )
+    p.add_argument("old", metavar="OLD_EXPORT", help="the earlier account export")
+    p.add_argument("new", metavar="NEW_EXPORT", help="the later account export")
+    p.add_argument("--catalog", metavar="DIR", help="action catalog directory")
+    p.add_argument(
+        "--fail-on",
+        choices=["never", "worse", "sensitive", "any"],
+        default="never",
+        help="exit 1 if the account got worse (new path, admin or entry point), also on sensitive new access "
+        "or trust changes, or on any change",
+    )
+    p.add_argument("--format", choices=["text", "json", "markdown"], default="text")
+    p.set_defaults(func=cmd_drift)
+
+
 # --- fix --------------------------------------------------------------------------------
 
 
@@ -922,6 +973,7 @@ SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]]
     _add_entry_points,
     _add_data,
     _add_terraform,
+    _add_drift,
     _add_fix,
     _add_credentials,
     _add_usage,

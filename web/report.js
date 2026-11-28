@@ -136,7 +136,7 @@ export function buildReport(m, { version, fixes, plan = null, generated = new Da
   ];
 
   return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; form-action 'none'; base-uri 'none'"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>iam-trace report: account ${esc(acct)}</title><style>${css}</style></head>
 <body><main>
   <div class="brand">iam-trace</div>

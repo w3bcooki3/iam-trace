@@ -369,6 +369,34 @@ are analysed:
 
 `--format markdown` writes a pull-request comment. `examples/terraform/plan.json` is the plan above.
 
+### drift
+
+    aws iam get-account-authorization-details > account-$(date +%F).json   # keep one each week
+    iam-trace drift account-2026-10-30.json account-2026-11-27.json [--fail-on worse] [--format markdown]
+
+What changed in the account between two exports. Both are analysed in full and compared: new and
+closed paths to admin, new admin-equivalent principals, new or worse entry points, users and roles
+added or removed. For every other user and role, all its identity policies are taken together and
+compared semantically, so moving a statement between policies is not a change, and only access it
+really gained or lost is listed, with its boundary, group membership and who can assume it:
+
+    iam-trace drift: WORSE: someone can now reach admin, or a new way in opened.
+      paths to admin: +1 -0   admins: +1 -1   entry points new or worse: 2
+
+    New paths to admin
+      user/ci-bot -> [lambda-001] role/lambda-admin
+
+    user/ci-bot (user)
+      ! iam:PassRole on arn:aws:iam::111122223333:role/lambda-admin
+
+    user/bob (user)
+      ~ 190 new permission(s) with no effect, the permission boundary does not allow them: iam 190
+
+New access that a permission boundary blocks is listed but not counted. `--fail-on worse` exits 1
+on a new path, admin or entry point; `sensitive` also on new access used in escalation techniques
+or a wider trust policy; `any` on any change. The web app has the same comparison under Account
+drift. `examples/sample/auth-details-previous.json` is the sample account a month earlier.
+
 ### data
 
     iam-trace data --auth-details auth.json --inventory inventory.json [--resource ARN] [--access read]
@@ -450,7 +478,7 @@ Every command supports `--format text|json|sarif`; `diff` also supports `markdow
 | Exit code | Meaning |
 |---|---|
 | 0 | Success. For `can`, the request is allowed. |
-| 1 | For `can`, the request is denied. For `check`, `diff`, `escalate`, `entry-points`, `data` and `terraform`, a `--fail-on` condition matched. For `fix`, the plan could not be verified. |
+| 1 | For `can`, the request is denied. For `check`, `diff`, `escalate`, `entry-points`, `data`, `terraform` and `drift`, a `--fail-on` condition matched. For `fix`, the plan could not be verified. |
 | 2 | A usage error, an unreadable file, or a policy AWS would reject. |
 
 ## GitHub Action

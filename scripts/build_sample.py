@@ -22,6 +22,7 @@ Run it after changing the sample; tests/unit/test_sample.py fails if the files a
 
 from __future__ import annotations
 
+import copy
 import csv
 import io
 import json
@@ -334,6 +335,25 @@ def auth_details() -> dict[str, Any]:
         ),
     ]
     return {"UserDetailList": users, "GroupDetailList": groups, "RoleDetailList": roles, "Policies": policies}
+
+
+def previous_auth_details() -> dict[str, Any]:
+    """The same account a month earlier, for the Account drift screen. Since then: ci-bot was
+    allowed to pass the lambda-admin role (a new path to admin); bob, a contractor, was given
+    iam:*, which his permission boundary makes ineffective; dev-legacy was created; and old-ops,
+    a forgotten admin user, was deleted."""
+    data = copy.deepcopy(auth_details())
+    data["UserDetailList"] = [u for u in data["UserDetailList"] if u["UserName"] != "dev-legacy"]
+    for u in data["UserDetailList"]:
+        if u["UserName"] == "bob":
+            u["UserPolicyList"] = [p for p in u["UserPolicyList"] if p["PolicyName"] != "everything-in-iam"]
+        if u["UserName"] == "ci-bot":  # could deploy functions, but not yet pass them the admin role
+            for p in u["UserPolicyList"]:
+                p["PolicyDocument"]["Statement"] = [
+                    st for st in p["PolicyDocument"]["Statement"] if st["Action"] != "iam:PassRole"
+                ]
+    data["UserDetailList"].append(user("old-ops", [], attached=[ADMIN]))
+    return data
 
 
 def scps() -> list[dict[str, Any]]:
@@ -753,6 +773,7 @@ def files() -> dict[str, str]:
 
     return {
         "auth-details.json": j(auth_details()),
+        "auth-details-previous.json": j(previous_auth_details()),
         "scps.json": j(scps()),
         "inventory.json": j(inventory()),
         "credential-report.csv": credential_report(),

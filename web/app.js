@@ -176,7 +176,7 @@ $("menu-btn").addEventListener("click", () => root.classList.toggle("nav-open"))
 
 const VIEWS = {
   overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"], whocan: ["Attack paths", "Who can"], data: ["Attack paths", "Data access"], unused: ["Attack paths", "Unused access"],
-  input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"], terraform: ["Tools", "Terraform plan"],
+  input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"], terraform: ["Tools", "Terraform plan"], drift: ["Tools", "Account drift"],
   docs: ["Help", "Documentation"], changelog: ["Help", "Changelog"], settings: ["App", "Settings"],
 };
 let currentView = null;
@@ -195,6 +195,7 @@ function go(path) {
   if (view === "data") renderData();
   if (view === "unused") renderUnused();
   if (view === "terraform") tfState();
+  if (view === "drift") drState();
   if (view === "docs") showDoc(sub[0], sub[1]);
   document.querySelectorAll(".nav-item[data-go]").forEach((n) => n.classList.toggle("on", n.dataset.go === view));
   $("crumb-group").textContent = VIEWS[view][0];
@@ -1517,6 +1518,106 @@ function tfHtml(r) {
     ${r.notes.map((n) => `<div class="callout"><div>${esc(n)}</div></div>`).join("")}`;
 }
 
+// ------------------------------------------------------------------------------------- account drift
+
+// What changed between an earlier export of the account and the one loaded in Data input
+// (iamtrace.drift). The earlier export is kept in this tab only, never saved.
+let drOld = null; // { text, name }
+function drState() {
+  const has = Boolean(input.account.trim());
+  $("dr-old-note").textContent = drOld ? `${drOld.name}, ${sizeText(drOld.text.length)}` : "Not loaded yet.";
+  $("dr-new-note").textContent = has ? `${input.file?.name || "the account export"} from Data input` : "Load an account export in Data input first.";
+  $("dr-run").disabled = !(drOld && has);
+}
+function sizeText(n) {
+  return n < 1024 ? `${n} bytes` : n < 1048576 ? `${(n / 1024).toFixed(0)} KB` : `${(n / 1048576).toFixed(1)} MB`;
+}
+async function setDrOld(file) {
+  const t = file && await readUploadOrToast(file);
+  if (t === null || t === undefined) return;
+  drOld = { text: t, name: file.name };
+  drState();
+}
+$("dr-choose").addEventListener("click", () => $("dr-file").click());
+$("dr-file").addEventListener("change", (e) => { const f = e.target.files[0]; e.target.value = ""; setDrOld(f); });
+["dragenter", "dragover"].forEach((t) => $("dr-drop").addEventListener(t, (e) => { e.preventDefault(); $("dr-drop").classList.add("over"); }));
+["dragleave", "drop"].forEach((t) => $("dr-drop").addEventListener(t, () => $("dr-drop").classList.remove("over")));
+$("dr-drop").addEventListener("drop", (e) => { e.preventDefault(); setDrOld(e.dataTransfer.files[0]); });
+$("dr-example").addEventListener("click", async () => {
+  let s;
+  try { s = await sampleTexts(); } catch (e) { return toast(e.message); }
+  let previous;
+  try {
+    const r = await fetch("examples/auth-details-previous.json");
+    if (!r.ok) throw new Error("The sample account is missing from this site");
+    previous = await r.text();
+  } catch (e) { return toast(e.message); }
+  // The earlier sample belongs with the sample account, so without it loaded the sample loads too.
+  if (input.account.trim() !== s.account.trim() && !(await loadSample({ run: false }))) return;
+  drOld = { text: previous, name: "sample-account-last-month.json" };
+  drState();
+});
+$("dr-run").addEventListener("click", () => {
+  if (!api) overlay("Starting the analysis engine");
+  whenReady(drRun);
+});
+async function drRun() {
+  overlay("Comparing the exports", true);
+  let r;
+  try { r = await call("drift_query", drOld.text, input.account); } catch (e) { r = { error: e.message }; } finally { overlay(""); }
+  if (r.error === "cancelled") return;
+  if (r.error) return toast(sentence(r.error));
+  openSheet("Account drift", drHtml(r), `<button class="btn" id="dr-copy-md">Copy as Markdown</button>`, "Back");
+  $("dr-copy-md").addEventListener("click", () => copy(r.markdown));
+}
+function drGrant(e) {
+  const res = e.resources.map(short);
+  const where = res.length > 3 ? `${res.slice(0, 3).join(", ")} and ${res.length - 3} more` : res.join(", ");
+  return `<li><code class="c">${esc(e.action)}</code> on <span class="mono">${esc(where)}</span>${e.highlight ? ' <span class="tag high">Sensitive</span>' : ""}${Object.keys(e.conditions || {}).length ? ' <span class="tag plain">Conditions</span>' : ""}</li>`;
+}
+function drServices(entries) {
+  const n = {};
+  for (const e of entries) { const svc = e.action.split(":")[0]; n[svc] = (n[svc] || 0) + 1; }
+  return Object.entries(n).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([k, v]) => `${k} ${v}`).join(", ");
+}
+function drHtml(r) {
+  const a = r.account, s = r.summary;
+  const sec = (title, items) => items.length ? `<section class="dx-sec"><h3>${title} <span class="t-faint">${items.length}</span></h3>${items.join("")}</section>` : "";
+  const row = (arn, note = "") => `<div class="dx-row"><span class="mono">${esc(short(arn))}</span>${note ? `<small>${esc(note)}</small>` : ""}</div>`;
+  const tone = r.verdict === "worse" ? "callout-crit" : r.verdict === "changed" ? "callout-warn" : "callout-ok";
+  const head = { worse: "The account got worse.", changed: "Changed, but no new path to admin and no new entry point.", unchanged: "No change in what anyone can do." }[r.verdict];
+  const callout = `<div class="callout ${tone}"><div><b>${head}</b> ${plural(s.new_paths, "new path")} to admin, ${plural(s.removed_paths, "closed path")}, ${plural(s.new_admins, "new admin-equivalent principal")}, ${plural(s.new_entry_points, "new or worse entry point")}. Users and roles: ${s.principals_added} added, ${s.principals_removed} removed, ${s.principals_changed} changed.</div></div>`;
+  const changed = r.changed.map((c) => {
+    const usable = c.newly_allowed.filter((e) => !e.blocked_by_boundary);
+    const blocked = c.newly_allowed.filter((e) => e.blocked_by_boundary);
+    const items = [
+      ...c.joined_groups.map((g) => `<li><span class="dx-kind newly_allowed">joined group</span> <span class="mono">${esc(short(g))}</span></li>`),
+      ...c.left_groups.map((g) => `<li><span class="dx-kind no_longer_allowed">left group</span> <span class="mono">${esc(short(g))}</span></li>`),
+      ...c.attached.map((x) => `<li><span class="dx-kind newly_allowed">policy attached</span> <span class="mono">${esc(short(x))}</span></li>`),
+      ...c.detached.map((x) => `<li><span class="dx-kind no_longer_allowed">policy detached</span> <span class="mono">${esc(short(x))}</span></li>`),
+      ...(c.boundary_removed ? ['<li><span class="tag crit">Boundary removed</span> nothing limits its policies any more</li>'] : c.boundary ? ["<li>Permission boundary changed</li>"] : []),
+      ...(c.trust ? c.trust.changes.newly_allowed.map((e) => `<li><span class="tag crit">Trust</span> can now be assumed by <span class="mono">${esc(e.principals.map((x) => x.split(":").slice(1).join(":")).join(", ") || "anyone")}</span></li>`) : []),
+      ...(c.trust ? c.trust.changes.no_longer_allowed.map((e) => `<li><span class="dx-kind no_longer_allowed">trust</span> no longer assumable by <span class="mono">${esc(e.principals.map((x) => x.split(":").slice(1).join(":")).join(", "))}</span></li>`) : []),
+      ...usable.slice(0, 25).map(drGrant),
+      ...(usable.length > 25 ? [`<li class="muted">and ${usable.length - 25} more: ${esc(drServices(usable.slice(25)))}</li>`] : []),
+      ...(blocked.length ? [`<li class="muted">${plural(blocked.length, "new permission")} with no effect, the permission boundary does not allow ${blocked.length === 1 ? "it" : "them"}: ${esc(drServices(blocked))}</li>`] : []),
+      ...(c.no_longer_allowed.length ? [`<li class="muted">${plural(c.no_longer_allowed.length, "permission")} taken away</li>`] : []),
+      ...(c.newly_denied.length ? [`<li class="muted">${plural(c.newly_denied.length, "new Deny")}: ${esc(c.newly_denied.slice(0, 5).map((e) => e.action).join(", "))}</li>`] : []),
+      ...(c.deny_removed.length ? [`<li><span class="tag high">Deny removed</span> ${plural(c.deny_removed.length, "action")} no longer denied</li>`] : []),
+    ];
+    return `<div class="tf-doc"><div class="tf-doc-h"><span class="mono">${esc(short(c.principal))}</span><span class="tag plain">${esc(c.kind)}</span>${c.sensitive ? `<span class="tag high">${plural(c.sensitive, "sensitive grant")}</span>` : ""}</div><ul class="tf-list">${items.join("")}</ul></div>`;
+  });
+  return callout
+    + sec("New paths to admin", a.new_paths.map(tfChain))
+    + sec("New admin-equivalent principals", a.new_admins.map((x) => row(x)))
+    + sec("New or worse entry points", a.new_entry_points.map((e) => `<div class="dx-row"><span><span class="sev ${DATA_RATING[e.rating]}"><i></i>${e.rating}</span> <span class="mono">${esc(short(e.principal))}</span></span><small>${esc(e.why)}</small></div>`))
+    + sec("Users and roles added", r.principals_added.map((x) => row(x)))
+    + sec("Users and roles removed", r.principals_removed.map((x) => row(x)))
+    + sec("Access that changed", changed)
+    + sec("Paths to admin closed", a.removed_paths.map(tfChain))
+    + r.notes.map((n) => `<div class="callout"><div>${esc(n)}</div></div>`).join("");
+}
+
 // ------------------------------------------------------------------------------------- fix plan
 
 // The engine's fix plan (iamtrace.fixplan): the cheapest set of Deny statements that removes every
@@ -2543,7 +2644,8 @@ function drawCheck() {
 
 const CHANGES = [
   { v: "0.2.0", status: ["acc", "Latest"], date: "Unreleased", sum: "A new web app, the rename to iam-trace, and security hardening after a full review.", groups: [
-    ["Added", ["<b>Reads more kinds of input</b>: UTF-16 and UTF-32 files, <code class='c'>.gz</code> uploads, and policies inside AWS CLI output (get-policy-version, get-role-policy, get-bucket-policy, describe-policy and more). Errors name the line and column and say what the text looks like instead.",
+    ["Added", ["<b>Account drift</b>: a new screen and <code class='c'>iam-trace drift</code> compare an earlier export of the account with today's: new paths to admin, new admins and entry points, users and roles added or removed, and the access each one gained or lost. New access a permission boundary blocks is listed but not counted.",
+      "<b>Reads more kinds of input</b>: UTF-16 and UTF-32 files, <code class='c'>.gz</code> uploads, and policies inside AWS CLI output (get-policy-version, get-role-policy, get-bucket-policy, describe-policy and more). Errors name the line and column and say what the text looks like instead.",
       "<b>Unused access</b>: load IAM's last accessed data under the new Last accessed tab (or <code class='c'>iam-trace usage collect</code>), and a new screen lists the services each policy allows that nobody who has it used, the policies without them, and the paths to admin that removing them closes. Edits only take access away and keep <code class='c'>iam:PassRole</code>.",
       "<b>Escalation benchmark</b>: all 91 AWS paths in pathfinding.cloud are checked on every change, each built from pathfinding.cloud's own description, together with 1,136 near misses that must not be reported. All 91 are found, 23 of them with a resource inventory, with no false alarms. The table is in <code class='c'>docs/coverage.md</code>.",
       "Resource inventory now also records Batch job definitions, running ECS tasks, EC2 launch templates and Bedrock AgentCore resources, so every existing-resource technique can be confirmed.",

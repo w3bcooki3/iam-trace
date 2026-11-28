@@ -56,7 +56,7 @@ def bundle_pyodide(src: Path) -> None:
     for name in PYODIDE_FILES:
         shutil.copy2(src / name, DIST / "pyodide" / name)
     html = re.sub(r'(name="pyodide-url" content=")[^"]*(")', r"\1pyodide/\2", html)
-    html = html.replace(f" {CDN}", "")
+    html = re.sub(" " + re.escape(CDN) + r"[^\s;\"']*", "", html)  # the CDN, with or without a path
     if CDN in html:
         raise SystemExit("index.html still references the CDN after bundling")
     (DIST / "index.html").write_text(html)

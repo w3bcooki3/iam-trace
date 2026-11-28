@@ -74,14 +74,17 @@ Goal: go from "here is the problem" to "here is the change, and here is proof it
       and an SCP version for organisations.
 - [ ] **Infrastructure as code.** Read Terraform plans and CloudFormation templates, so risky
       IAM changes are caught before they are deployed, in the same pull-request comment as today.
-- [ ] **Drift over time.** Compare two exports of the same account and report new paths, new
+      Terraform done (`iam-trace terraform` and the Terraform plan screen); CloudFormation next.
+- [x] **Drift over time.** Compare two exports of the same account and report new paths, new
       admins and permissions that grew.
+      Done: `iam-trace drift` and the Account drift screen.
 - [x] **"Who can" questions.** "Who can read this bucket?" and "who can become this role?",
       answered across the whole export.
       Done: `iam-trace who-can` and a Who can screen with an access graph. "Who can become
       this role" is the same query with `sts:AssumeRole` on the role's ARN.
-- [ ] **Shareable reports.** Export a self-contained HTML or PDF report from the app for
+- [x] **Shareable reports.** Export a self-contained HTML or PDF report from the app for
       audits and tickets, still generated locally.
+      Done: Download report, on the Overview and the Attack graph; the file runs no scripts.
 
 ## Stage 4: 1.0
 

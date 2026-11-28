@@ -6,6 +6,16 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- **Account drift**: `iam-trace drift OLD NEW` and a new Account drift screen compare two account
+  exports: new and closed paths to admin, new admins and entry points, users and roles added or
+  removed, and the access each one gained or lost (all its policies taken together, so moving a
+  statement is not a change), with group membership, boundary and trust changes. New access a
+  permission boundary blocks is listed but not counted. `--fail-on worse` for scheduled checks.
+- The saved HTML report has a Content-Security-Policy that allows no scripts and no outside
+  requests, and the development page only allows the one Pyodide release from the CDN.
+- A single policy (pull-request review, `escalate --policy`, the web app) is analysed attached to a
+  user as well as a role, so techniques only a user can use (creating access keys or a login
+  profile for itself) are no longer missed.
 - A new sample account (`examples/sample`, written by `scripts/build_sample.py`) with something on
   every screen: paths of one and two steps, an MFA-gated path, a technique an SCP blocks, entry
   points from GitHub, SAML, a partner account and old access keys, every kind of data resource,

@@ -318,3 +318,16 @@ def test_terraform_query() -> None:
     alone = json.loads(web_api.terraform_query(plan, ""))
     assert alone["account"] is None and alone["summary"]["documents"] == 3
     assert "error" in json.loads(web_api.terraform_query("{}", ""))
+
+
+def test_drift_query_compares_two_exports() -> None:
+    sample = Path(__file__).resolve().parents[2] / "examples" / "sample"
+    out = json.loads(
+        web_api.drift_query(
+            (sample / "auth-details-previous.json").read_text(), (sample / "auth-details.json").read_text()
+        )
+    )
+    assert out["verdict"] == "worse"
+    assert out["markdown"].startswith("### iam-trace drift")
+    bad = json.loads(web_api.drift_query("{}", (sample / "auth-details.json").read_text()))
+    assert "error" in bad
