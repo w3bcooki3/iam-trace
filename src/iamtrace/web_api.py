@@ -16,6 +16,8 @@ from typing import Any
 from iamtrace import fields
 from iamtrace.catalog import Catalog, CatalogMissing
 from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
+from iamtrace.cloudformation import TemplateError
+from iamtrace.cloudformation import review as cfn_review
 from iamtrace.credentials import CredentialError, parse_credential_report
 from iamtrace.data import data_access, data_exposure
 from iamtrace.diff import diff_policies, diff_text
@@ -464,6 +466,34 @@ def terraform_query(plan_text: str, auth_details_text: str = "") -> dict[str, An
     plan = _json(plan_text, "the plan", "terraform")
     export = _json(auth_details_text, "the account export", "account") if auth_details_text.strip() else None
     out = terraform_review(plan, cat, export=export)
+    out["markdown"] = review_markdown(out)
+    return out
+
+
+@_safe
+def change_query(text: str, auth_details_text: str = "") -> dict[str, Any]:
+    """A Terraform plan (JSON from terraform show -json) or a CloudFormation template (YAML or JSON), reviewed
+    against the account export if one is given. Which one it is, is told from the text."""
+    cat = _catalog()
+    if cat is None:
+        raise ValueError("the action catalog is not available")
+    export = _json(auth_details_text, "the account export", "account") if auth_details_text.strip() else None
+    plan: Any = None
+    try:
+        plan = json.loads(text)
+    except (json.JSONDecodeError, RecursionError):
+        plan = None
+    if isinstance(plan, dict) and ("resource_changes" in plan or "format_version" in plan):
+        out = terraform_review(plan, cat, export=export)
+    else:
+        try:
+            out = cfn_review(text, cat, export=export)
+        except TemplateError as e:
+            if isinstance(plan, dict) or text.lstrip().startswith(("{", "[")):
+                raise ValueError(
+                    "not a Terraform plan (no resource_changes) or a CloudFormation template (no Resources)"
+                ) from None
+            raise ValueError(str(e)) from None
     out["markdown"] = review_markdown(out)
     return out
 

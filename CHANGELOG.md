@@ -6,6 +6,15 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 
 ### Added
 
+- **CloudFormation templates**: `iam-trace cloudformation TEMPLATE` (alias `cfn`) reviews the IAM in
+  a template, in YAML or JSON, like a Terraform plan: document diffs, new escalation techniques
+  and risky patterns, and with `--auth-details` the paths to admin, admins and entry points the
+  stack would add. Intrinsic functions, parameters (`--parameter`), Conditions and Mappings are
+  resolved for the stack; what is only known at deployment stays a visible placeholder.
+  `--previous` reviews only what changes from the template the stack runs now. The Terraform
+  plan screen is now *Plan or template* and tells the two apart by itself. A built-in YAML reader
+  keeps iam-trace free of dependencies; it refuses anchors, aliases and unknown tags.
+
 - **Account drift**: `iam-trace drift OLD NEW` and a new Account drift screen compare two account
   exports: new and closed paths to admin, new admins and entry points, users and roles added or
   removed, and the access each one gained or lost (all its policies taken together, so moving a

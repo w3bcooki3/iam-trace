@@ -1,0 +1,75 @@
+# A sample CloudFormation template for iam-trace cloudformation: a CodeBuild role that can pass any role
+# and create and invoke functions (an escalation path), and a policy that lets it attach more.
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Build pipeline: a role CodeBuild runs as,
+  and the policy it deploys with.
+Parameters:
+  Env:
+    Type: String
+    Default: prod   # the stage
+    AllowedValues: [dev, prod]
+Conditions:
+  IsProd: !Equals [!Ref Env, prod]
+  NotProd: !Not [!Condition IsProd]
+Mappings:
+  Buckets:
+    prod: {Name: artefacts-prod}
+    dev: {Name: artefacts-dev}
+Resources:
+  BuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "${Env}-build"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal: { Service: codebuild.amazonaws.com }
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: deploy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - iam:PassRole
+                  - lambda:CreateFunction
+                  - lambda:InvokeFunction
+                Resource: "*"
+              - !If
+                - IsProd
+                - Effect: Allow
+                  Action: s3:GetObject
+                  Resource: !Sub
+                    - "arn:${AWS::Partition}:s3:::${B}/*"
+                    - B: !FindInMap [Buckets, !Ref Env, Name]
+                - !Ref AWS::NoValue
+  DebugUser:
+    Type: AWS::IAM::User
+    Condition: NotProd
+    Properties:
+      Policies:
+        - PolicyName: all
+          PolicyDocument: {Version: "2012-10-17", Statement: [{Effect: Allow, Action: "*", Resource: "*"}]}
+  Ops:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: ops
+      Roles: [!Ref BuildRole]
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: iam:AttachRolePolicy
+            Resource: !GetAtt BuildRole.Arn
+  Script:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Value: |
+        line one
+          indented
+        line three
+      Description: 'it''s kept'

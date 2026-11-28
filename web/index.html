@@ -64,7 +64,7 @@
     <button class="nav-item" data-go="check"><svg class="i" viewBox="0 0 24 24"><path d="M9 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M3 4l3 3 4-5"/><path d="M9 12h7M9 16h5"/></svg>Policy check<span class="count" id="nav-check" hidden></span></button>
     <button class="nav-item" data-go="evaluate"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>Evaluate a request</button>
     <button class="nav-item" data-go="diff"><svg class="i" viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M4 8h6M14 16h6M17 13v6"/></svg>Policy diff</button>
-    <button class="nav-item" data-go="terraform"><svg class="i" viewBox="0 0 24 24"><path d="M9 3.5l6 3.5v7l-6-3.5zM16 7.5l5-3v7l-5 3zM3 7.5l5 3v7l-5-3zM9 14.5l6 3.5v3l-6-3.5z"/></svg>Terraform plan</button>
+    <button class="nav-item" data-go="terraform"><svg class="i" viewBox="0 0 24 24"><path d="M9 3.5l6 3.5v7l-6-3.5zM16 7.5l5-3v7l-5 3zM3 7.5l5 3v7l-5-3zM9 14.5l6 3.5v3l-6-3.5z"/></svg>Plan or template</button>
     <button class="nav-item" data-go="drift"><svg class="i" viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h5v5"/></svg>Account drift</button>
     <h4>Help</h4>
     <button class="nav-item" data-go="docs"><svg class="i" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h6M8 11h6"/></svg>Documentation</button>
@@ -261,30 +261,31 @@
     <!-- ============================================================== diff -->
     <section class="view" id="v-terraform"><div class="page workspace">
       <div class="page-head">
-        <div><h1>Terraform plan</h1><p>Review the IAM changes in a plan before you apply it: new escalation techniques, risky patterns, and with an account loaded, new paths to admin and new entry points.</p></div>
-        <div class="actions"><button class="btn" id="tf-example">Load sample</button><button class="btn primary" id="tf-run" disabled>Review plan</button></div>
+        <div><h1>Plan or template</h1><p>Review the IAM changes in a Terraform plan or a CloudFormation template before they reach the account: new escalation techniques, risky patterns, and with an account loaded, new paths to admin and new entry points.</p></div>
+        <div class="actions"><button class="btn" id="tf-example">Load sample</button><button class="btn primary" id="tf-run" disabled>Review</button></div>
       </div>
       <div class="pc-grid">
         <div>
           <div class="editor pc-editor">
-            <div class="editor-bar"><span class="fname">plan.json</span><span>terraform show -json plan.out</span></div>
-            <div class="editor-body"><div class="gutter" id="tfg" aria-hidden="true"></div><textarea id="tf-text" spellcheck="false" aria-label="Terraform plan JSON" placeholder="Paste the output of terraform show -json here"></textarea></div>
+            <div class="editor-bar"><span class="fname">plan.json or template.yaml</span><span>terraform show -json, or a CloudFormation template</span></div>
+            <div class="editor-body"><div class="gutter" id="tfg" aria-hidden="true"></div><textarea id="tf-text" spellcheck="false" aria-label="Terraform plan JSON or CloudFormation template" placeholder="Paste the output of terraform show -json, or a CloudFormation template in YAML or JSON"></textarea></div>
           </div>
         </div>
         <div class="side-stack">
           <div class="dropzone glass pc-drop" id="tf-drop">
             <span class="dz-ic"><svg class="i" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg></span>
-            <div><b>Drop the plan here</b><span>The JSON from terraform show -json, not the binary plan file.</span></div>
+            <div><b>Drop the plan or template here</b><span>The JSON from terraform show -json (not the binary plan file), or a CloudFormation template.</span></div>
             <button class="btn" id="tf-choose">Choose file</button>
-            <input type="file" id="tf-file" class="hidden-input" accept=".json,application/json" tabindex="-1">
+            <input type="file" id="tf-file" class="hidden-input" accept=".json,.yaml,.yml,.template,application/json" tabindex="-1">
           </div>
           <div class="glass"><div class="card-h"><h3>Compare with the account</h3></div><div class="card-b">
-            <label class="toggle">Apply the plan to the loaded account export and report new paths to admin and new entry points<input type="checkbox" id="tf-account" checked><span class="switch"></span></label>
+            <label class="toggle">Apply the change to the loaded account export and report new paths to admin and new entry points<input type="checkbox" id="tf-account" checked><span class="switch"></span></label>
             <p class="cmd-note" id="tf-account-note"></p>
           </div></div>
           <div class="glass"><div class="card-h"><h3>Get the plan</h3></div><div class="card-b">
             <div class="cmd">terraform plan -out plan.out &amp;&amp; terraform show -json plan.out &gt; plan.json<button class="icon-btn copy" data-copy="terraform plan -out plan.out && terraform show -json plan.out > plan.json" title="Copy" aria-label="Copy command"><svg class="i" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button></div>
             <p class="cmd-note">The plan can contain secrets from your configuration. It is read in this tab and never leaves it.</p>
+            <p class="cmd-note">A CloudFormation template is read as it is, with parameters at their defaults. To review only what changes from the template a stack runs now, or to set parameters, use <code class="c">iam-trace cloudformation template.yaml --previous current.yaml --parameter Env=prod</code>.</p>
           </div></div>
         </div>
       </div>
@@ -610,7 +611,7 @@ iam-trace diff before.json after.json --fail-on highlighted</pre></div>
             <tr><td><code class="c">fail-on-terraform</code></td><td>Fail when the plan does this: never, new-path (the default), new-entry-point, escalation, check-high or any.</td></tr>
             <tr><td><code class="c">comment</code></td><td>Post or update one review comment on the pull request.</td></tr>
           </tbody></table>
-          <p>The <a href="#terraform">Terraform plan</a> screen gives the same review in the browser; <strong>Copy as PR comment</strong> copies it as Markdown.</p>
+          <p>The <a href="#terraform">Plan or template</a> screen gives the same review in the browser; <strong>Copy as PR comment</strong> copies it as Markdown.</p>
         </section>
 
         <section class="dsec" id="d-formats">

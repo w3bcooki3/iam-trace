@@ -369,6 +369,24 @@ are analysed:
 
 `--format markdown` writes a pull-request comment. `examples/terraform/plan.json` is the plan above.
 
+### cloudformation
+
+    iam-trace cloudformation template.yaml [--previous current.yaml] [--parameter Env=prod] \
+        [--auth-details auth.json] [--format markdown] [--fail-on new-path]
+
+The same review for a CloudFormation template, in YAML or JSON: roles (trust policy, `Policies`,
+`ManagedPolicyArns`), users, groups, managed and inline policies with what they are attached to,
+`UserToGroupAddition`, bucket policies and key policies. Intrinsic functions are resolved the way
+the stack would see them: `Ref` and `Fn::GetAtt` to the template's own resources (with the names
+CloudFormation would give them), parameters from `--parameter` or their defaults, pseudo
+parameters, `Fn::Sub`, `Fn::Join`, `Fn::Select`, `Fn::Split`, `Fn::FindInMap`, and `Fn::If` with the
+template's Conditions; a resource whose Condition is false is left out. What cannot be known
+before deployment, such as `Fn::ImportValue`, stays a visible placeholder and is listed in the
+notes. With `--previous` (the template the stack runs now, from `aws cloudformation get-template`),
+only what changes is reviewed. SAM templates are read after `sam build`. The YAML reader is
+built in (iam-trace has no dependencies) and refuses anchors, aliases and unknown tags rather
+than half-reading them. `examples/sample/cloudformation-template.yaml` is a template to try it on.
+
 ### drift
 
     aws iam get-account-authorization-details > account-$(date +%F).json   # keep one each week
@@ -478,7 +496,7 @@ Every command supports `--format text|json|sarif`; `diff` also supports `markdow
 | Exit code | Meaning |
 |---|---|
 | 0 | Success. For `can`, the request is allowed. |
-| 1 | For `can`, the request is denied. For `check`, `diff`, `escalate`, `entry-points`, `data`, `terraform` and `drift`, a `--fail-on` condition matched. For `fix`, the plan could not be verified. |
+| 1 | For `can`, the request is denied. For `check`, `diff`, `escalate`, `entry-points`, `data`, `terraform`, `cloudformation` and `drift`, a `--fail-on` condition matched. For `fix`, the plan could not be verified. |
 | 2 | A usage error, an unreadable file, or a policy AWS would reject. |
 
 ## GitHub Action

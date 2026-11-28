@@ -72,9 +72,10 @@ Goal: go from "here is the problem" to "here is the change, and here is proof it
       path, verified by analysing the changed account again, and `can --what-if` does the same
       for one request. Next: generate the narrowed Allow statement as an alternative to a Deny,
       and an SCP version for organisations.
-- [ ] **Infrastructure as code.** Read Terraform plans and CloudFormation templates, so risky
+- [x] **Infrastructure as code.** Read Terraform plans and CloudFormation templates, so risky
       IAM changes are caught before they are deployed, in the same pull-request comment as today.
-      Terraform done (`iam-trace terraform` and the Terraform plan screen); CloudFormation next.
+      Done: `iam-trace terraform`, `iam-trace cloudformation` and the Plan or template screen.
+      Next: CDK (through `cdk synth`) and the GitHub Action reading templates.
 - [x] **Drift over time.** Compare two exports of the same account and report new paths, new
       admins and permissions that grew.
       Done: `iam-trace drift` and the Account drift screen.

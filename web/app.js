@@ -176,7 +176,7 @@ $("menu-btn").addEventListener("click", () => root.classList.toggle("nav-open"))
 
 const VIEWS = {
   overview: ["Attack paths", "Overview"], graph: ["Attack paths", "Attack graph"], findings: ["Attack paths", "Findings"], whocan: ["Attack paths", "Who can"], data: ["Attack paths", "Data access"], unused: ["Attack paths", "Unused access"],
-  input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"], terraform: ["Tools", "Terraform plan"], drift: ["Tools", "Account drift"],
+  input: ["Attack paths", "Data input"], check: ["Tools", "Policy check"], evaluate: ["Tools", "Evaluate a request"], diff: ["Tools", "Policy diff"], terraform: ["Tools", "Plan or template"], drift: ["Tools", "Account drift"],
   docs: ["Help", "Documentation"], changelog: ["Help", "Changelog"], settings: ["App", "Settings"],
 };
 let currentView = null;
@@ -1476,28 +1476,28 @@ $("tf-example").addEventListener("click", async () => {
 });
 $("tf-run").addEventListener("click", async () => {
   const useAccount = $("tf-account").checked && input.account.trim();
-  overlay("Reviewing the plan", true);
+  overlay("Reviewing the changes", true);
   let r;
-  try { r = await call("terraform_query", tfText, useAccount ? input.account : ""); } catch (e) { r = { error: e.message }; } finally { overlay(""); }
+  try { r = await call("change_query", tfText, useAccount ? input.account : ""); } catch (e) { r = { error: e.message }; } finally { overlay(""); }
   if (r.error === "cancelled") return;
   if (r.error) return toast(sentence(r.error));
-  openSheet("Terraform plan review", tfHtml(r), `<button class="btn" id="tf-copy-md">Copy as PR comment</button>`, "Back to the plan");
+  openSheet(r.source === "cloudformation" ? "CloudFormation template review" : "Terraform plan review", tfHtml(r), `<button class="btn" id="tf-copy-md">Copy as PR comment</button>`, r.source === "cloudformation" ? "Back to the template" : "Back to the plan");
   $("tf-copy-md").addEventListener("click", () => copy(r.markdown));
 });
 function tfChain(p) {
   return `<div class="dx-chain"><span class="mono">${esc(short(p.start))}</span>${p.steps.map((s) => `<span class="dx-tech" title="${esc(s.name)}">${esc(s.technique)}</span><span class="mono">${esc(short(s.to))}</span>`).join("")}${p.open === false ? ` <span class="tag warn">Needs ${esc(gateShort(p.requires))}</span>` : ""}</div>`;
 }
 function tfHtml(r) {
-  const a = r.account, s = r.summary;
+  const a = r.account, s = r.summary, it = r.source === "cloudformation" ? "template" : "plan";
   const sec = (title, items) => items.length ? `<section class="dx-sec"><h3>${title} <span class="t-faint">${items.length}</span></h3>${items.join("")}</section>` : "";
   let head = "";
   if (a) {
     const bad = a.new_paths.length || a.new_admins.length;
-    head = `<div class="callout ${bad ? "callout-crit" : a.new_entry_points.length ? "callout-warn" : "callout-ok"}"><div><b>${bad ? "This plan opens a path to admin." : a.new_entry_points.length ? "No new path to admin, but a new or worse entry point." : "No new path to admin."}</b> ${plural(a.new_paths.length, "new path")}, ${plural(a.removed_paths.length, "removed path")}, ${plural(a.new_admins.length, "new admin-equivalent principal")}, ${plural(a.new_entry_points.length, "new or worse entry point")}.</div></div>`
+    head = `<div class="callout ${bad ? "callout-crit" : a.new_entry_points.length ? "callout-warn" : "callout-ok"}"><div><b>${bad ? `This ${it} opens a path to admin.` : a.new_entry_points.length ? "No new path to admin, but a new or worse entry point." : "No new path to admin."}</b> ${plural(a.new_paths.length, "new path")}, ${plural(a.removed_paths.length, "removed path")}, ${plural(a.new_admins.length, "new admin-equivalent principal")}, ${plural(a.new_entry_points.length, "new or worse entry point")}.</div></div>`
       + sec("New paths to admin", a.new_paths.map(tfChain))
       + sec("New admin-equivalent principals", a.new_admins.map((x) => `<div class="dx-row"><span class="mono">${esc(short(x))}</span></div>`))
       + sec("New or worse entry points", a.new_entry_points.map((e) => `<div class="dx-row"><span><span class="sev ${DATA_RATING[e.rating]}"><i></i>${e.rating}</span> <span class="mono">${esc(short(e.principal))}</span></span><small>${esc(e.why)}</small></div>`))
-      + sec("Paths this plan removes", a.removed_paths.map(tfChain));
+      + sec(`Paths this ${it} removes`, a.removed_paths.map(tfChain));
   } else {
     head = `<div class="callout"><div>Reviewed the documents on their own. Load an account export in Data input to also see new paths to admin and new entry points.</div></div>`;
   }
@@ -1581,7 +1581,7 @@ function drServices(entries) {
   return Object.entries(n).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([k, v]) => `${k} ${v}`).join(", ");
 }
 function drHtml(r) {
-  const a = r.account, s = r.summary;
+  const a = r.account, s = r.summary, it = r.source === "cloudformation" ? "template" : "plan";
   const sec = (title, items) => items.length ? `<section class="dx-sec"><h3>${title} <span class="t-faint">${items.length}</span></h3>${items.join("")}</section>` : "";
   const row = (arn, note = "") => `<div class="dx-row"><span class="mono">${esc(short(arn))}</span>${note ? `<small>${esc(note)}</small>` : ""}</div>`;
   const tone = r.verdict === "worse" ? "callout-crit" : r.verdict === "changed" ? "callout-warn" : "callout-ok";
@@ -2929,7 +2929,7 @@ const SAVED = {
     clear: () => { for (const id of ["wc-action", "wc-resource", "wc-policy", "wc-context"]) $(id).value = ""; $("wc-result").innerHTML = ""; },
   },
   terraform: {
-    label: "Terraform plan", where: "terraform",
+    label: "Plan or template", where: "terraform",
     read: () => (tfText.trim() ? tfText : null),
     apply: (v) => { tfText = v; tfState(); },
     clear: () => { tfText = ""; tfState(); },

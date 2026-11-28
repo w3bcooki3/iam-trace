@@ -19,6 +19,8 @@ from iamtrace import __version__, fields
 from iamtrace.catalog import ACCESS_LEVELS, Catalog, CatalogMissing, user_cache_dir
 from iamtrace.catalog.refresh import refresh
 from iamtrace.check import check_auth_details, check_documents, check_sarif, check_text
+from iamtrace.cloudformation import TemplateError
+from iamtrace.cloudformation import review as cfn_review
 from iamtrace.collect import CollectError, aws_cli, collect
 from iamtrace.credentials import (
     CredentialError,
@@ -674,6 +676,83 @@ def _add_terraform(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> 
 # --- drift ------------------------------------------------------------------------------
 
 
+def _plan_exit(r: dict[str, Any], fail_on: str) -> int:
+    s = r["summary"]
+    fail = {
+        "never": False,
+        "new-path": s["new_paths"] > 0 or s["new_admins"] > 0,
+        "new-entry-point": s["new_entry_points"] > 0,
+        "escalation": s["new_escalations"] > 0 or s["new_paths"] > 0,
+        "check-high": s["high_checks"] > 0,
+        "any": s["new_paths"] + s["new_admins"] + s["new_entry_points"] + s["new_escalations"] + s["new_checks"] > 0,
+    }[fail_on]
+    return 1 if fail else 0
+
+
+def cmd_cloudformation(args: argparse.Namespace) -> int:
+    params: dict[str, str] = {}
+    for p in args.parameter or []:
+        k, sep, v = p.partition("=")
+        if not sep or not k:
+            raise PolicyError(f"--parameter {p!r}: expected Name=Value")
+        params[k] = v
+    export = None
+    if args.auth_details:
+        try:
+            export = _read_json(args.auth_details)
+        except (OSError, json.JSONDecodeError, RecursionError) as e:
+            raise PolicyError(f"{args.auth_details}: cannot read: {e}") from e
+    try:
+        r = cfn_review(
+            _read_text(args.template),
+            Catalog.load(args.catalog),
+            _read_text(args.previous) if args.previous else None,
+            export,
+            params=params,
+            stack=args.stack_name,
+            region=args.region,
+        )
+    except (TemplateError, TerraformError) as e:
+        raise PolicyError(str(e)) from e
+    if args.format == "text":
+        sys.stdout.write(review_text(r))
+    elif args.format == "markdown":
+        sys.stdout.write(review_markdown(r))
+    else:
+        sys.stdout.write(to_json(r))
+    return _plan_exit(r, args.fail_on)
+
+
+def _add_cloudformation(sub: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    p = sub.add_parser(
+        "cloudformation",
+        aliases=["cfn"],
+        help="review the IAM changes in a CloudFormation template (YAML or JSON)",
+        description="Reads every role, user, group, managed and inline policy, bucket policy and key policy in the "
+        "template, resolving Ref, Fn::GetAtt, Fn::Sub, Fn::If and the other intrinsic functions for this stack, and "
+        "reports new escalation techniques and risky patterns. With --previous, only what changes from the template "
+        "the stack runs now. With --auth-details, applies the stack to the account export and reports new paths to "
+        "admin, new admins and new entry points.",
+    )
+    p.add_argument("template", metavar="TEMPLATE", help="the template the stack will run (YAML or JSON)")
+    p.add_argument(
+        "--previous", metavar="TEMPLATE", help="the template the stack runs now (aws cloudformation get-template)"
+    )
+    p.add_argument("--parameter", metavar="NAME=VALUE", action="append", help="a stack parameter; repeat for more")
+    p.add_argument("--stack-name", default="stack", help="the stack name, for names CloudFormation generates")
+    p.add_argument("--region", default="us-east-1", help="the Region, for AWS::Region and ARNs")
+    p.add_argument("--auth-details", metavar="FILE", help="the current account export, to see what the stack changes")
+    p.add_argument("--catalog", metavar="DIR", help="action catalog directory")
+    p.add_argument(
+        "--fail-on",
+        choices=["never", "new-path", "new-entry-point", "escalation", "check-high", "any"],
+        default="never",
+        help="exit 1 if the template does this",
+    )
+    p.add_argument("--format", choices=["text", "json", "markdown"], default="text")
+    p.set_defaults(func=cmd_cloudformation)
+
+
 def cmd_drift(args: argparse.Namespace) -> int:
     exports = []
     for path in (args.old, args.new):
@@ -973,6 +1052,7 @@ SUBCOMMANDS: list[Callable[[argparse._SubParsersAction[argparse.ArgumentParser]]
     _add_entry_points,
     _add_data,
     _add_terraform,
+    _add_cloudformation,
     _add_drift,
     _add_fix,
     _add_credentials,
